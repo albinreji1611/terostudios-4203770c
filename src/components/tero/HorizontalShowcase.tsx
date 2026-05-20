@@ -40,7 +40,7 @@ export function HorizontalShowcase() {
   return (
     <section
       ref={ref}
-      className="relative"
+      className="relative mt-24 md:mt-40"
       style={{
         height: `${cards.length * 90}vh`,
         background: "linear-gradient(180deg, #cfdce6 0%, #d9e4ec 50%, #c9d8e3 100%)",
