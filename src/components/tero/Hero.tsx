@@ -45,6 +45,53 @@ export function Hero() {
           <div className="absolute top-1/2 left-0 w-full h-px bg-ink/[0.06]" />
         </div>
 
+        {/* Central showreel frame — expands to FULL viewport on scroll */}
+        <motion.div
+          style={{ clipPath, WebkitClipPath: clipPath as never }}
+          className="absolute inset-0 z-20 overflow-hidden bg-ink shadow-[0_30px_80px_-30px_rgba(17,19,24,0.45)] pointer-events-none"
+        >
+          <motion.video
+            src="/hero-reel.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{ scale: videoScale }}
+            className="absolute inset-0 w-full h-full object-cover will-change-transform"
+          />
+          {/* Tint for editorial cohesion */}
+          <div className="absolute inset-0 bg-ink/20 mix-blend-multiply" />
+
+          {/* Editorial corner labels */}
+          <div className="absolute top-6 left-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
+            Studio Reel // 001
+          </div>
+          <div className="absolute top-6 right-6 flex items-center gap-2 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
+            <span className="h-1.5 w-1.5 rounded-full bg-vermillion animate-pulse" />
+            REC · 24 FPS · 4K
+          </div>
+          <div className="absolute bottom-6 left-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
+            Selected Works · 2024
+          </div>
+          <div className="absolute bottom-6 right-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
+            Tero Studios ©
+          </div>
+
+          {/* Fullscreen overlay (appears when frame fully expanded) */}
+          <motion.div
+            style={{ opacity: overlayOpacity }}
+            className="absolute inset-0 flex flex-col items-center justify-center text-cream pointer-events-none"
+          >
+            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/60 mb-6">
+              Showreel 2024
+            </span>
+            <h2 className="font-display font-extrabold uppercase tracking-tighter text-[clamp(40px,7vw,110px)] leading-[0.9] text-center">
+              Now <span className="italic text-vermillion">playing.</span>
+            </h2>
+          </motion.div>
+        </motion.div>
+
+
         <div className="relative h-full w-full max-w-[1500px] mx-auto px-6 md:px-12 flex flex-col">
           {/* Overline meta */}
           <motion.div
@@ -94,51 +141,8 @@ export function Hero() {
               </span>
             </motion.h1>
 
-            {/* Central showreel frame — expands on scroll */}
-            <motion.div
-              style={{ clipPath, WebkitClipPath: clipPath as never }}
-              className="absolute inset-0 z-20 overflow-hidden bg-ink shadow-[0_30px_80px_-30px_rgba(17,19,24,0.45)]"
-            >
-              <motion.video
-                src="/hero-reel.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                style={{ scale: videoScale }}
-                className="absolute inset-0 w-full h-full object-cover will-change-transform"
-              />
-              {/* Tint for editorial cohesion */}
-              <div className="absolute inset-0 bg-ink/20 mix-blend-multiply" />
+            {/* Video frame moved to sticky stage so it expands full-viewport */}
 
-              {/* Editorial corner labels */}
-              <div className="absolute top-6 left-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
-                Studio Reel // 001
-              </div>
-              <div className="absolute top-6 right-6 flex items-center gap-2 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
-                <span className="h-1.5 w-1.5 rounded-full bg-vermillion animate-pulse" />
-                REC · 24 FPS · 4K
-              </div>
-              <div className="absolute bottom-6 left-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
-                Selected Works · 2024
-              </div>
-              <div className="absolute bottom-6 right-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
-                Tero Studios ©
-              </div>
-
-              {/* Fullscreen overlay (appears when frame fully expanded) */}
-              <motion.div
-                style={{ opacity: overlayOpacity }}
-                className="absolute inset-0 flex flex-col items-center justify-center text-cream pointer-events-none"
-              >
-                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/60 mb-6">
-                  Showreel 2024
-                </span>
-                <h2 className="font-display font-extrabold uppercase tracking-tighter text-[clamp(40px,7vw,110px)] leading-[0.9] text-center">
-                  Now <span className="italic text-vermillion">playing.</span>
-                </h2>
-              </motion.div>
-            </motion.div>
           </div>
 
           {/* Bottom actions */}
