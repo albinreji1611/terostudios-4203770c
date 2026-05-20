@@ -30,6 +30,7 @@ function Index() {
   return (
     <PageLayout>
       <Hero />
+      <VideoBubbles />
       <LogoStrip />
       <ServicesScroller />
       <KineticBand />
