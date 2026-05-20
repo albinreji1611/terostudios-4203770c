@@ -136,21 +136,11 @@ export function HorizontalShowcase() {
                     {c.subtitle}
                   </p>
                 </div>
-                {/* Award laurels strip at bottom */}
-                <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-2 p-4">
-                  {Array.from({ length: 4 }).map((_, k) => (
-                    <svg key={k} viewBox="0 0 40 40" className="h-8 w-8 text-white/80">
-                      <path
-                        d="M10 30 Q 6 20 10 10 M30 30 Q 34 20 30 10"
-                        stroke="currentColor"
-                        strokeWidth="1.2"
-                        fill="none"
-                      />
-                      <text x="20" y="22" textAnchor="middle" fontSize="5" fill="currentColor" fontFamily="monospace">
-                        2026
-                      </text>
-                    </svg>
-                  ))}
+                {/* Step description at bottom */}
+                <div className="absolute inset-x-0 bottom-0 p-5 text-center bg-gradient-to-t from-ink/85 via-ink/55 to-transparent">
+                  <p className="font-body text-[13px] leading-relaxed text-white/95">
+                    {c.desc}
+                  </p>
                 </div>
               </motion.div>
             ))}
