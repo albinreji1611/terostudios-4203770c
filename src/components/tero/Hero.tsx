@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import hero from "@/assets/hero-fluid.jpg";
+
 import { Link } from "@tanstack/react-router";
 import { ArrowDown } from "lucide-react";
 
