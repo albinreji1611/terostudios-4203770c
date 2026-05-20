@@ -179,8 +179,31 @@ function BubbleNode({
   const start = b.order * 0.55;
   const end = Math.min(start + 0.45, 0.78);
 
-  const x = useTransform(progress, [start, end], [ox, 0], { clamp: true });
-  const y = useTransform(progress, [start, end], [oy, 0], { clamp: true });
+  const scrollX = useTransform(progress, [start, end], [ox, 0], { clamp: true });
+  const scrollY = useTransform(progress, [start, end], [oy, 0], { clamp: true });
+
+  // Cursor-reactive drift: each bubble nudges away from / toward the cursor
+  // based on its distance. Closer bubbles move more, far ones barely react.
+  const reach = 22; // px max nudge
+  const hoverX = useTransform([mx, my] as unknown as MotionValue<number>[], (v) => {
+    const [vx, vy] = v as unknown as number[];
+    const dx = vx - b.x / 100;
+    const dy = vy - b.y / 100;
+    const d = Math.hypot(dx, dy);
+    const falloff = Math.max(0, 1 - d / 0.35);
+    return dx * reach * falloff;
+  });
+  const hoverY = useTransform([mx, my] as unknown as MotionValue<number>[], (v) => {
+    const [vx, vy] = v as unknown as number[];
+    const dx = vx - b.x / 100;
+    const dy = vy - b.y / 100;
+    const d = Math.hypot(dx, dy);
+    const falloff = Math.max(0, 1 - d / 0.35);
+    return dy * reach * falloff;
+  });
+
+  const x = useTransform([scrollX, hoverX] as MotionValue<number>[], (v) => (v as number[])[0] + (v as number[])[1]);
+  const y = useTransform([scrollY, hoverY] as MotionValue<number>[], (v) => (v as number[])[0] + (v as number[])[1]);
 
   return (
     <motion.div
