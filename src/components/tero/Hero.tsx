@@ -89,6 +89,14 @@ export function Hero() {
       `radial-gradient(260px circle at ${x}% ${y}%, #000 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0) 70%)`,
   );
 
+  /* Scroll-based zoom + parallax on the video */
+  const { scrollYProgress } = useScroll({
+    target: wrapRef,
+    offset: ["start start", "end start"],
+  });
+  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const videoY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+
   return (
     <section ref={wrapRef} className="relative overflow-hidden bg-cream">
       {/* subtle grid + grain */}
