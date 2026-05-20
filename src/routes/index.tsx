@@ -3,6 +3,7 @@ import { PageLayout } from "@/components/tero/PageLayout";
 import { Hero } from "@/components/tero/Hero";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { ServicesScroller } from "@/components/tero/ServicesScroller";
+import { VideoBubbles } from "@/components/tero/VideoBubbles";
 import { HorizontalShowcase } from "@/components/tero/HorizontalShowcase";
 
 import { StatsSection } from "@/components/tero/StatsSection";
