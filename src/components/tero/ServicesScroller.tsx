@@ -85,19 +85,6 @@ export function ServicesScroller() {
             Let's chat →
           </a>
         </div>
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#efe9d8]/70">
-            — Menu
-          </span>
-          <span className="font-display text-[22px] leading-none">
-            tero<span className="font-body font-medium tracking-tight italic">studios</span>
-          </span>
-          <a
-            href="/contact"
-            className="font-body text-[13px] text-[#efe9d8]/80 hover:text-[#efe9d8] transition-colors"
-          >
-            Let's chat →
-          </a>
-        </div>
 
         {/* Left number rail */}
         <div className="pointer-events-none absolute left-8 top-1/2 -translate-y-1/2 z-20 hidden md:block">
