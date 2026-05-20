@@ -7,35 +7,35 @@ const services = [
     name: "3D Animation",
     mark: "3D",
     desc: "Photoreal product, character and environment animation rendered at film quality.",
-    tilt: -4,
+    tilt: 0,
   },
   {
     n: "02",
     name: "2D Motion",
     mark: "2D",
     desc: "Editorial-grade typography, transitions and brand systems that move with rhythm.",
-    tilt: 3,
+    tilt: 0,
   },
   {
     n: "03",
     name: "Character",
     mark: "CH",
     desc: "Stylised characters with performance — from rig to final hand-drawn texture.",
-    tilt: -2,
+    tilt: 0,
   },
   {
     n: "04",
     name: "Explainer",
     mark: "EX",
     desc: "Product films that turn complex software stories into one-watch clarity.",
-    tilt: 5,
+    tilt: 0,
   },
   {
     n: "05",
     name: "VFX",
     mark: "FX",
     desc: "Live-action compositing, simulations and finishing for ads and short films.",
-    tilt: -3,
+    tilt: 0,
   },
 ];
 
@@ -65,22 +65,22 @@ export function ServicesScroller() {
       style={{
         height: `${services.length * 100}vh`,
         background:
-          "radial-gradient(120% 80% at 50% 0%, #4a5a4f 0%, #364139 55%, #2a332d 100%)",
-        color: "#efe9d8",
+          "radial-gradient(120% 80% at 50% 0%, #fdfaf6 0%, #f4ece0 60%, #ead9c2 100%)",
+        color: "#1a1a1f",
       }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Top bar */}
         <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-8 pt-8 md:px-12">
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#efe9d8]/70">
-            — Menu
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/60">
+            — Services
           </span>
-          <span className="font-display text-[22px] leading-none">
-            tero<span className="font-body font-medium tracking-tight italic">studios</span>
+          <span className="font-display text-[22px] leading-none text-ink">
+            tero<span className="font-body font-medium tracking-tight">studios</span>
           </span>
           <a
             href="/contact"
-            className="font-body text-[13px] text-[#efe9d8]/80 hover:text-[#efe9d8] transition-colors"
+            className="font-body text-[13px] text-ink/70 hover:text-vermillion transition-colors"
           >
             Let's chat →
           </a>
@@ -94,14 +94,14 @@ export function ServicesScroller() {
                 key={s.n}
                 className={[
                   "flex items-center gap-3 transition-colors",
-                  i === active ? "text-[#efe9d8]" : "text-[#efe9d8]/35",
+                  i === active ? "text-ink" : "text-ink/30",
                 ].join(" ")}
               >
                 <span>{s.n}</span>
                 {i === active && (
                   <>
-                    <span className="inline-block h-px w-6 bg-[#efe9d8]" />
-                    <span className="font-body italic text-[12px]">They scroll</span>
+                    <span className="inline-block h-px w-6 bg-vermillion" />
+                    <span className="font-body text-[12px] text-ink/70">In view</span>
                   </>
                 )}
               </li>
@@ -110,7 +110,7 @@ export function ServicesScroller() {
         </div>
 
         {/* Right side: mark + description */}
-        <div className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 z-20 w-[42%] md:w-[34%] max-w-md">
+        <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-30 w-[34%] md:w-[28%] max-w-sm text-right">
           <AnimatePresence mode="wait">
             <motion.div
               key={services[active].n}
@@ -118,16 +118,16 @@ export function ServicesScroller() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-start gap-8"
+              className="flex flex-col items-end gap-6"
             >
               <div
-                className="font-display text-[clamp(64px,8vw,128px)] leading-none"
-                style={{ color: "#efe9d8", letterSpacing: "-0.04em" }}
+                className="font-display text-[clamp(56px,6.5vw,104px)] leading-none flex items-baseline gap-2"
+                style={{ color: "var(--accent-vermillion)", letterSpacing: "-0.04em" }}
               >
                 {services[active].mark}
-                <span className="text-[#efe9d8]/60">↑</span>
+                <span className="text-ink/40 text-[0.5em]">↗</span>
               </div>
-              <p className="font-body text-[15px] md:text-[16px] leading-relaxed text-[#efe9d8]/85">
+              <p className="font-body text-[14px] md:text-[15px] leading-relaxed text-ink/75">
                 {services[active].desc}
               </p>
             </motion.div>
@@ -136,39 +136,37 @@ export function ServicesScroller() {
 
         {/* The vertically scrolling stack of service names (left/center column) */}
         <div className="relative h-full">
-          {/* center alignment marker (50vh) */}
           <motion.ul
             style={{ y }}
-            className="absolute left-[8%] md:left-[14%] top-1/2 will-change-transform"
+            className="absolute left-[8%] md:left-[12%] top-1/2 will-change-transform"
           >
             {services.map((s, i) => {
               const isActive = i === active;
               return (
                 <li
                   key={s.n}
-                  style={{
-                    height: `${ITEM_VH}vh`,
-                    transform: `rotate(${s.tilt}deg)`,
-                  }}
+                  style={{ height: `${ITEM_VH}vh` }}
                   className="flex items-center"
                 >
                   <motion.span
                     animate={{
-                      opacity: isActive ? 1 : 0.18,
+                      opacity: isActive ? 1 : 0.15,
                       filter: isActive ? "blur(0px)" : "blur(2px)",
                       scale: isActive ? 1 : 0.92,
                     }}
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-display font-bold leading-[0.85] italic"
+                    className="font-display font-bold leading-[0.85]"
                     style={{
-                      fontSize: "clamp(64px, 12vw, 180px)",
-                      color: "#efe9d8",
+                      fontSize: "clamp(48px, 9vw, 140px)",
+                      color: "#1a1a1f",
                       letterSpacing: "-0.04em",
                       textShadow: isActive
-                        ? "0 0 60px rgba(239,233,216,0.25)"
+                        ? "0 0 60px rgba(232,57,14,0.15)"
                         : "none",
                       display: "block",
                       transformOrigin: "left center",
+                      maxWidth: "55vw",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {s.name}
@@ -180,8 +178,8 @@ export function ServicesScroller() {
         </div>
 
         {/* Bottom counter */}
-        <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-between px-8 pb-8 md:px-12 font-mono text-[11px] uppercase tracking-[0.25em] text-[#efe9d8]/60">
-          <span>— They trust us</span>
+        <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-between px-8 pb-8 md:px-12 font-mono text-[11px] uppercase tracking-[0.25em] text-ink/55">
+          <span>— What we do</span>
           <span>
             {String(active + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}
           </span>
