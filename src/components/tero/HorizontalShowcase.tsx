@@ -90,7 +90,7 @@ export function HorizontalShowcase() {
           <ul className="space-y-3 font-mono text-[12px] text-ink/50">
             {cards.map((c, i) => (
               <li key={i} className="flex items-center gap-3">
-                <span className={i === active ? "text-ink" : ""}>{i + 1}</span>
+                <span className={i === active ? "text-ink" : ""}>{c.n}</span>
                 {i === active && (
                   <motion.span
                     layoutId="rail-dash"
@@ -98,7 +98,7 @@ export function HorizontalShowcase() {
                   />
                 )}
                 {i === active && (
-                  <span className="font-body italic text-ink text-[13px]">{c.title.split(" ")[0]}</span>
+                  <span className="font-body italic text-ink text-[13px]">{c.title}</span>
                 )}
               </li>
             ))}
