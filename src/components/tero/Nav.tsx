@@ -98,8 +98,9 @@ export function Nav() {
             height={50}
             className={[
               "h-10 md:h-12 w-auto object-contain transition-[filter] duration-300",
-              lightBg ? "[filter:invert(1)_brightness(0)]" : "",
+              scrolled && lightBg ? "[filter:invert(1)_brightness(0)]" : "",
             ].join(" ")}
+
           />
         </Link>
 
