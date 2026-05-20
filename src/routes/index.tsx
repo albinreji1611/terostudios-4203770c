@@ -4,7 +4,7 @@ import { Hero } from "@/components/tero/Hero";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { ServicesScroller } from "@/components/tero/ServicesScroller";
 import { HorizontalShowcase } from "@/components/tero/HorizontalShowcase";
-import { Process } from "@/components/tero/Process";
+
 import { StatsSection } from "@/components/tero/StatsSection";
 import { Testimonials } from "@/components/tero/Testimonials";
 import { Awards } from "@/components/tero/Awards";
@@ -33,7 +33,7 @@ function Index() {
       <ServicesScroller />
       <KineticBand />
       <HorizontalShowcase />
-      <Process />
+      
       <StatsSection />
       <Testimonials />
       <Awards />
