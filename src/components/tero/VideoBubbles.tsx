@@ -134,16 +134,22 @@ export function VideoBubbles() {
           View all <span className="inline-block w-1.5 h-1.5 rounded-full bg-vermillion" />
         </Link>
 
-        {/* Bubbles converge based on scroll */}
-        {bubbles.map((b, i) => (
-          <BubbleNode
-            key={i}
-            b={b}
-            progress={scrollYProgress}
-            mx={smx}
-            my={smy}
-          />
-        ))}
+        {/* Bubbles converge based on scroll, then breathe as one locked cluster */}
+        <motion.div
+          className="absolute inset-0 z-10"
+          animate={{ y: [0, -10, 0, 8, 0], x: [0, 5, 0, -4, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        >
+          {bubbles.map((b, i) => (
+            <BubbleNode
+              key={i}
+              b={b}
+              progress={scrollYProgress}
+              mx={smx}
+              my={smy}
+            />
+          ))}
+        </motion.div>
 
         {/* scroll hint */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
