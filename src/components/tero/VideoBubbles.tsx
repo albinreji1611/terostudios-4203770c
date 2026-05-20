@@ -173,15 +173,14 @@ function BubbleNode({
 }) {
   const { ox, oy } = offscreenOffset(b.from);
 
-  // Each bubble travels from offscreen → 0 quickly, then stays locked in the cluster.
-  const start = b.order * 0.45;
-  const end = Math.min(start + 0.2, 0.42);
+  // Slower convergence: each bubble takes longer to travel from offscreen to its
+  // cluster slot, and the cluster locks in by ~70% of scroll. After that, all
+  // bubbles stay fully visible (no fade-out) for the remainder of the pin.
+  const start = b.order * 0.55;
+  const end = Math.min(start + 0.45, 0.78);
 
   const x = useTransform(progress, [start, end], [ox, 0], { clamp: true });
   const y = useTransform(progress, [start, end], [oy, 0], { clamp: true });
-  const opacity = useTransform(progress, [start, start + 0.04, end], [0, 1, 1], {
-    clamp: true,
-  });
 
   return (
     <motion.div
@@ -197,9 +196,10 @@ function BubbleNode({
         translateY: "-50%",
         x,
         y,
-        opacity,
+        opacity: 1,
       }}
     >
+
       {/* subtle individual shimmer, while the parent keeps the cluster locked */}
       <motion.div
         animate={{
