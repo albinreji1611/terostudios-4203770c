@@ -93,35 +93,24 @@ export function Hero() {
 
 
         <div className="relative h-full w-full max-w-[1500px] mx-auto px-6 md:px-12 flex flex-col">
-          {/* Overline meta */}
+          {/* Overline meta — minimal */}
           <motion.div
             style={{ opacity: metaOpacity }}
-            className="w-full flex justify-between items-end border-b border-ink/10 pb-4 pt-24"
+            className="w-full flex justify-between items-center pt-28"
           >
-            <div className="flex flex-col gap-1">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-ink/40">
-                Capabilities
-              </span>
-              <span className="text-xs font-semibold text-ink">
-                Motion · 3D · Narrative
-              </span>
-            </div>
-            <div className="text-right">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-ink/40 block mb-1">
-                Origin
-              </span>
-              <span className="text-xs font-semibold text-ink">
-                Animation Studio · Est. 2014 · Bengaluru
-              </span>
-            </div>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/50">
+              Tero Studios — Est. 2014
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/50">
+              Bengaluru / IN
+            </span>
           </motion.div>
 
           {/* Stage */}
           <div className="relative flex-1 w-full flex items-center justify-center">
-            {/* Headline (top half) */}
             <motion.h1
               style={{ y: headTopY, opacity: headOpacity }}
-              className="absolute top-[6%] left-0 right-0 text-center font-display font-extrabold uppercase tracking-tighter leading-[0.85] text-ink text-[clamp(56px,10vw,160px)] z-30 pointer-events-none"
+              className="absolute top-[10%] left-0 right-0 text-center font-display font-extrabold uppercase tracking-tighter leading-[0.85] text-ink text-[clamp(56px,10vw,160px)] z-30 pointer-events-none"
             >
               Stories{" "}
               <span className="italic font-normal lowercase font-body text-[0.38em] align-middle text-vermillion px-3">
@@ -130,53 +119,40 @@ export function Hero() {
               move,
             </motion.h1>
 
-            {/* Headline (bottom half) */}
             <motion.h1
               style={{ y: headBotY, opacity: headOpacity }}
-              className="absolute bottom-[14%] left-0 right-0 text-center font-display font-extrabold uppercase tracking-tighter leading-[0.85] text-ink text-[clamp(56px,10vw,160px)] z-30 pointer-events-none"
+              className="absolute bottom-[18%] left-0 right-0 text-center font-display font-extrabold uppercase tracking-tighter leading-[0.85] text-ink text-[clamp(56px,10vw,160px)] z-30 pointer-events-none"
             >
               frames{" "}
               <span className="italic font-normal lowercase font-body text-[0.38em] align-middle text-ink/70">
                 stay.
               </span>
             </motion.h1>
-
-            {/* Video frame moved to sticky stage so it expands full-viewport */}
-
           </div>
 
-          {/* Bottom actions */}
+          {/* Bottom actions — slim */}
           <motion.div
             style={{ opacity: metaOpacity }}
-            className="w-full flex flex-col md:flex-row justify-between items-center gap-8 pb-10 pt-8 border-t border-ink/10"
+            className="w-full flex justify-between items-center pb-10"
           >
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <Link
                 to="/contact"
-                className="group relative px-8 py-4 bg-vermillion text-cream font-mono text-[11px] font-bold uppercase tracking-[0.2em] overflow-hidden transition-colors hover:bg-ink"
+                className="px-7 py-3.5 bg-vermillion text-cream font-mono text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-ink"
               >
                 Start a project
               </Link>
               <Link
                 to="/portfolio"
-                className="px-8 py-4 border border-ink/20 text-ink font-mono text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-ink hover:text-cream"
+                className="px-7 py-3.5 border border-ink/20 text-ink font-mono text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-ink hover:text-cream"
               >
-                See selected work
+                See work
               </Link>
             </div>
 
-            <div className="flex items-center gap-10">
-              <p className="hidden lg:block max-w-[300px] text-[12px] leading-relaxed text-ink/60 italic font-body">
-                Independent motion studio crafting digital narratives through
-                high-fidelity animation and sound design.
-              </p>
-              <div className="flex flex-col items-end gap-2">
-                <div className="w-12 h-px bg-ink/20" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] font-bold text-ink/40">
-                  Scroll
-                </span>
-              </div>
-            </div>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
+              Scroll ↓
+            </span>
           </motion.div>
         </div>
       </div>
