@@ -1,143 +1,190 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import p1 from "@/assets/portfolio-1.jpg";
-import p2 from "@/assets/portfolio-2.jpg";
-import p3 from "@/assets/portfolio-3.jpg";
-import p4 from "@/assets/portfolio-4.jpg";
-import p5 from "@/assets/portfolio-5.jpg";
-import { Reveal } from "./Reveal";
-import { ArrowUpRight } from "lucide-react";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
 
 const services = [
   {
     n: "01",
     name: "3D Animation",
-    img: p1,
+    mark: "3D",
     desc: "Photoreal product, character and environment animation rendered at film quality.",
+    tilt: -4,
   },
   {
     n: "02",
-    name: "2D Motion Graphics",
-    img: p2,
+    name: "2D Motion",
+    mark: "2D",
     desc: "Editorial-grade typography, transitions and brand systems that move with rhythm.",
+    tilt: 3,
   },
   {
     n: "03",
-    name: "Character Animation",
-    img: p3,
+    name: "Character",
+    mark: "CH",
     desc: "Stylised characters with performance — from rig to final hand-drawn texture.",
+    tilt: -2,
   },
   {
     n: "04",
-    name: "Explainer & UI",
-    img: p4,
+    name: "Explainer",
+    mark: "EX",
     desc: "Product films that turn complex software stories into one-watch clarity.",
+    tilt: 5,
   },
   {
     n: "05",
-    name: "Visual Effects",
-    img: p5,
+    name: "VFX",
+    mark: "FX",
     desc: "Live-action compositing, simulations and finishing for ads and short films.",
+    tilt: -3,
   },
 ];
 
+const ITEM_VH = 26; // vertical spacing between names (in vh)
+
 export function ServicesScroller() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+
   const [active, setActive] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    const i = Math.min(services.length - 1, Math.max(0, Math.floor(v * services.length)));
+    if (i !== active) setActive(i);
+  });
+
+  // Column slides from first item centered to last item centered
+  const totalShift = -(services.length - 1) * ITEM_VH; // in vh
+  const y = useTransform(scrollYProgress, [0, 1], ["0vh", `${totalShift}vh`]);
 
   return (
-    <section className="bg-cream">
-      <div className="container-tero py-24 md:py-40">
-        <Reveal>
-          <p className="overline">— What we make</p>
-          <h2 className="mt-6 hero-headline text-[clamp(40px,7vw,96px)] max-w-3xl">
-            A studio built around five quiet disciplines.
-          </h2>
-        </Reveal>
+    <section
+      ref={ref}
+      className="relative"
+      style={{
+        height: `${services.length * 100}vh`,
+        background:
+          "radial-gradient(120% 80% at 50% 0%, #4a5a4f 0%, #364139 55%, #2a332d 100%)",
+        color: "#efe9d8",
+      }}
+    >
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Top bar */}
+        <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-8 pt-8 md:px-12">
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#efe9d8]/70">
+            — Menu
+          </span>
+          <span className="font-display text-[22px] leading-none">
+            tero<span className="font-body font-medium tracking-tight italic">studios</span>
+          </span>
+          <a
+            href="/contact"
+            className="font-body text-[13px] text-[#efe9d8]/80 hover:text-[#efe9d8] transition-colors"
+          >
+            Let's chat →
+          </a>
+        </div>
 
-        <div className="mt-20 grid grid-cols-1 gap-16 md:grid-cols-12">
-          {/* Visual side */}
-          <div className="md:col-span-6 md:sticky md:top-32 self-start">
-            <div className="relative aspect-[5/4] overflow-hidden rounded-2xl border border-parchment bg-card">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={services[active].img}
-                  src={services[active].img}
-                  alt={services[active].name}
-                  width={1280}
-                  height={800}
-                  loading="lazy"
-                  initial={{ opacity: 0, scale: 1.04 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </AnimatePresence>
-              <div className="absolute left-5 top-5 rounded-full bg-cream/90 px-3 py-1.5 backdrop-blur-sm">
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink">
-                  {services[active].n} / 05
-                </span>
+        {/* Left number rail */}
+        <div className="pointer-events-none absolute left-8 top-1/2 -translate-y-1/2 z-20 hidden md:block">
+          <ul className="space-y-2 font-mono text-[11px]">
+            {services.map((s, i) => (
+              <li
+                key={s.n}
+                className={[
+                  "flex items-center gap-3 transition-colors",
+                  i === active ? "text-[#efe9d8]" : "text-[#efe9d8]/35",
+                ].join(" ")}
+              >
+                <span>{s.n}</span>
+                {i === active && (
+                  <>
+                    <span className="inline-block h-px w-6 bg-[#efe9d8]" />
+                    <span className="font-body italic text-[12px]">They scroll</span>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Right side: mark + description */}
+        <div className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 z-20 w-[42%] md:w-[34%] max-w-md">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={services[active].n}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-start gap-8"
+            >
+              <div
+                className="font-display text-[clamp(64px,8vw,128px)] leading-none"
+                style={{ color: "#efe9d8", letterSpacing: "-0.04em" }}
+              >
+                {services[active].mark}
+                <span className="text-[#efe9d8]/60">↑</span>
               </div>
-            </div>
-          </div>
+              <p className="font-body text-[15px] md:text-[16px] leading-relaxed text-[#efe9d8]/85">
+                {services[active].desc}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-          {/* List side */}
-          <div className="md:col-span-6">
-            <ul>
-              {services.map((s, i) => {
-                const isActive = active === i;
-                return (
-                  <li
-                    key={s.n}
-                    onMouseEnter={() => setActive(i)}
-                    onClick={() => setActive(i)}
-                    className="group cursor-pointer border-b border-parchment py-8 transition-colors"
+        {/* The vertically scrolling stack of service names (left/center column) */}
+        <div className="relative h-full">
+          {/* center alignment marker (50vh) */}
+          <motion.ul
+            style={{ y }}
+            className="absolute left-[8%] md:left-[14%] top-1/2 will-change-transform"
+          >
+            {services.map((s, i) => {
+              const isActive = i === active;
+              return (
+                <li
+                  key={s.n}
+                  style={{
+                    height: `${ITEM_VH}vh`,
+                    transform: `rotate(${s.tilt}deg)`,
+                  }}
+                  className="flex items-center"
+                >
+                  <motion.span
+                    animate={{
+                      opacity: isActive ? 1 : 0.18,
+                      filter: isActive ? "blur(0px)" : "blur(2px)",
+                      scale: isActive ? 1 : 0.92,
+                    }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="font-display font-bold leading-[0.85] italic"
+                    style={{
+                      fontSize: "clamp(64px, 12vw, 180px)",
+                      color: "#efe9d8",
+                      letterSpacing: "-0.04em",
+                      textShadow: isActive
+                        ? "0 0 60px rgba(239,233,216,0.25)"
+                        : "none",
+                      display: "block",
+                      transformOrigin: "left center",
+                    }}
                   >
-                    <div className="flex items-start justify-between gap-6">
-                      <div className="flex-1">
-                        <p
-                          className={[
-                            "font-mono text-[11px] uppercase tracking-[0.2em] transition-colors",
-                            isActive ? "text-vermillion" : "text-slate",
-                          ].join(" ")}
-                        >
-                          — Service {s.n}
-                        </p>
-                        <h3
-                          className={[
-                            "mt-3 font-display text-[clamp(36px,5.5vw,72px)] leading-[0.95] transition-colors",
-                            isActive ? "text-ink" : "text-ink/35",
-                          ].join(" ")}
-                        >
-                          {s.name}
-                        </h3>
-                        <motion.p
-                          initial={false}
-                          animate={{
-                            opacity: isActive ? 1 : 0,
-                            height: isActive ? "auto" : 0,
-                          }}
-                          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                          className="overflow-hidden font-body text-[15px] leading-relaxed text-slate max-w-md"
-                        >
-                          <span className="block pt-4">{s.desc}</span>
-                        </motion.p>
-                      </div>
-                      <ArrowUpRight
-                        className={[
-                          "h-6 w-6 mt-3 transition-all",
-                          isActive
-                            ? "text-vermillion translate-x-0 -translate-y-0"
-                            : "text-ink/30",
-                        ].join(" ")}
-                        strokeWidth={1.5}
-                      />
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+                    {s.name}
+                  </motion.span>
+                </li>
+              );
+            })}
+          </motion.ul>
+        </div>
+
+        {/* Bottom counter */}
+        <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-between px-8 pb-8 md:px-12 font-mono text-[11px] uppercase tracking-[0.25em] text-[#efe9d8]/60">
+          <span>— They trust us</span>
+          <span>
+            {String(active + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}
+          </span>
         </div>
       </div>
     </section>
