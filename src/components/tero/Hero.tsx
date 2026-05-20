@@ -12,30 +12,30 @@ export function Hero() {
   });
   const p = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
 
-  // Editorial frame expansion: inset clip shrinks from 18% padding to 0
-  const insetY = useTransform(p, [0, 0.7], ["18%", "0%"]);
-  const insetX = useTransform(p, [0, 0.7], ["18%", "0%"]);
-  const radius = useTransform(p, [0, 0.7], ["14px", "0px"]);
+  // Editorial frame expansion: reaches fullscreen quickly, then holds
+  const insetY = useTransform(p, [0, 0.25], ["18%", "0%"]);
+  const insetX = useTransform(p, [0, 0.25], ["18%", "0%"]);
+  const radius = useTransform(p, [0, 0.25], ["14px", "0px"]);
   const clipPath = useTransform(
     [insetY, insetX, radius] as never,
     ([y, x, r]: string[]) => `inset(${y} ${x} ${y} ${x} round ${r})`,
   );
 
   // Headline splits apart and fades as frame expands
-  const headTopY = useTransform(p, [0, 0.5], [0, -180]);
-  const headBotY = useTransform(p, [0, 0.5], [0, 180]);
-  const headOpacity = useTransform(p, [0, 0.45], [1, 0]);
-  const metaOpacity = useTransform(p, [0, 0.3], [1, 0]);
+  const headTopY = useTransform(p, [0, 0.2], [0, -180]);
+  const headBotY = useTransform(p, [0, 0.2], [0, 180]);
+  const headOpacity = useTransform(p, [0, 0.18], [1, 0]);
+  const metaOpacity = useTransform(p, [0, 0.12], [1, 0]);
 
   // Video scale: starts slightly zoomed inside the small frame, settles to 1
-  const videoScale = useTransform(p, [0, 0.7], [1.15, 1]);
-  const overlayOpacity = useTransform(p, [0.4, 0.85], [0, 1]);
+  const videoScale = useTransform(p, [0, 0.25], [1.15, 1]);
+  const overlayOpacity = useTransform(p, [0.2, 0.32], [0, 1]);
 
   return (
     <section
       ref={sectionRef}
       className="relative w-full bg-cream"
-      style={{ height: "260vh" }}
+      style={{ height: "200vh" }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* Hairline magazine grid */}
