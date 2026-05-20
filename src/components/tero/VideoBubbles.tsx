@@ -173,15 +173,14 @@ function BubbleNode({
 }) {
   const { ox, oy } = offscreenOffset(b.from);
 
-  // Each bubble travels from offscreen → 0 quickly, then stays locked in the cluster.
-  const start = b.order * 0.45;
-  const end = Math.min(start + 0.2, 0.42);
+  // Slower convergence: each bubble takes longer to travel from offscreen to its
+  // cluster slot, and the cluster locks in by ~70% of scroll. After that, all
+  // bubbles stay fully visible (no fade-out) for the remainder of the pin.
+  const start = b.order * 0.55;
+  const end = Math.min(start + 0.45, 0.78);
 
   const x = useTransform(progress, [start, end], [ox, 0], { clamp: true });
   const y = useTransform(progress, [start, end], [oy, 0], { clamp: true });
-  const opacity = useTransform(progress, [start, start + 0.04, end], [0, 1, 1], {
-    clamp: true,
-  });
 
   return (
     <motion.div
@@ -197,9 +196,10 @@ function BubbleNode({
         translateY: "-50%",
         x,
         y,
-        opacity,
+        opacity: 1,
       }}
     >
+
       {/* subtle individual shimmer, while the parent keeps the cluster locked */}
       <motion.div
         animate={{
@@ -255,35 +255,84 @@ function BubbleLink({
       className="group relative block w-full h-full rounded-full overflow-hidden will-change-transform transition-transform duration-500 ease-out hover:scale-[1.16] hover:z-30"
       style={{
         boxShadow:
-          "0 30px 70px -22px rgba(0,0,0,0.85), 0 10px 24px -16px rgba(255,255,255,0.35), inset 0 0 0 1px rgba(255,255,255,0.20)",
+          // outer drop, soft contact shadow, rim light, inner glass tint
+          "0 36px 70px -22px rgba(0,0,0,0.95), 0 14px 28px -18px rgba(0,0,0,0.6), 0 4px 10px -2px rgba(255,255,255,0.18), inset 0 0 0 1px rgba(255,255,255,0.28)",
       }}
     >
+      {/* Photo content — slightly distorted via scale for refraction feel */}
       <img
         src={img}
         alt=""
         loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover saturate-[1.16] contrast-[1.08] transition-transform duration-700 ease-out group-hover:scale-110"
+        className="absolute inset-0 w-full h-full object-cover scale-[1.08] saturate-[1.18] contrast-[1.10] transition-transform duration-700 ease-out group-hover:scale-[1.18]"
       />
-      {/* glass depth */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_32%_18%,rgba(255,255,255,0.35),transparent_24%),radial-gradient(circle_at_70%_82%,rgba(0,0,0,0.50),transparent_48%),linear-gradient(145deg,rgba(255,255,255,0.10),rgba(0,0,0,0.24))]" />
 
-      {/* Cursor-following specular highlight */}
+      {/* Chromatic edge tint — bluish refraction ring like real glass */}
+      <div
+        aria-hidden
+        className="absolute inset-0 rounded-full pointer-events-none mix-blend-screen"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 50%, transparent 58%, rgba(120,180,255,0.18) 78%, rgba(255,180,210,0.12) 92%, transparent 100%)",
+        }}
+      />
+
+      {/* Deep glass depth — top-left light, bottom-right shadow */}
+      <div
+        aria-hidden
+        className="absolute inset-0 rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at 30% 22%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 14%, transparent 32%), radial-gradient(circle at 72% 80%, rgba(0,0,0,0.55) 0%, transparent 52%), linear-gradient(150deg, rgba(255,255,255,0.14) 0%, transparent 38%, rgba(0,0,0,0.30) 100%)",
+        }}
+      />
+
+      {/* Cursor-following specular highlight (large soft) */}
       <motion.div
         aria-hidden
-        className="absolute inset-0 rounded-full pointer-events-none opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+        className="absolute inset-0 rounded-full pointer-events-none opacity-90"
         style={{ background: glossBackground }}
+      />
+
+      {/* Crisp pin-prick specular — fixed top-left, simulates point light */}
+      <div
+        aria-hidden
+        className="absolute pointer-events-none rounded-full"
+        style={{
+          top: "10%",
+          left: "16%",
+          width: "22%",
+          height: "14%",
+          background:
+            "radial-gradient(ellipse at center, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.55) 35%, transparent 70%)",
+          filter: "blur(1px)",
+        }}
+      />
+
+      {/* Secondary small highlight */}
+      <div
+        aria-hidden
+        className="absolute pointer-events-none rounded-full"
+        style={{
+          top: "22%",
+          left: "30%",
+          width: "8%",
+          height: "5%",
+          background: "rgba(255,255,255,0.85)",
+          filter: "blur(0.5px)",
+        }}
       />
 
       {/* hover sweep */}
       <div className="absolute inset-y-[-25%] left-[-80%] w-1/2 rotate-[24deg] bg-gradient-to-r from-transparent via-white/45 to-transparent blur-[2px] opacity-0 transition-all duration-700 ease-out group-hover:left-[130%] group-hover:opacity-100" />
 
-      {/* Rim shading */}
+      {/* Rim shading — dark vignette + bright thin rim */}
       <div
         aria-hidden
         className="absolute inset-0 rounded-full pointer-events-none"
         style={{
           boxShadow:
-            "inset 8px 12px 18px rgba(255,255,255,0.18), inset -12px -18px 34px rgba(0,0,0,0.62), inset 0 0 0 2px rgba(255,255,255,0.10)",
+            "inset 6px 10px 22px rgba(255,255,255,0.22), inset -14px -22px 40px rgba(0,0,0,0.72), inset 0 0 0 1.5px rgba(255,255,255,0.18), inset 0 -2px 6px rgba(255,255,255,0.10)",
         }}
       />
 
@@ -296,3 +345,4 @@ function BubbleLink({
     </Link>
   );
 }
+
