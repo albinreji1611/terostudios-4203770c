@@ -33,7 +33,7 @@ function Index() {
       <ServicesScroller />
       <KineticBand />
       <HorizontalShowcase />
-      <Process />
+      
       <StatsSection />
       <Testimonials />
       <Awards />
