@@ -31,14 +31,14 @@ export function Nav() {
       className={[
         "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-cream/95 backdrop-blur-lg border-b border-parchment"
-          : "bg-transparent",
+          ? "bg-white/70 backdrop-blur-2xl border-b border-white/20 shadow-[0_1px_20px_rgba(0,0,0,0.04)]"
+          : "bg-white/40 backdrop-blur-2xl",
       ].join(" ")}
     >
-      <div className="container-tero flex h-[68px] items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group" aria-label="Tero Studios home">
-          <img src={logo} alt="" width={32} height={32} className="h-8 w-8 object-contain" />
-          <span className="font-sans-display text-[15px] font-bold tracking-wider text-ink">
+      <div className="container-tero flex h-[80px] items-center justify-between">
+        <Link to="/" className="flex items-center gap-3.5 group" aria-label="Tero Studios home">
+          <img src={logo} alt="" width={48} height={48} className="h-12 w-12 object-contain" />
+          <span className="font-sans-display text-[17px] font-bold tracking-wider text-ink">
             TERO<span className="text-vermillion">/</span>STUDIOS
           </span>
         </Link>
