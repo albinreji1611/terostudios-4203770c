@@ -49,7 +49,7 @@ export function Hero() {
           {/* Overline meta */}
           <motion.div
             style={{ opacity: metaOpacity }}
-            className="w-full flex justify-between items-end border-b border-ink/10 pb-6 pt-28"
+            className="w-full flex justify-between items-end border-b border-ink/10 pb-4 pt-24"
           >
             <div className="flex flex-col gap-1">
               <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-ink/40">
