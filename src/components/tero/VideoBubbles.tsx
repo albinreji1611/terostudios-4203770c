@@ -25,26 +25,26 @@ type Bubble = {
 };
 
 const bubbles: Bubble[] = [
-  // Central cluster — overlapping
-  { x: 47, y: 30, size: 150, from: "top",    order: 0.00, bob: 6.5, drift: 8,  img: IMAGES[2] },
-  { x: 41, y: 40, size: 130, from: "left",   order: 0.08, bob: 7.2, drift: 6,  img: IMAGES[0] },
-  { x: 53, y: 40, size: 140, from: "right",  order: 0.06, bob: 6.8, drift: 7,  img: IMAGES[1] },
-  { x: 36, y: 52, size: 120, from: "left",   order: 0.12, bob: 7.8, drift: 9,  img: IMAGES[3] },
-  { x: 48, y: 52, size: 170, from: "bottom", order: 0.04, bob: 8.4, drift: 5,  img: IMAGES[4] },
-  { x: 60, y: 52, size: 135, from: "right",  order: 0.10, bob: 6.4, drift: 8,  img: IMAGES[5] },
-  { x: 42, y: 64, size: 125, from: "bottom", order: 0.14, bob: 7.0, drift: 7,  img: IMAGES[2] },
-  { x: 54, y: 65, size: 145, from: "bottom", order: 0.05, bob: 8.0, drift: 6,  img: IMAGES[0] },
-  { x: 47, y: 76, size: 115, from: "bottom", order: 0.16, bob: 6.6, drift: 9,  img: IMAGES[1] },
-  { x: 65, y: 40, size: 100, from: "right",  order: 0.14, bob: 7.4, drift: 8,  img: IMAGES[3] },
-  { x: 33, y: 66, size: 105, from: "left",   order: 0.18, bob: 7.6, drift: 8,  img: IMAGES[4] },
-  { x: 60, y: 74, size:  95, from: "bottom", order: 0.20, bob: 6.2, drift: 9,  img: IMAGES[5] },
+  // All bubbles resolve into one dense, overlapping grape-like cluster.
+  { x: 48, y: 29, size: 156, from: "top",    order: 0.00, bob: 7.0, drift: 5.0, img: IMAGES[2] },
+  { x: 40, y: 38, size: 130, from: "left",   order: 0.08, bob: 7.5, drift: 4.5, img: IMAGES[0] },
+  { x: 54, y: 38, size: 146, from: "right",  order: 0.06, bob: 6.8, drift: 5.5, img: IMAGES[1] },
+  { x: 35, y: 49, size: 122, from: "left",   order: 0.12, bob: 7.8, drift: 5.0, img: IMAGES[3] },
+  { x: 48, y: 51, size: 178, from: "bottom", order: 0.04, bob: 8.4, drift: 3.8, img: IMAGES[4] },
+  { x: 61, y: 51, size: 138, from: "right",  order: 0.10, bob: 7.1, drift: 5.2, img: IMAGES[5] },
+  { x: 41, y: 63, size: 132, from: "bottom", order: 0.14, bob: 7.0, drift: 4.6, img: IMAGES[2] },
+  { x: 54, y: 64, size: 148, from: "bottom", order: 0.05, bob: 8.0, drift: 4.2, img: IMAGES[0] },
+  { x: 48, y: 76, size: 116, from: "bottom", order: 0.16, bob: 7.4, drift: 4.8, img: IMAGES[1] },
+  { x: 66, y: 40, size: 106, from: "right",  order: 0.14, bob: 7.9, drift: 4.8, img: IMAGES[3] },
+  { x: 33, y: 64, size: 108, from: "left",   order: 0.18, bob: 7.6, drift: 5.0, img: IMAGES[4] },
+  { x: 60, y: 75, size:  98, from: "bottom", order: 0.20, bob: 6.9, drift: 4.4, img: IMAGES[5] },
 
-  // Outliers (arrive later)
-  { x: 12, y: 24, size:  80, from: "left",   order: 0.30, bob: 8.5, drift: 14, img: IMAGES[1] },
-  { x: 88, y: 20, size:  95, from: "right",  order: 0.26, bob: 9.0, drift: 16, img: IMAGES[2] },
-  { x: 90, y: 70, size:  85, from: "right",  order: 0.34, bob: 7.8, drift: 12, img: IMAGES[4] },
-  { x:  8, y: 78, size:  75, from: "left",   order: 0.36, bob: 8.2, drift: 13, img: IMAGES[0] },
-  { x: 78, y: 88, size:  70, from: "bottom", order: 0.40, bob: 7.0, drift: 11, img: IMAGES[3] },
+  // Smaller edge bubbles now lock into the cluster instead of orbiting outside.
+  { x: 37, y: 28, size:  86, from: "left",   order: 0.30, bob: 8.5, drift: 5.2, img: IMAGES[1] },
+  { x: 63, y: 28, size:  96, from: "right",  order: 0.26, bob: 9.0, drift: 5.4, img: IMAGES[2] },
+  { x: 67, y: 62, size:  88, from: "right",  order: 0.34, bob: 7.8, drift: 4.6, img: IMAGES[4] },
+  { x: 31, y: 76, size:  76, from: "left",   order: 0.36, bob: 8.2, drift: 4.8, img: IMAGES[0] },
+  { x: 69, y: 78, size:  72, from: "bottom", order: 0.40, bob: 7.0, drift: 4.0, img: IMAGES[3] },
 ];
 
 const offscreenOffset = (from: Bubble["from"]) => {
@@ -134,16 +134,22 @@ export function VideoBubbles() {
           View all <span className="inline-block w-1.5 h-1.5 rounded-full bg-vermillion" />
         </Link>
 
-        {/* Bubbles converge based on scroll */}
-        {bubbles.map((b, i) => (
-          <BubbleNode
-            key={i}
-            b={b}
-            progress={scrollYProgress}
-            mx={smx}
-            my={smy}
-          />
-        ))}
+        {/* Bubbles converge based on scroll, then breathe as one locked cluster */}
+        <motion.div
+          className="absolute inset-0 z-10"
+          animate={{ y: [0, -10, 0, 8, 0], x: [0, 5, 0, -4, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        >
+          {bubbles.map((b, i) => (
+            <BubbleNode
+              key={i}
+              b={b}
+              progress={scrollYProgress}
+              mx={smx}
+              my={smy}
+            />
+          ))}
+        </motion.div>
 
         {/* scroll hint */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
@@ -167,10 +173,9 @@ function BubbleNode({
 }) {
   const { ox, oy } = offscreenOffset(b.from);
 
-  // Each bubble travels from offscreen → 0 within its own slice of scroll.
-  // Convergence happens between 0 and 0.55 of the section's scroll range.
-  const start = b.order;
-  const end = Math.min(b.order + 0.32, 0.62);
+  // Each bubble travels from offscreen → 0 quickly, then stays locked in the cluster.
+  const start = b.order * 0.45;
+  const end = Math.min(start + 0.2, 0.42);
 
   const x = useTransform(progress, [start, end], [ox, 0], { clamp: true });
   const y = useTransform(progress, [start, end], [oy, 0], { clamp: true });
@@ -181,6 +186,8 @@ function BubbleNode({
   return (
     <motion.div
       className="absolute z-10"
+      whileHover={{ scale: 1.18, zIndex: 50 }}
+      transition={{ type: "spring", stiffness: 260, damping: 18 }}
       style={{
         left: `${b.x}%`,
         top: `${b.y}%`,
@@ -193,11 +200,11 @@ function BubbleNode({
         opacity,
       }}
     >
-      {/* continuous float */}
+      {/* subtle individual shimmer, while the parent keeps the cluster locked */}
       <motion.div
         animate={{
-          y: [0, -b.drift, 0, b.drift * 0.6, 0],
-          x: [0, b.drift * 0.4, 0, -b.drift * 0.3, 0],
+          y: [0, -b.drift, 0, b.drift * 0.45, 0],
+          x: [0, b.drift * 0.22, 0, -b.drift * 0.18, 0],
         }}
         transition={{ duration: b.bob, repeat: Infinity, ease: "easeInOut" }}
         className="w-full h-full"
@@ -234,38 +241,41 @@ function BubbleLink({
     return `${Math.max(8, Math.min(78, 22 + offset))}%`;
   });
 
+  const glossBackground = useTransform(
+    [hlX, hlY] as unknown as MotionValue<string>[],
+    (v) => {
+      const [x, y] = v as unknown as string[];
+      return `radial-gradient(circle at ${x} ${y}, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.34) 13%, rgba(255,255,255,0.08) 27%, transparent 42%), radial-gradient(circle at ${100 - parseFloat(x)}% ${100 - parseFloat(y)}%, rgba(255,255,255,0.25) 0%, transparent 28%)`;
+    }
+  );
+
   return (
     <Link
       to="/portfolio"
-      className="group relative block w-full h-full rounded-full overflow-hidden will-change-transform transition-transform duration-500 ease-out hover:scale-[1.12]"
+      className="group relative block w-full h-full rounded-full overflow-hidden will-change-transform transition-transform duration-500 ease-out hover:scale-[1.16] hover:z-30"
       style={{
         boxShadow:
-          "0 25px 60px -20px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(255,255,255,0.08)",
+          "0 30px 70px -22px rgba(0,0,0,0.85), 0 10px 24px -16px rgba(255,255,255,0.35), inset 0 0 0 1px rgba(255,255,255,0.20)",
       }}
     >
       <img
         src={img}
         alt=""
         loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover saturate-[1.16] contrast-[1.08] transition-transform duration-700 ease-out group-hover:scale-110"
       />
-      {/* dark tint */}
-      <div className="absolute inset-0 bg-black/15" />
+      {/* glass depth */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_32%_18%,rgba(255,255,255,0.35),transparent_24%),radial-gradient(circle_at_70%_82%,rgba(0,0,0,0.50),transparent_48%),linear-gradient(145deg,rgba(255,255,255,0.10),rgba(0,0,0,0.24))]" />
 
       {/* Cursor-following specular highlight */}
       <motion.div
         aria-hidden
-        className="absolute inset-0 rounded-full pointer-events-none"
-        style={{
-          background: useTransform(
-            [hlX, hlY] as unknown as MotionValue<string>[],
-            (v) => {
-              const [x, y] = v as unknown as string[];
-              return `radial-gradient(circle at ${x} ${y}, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.18) 14%, transparent 34%), radial-gradient(circle at ${100 - parseFloat(x)}% ${100 - parseFloat(y)}%, rgba(255,255,255,0.22) 0%, transparent 28%)`;
-            }
-          ),
-        }}
+        className="absolute inset-0 rounded-full pointer-events-none opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: glossBackground }}
       />
+
+      {/* hover sweep */}
+      <div className="absolute inset-y-[-25%] left-[-80%] w-1/2 rotate-[24deg] bg-gradient-to-r from-transparent via-white/45 to-transparent blur-[2px] opacity-0 transition-all duration-700 ease-out group-hover:left-[130%] group-hover:opacity-100" />
 
       {/* Rim shading */}
       <div
@@ -273,7 +283,7 @@ function BubbleLink({
         className="absolute inset-0 rounded-full pointer-events-none"
         style={{
           boxShadow:
-            "inset 0 -10px 22px rgba(255,255,255,0.16), inset 0 10px 20px rgba(0,0,0,0.4)",
+            "inset 8px 12px 18px rgba(255,255,255,0.18), inset -12px -18px 34px rgba(0,0,0,0.62), inset 0 0 0 2px rgba(255,255,255,0.10)",
         }}
       />
 
