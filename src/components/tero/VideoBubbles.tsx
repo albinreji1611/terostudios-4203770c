@@ -25,26 +25,26 @@ type Bubble = {
 };
 
 const bubbles: Bubble[] = [
-  // Central cluster — overlapping
-  { x: 47, y: 30, size: 150, from: "top",    order: 0.00, bob: 6.5, drift: 8,  img: IMAGES[2] },
-  { x: 41, y: 40, size: 130, from: "left",   order: 0.08, bob: 7.2, drift: 6,  img: IMAGES[0] },
-  { x: 53, y: 40, size: 140, from: "right",  order: 0.06, bob: 6.8, drift: 7,  img: IMAGES[1] },
-  { x: 36, y: 52, size: 120, from: "left",   order: 0.12, bob: 7.8, drift: 9,  img: IMAGES[3] },
-  { x: 48, y: 52, size: 170, from: "bottom", order: 0.04, bob: 8.4, drift: 5,  img: IMAGES[4] },
-  { x: 60, y: 52, size: 135, from: "right",  order: 0.10, bob: 6.4, drift: 8,  img: IMAGES[5] },
-  { x: 42, y: 64, size: 125, from: "bottom", order: 0.14, bob: 7.0, drift: 7,  img: IMAGES[2] },
-  { x: 54, y: 65, size: 145, from: "bottom", order: 0.05, bob: 8.0, drift: 6,  img: IMAGES[0] },
-  { x: 47, y: 76, size: 115, from: "bottom", order: 0.16, bob: 6.6, drift: 9,  img: IMAGES[1] },
-  { x: 65, y: 40, size: 100, from: "right",  order: 0.14, bob: 7.4, drift: 8,  img: IMAGES[3] },
-  { x: 33, y: 66, size: 105, from: "left",   order: 0.18, bob: 7.6, drift: 8,  img: IMAGES[4] },
-  { x: 60, y: 74, size:  95, from: "bottom", order: 0.20, bob: 6.2, drift: 9,  img: IMAGES[5] },
+  // All bubbles resolve into one dense, overlapping grape-like cluster.
+  { x: 48, y: 29, size: 156, from: "top",    order: 0.00, bob: 7.0, drift: 5.0, img: IMAGES[2] },
+  { x: 40, y: 38, size: 130, from: "left",   order: 0.08, bob: 7.5, drift: 4.5, img: IMAGES[0] },
+  { x: 54, y: 38, size: 146, from: "right",  order: 0.06, bob: 6.8, drift: 5.5, img: IMAGES[1] },
+  { x: 35, y: 49, size: 122, from: "left",   order: 0.12, bob: 7.8, drift: 5.0, img: IMAGES[3] },
+  { x: 48, y: 51, size: 178, from: "bottom", order: 0.04, bob: 8.4, drift: 3.8, img: IMAGES[4] },
+  { x: 61, y: 51, size: 138, from: "right",  order: 0.10, bob: 7.1, drift: 5.2, img: IMAGES[5] },
+  { x: 41, y: 63, size: 132, from: "bottom", order: 0.14, bob: 7.0, drift: 4.6, img: IMAGES[2] },
+  { x: 54, y: 64, size: 148, from: "bottom", order: 0.05, bob: 8.0, drift: 4.2, img: IMAGES[0] },
+  { x: 48, y: 76, size: 116, from: "bottom", order: 0.16, bob: 7.4, drift: 4.8, img: IMAGES[1] },
+  { x: 66, y: 40, size: 106, from: "right",  order: 0.14, bob: 7.9, drift: 4.8, img: IMAGES[3] },
+  { x: 33, y: 64, size: 108, from: "left",   order: 0.18, bob: 7.6, drift: 5.0, img: IMAGES[4] },
+  { x: 60, y: 75, size:  98, from: "bottom", order: 0.20, bob: 6.9, drift: 4.4, img: IMAGES[5] },
 
-  // Outliers (arrive later)
-  { x: 12, y: 24, size:  80, from: "left",   order: 0.30, bob: 8.5, drift: 14, img: IMAGES[1] },
-  { x: 88, y: 20, size:  95, from: "right",  order: 0.26, bob: 9.0, drift: 16, img: IMAGES[2] },
-  { x: 90, y: 70, size:  85, from: "right",  order: 0.34, bob: 7.8, drift: 12, img: IMAGES[4] },
-  { x:  8, y: 78, size:  75, from: "left",   order: 0.36, bob: 8.2, drift: 13, img: IMAGES[0] },
-  { x: 78, y: 88, size:  70, from: "bottom", order: 0.40, bob: 7.0, drift: 11, img: IMAGES[3] },
+  // Smaller edge bubbles now lock into the cluster instead of orbiting outside.
+  { x: 37, y: 28, size:  86, from: "left",   order: 0.30, bob: 8.5, drift: 5.2, img: IMAGES[1] },
+  { x: 63, y: 28, size:  96, from: "right",  order: 0.26, bob: 9.0, drift: 5.4, img: IMAGES[2] },
+  { x: 67, y: 62, size:  88, from: "right",  order: 0.34, bob: 7.8, drift: 4.6, img: IMAGES[4] },
+  { x: 31, y: 76, size:  76, from: "left",   order: 0.36, bob: 8.2, drift: 4.8, img: IMAGES[0] },
+  { x: 69, y: 78, size:  72, from: "bottom", order: 0.40, bob: 7.0, drift: 4.0, img: IMAGES[3] },
 ];
 
 const offscreenOffset = (from: Bubble["from"]) => {
