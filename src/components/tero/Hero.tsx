@@ -1,278 +1,180 @@
-import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowDown } from "lucide-react";
-
-/* Word that splits into letters and staggers in from below a clipping mask. */
-function RevealWord({
-  text,
-  delay = 0,
-  className = "",
-  italic = false,
-}: {
-  text: string;
-  delay?: number;
-  className?: string;
-  italic?: boolean;
-}) {
-  return (
-    <span className={`inline-block overflow-hidden align-baseline ${className}`}>
-      {text.split("").map((ch, i) => (
-        <motion.span
-          key={i}
-          initial={{ y: "110%", rotate: 6 }}
-          animate={{ y: 0, rotate: 0 }}
-          transition={{
-            duration: 0.9,
-            delay: delay + i * 0.035,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className={`inline-block ${italic ? "italic" : ""}`}
-          style={{ willChange: "transform" }}
-        >
-          {ch === " " ? "\u00A0" : ch}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
 
 export function Hero() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  /* Spotlight position over the headline */
-  const sx = useMotionValue(50);
-  const sy = useMotionValue(50);
-  const ssx = useSpring(sx, { stiffness: 120, damping: 20, mass: 0.4 });
-  const ssy = useSpring(sy, { stiffness: 120, damping: 20, mass: 0.4 });
-
-  /* Parallax tilt for the hero image */
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const rx = useSpring(useTransform(my, [-0.5, 0.5], [6, -6]), { stiffness: 80, damping: 14 });
-  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-8, 8]), { stiffness: 80, damping: 14 });
-  const px = useSpring(useTransform(mx, [-0.5, 0.5], [-18, 18]), { stiffness: 60, damping: 16 });
-  const py = useSpring(useTransform(my, [-0.5, 0.5], [-14, 14]), { stiffness: 60, damping: 16 });
-
-  const [spotOn, setSpotOn] = useState(false);
-
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const wrap = wrapRef.current;
-      if (wrap) {
-        const r = wrap.getBoundingClientRect();
-        mx.set((e.clientX - r.left) / r.width - 0.5);
-        my.set((e.clientY - r.top) / r.height - 0.5);
-      }
-      const h = headlineRef.current;
-      if (h) {
-        const r = h.getBoundingClientRect();
-        const inside =
-          e.clientX >= r.left &&
-          e.clientX <= r.right &&
-          e.clientY >= r.top &&
-          e.clientY <= r.bottom;
-        setSpotOn(inside);
-        sx.set(((e.clientX - r.left) / r.width) * 100);
-        sy.set(((e.clientY - r.top) / r.height) * 100);
-      }
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [mx, my, sx, sy]);
-
-  const maskImage = useTransform(
-    [ssx, ssy] as never,
-    ([x, y]: number[]) =>
-      `radial-gradient(260px circle at ${x}% ${y}%, #000 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0) 70%)`,
-  );
-
-  /* Scroll-based zoom + parallax on the video */
+  // Scroll-tied progress across the tall sticky section
   const { scrollYProgress } = useScroll({
-    target: wrapRef,
+    target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const videoY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const p = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
+
+  // Editorial frame expansion: inset clip shrinks from 18% padding to 0
+  const insetY = useTransform(p, [0, 0.7], ["18%", "0%"]);
+  const insetX = useTransform(p, [0, 0.7], ["18%", "0%"]);
+  const radius = useTransform(p, [0, 0.7], ["14px", "0px"]);
+  const clipPath = useTransform(
+    [insetY, insetX, radius] as never,
+    ([y, x, r]: string[]) => `inset(${y} ${x} ${y} ${x} round ${r})`,
+  );
+
+  // Headline splits apart and fades as frame expands
+  const headTopY = useTransform(p, [0, 0.5], [0, -180]);
+  const headBotY = useTransform(p, [0, 0.5], [0, 180]);
+  const headOpacity = useTransform(p, [0, 0.45], [1, 0]);
+  const metaOpacity = useTransform(p, [0, 0.3], [1, 0]);
+
+  // Video scale: starts slightly zoomed inside the small frame, settles to 1
+  const videoScale = useTransform(p, [0, 0.7], [1.15, 1]);
+  const overlayOpacity = useTransform(p, [0.4, 0.85], [0, 1]);
 
   return (
-    <section ref={wrapRef} className="relative overflow-hidden bg-cream">
-      {/* subtle grid + grain */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #111 1px, transparent 1px), linear-gradient(to bottom, #111 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-        }}
-      />
-
-      <div className="container-tero relative pt-12 pb-24 md:pt-20 md:pb-32">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="overline"
-        >
-          — Animation Studio · Est. 2014 · Bengaluru
-        </motion.p>
-
-        {/* Headline with spotlight reveal */}
-        <h1
-          ref={headlineRef}
-          className="relative mt-8 hero-headline text-[clamp(56px,11vw,160px)] text-ink select-none"
-        >
-          <span className="block leading-[0.92]">
-            <RevealWord text="Stories" delay={0.25} />
-          </span>
-          <span className="block leading-[0.92]">
-            <RevealWord text="that" delay={0.38} />{" "}
-            <RevealWord text="move," delay={0.5} />
-          </span>
-          <span className="block leading-[0.92]">
-            <RevealWord text="frames" delay={0.62} />{" "}
-            <RevealWord
-              text="that stay."
-              delay={0.78}
-              italic
-              className="text-vermillion"
-            />
-          </span>
-
-          {/* Spotlight overlay — duplicates the headline in vermillion under a soft circular mask */}
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 mix-blend-multiply"
-            style={{
-              opacity: spotOn ? 1 : 0,
-              transition: "opacity 220ms ease",
-              WebkitMaskImage: maskImage as unknown as string,
-              maskImage: maskImage as unknown as string,
-            }}
-          >
-            <span className="block leading-[0.92] text-vermillion">Stories</span>
-            <span className="block leading-[0.92] text-vermillion">that move,</span>
-            <span className="block leading-[0.92]">
-              <span className="text-vermillion">frames </span>
-              <span className="italic text-ink">that stay.</span>
-            </span>
-          </motion.div>
-        </h1>
-
-        <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-12 md:items-end">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.1 }}
-            className="md:col-span-5 max-w-md font-body text-[18px] leading-relaxed text-slate"
-          >
-            Tero is an independent animation studio crafting films, motion
-            design and visual effects for brands with something real to say.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.2 }}
-            className="md:col-span-7 flex flex-wrap items-center gap-4 md:justify-end"
-          >
-            <Link
-              to="/portfolio"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-[4px] bg-ink px-7 py-4 text-[15px] font-medium text-cream"
-            >
-              <span className="absolute inset-0 -z-0 translate-y-full bg-gradient-to-br from-[#E8390E] to-[#C42D06] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
-              <span className="relative z-10">See selected work</span>
-              <span className="relative z-10 inline-block transition-transform duration-500 group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-3 rounded-[4px] border-[1.5px] border-ink px-7 py-4 text-[15px] font-medium text-ink transition-colors hover:bg-ink hover:text-cream"
-            >
-              Start a project
-            </Link>
-          </motion.div>
+    <section
+      ref={sectionRef}
+      className="relative w-full bg-cream"
+      style={{ height: "260vh" }}
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* Hairline magazine grid */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute top-0 left-6 md:left-12 w-px h-full bg-ink/[0.06]" />
+          <div className="absolute top-0 right-6 md:right-12 w-px h-full bg-ink/[0.06]" />
+          <div className="absolute top-1/2 left-0 w-full h-px bg-ink/[0.06]" />
         </div>
-      </div>
 
-      {/* Floating image with mouse parallax + tilt */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="relative mx-auto max-w-[1500px] px-6"
-        style={{ perspective: 1400 }}
-      >
-        <motion.div
-          style={{
-            rotateX: rx,
-            rotateY: ry,
-            x: px,
-            y: py,
-            transformStyle: "preserve-3d",
-          }}
-          className="relative overflow-hidden rounded-2xl border border-parchment shadow-[0_30px_80px_-30px_rgba(17,19,24,0.35)]"
-        >
+        <div className="relative h-full w-full max-w-[1500px] mx-auto px-6 md:px-12 flex flex-col">
+          {/* Overline meta */}
           <motion.div
-            style={{ scale: videoScale, y: videoY }}
-            className="relative will-change-transform"
+            style={{ opacity: metaOpacity }}
+            className="w-full flex justify-between items-end border-b border-ink/10 pb-6 pt-28"
           >
-            <video
-              src="/hero-reel.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-auto block aspect-[16/10] object-cover bg-ink"
-            />
+            <div className="flex flex-col gap-1">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-ink/40">
+                Capabilities
+              </span>
+              <span className="text-xs font-semibold text-ink">
+                Motion · 3D · Narrative
+              </span>
+            </div>
+            <div className="text-right">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-ink/40 block mb-1">
+                Origin
+              </span>
+              <span className="text-xs font-semibold text-ink">
+                Animation Studio · Est. 2014 · Bengaluru
+              </span>
+            </div>
           </motion.div>
 
-          {/* Sheen sweep */}
-          <motion.div
-            aria-hidden
-            initial={{ x: "-120%" }}
-            animate={{ x: "120%" }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
-            className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 rotate-12 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-          />
-          <div className="absolute left-4 bottom-4 flex items-center gap-3 rounded-full bg-cream/85 px-4 py-2 backdrop-blur-sm">
-            <span className="inline-block h-2 w-2 rounded-full bg-vermillion animate-pulse" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink">
-              Reel 2026 · Now playing
-            </span>
+          {/* Stage */}
+          <div className="relative flex-1 w-full flex items-center justify-center">
+            {/* Headline (top half) */}
+            <motion.h1
+              style={{ y: headTopY, opacity: headOpacity }}
+              className="absolute top-[6%] left-0 right-0 text-center font-display font-extrabold uppercase tracking-tighter leading-[0.85] text-ink text-[clamp(56px,10vw,160px)] z-30 pointer-events-none"
+            >
+              Stories{" "}
+              <span className="italic font-normal lowercase font-body text-[0.38em] align-middle text-vermillion px-3">
+                that
+              </span>{" "}
+              move,
+            </motion.h1>
+
+            {/* Headline (bottom half) */}
+            <motion.h1
+              style={{ y: headBotY, opacity: headOpacity }}
+              className="absolute bottom-[14%] left-0 right-0 text-center font-display font-extrabold uppercase tracking-tighter leading-[0.85] text-ink text-[clamp(56px,10vw,160px)] z-30 pointer-events-none"
+            >
+              frames{" "}
+              <span className="italic font-normal lowercase font-body text-[0.38em] align-middle text-ink/70">
+                stay.
+              </span>
+            </motion.h1>
+
+            {/* Central showreel frame — expands on scroll */}
+            <motion.div
+              style={{ clipPath, WebkitClipPath: clipPath as never }}
+              className="absolute inset-0 z-20 overflow-hidden bg-ink shadow-[0_30px_80px_-30px_rgba(17,19,24,0.45)]"
+            >
+              <motion.video
+                src="/hero-reel.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{ scale: videoScale }}
+                className="absolute inset-0 w-full h-full object-cover will-change-transform"
+              />
+              {/* Tint for editorial cohesion */}
+              <div className="absolute inset-0 bg-ink/20 mix-blend-multiply" />
+
+              {/* Editorial corner labels */}
+              <div className="absolute top-6 left-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
+                Studio Reel // 001
+              </div>
+              <div className="absolute top-6 right-6 flex items-center gap-2 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
+                <span className="h-1.5 w-1.5 rounded-full bg-vermillion animate-pulse" />
+                REC · 24 FPS · 4K
+              </div>
+              <div className="absolute bottom-6 left-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
+                Selected Works · 2024
+              </div>
+              <div className="absolute bottom-6 right-6 text-cream/70 font-mono text-[10px] uppercase tracking-[0.25em]">
+                Tero Studios ©
+              </div>
+
+              {/* Fullscreen overlay (appears when frame fully expanded) */}
+              <motion.div
+                style={{ opacity: overlayOpacity }}
+                className="absolute inset-0 flex flex-col items-center justify-center text-cream pointer-events-none"
+              >
+                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/60 mb-6">
+                  Showreel 2024
+                </span>
+                <h2 className="font-display font-extrabold uppercase tracking-tighter text-[clamp(40px,7vw,110px)] leading-[0.9] text-center">
+                  Now <span className="italic text-vermillion">playing.</span>
+                </h2>
+              </motion.div>
+            </motion.div>
           </div>
 
-          {/* Floating chips */}
+          {/* Bottom actions */}
           <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute right-6 top-6 hidden md:flex items-center gap-2 rounded-full bg-ink/85 px-4 py-2 backdrop-blur-sm"
+            style={{ opacity: metaOpacity }}
+            className="w-full flex flex-col md:flex-row justify-between items-center gap-8 pb-10 pt-8 border-t border-ink/10"
           >
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-cream">
-              3D · 2D · VFX
-            </span>
-          </motion.div>
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute right-6 bottom-20 hidden md:flex items-center gap-2 rounded-full bg-vermillion px-4 py-2"
-          >
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white">
-              Awwwards · 2025
-            </span>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+            <div className="flex gap-4">
+              <Link
+                to="/contact"
+                className="group relative px-8 py-4 bg-vermillion text-cream font-mono text-[11px] font-bold uppercase tracking-[0.2em] overflow-hidden transition-colors hover:bg-ink"
+              >
+                Start a project
+              </Link>
+              <Link
+                to="/portfolio"
+                className="px-8 py-4 border border-ink/20 text-ink font-mono text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-ink hover:text-cream"
+              >
+                See selected work
+              </Link>
+            </div>
 
-      <div className="container-tero mt-10 flex items-center justify-between text-slate">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em]">
-          Scroll to explore
-        </p>
-        <ArrowDown className="h-4 w-4 animate-bounce" strokeWidth={1.5} />
+            <div className="flex items-center gap-10">
+              <p className="hidden lg:block max-w-[300px] text-[12px] leading-relaxed text-ink/60 italic font-body">
+                Independent motion studio crafting digital narratives through
+                high-fidelity animation and sound design.
+              </p>
+              <div className="flex flex-col items-end gap-2">
+                <div className="w-12 h-px bg-ink/20" />
+                <span className="font-mono text-[10px] uppercase tracking-[0.3em] font-bold text-ink/40">
+                  Scroll
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
