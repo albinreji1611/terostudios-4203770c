@@ -73,24 +73,9 @@ export function Process() {
                         {s.n}
                       </span>
                       <div className="flex-1">
-                        <h3
-                          className={[
-                            "font-sans-display text-[22px] md:text-[28px] font-bold transition-colors",
-                            isActive ? "text-ink" : "text-ink/45",
-                          ].join(" ")}
-                        >
+                        <h3 className="font-sans-display text-[22px] md:text-[28px] font-bold text-black">
                           {s.t}
                         </h3>
-                        <motion.div
-                          initial={false}
-                          animate={{ opacity: isActive ? 1 : 0, height: isActive ? "auto" : 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
-                        >
-                          <p className="mt-3 max-w-xl font-body text-[15px] leading-relaxed text-slate">
-                            {s.d}
-                          </p>
-                        </motion.div>
                       </div>
                     </button>
                   </li>
