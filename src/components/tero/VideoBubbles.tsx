@@ -202,8 +202,8 @@ function BubbleNode({
     return dy * reach * falloff;
   });
 
-  const x = useTransform([scrollX, hoverX] as MotionValue<number>[], ([a, c]) => a + c);
-  const y = useTransform([scrollY, hoverY] as MotionValue<number>[], ([a, c]) => a + c);
+  const x = useTransform([scrollX, hoverX] as MotionValue<number>[], (v) => (v as number[])[0] + (v as number[])[1]);
+  const y = useTransform([scrollY, hoverY] as MotionValue<number>[], (v) => (v as number[])[0] + (v as number[])[1]);
 
   return (
     <motion.div
