@@ -31,16 +31,19 @@ export function Nav() {
       className={[
         "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-white/70 backdrop-blur-2xl border-b border-white/20 shadow-[0_1px_20px_rgba(0,0,0,0.04)]"
-          : "bg-white/40 backdrop-blur-2xl",
+          ? "bg-[#1a1a1a]/85 backdrop-blur-2xl border-b border-white/10 shadow-[0_1px_20px_rgba(0,0,0,0.35)]"
+          : "bg-[#1a1a1a]/70 backdrop-blur-2xl border-b border-white/5",
       ].join(" ")}
     >
       <div className="container-tero flex h-[80px] items-center justify-between">
-        <Link to="/" className="flex items-center gap-3.5 group" aria-label="Tero Studios home">
-          <img src={logo} alt="" width={48} height={48} className="h-12 w-12 object-contain" />
-          <span className="font-sans-display text-[17px] font-bold tracking-wider text-ink">
-            TERO<span className="text-vermillion">/</span>STUDIOS
-          </span>
+        <Link to="/" className="flex items-center group" aria-label="Tero Studios home">
+          <img
+            src={logo}
+            alt="Tero Studios"
+            width={220}
+            height={50}
+            className="h-10 md:h-12 w-auto object-contain"
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -52,7 +55,7 @@ export function Nav() {
                 to={it.to}
                 className={[
                   "relative font-body text-[14px] font-medium transition-colors",
-                  active ? "text-ink" : "text-ink/80 hover:text-ink",
+                  active ? "text-white" : "text-white/75 hover:text-white",
                 ].join(" ")}
               >
                 {it.label}
@@ -67,6 +70,7 @@ export function Nav() {
           })}
         </nav>
 
+
         <Link
           to="/contact"
           className="hidden md:inline-flex items-center gap-2 rounded-[4px] bg-gradient-to-br from-[#E8390E] to-[#C42D06] px-5 py-2.5 text-[13px] font-medium text-white shadow-[0_6px_20px_rgba(232,57,14,0.25)] transition-transform hover:scale-[1.03] active:scale-[0.98]"
@@ -77,10 +81,11 @@ export function Nav() {
         <button
           aria-label="Menu"
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-parchment bg-card"
+          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/15 bg-white/5 text-white"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
+
       </div>
 
       {open && (
