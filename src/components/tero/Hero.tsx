@@ -82,13 +82,29 @@ export function Hero() {
             style={{ opacity: overlayOpacity }}
             className="absolute inset-0 flex flex-col items-center justify-center text-cream pointer-events-none"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/60 mb-6">
+            {/* Soft vignette behind text for legibility */}
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 35%, transparent 65%)",
+              }}
+            />
+            <span
+              className="relative font-mono text-[10px] uppercase tracking-[0.4em] text-cream/80 mb-6"
+              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
+            >
               Showreel 2024
             </span>
-            <h2 className="font-display font-extrabold uppercase tracking-tighter text-[clamp(40px,7vw,110px)] leading-[0.9] text-center">
+            <h2
+              className="relative font-display font-extrabold uppercase tracking-tighter text-[clamp(40px,7vw,110px)] leading-[0.9] text-center text-white"
+              style={{ textShadow: "0 4px 30px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5)" }}
+            >
               Now <span className="italic text-vermillion">playing.</span>
             </h2>
           </motion.div>
+
         </motion.div>
 
 
