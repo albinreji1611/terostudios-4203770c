@@ -82,8 +82,8 @@ export function HorizontalShowcase() {
                   </p>
                 </div>
               </div>
-            </a>
-          ))}
+            </motion.a>
+          );})}
         </motion.div>
 
         <div className="container-tero mt-10 flex items-center justify-between text-slate">
