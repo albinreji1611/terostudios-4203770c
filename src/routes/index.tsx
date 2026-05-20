@@ -1,26 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { PageLayout } from "@/components/tero/PageLayout";
+import { Hero } from "@/components/tero/Hero";
+import { LogoStrip } from "@/components/tero/LogoStrip";
+import { ServicesScroller } from "@/components/tero/ServicesScroller";
+import { HorizontalShowcase } from "@/components/tero/HorizontalShowcase";
+import { Process } from "@/components/tero/Process";
+import { StatsSection } from "@/components/tero/StatsSection";
+import { Testimonials } from "@/components/tero/Testimonials";
+import { Awards } from "@/components/tero/Awards";
+import { FAQ } from "@/components/tero/FAQ";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "Tero Studios — Animation studio crafting stories that move" },
+      {
+        name: "description",
+        content:
+          "Tero Studios is an independent animation and motion design studio in Bengaluru, building films, motion graphics and visual effects for global brands.",
+      },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <PageLayout>
+      <Hero />
+      <LogoStrip />
+      <ServicesScroller />
+      <HorizontalShowcase />
+      <Process />
+      <StatsSection />
+      <Testimonials />
+      <Awards />
+      <FAQ />
+    </PageLayout>
+  );
 }
