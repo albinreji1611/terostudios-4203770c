@@ -115,14 +115,13 @@ export function VideoBubbles() {
           <motion.div
             key={i}
             initial={offscreen(b)}
-            whileInView={{ x: 0, y: 0, opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
+            animate={{ x: 0, y: 0, opacity: 1 }}
             transition={{
               type: "spring",
               stiffness: 55,
               damping: 13,
               mass: 1.1,
-              delay: b.delay,
+              delay: 0.3 + b.delay,
             }}
             className="absolute z-10"
             style={{
