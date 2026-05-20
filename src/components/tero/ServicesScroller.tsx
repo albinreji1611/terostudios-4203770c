@@ -65,13 +65,26 @@ export function ServicesScroller() {
       style={{
         height: `${services.length * 100}vh`,
         background:
-          "radial-gradient(120% 80% at 50% 0%, #4a5a4f 0%, #364139 55%, #2a332d 100%)",
-        color: "#efe9d8",
+          "radial-gradient(120% 80% at 50% 0%, #fdfaf6 0%, #f4ece0 60%, #ead9c2 100%)",
+        color: "#1a1a1f",
       }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Top bar */}
         <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-8 pt-8 md:px-12">
+          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/60">
+            — Services
+          </span>
+          <span className="font-display text-[22px] leading-none text-ink">
+            tero<span className="font-body font-medium tracking-tight">studios</span>
+          </span>
+          <a
+            href="/contact"
+            className="font-body text-[13px] text-ink/70 hover:text-vermillion transition-colors"
+          >
+            Let's chat →
+          </a>
+        </div>
           <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#efe9d8]/70">
             — Menu
           </span>
