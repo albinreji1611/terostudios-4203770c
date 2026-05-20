@@ -41,12 +41,19 @@ export function HorizontalShowcase() {
           </Reveal>
         </div>
 
-        <motion.div style={{ x }} className="flex gap-8 pl-[8vw] pr-[10vw] will-change-transform">
-          {cards.map((c, i) => (
-            <a
+        <motion.div style={{ x }} className="flex gap-8 pl-[8vw] pr-[10vw] will-change-transform" >
+          {cards.map((c, i) => {
+            const tilt = (i % 2 === 0 ? -1 : 1) * (3 + (i % 3));
+            return (
+            <motion.a
               key={i}
               href="/portfolio"
-              className="group relative w-[68vw] md:w-[44vw] shrink-0 overflow-hidden rounded-2xl border border-parchment bg-card"
+              initial={{ rotate: tilt, y: 30 }}
+              whileInView={{ rotate: 0, y: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="group relative w-[68vw] md:w-[44vw] shrink-0 overflow-hidden rounded-2xl border border-parchment bg-card shadow-[0_30px_60px_-40px_rgba(17,19,24,0.45)]"
             >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <img
@@ -55,9 +62,12 @@ export function HorizontalShowcase() {
                   loading="lazy"
                   width={1280}
                   height={800}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
-                <div className="pointer-events-none absolute inset-0 ring-0 ring-vermillion/0 group-hover:ring-2 group-hover:ring-vermillion/40 transition-all" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <span className="pointer-events-none absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-vermillion text-white opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2">
+                  →
+                </span>
               </div>
               <div className="flex items-end justify-between gap-4 p-6 md:p-8">
                 <div>
