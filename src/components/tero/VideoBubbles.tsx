@@ -285,10 +285,12 @@ function BubbleLink({
       }}
     >
       {/* Photo content — slightly distorted via scale for refraction feel */}
-      <img
-        src={img}
-        alt=""
-        loading="lazy"
+      <video
+        src="/hero-reel.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
         className="absolute inset-0 w-full h-full object-cover scale-[1.08] saturate-[1.18] contrast-[1.10] transition-transform duration-700 ease-out group-hover:scale-[1.18]"
       />
 
