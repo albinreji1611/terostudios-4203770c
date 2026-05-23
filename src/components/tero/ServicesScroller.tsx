@@ -7,6 +7,7 @@ const services = [
     name: "3D Animation",
     mark: "3D",
     desc: "Photoreal product, character and environment animation rendered at film quality.",
+    tag: "Rendering",
     tilt: 0,
   },
   {
@@ -14,6 +15,7 @@ const services = [
     name: "2D Motion",
     mark: "2D",
     desc: "Editorial-grade typography, transitions and brand systems that move with rhythm.",
+    tag: "In motion",
     tilt: 0,
   },
   {
@@ -21,6 +23,7 @@ const services = [
     name: "Character",
     mark: "CH",
     desc: "Stylised characters with performance — from rig to final hand-drawn texture.",
+    tag: "On stage",
     tilt: 0,
   },
   {
@@ -28,6 +31,7 @@ const services = [
     name: "Explainer",
     mark: "EX",
     desc: "Product films that turn complex software stories into one-watch clarity.",
+    tag: "On air",
     tilt: 0,
   },
   {
@@ -35,9 +39,11 @@ const services = [
     name: "VFX",
     mark: "FX",
     desc: "Live-action compositing, simulations and finishing for ads and short films.",
+    tag: "Compositing",
     tilt: 0,
   },
 ];
+
 
 const ITEM_VH = 26; // vertical spacing between names (in vh)
 
