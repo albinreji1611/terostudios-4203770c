@@ -94,12 +94,7 @@ export function Hero() {
           for (let x = 0; x < sw; x += step) {
             const i = (y * sw + x) * 4;
             const a = data[i + 3];
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-            // Treat dark or opaque pixels as logo body
-            const lum = (r + g + b) / 3;
-            if (a > 110 && lum < 230) {
+            if (a > 80) {
               pts.push({ x: x + offsetX, y: y + offsetY, a });
             }
           }
