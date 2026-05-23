@@ -111,7 +111,7 @@ export function Hero() {
           else if (side === 2) { sx = Math.random() * w; sy = h + 60 + Math.random() * 300; }
           else { sx = -60 - Math.random() * 300; sy = Math.random() * h; }
 
-          const baseSize = 2.2 + Math.random() * 3.4; // chunky
+          const baseSize = 0.6 + Math.random() * 1.8;
           return {
             hx: pt.x,
             hy: pt.y,
