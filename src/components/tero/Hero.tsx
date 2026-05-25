@@ -272,7 +272,7 @@ export function Hero() {
         <div className="flex-1" />
 
         {/* Caption + CTA grouped near bottom so they don't overlap the logo */}
-        <div className="pb-16 md:pb-20">
+        <div className="pb-28 md:pb-36">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: formed ? 1 : 0, y: formed ? 0 : 18 }}
