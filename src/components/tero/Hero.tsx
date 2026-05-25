@@ -269,13 +269,13 @@ export function Hero() {
           initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex items-center justify-between pt-28"
+          className="flex items-center justify-between pt-20 md:pt-24"
         >
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/55 flex items-center gap-2">
+          <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-ink/55 flex items-center gap-2.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-vermillion animate-pulse" />
             Tero Studios — Est. 2014
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/55">
+          <span className="hidden sm:inline font-mono text-[10px] uppercase tracking-[0.32em] text-ink/55">
             Bengaluru · 12.97° N
           </span>
         </motion.div>
@@ -284,26 +284,30 @@ export function Hero() {
 
         {/* Caption that appears once grains have formed */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: formed ? 1 : 0, y: formed ? 0 : 16 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-10 text-center"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: formed ? 1 : 0, y: formed ? 0 : 18 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8 md:mb-12 text-center"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="h-px w-8 bg-vermillion/60" />
-            <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-vermillion">
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <span className="h-px w-10 bg-vermillion/60" />
+            <p className="font-mono text-[10px] uppercase tracking-[0.45em] text-vermillion">
               A studio of moving things
             </p>
-            <span className="h-px w-8 bg-vermillion/60" />
+            <span className="h-px w-10 bg-vermillion/60" />
           </div>
-          <h1 className="font-display font-extrabold uppercase tracking-tighter leading-[0.9] text-ink text-[clamp(24px,3.6vw,52px)]">
+          <h1 className="hero-headline text-ink text-[clamp(22px,3vw,44px)] max-w-[20ch] mx-auto">
             Stories{" "}
-            <span className="italic font-normal lowercase font-body text-[0.65em] text-vermillion">
+            <span className="italic font-light lowercase font-body text-[0.65em] text-vermillion align-baseline">
               that
             </span>{" "}
-            move, frames{" "}
-            <span className="italic font-normal lowercase font-body text-[0.65em] text-ink/70">
-              that stay.
+            move,{" "}
+            <span className="whitespace-nowrap">
+              frames{" "}
+              <span className="italic font-light lowercase font-body text-[0.65em] text-ink/55 align-baseline">
+                that
+              </span>{" "}
+              stay.
             </span>
           </h1>
         </motion.div>
@@ -313,19 +317,19 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: formed ? 1 : 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="flex items-end justify-between pb-10 pointer-events-auto"
+          className="flex items-end justify-between pb-10 md:pb-12 pointer-events-auto"
         >
           <div className="flex gap-3">
             <Link
               to="/contact"
-              className="group relative overflow-hidden px-8 py-4 bg-vermillion text-cream font-mono text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-ink"
+              className="group relative overflow-hidden px-7 md:px-9 py-3.5 md:py-4 bg-vermillion text-cream font-mono text-[11px] font-bold uppercase tracking-[0.22em] transition-all hover:bg-ink"
             >
               <span className="relative z-10">Start a project →</span>
               <span className="absolute inset-0 bg-ink translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
             </Link>
             <Link
               to="/portfolio"
-              className="px-8 py-4 border border-ink/25 text-ink font-mono text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-ink hover:text-cream hover:border-ink"
+              className="px-7 md:px-9 py-3.5 md:py-4 border border-ink/25 text-ink font-mono text-[11px] font-bold uppercase tracking-[0.22em] transition-all hover:bg-ink hover:text-cream hover:border-ink"
             >
               See the reel
             </Link>
@@ -335,7 +339,7 @@ export function Hero() {
             transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-end gap-2"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/50">
+            <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-ink/50">
               Scroll
             </span>
             <span className="block w-px h-10 bg-gradient-to-b from-ink/40 to-transparent" />
