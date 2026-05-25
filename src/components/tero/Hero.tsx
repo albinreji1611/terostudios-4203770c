@@ -72,7 +72,7 @@ export function Hero() {
         const sample = document.createElement("canvas");
         const sctx = sample.getContext("2d")!;
 
-        const target = Math.min(w, h) * 0.62;
+        const target = Math.min(w, h) * 0.72;
         const scale = target / Math.max(img.width, img.height);
         const sw = Math.round(img.width * scale);
         const sh = Math.round(img.height * scale);
@@ -81,8 +81,8 @@ export function Hero() {
         sctx.drawImage(img, 0, 0, sw, sh);
         const data = sctx.getImageData(0, 0, sw, sh).data;
 
-        // Larger step → fewer grains for better performance
-        const step = Math.max(3, Math.round(Math.min(sw, sh) / 110));
+        // Denser sampling so small letters (STUDIOS) read clearly
+        const step = Math.max(2, Math.round(Math.min(sw, sh) / 220));
         const offsetX = (w - sw) / 2;
         const offsetY = (h - sh) / 2;
 
@@ -91,10 +91,10 @@ export function Hero() {
           for (let x = 0; x < sw; x += step) {
             const i = (y * sw + x) * 4;
             const a = data[i + 3];
-            if (a > 80) {
+            if (a > 40) {
               pts.push({
-                x: x + offsetX + (Math.random() - 0.5) * step * 0.6,
-                y: y + offsetY + (Math.random() - 0.5) * step * 0.6,
+                x: x + offsetX + (Math.random() - 0.5) * step * 0.5,
+                y: y + offsetY + (Math.random() - 0.5) * step * 0.5,
               });
             }
           }
