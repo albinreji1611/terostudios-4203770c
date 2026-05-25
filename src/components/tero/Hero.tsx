@@ -335,6 +335,7 @@ export function Hero() {
             <span className="block w-px h-10 bg-gradient-to-b from-ink/40 to-transparent" />
           </motion.div>
         </motion.div>
+        </div>
       </div>
     </section>
   );
