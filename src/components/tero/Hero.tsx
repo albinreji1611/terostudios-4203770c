@@ -81,8 +81,8 @@ export function Hero() {
         sctx.drawImage(img, 0, 0, sw, sh);
         const data = sctx.getImageData(0, 0, sw, sh).data;
 
-        // Wider step → fewer but bigger grains
-        const step = Math.max(2, Math.round(Math.min(sw, sh) / 180));
+        // Larger step → fewer grains for better performance
+        const step = Math.max(3, Math.round(Math.min(sw, sh) / 110));
         const offsetX = (w - sw) / 2;
         const offsetY = (h - sh) / 2;
 
@@ -92,7 +92,6 @@ export function Hero() {
             const i = (y * sw + x) * 4;
             const a = data[i + 3];
             if (a > 80) {
-              // slight jitter so grain feels organic, not gridded
               pts.push({
                 x: x + offsetX + (Math.random() - 0.5) * step * 0.6,
                 y: y + offsetY + (Math.random() - 0.5) * step * 0.6,
@@ -101,8 +100,7 @@ export function Hero() {
           }
         }
 
-        particles = pts.map(() => 0).map((_, idx) => {
-          const pt = pts[idx];
+        particles = pts.map((pt) => {
           const side = Math.floor(Math.random() * 4);
           let sx = 0;
           let sy = 0;
@@ -111,7 +109,7 @@ export function Hero() {
           else if (side === 2) { sx = Math.random() * w; sy = h + 60 + Math.random() * 300; }
           else { sx = -60 - Math.random() * 300; sy = Math.random() * h; }
 
-          const baseSize = 0.6 + Math.random() * 1.8;
+          const baseSize = 0.8 + Math.random() * 1.6;
           return {
             hx: pt.x,
             hy: pt.y,
@@ -123,7 +121,7 @@ export function Hero() {
             baseSize,
             color: palette[Math.floor(Math.random() * palette.length)],
             phase: Math.random() * Math.PI * 2,
-            glow: Math.random() < 0.18 ? 1 : 0, // ~18% are accent glow grains
+            glow: 0,
           };
         });
       };
@@ -132,14 +130,14 @@ export function Hero() {
     function tick(now: number) {
       const w = canvas!.clientWidth;
       const h = canvas!.clientHeight;
-      // Soft trail for a glow-feel
-      ctx!.fillStyle = "rgba(253, 250, 246, 0.28)";
-      ctx!.fillRect(0, 0, w, h);
+      // Clear fully (no per-frame translucent fill — much cheaper)
+      ctx!.clearRect(0, 0, w, h);
 
       const t = (now - start) / 1000;
       const formProgress = Math.min(1, t / 2.2);
 
       let avgDist = 0;
+      const mouseActive = mouseX > -9000;
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
@@ -155,15 +153,17 @@ export function Hero() {
         p.vx = (p.vx + dx * stiffness) * damping;
         p.vy = (p.vy + dy * stiffness) * damping;
 
-        const mdx = p.x - mouseX;
-        const mdy = p.y - mouseY;
-        const md2 = mdx * mdx + mdy * mdy;
-        const R = 140;
-        if (md2 < R * R) {
-          const d = Math.sqrt(md2) || 1;
-          const force = (1 - d / R) * 8;
-          p.vx += (mdx / d) * force;
-          p.vy += (mdy / d) * force;
+        if (mouseActive) {
+          const mdx = p.x - mouseX;
+          const mdy = p.y - mouseY;
+          const md2 = mdx * mdx + mdy * mdy;
+          const R = 140;
+          if (md2 < R * R) {
+            const d = Math.sqrt(md2) || 1;
+            const force = (1 - d / R) * 8;
+            p.vx += (mdx / d) * force;
+            p.vy += (mdy / d) * force;
+          }
         }
 
         p.x += p.vx;
@@ -171,21 +171,12 @@ export function Hero() {
 
         avgDist += Math.abs(dx) + Math.abs(dy);
 
-        const pulse = 1 + Math.sin(t * 1.4 + p.phase) * 0.15;
-        const r = p.baseSize * pulse;
-
-        if (p.glow) {
-          ctx!.shadowColor = "rgba(232, 57, 14, 0.6)";
-          ctx!.shadowBlur = 14;
-        } else {
-          ctx!.shadowBlur = 0;
-        }
+        const r = p.baseSize;
         ctx!.beginPath();
         ctx!.fillStyle = p.color;
         ctx!.arc(p.x, p.y, r, 0, Math.PI * 2);
         ctx!.fill();
       }
-      ctx!.shadowBlur = 0;
 
       if (!formed && particles.length > 0) {
         const a = avgDist / particles.length;
@@ -246,14 +237,12 @@ export function Hero() {
             "radial-gradient(ellipse 60% 50% at 50% 52%, rgba(232,57,14,0.14) 0%, rgba(196,154,60,0.08) 35%, transparent 70%)",
         }}
       />
-      <motion.div
+      <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0"
-        animate={{ opacity: [0.5, 0.85, 0.5] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         style={{
           background:
-            "radial-gradient(circle 320px at 30% 70%, rgba(196,154,60,0.18), transparent 60%), radial-gradient(circle 280px at 75% 30%, rgba(232,57,14,0.14), transparent 60%)",
+            "radial-gradient(circle 320px at 30% 70%, rgba(196,154,60,0.16), transparent 60%), radial-gradient(circle 280px at 75% 30%, rgba(232,57,14,0.12), transparent 60%)",
         }}
       />
 

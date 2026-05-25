@@ -32,15 +32,22 @@ export function Nav() {
   const logoRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
+    let ticking = false;
+    let lastDetect = 0;
     const detect = () => {
+      ticking = false;
+      const now = performance.now();
       setScrolled(window.scrollY > 60);
+
+      // Throttle the expensive elementsFromPoint/getComputedStyle work
+      if (now - lastDetect < 180) return;
+      lastDetect = now;
 
       const el = logoRef.current;
       if (!el) return;
       const r = el.getBoundingClientRect();
       const x = r.left + r.width / 2;
       const y = r.top + r.height / 2;
-      // Temporarily hide header so elementsFromPoint sees content beneath
       const prev = el.style.pointerEvents;
       el.style.pointerEvents = "none";
       const stack = document.elementsFromPoint(x, y);
@@ -61,12 +68,17 @@ export function Nav() {
       }
       setLightBg(light);
     };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(detect);
+    };
     detect();
-    window.addEventListener("scroll", detect, { passive: true });
-    window.addEventListener("resize", detect);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
-      window.removeEventListener("scroll", detect);
-      window.removeEventListener("resize", detect);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
