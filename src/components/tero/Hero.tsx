@@ -269,7 +269,7 @@ export function Hero() {
           </span>
         </motion.div>
 
-        <div className="h-3 md:h-5" />
+        <div className="flex-1" />
 
         {/* Caption that appears once grains have formed */}
         <motion.div
