@@ -271,44 +271,43 @@ export function Hero() {
 
         <div className="flex-1" />
 
-        {/* Caption that appears once grains have formed */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: formed ? 1 : 0, y: formed ? 0 : 18 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 md:mb-12 text-center"
-        >
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <span className="h-px w-10 bg-vermillion/60" />
-            <p className="font-mono text-[10px] uppercase tracking-[0.45em] text-vermillion">
-              A studio of moving things
-            </p>
-            <span className="h-px w-10 bg-vermillion/60" />
-          </div>
-          <h1 className="hero-headline text-ink text-[clamp(22px,3vw,44px)] max-w-[20ch] mx-auto">
-            Stories{" "}
-            <span className="italic font-light lowercase font-body text-[0.65em] text-vermillion align-baseline">
-              that
-            </span>{" "}
-            move,{" "}
-            <span className="whitespace-nowrap">
-              frames{" "}
-              <span className="italic font-light lowercase font-body text-[0.65em] text-ink/55 align-baseline">
+        {/* Caption + CTA grouped near bottom so they don't overlap the logo */}
+        <div className="pb-16 md:pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: formed ? 1 : 0, y: formed ? 0 : 18 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-6 md:mb-8 text-center"
+          >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="h-px w-10 bg-vermillion/60" />
+              <p className="font-mono text-[10px] uppercase tracking-[0.45em] text-vermillion">
+                A studio of moving things
+              </p>
+              <span className="h-px w-10 bg-vermillion/60" />
+            </div>
+            <h1 className="hero-headline text-ink text-[clamp(20px,2.6vw,38px)] max-w-[20ch] mx-auto">
+              Stories{" "}
+              <span className="italic font-light lowercase font-body text-[0.65em] text-vermillion align-baseline">
                 that
               </span>{" "}
-              stay.
-            </span>
-          </h1>
-        </motion.div>
+              move,{" "}
+              <span className="whitespace-nowrap">
+                frames{" "}
+                <span className="italic font-light lowercase font-body text-[0.65em] text-ink/55 align-baseline">
+                  that
+                </span>{" "}
+                stay.
+              </span>
+            </h1>
+          </motion.div>
 
-        <div className="flex-1" />
-
-        {/* Bottom actions */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: formed ? 1 : 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="flex items-end justify-between pb-6 md:pb-8 pointer-events-auto"
+          {/* Bottom actions */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: formed ? 1 : 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="flex items-end justify-between pointer-events-auto"
         >
           <div className="flex gap-3">
             <Link
