@@ -306,7 +306,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: formed ? 1 : 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="flex items-end justify-between pb-10 md:pb-12 pointer-events-auto"
+          className="flex items-end justify-between pb-6 md:pb-8 pointer-events-auto"
         >
           <div className="flex gap-3">
             <Link
