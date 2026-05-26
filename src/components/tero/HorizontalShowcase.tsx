@@ -100,7 +100,7 @@ export function HorizontalShowcase() {
         </div>
 
         {/* Horizontal poster strip */}
-        <div className="relative flex-1 flex items-center">
+        <div className="relative flex-1 flex items-center pt-32 md:pt-40">
           <motion.div
             style={{ x }}
             className="flex items-center gap-[6vw] pl-[20vw] pr-[10vw] will-change-transform"
