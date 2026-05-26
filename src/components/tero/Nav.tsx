@@ -110,8 +110,8 @@ export function Nav() {
             height={50}
             className={[
               "h-9 md:h-10 w-auto object-contain transition-[filter] duration-300",
-              // Default cream bar = dark logo. When bar gone over dark bg, invert to white.
-              scrolled && !lightBg ? "[filter:invert(1)_brightness(2)]" : "[filter:invert(1)_brightness(0)]",
+              // Light bg → dark logo, dark bg → white logo
+              lightBg ? "[filter:invert(1)_brightness(0)]" : "[filter:invert(1)_brightness(2)]",
             ].join(" ")}
           />
         </Link>
@@ -121,7 +121,7 @@ export function Nav() {
             const active = pathname === it.to;
             // While bar is visible (not scrolled) → ink text on cream.
             // After bar slides up → adapt to underlying bg.
-            const onDark = scrolled && !lightBg;
+            const onDark = !lightBg;
             return (
               <Link
                 key={it.to}
@@ -157,7 +157,7 @@ export function Nav() {
           onClick={() => setOpen((v) => !v)}
           className={[
             "md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
-            scrolled && !lightBg
+            !lightBg
               ? "border-white/20 bg-white/5 text-white"
               : "border-ink/15 bg-ink/5 text-ink",
           ].join(" ")}
