@@ -73,7 +73,7 @@ export function Hero() {
         const sctx = sample.getContext("2d")!;
 
         // Crop source to the "TERO" portion only (omit "STUDIOS")
-        const cropW = Math.round(img.width * 0.58);
+        const cropW = Math.round(img.width * 0.62);
         const cropH = img.height;
 
         const target = Math.min(w * 0.7, h * 0.55);
