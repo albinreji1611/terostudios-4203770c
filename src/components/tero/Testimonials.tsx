@@ -27,7 +27,7 @@ const t = [
 
 export function Testimonials() {
   return (
-    <section className="bg-ink text-cream">
+    <section data-nav-theme="dark" className="bg-ink text-cream">
       <div className="container-tero py-24 md:py-40">
         <Reveal>
           <p className="overline text-vermillion">— Portfolio of consensus</p>
