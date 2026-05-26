@@ -125,7 +125,7 @@ export function Nav() {
             className={[
               "h-9 md:h-10 w-auto object-contain transition-[filter] duration-300",
               // Light bg → dark logo, dark bg → white logo
-              lightBg ? "[filter:invert(1)_brightness(0)]" : "[filter:invert(1)_brightness(2)]",
+              lightBg ? "[filter:brightness(0)]" : "[filter:brightness(0)_invert(1)]",
             ].join(" ")}
           />
         </Link>
