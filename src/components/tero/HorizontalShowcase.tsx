@@ -70,8 +70,7 @@ export function HorizontalShowcase() {
     >
       <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
         {/* Top bar — wordmark + menu, mimicking the reference */}
-        <div className="flex items-center justify-between px-8 pt-8 md:px-12">
-          <span className="font-mono text-[12px] uppercase tracking-[0.2em] text-ink/70">— Menu</span>
+        <div className="flex items-center justify-center px-8 pt-8 md:px-12">
           <span className="font-display text-[28px] leading-none text-ink">
             tero<span className="font-body font-medium tracking-tight">studios</span>
           </span>
