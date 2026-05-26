@@ -1,50 +1,14 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-
 const stats = [
-  { n: "320+", label: "Projects" },
-  { n: "48+", label: "Clients" },
-  { n: "12", label: "Years" },
-  { n: "27", label: "Awards" },
-  { n: "5", label: "Studios" },
+  { n: "320+", label: "Projects", meta: "Shipped" },
+  { n: "48+", label: "Clients", meta: "Worldwide" },
+  { n: "12", label: "Years", meta: "Independent" },
+  { n: "27", label: "Awards", meta: "& features" },
+  { n: "5", label: "Studios", meta: "Across cities" },
 ];
 
 export function StatsSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  // Scroll-tied nudge layered on top of the CSS marquee
-  const scrollShift = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
-
-  const Row = () => (
-    <div className="flex shrink-0 gap-24 md:gap-32 items-center px-12 md:px-16">
-      {stats.map((s, i) => (
-        <div key={i} className="group/item flex flex-col items-start gap-2">
-          <span className="font-mono text-[10px] tracking-[0.25em] text-vermillion uppercase">
-            / 0{i + 1}
-          </span>
-          <div className="flex items-baseline gap-5">
-            <h3
-              className="font-display font-extrabold tracking-tighter text-ink leading-none text-[clamp(72px,12vw,180px)] transition-colors duration-500 group-hover/item:text-vermillion"
-            >
-              {s.n}
-            </h3>
-            <p className="font-body text-base md:text-xl font-medium text-ink/80 uppercase tracking-wide">
-              {s.label}
-            </p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden bg-cream"
-    >
+    <section className="relative overflow-hidden bg-cream">
       {/* Editorial header */}
       <div className="container-tero pt-20 md:pt-28">
         <div className="flex items-end justify-between gap-6 border-b border-parchment pb-8">
@@ -65,35 +29,44 @@ export function StatsSection() {
         </div>
       </div>
 
-      {/* Kinetic film strip */}
-      <div className="group relative w-full border-y border-parchment py-16 md:py-24 mt-12 md:mt-20">
-        <motion.div
-          style={{ x: scrollShift }}
-          className="flex whitespace-nowrap will-change-transform animate-[tero-marquee_38s_linear_infinite] group-hover:[animation-play-state:paused]"
-        >
-          <Row />
-          <Row />
-        </motion.div>
-
-        {/* edge fades */}
-        <div className="absolute inset-y-0 left-0 w-32 md:w-48 bg-gradient-to-r from-cream to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 md:w-48 bg-gradient-to-l from-cream to-transparent z-10 pointer-events-none" />
-
+      {/* Static editorial grid */}
+      <div className="relative border-y border-parchment mt-12 md:mt-20">
         {/* corner meta */}
-        <div className="absolute top-3 left-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
-          ▸ Reel · Stats 2024
-        </div>
-        <div className="absolute bottom-3 right-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
-          Independent since 2014 ●
+        <div className="container-tero relative">
+          <div className="absolute top-3 left-4 md:left-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
+            ▸ Reel · Stats 2024
+          </div>
+          <div className="absolute bottom-3 right-4 md:right-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
+            Independent since 2014 ●
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x divide-y md:divide-y-0 divide-parchment border-x border-parchment">
+            {stats.map((s, i) => (
+              <div
+                key={i}
+                className="group/item relative flex flex-col justify-between gap-8 p-6 md:p-8 lg:p-10 min-h-[220px] md:min-h-[280px] transition-colors duration-500 hover:bg-ink/[0.03]"
+              >
+                <span className="font-mono text-[10px] tracking-[0.25em] text-vermillion uppercase">
+                  / 0{i + 1}
+                </span>
+                <div className="flex flex-col gap-2">
+                  <h3 className="font-display font-extrabold tracking-tighter text-ink leading-[0.85] text-[clamp(56px,7vw,104px)] transition-colors duration-500 group-hover/item:text-vermillion">
+                    {s.n}
+                  </h3>
+                  <div className="flex items-baseline justify-between gap-3 pt-3 border-t border-parchment">
+                    <p className="font-body text-sm md:text-base font-medium text-ink uppercase tracking-wide">
+                      {s.label}
+                    </p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink/50">
+                      {s.meta}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes tero-marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
     </section>
   );
 }
