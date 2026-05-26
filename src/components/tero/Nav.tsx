@@ -53,18 +53,32 @@ export function Nav() {
       const stack = document.elementsFromPoint(x, y);
       el.style.pointerEvents = prev;
 
-      let light = false;
+      let light: boolean | null = null;
+      // 1) Prefer explicit data-nav-theme markers on sections.
       for (const node of stack) {
         if (!(node instanceof HTMLElement)) continue;
         if (node.closest("header")) continue;
-        const bg = getComputedStyle(node).backgroundColor;
-        const m = bg.match(/rgba?\(([^)]+)\)/);
-        if (!m) continue;
-        const parts = m[1].split(",").map((s) => parseFloat(s.trim()));
-        const a = parts[3] ?? 1;
-        if (a === 0) continue;
-        light = isLightColor(bg);
-        break;
+        const themed = node.closest<HTMLElement>("[data-nav-theme]");
+        if (themed) {
+          light = themed.dataset.navTheme === "light";
+          break;
+        }
+      }
+      // 2) Fallback: inspect background colors.
+      if (light === null) {
+        light = false;
+        for (const node of stack) {
+          if (!(node instanceof HTMLElement)) continue;
+          if (node.closest("header")) continue;
+          const bg = getComputedStyle(node).backgroundColor;
+          const m = bg.match(/rgba?\(([^)]+)\)/);
+          if (!m) continue;
+          const parts = m[1].split(",").map((s) => parseFloat(s.trim()));
+          const a = parts[3] ?? 1;
+          if (a === 0) continue;
+          light = isLightColor(bg);
+          break;
+        }
       }
       setLightBg(light);
     };
