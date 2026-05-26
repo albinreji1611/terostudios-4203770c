@@ -157,7 +157,7 @@ export function Nav() {
           onClick={() => setOpen((v) => !v)}
           className={[
             "md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
-            scrolled && !lightBg
+            !lightBg
               ? "border-white/20 bg-white/5 text-white"
               : "border-ink/15 bg-ink/5 text-ink",
           ].join(" ")}
