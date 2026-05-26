@@ -113,19 +113,10 @@ export function ServicesScroller() {
         </div>
 
         {/* Top bar */}
-        <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-8 pt-8 md:px-12">
-          <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/60">
-            — Services
-          </span>
+        <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-center px-8 pt-8 md:px-12">
           <span className="font-display text-[22px] leading-none text-ink">
             tero<span className="font-body font-medium tracking-tight">studios</span>
           </span>
-          <a
-            href="/contact"
-            className="font-body text-[13px] text-ink/70 hover:text-vermillion transition-colors"
-          >
-            Let's chat →
-          </a>
         </div>
 
         {/* Left number rail */}
