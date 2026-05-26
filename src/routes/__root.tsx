@@ -82,8 +82,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Lovable App" },
       { name: "twitter:description", content: "Animation Showcase Studio is a dynamic website for animation companies, featuring engaging animated sections." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/53b14a12-7c97-42d4-af1b-2859273f896f/id-preview-d42fa605--12ac4244-7645-4fb2-a900-5ab683320d3c.lovable.app-1779269555011.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/53b14a12-7c97-42d4-af1b-2859273f896f/id-preview-d42fa605--12ac4244-7645-4fb2-a900-5ab683320d3c.lovable.app-1779269555011.png" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/GMB7ldTv0vcE1FfUuBH6QLyVjkx2/social-images/social-1779812548448-Untitled_design_(1).webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/GMB7ldTv0vcE1FfUuBH6QLyVjkx2/social-images/social-1779812548448-Untitled_design_(1).webp" },
     ],
     links: [
       {
