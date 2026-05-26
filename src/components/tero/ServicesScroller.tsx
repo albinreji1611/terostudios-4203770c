@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { GrainMorph } from "./GrainMorph";
 
 const services = [
   {
