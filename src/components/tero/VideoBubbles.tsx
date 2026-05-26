@@ -83,23 +83,6 @@ export function VideoBubbles() {
           </h2>
         </div>
 
-        {/* Top-left caption */}
-        <div className="absolute top-8 left-8 z-20">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
-            — Selected work
-          </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/30 mt-1">
-            Reel · v1.0
-          </p>
-        </div>
-
-        {/* Top-right CTA */}
-        <Link
-          to="/portfolio"
-          className="absolute top-8 right-8 z-20 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.04] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.25em] text-white/90 hover:bg-white/10 transition-colors"
-        >
-          View all <span className="inline-block w-1.5 h-1.5 rounded-full bg-vermillion" />
-        </Link>
 
         {/* Bubbles cluster — gentle parent breathing */}
         <motion.div
