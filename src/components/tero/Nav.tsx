@@ -121,7 +121,7 @@ export function Nav() {
             const active = pathname === it.to;
             // While bar is visible (not scrolled) → ink text on cream.
             // After bar slides up → adapt to underlying bg.
-            const onDark = scrolled && !lightBg;
+            const onDark = !lightBg;
             return (
               <Link
                 key={it.to}
