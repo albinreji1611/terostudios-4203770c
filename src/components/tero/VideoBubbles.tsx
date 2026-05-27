@@ -216,7 +216,6 @@ export function VideoBubbles() {
                   left: -b.size / 2,
                   top: -b.size / 2,
                   willChange: "transform, opacity",
-                  contain: "layout paint",
                 }}
               >
                 <BubbleLink img={b.img} />
