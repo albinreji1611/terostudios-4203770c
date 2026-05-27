@@ -86,6 +86,10 @@
     border-color: var(--color-border);
   }
 
+  html {
+    color-scheme: light;
+  }
+
   html,
   body {
     background-color: var(--color-background);
