@@ -235,8 +235,7 @@ export function Hero() {
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-cream"
-      style={{ minHeight: "100vh" }}
+      className="relative w-full overflow-hidden bg-cream h-screen"
     >
       {/* Editorial hairline grid */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
