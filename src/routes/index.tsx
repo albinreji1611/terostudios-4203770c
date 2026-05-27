@@ -39,6 +39,7 @@ function Index() {
       <StatsSection />
       
       <HorizontalShowcase />
+      <CylinderGallery />
       <Testimonials />
       <Awards />
       <FAQ />
