@@ -1,29 +1,32 @@
 import { useEffect } from "react";
-import Lenis from "lenis";
 
 export function SmoothScroll() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.4,
-    });
-
     let raf = 0;
-    const tick = (time: number) => {
-      lenis.raf(time);
+    let destroy: (() => void) | undefined;
+
+    import("lenis").then(({ default: Lenis }) => {
+      const lenis = new Lenis({
+        duration: 1.15,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 1.4,
+      });
+      const tick = (time: number) => {
+        lenis.raf(time);
+        raf = requestAnimationFrame(tick);
+      };
       raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
+      destroy = () => lenis.destroy();
+    });
 
     return () => {
       cancelAnimationFrame(raf);
-      lenis.destroy();
+      destroy?.();
     };
   }, []);
 
