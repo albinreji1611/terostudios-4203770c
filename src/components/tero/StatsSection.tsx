@@ -10,7 +10,7 @@ export function StatsSection() {
   return (
     <section className="relative overflow-hidden bg-cream">
       {/* Editorial header */}
-      <div className="container-tero pt-40 md:pt-56">
+      <div className="container-tero pt-24 md:pt-32">
         <div className="flex items-end justify-between gap-6 border-b border-parchment pb-8">
           <div>
             <p className="overline">— By the numbers / 2014–2026</p>
@@ -22,15 +22,12 @@ export function StatsSection() {
           </div>
           <p className="hidden md:block max-w-xs font-body text-[14px] leading-relaxed text-slate">
             Numbers we like, but the work is what we&apos;d rather you remember.
-            <span className="block mt-3 font-mono text-[11px] uppercase tracking-[0.25em] text-ink/50">
-              Vol. 12 · Issue 05
-            </span>
           </p>
         </div>
       </div>
 
       {/* Static editorial grid */}
-      <div className="relative border-y border-parchment mt-12 md:mt-20">
+      <div className="relative border-y border-parchment mt-10 md:mt-14">
         {/* corner meta */}
         <div className="container-tero relative">
           <div className="absolute top-3 left-4 md:left-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">

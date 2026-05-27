@@ -207,11 +207,26 @@ export function Hero() {
     resize();
     raf = requestAnimationFrame(tick);
     window.addEventListener("resize", resize);
-    wrap.addEventListener("mousemove", onMove);
+    wrap.addEventListener("mousemove", onMove, { passive: true });
     wrap.addEventListener("mouseleave", onLeave);
 
+    // Pause RAF when hero is offscreen — saves CPU on scroll.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !raf) {
+          raf = requestAnimationFrame(tick);
+        } else if (!entry.isIntersecting && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0 }
+    );
+    io.observe(wrap);
+
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("resize", resize);
       wrap.removeEventListener("mousemove", onMove);
       wrap.removeEventListener("mouseleave", onLeave);

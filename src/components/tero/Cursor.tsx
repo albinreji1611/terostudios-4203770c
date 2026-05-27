@@ -7,6 +7,7 @@ export function TeroCursor() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     document.documentElement.classList.add("has-tero-cursor");
 
     let x = window.innerWidth / 2;
@@ -14,6 +15,7 @@ export function TeroCursor() {
     let rx = x;
     let ry = y;
     let raf = 0;
+    let dirty = false;
 
     const move = (e: MouseEvent) => {
       x = e.clientX;
@@ -21,40 +23,47 @@ export function TeroCursor() {
       if (dotRef.current) {
         dotRef.current.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
       }
+      dirty = true;
     };
 
     const tick = () => {
-      rx += (x - rx) * 0.18;
-      ry += (y - ry) * 0.18;
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+      if (dirty || Math.abs(x - rx) > 0.1 || Math.abs(y - ry) > 0.1) {
+        rx += (x - rx) * 0.18;
+        ry += (y - ry) * 0.18;
+        if (ringRef.current) {
+          ringRef.current.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+        }
+        dirty = Math.abs(x - rx) > 0.1 || Math.abs(y - ry) > 0.1;
       }
       raf = requestAnimationFrame(tick);
     };
 
-    const enter = () => ringRef.current?.classList.add("is-hover");
-    const leave = () => ringRef.current?.classList.remove("is-hover");
-
-    const bindHover = () => {
-      document
-        .querySelectorAll<HTMLElement>("a, button, [data-cursor-hover]")
-        .forEach((el) => {
-          el.addEventListener("mouseenter", enter);
-          el.addEventListener("mouseleave", leave);
-        });
+    // Event delegation — no per-element listeners, no MutationObserver,
+    // works for DOM added later (cards, modals, dynamic content).
+    const HOVER_SELECTOR = "a, button, [data-cursor-hover]";
+    const onOver = (e: MouseEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && t.closest && t.closest(HOVER_SELECTOR)) {
+        ringRef.current?.classList.add("is-hover");
+      }
+    };
+    const onOut = (e: MouseEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && t.closest && t.closest(HOVER_SELECTOR)) {
+        ringRef.current?.classList.remove("is-hover");
+      }
     };
 
-    window.addEventListener("mousemove", move);
+    window.addEventListener("mousemove", move, { passive: true });
+    document.addEventListener("mouseover", onOver, { passive: true });
+    document.addEventListener("mouseout", onOut, { passive: true });
     raf = requestAnimationFrame(tick);
-    const t = setTimeout(bindHover, 400);
-    const obs = new MutationObserver(bindHover);
-    obs.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       window.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseout", onOut);
       cancelAnimationFrame(raf);
-      clearTimeout(t);
-      obs.disconnect();
       document.documentElement.classList.remove("has-tero-cursor");
     };
   }, []);

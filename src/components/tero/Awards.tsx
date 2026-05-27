@@ -16,7 +16,7 @@ export function Awards() {
         <Reveal>
           <p className="overline">— Press &amp; recognition</p>
         </Reveal>
-        <div className="mt-10 grid grid-cols-2 gap-y-8 md:grid-cols-6">
+        <div className="mt-10 grid grid-cols-2 gap-y-8 sm:grid-cols-3 md:grid-cols-6">
           {items.map((a, i) => (
             <div key={i} className="flex flex-col gap-2">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-vermillion">
