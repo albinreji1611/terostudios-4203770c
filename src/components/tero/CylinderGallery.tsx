@@ -27,7 +27,7 @@ export function CylinderGallery() {
 
   const N = images.length;
   const angleStep = 360 / N;
-  const RADIUS = 520; // translateZ in px
+  const RADIUS = 780; // translateZ in px — larger = more gap between cards
 
   // Fan-out progress (0 → 1) drives spread + scroll rotation
   const fanOut = useTransform(smooth, [0, 0.18], [0, 1]);
