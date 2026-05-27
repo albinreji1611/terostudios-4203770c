@@ -10,28 +10,28 @@ import p6 from "@/assets/portfolio-6.jpg";
 const IMAGES = [p1, p2, p3, p4, p5, p6];
 
 // Tight 3D cluster: local x/y/z coordinates rotate together like one stuck object.
-type B = { x: number; y: number; z: number; size: number; img: string; from: "l" | "r" | "t" | "b"; bob: number; phase: number };
+type B = { x: number; y: number; z: number; size: number; img: string; from: "l" | "r" | "t" | "b"; bob: number; phase: number; spin: number };
 
 const BUBBLES: B[] = [
-  { x:    0, y:    0, z:   70, size: 232, img: IMAGES[2], from: "t", bob: 7.1, phase: 0.0 },
-  { x:  -92, y:  -48, z:  120, size: 180, img: IMAGES[0], from: "l", bob: 7.7, phase: 0.8 },
-  { x:   98, y:  -34, z:  -56, size: 190, img: IMAGES[1], from: "r", bob: 7.3, phase: 1.7 },
-  { x:  -84, y:   86, z:  -64, size: 168, img: IMAGES[3], from: "b", bob: 8.2, phase: 2.5 },
-  { x:   90, y:   82, z:   92, size: 162, img: IMAGES[5], from: "r", bob: 7.9, phase: 3.2 },
-  { x: -156, y:   16, z:   22, size: 154, img: IMAGES[4], from: "l", bob: 8.7, phase: 4.0 },
-  { x:  158, y:    6, z:  -18, size: 152, img: IMAGES[1], from: "r", bob: 8.4, phase: 4.7 },
-  { x:  -36, y: -142, z:  -36, size: 138, img: IMAGES[4], from: "t", bob: 9.1, phase: 5.3 },
-  { x:   40, y:  146, z:   48, size: 132, img: IMAGES[3], from: "b", bob: 8.8, phase: 6.0 },
-  { x: -156, y: -118, z:   68, size: 116, img: IMAGES[1], from: "l", bob: 9.4, phase: 1.2 },
-  { x:  154, y:  118, z:  -70, size: 116, img: IMAGES[2], from: "r", bob: 9.0, phase: 2.1 },
-  { x: -204, y:   44, z:  -86, size: 104, img: IMAGES[0], from: "l", bob: 9.6, phase: 2.8 },
-  { x:  204, y:  -44, z:   96, size: 106, img: IMAGES[5], from: "r", bob: 9.3, phase: 3.6 },
-  { x:  -92, y:  164, z:  -14, size: 100, img: IMAGES[3], from: "b", bob: 9.8, phase: 4.4 },
-  { x:   94, y: -166, z:   20, size: 102, img: IMAGES[0], from: "t", bob: 9.5, phase: 5.1 },
-  { x: -198, y:  -56, z:   34, size:  92, img: IMAGES[2], from: "l", bob: 9.9, phase: 5.8 },
-  { x:  196, y:   58, z:  -38, size:  92, img: IMAGES[4], from: "r", bob: 9.7, phase: 0.4 },
-  { x:    2, y: -196, z:  -82, size:  88, img: IMAGES[5], from: "t", bob: 10.1, phase: 1.0 },
-  { x:  -10, y:  198, z:   86, size:  88, img: IMAGES[0], from: "b", bob: 10.0, phase: 2.0 },
+  { x:    0, y:    0, z:  118, size: 226, img: IMAGES[2], from: "t", bob: 7.1, phase: 0.0, spin: 0.0 },
+  { x: -100, y:  -46, z:   82, size: 182, img: IMAGES[0], from: "l", bob: 7.7, phase: 0.8, spin: 0.6 },
+  { x:  104, y:  -34, z:   44, size: 186, img: IMAGES[1], from: "r", bob: 7.3, phase: 1.7, spin: 1.3 },
+  { x:  -72, y:   92, z:  -54, size: 166, img: IMAGES[3], from: "b", bob: 8.2, phase: 2.5, spin: 2.0 },
+  { x:   82, y:   88, z:   70, size: 164, img: IMAGES[5], from: "r", bob: 7.9, phase: 3.2, spin: 2.7 },
+  { x:   -6, y: -128, z:  -68, size: 158, img: IMAGES[4], from: "t", bob: 8.7, phase: 4.0, spin: 3.4 },
+  { x: -154, y:   28, z:   12, size: 148, img: IMAGES[1], from: "l", bob: 8.4, phase: 4.7, spin: 4.1 },
+  { x:  154, y:   26, z:  -16, size: 146, img: IMAGES[4], from: "r", bob: 9.1, phase: 5.3, spin: 4.8 },
+  { x:  -42, y:  148, z:   54, size: 132, img: IMAGES[3], from: "b", bob: 8.8, phase: 6.0, spin: 5.5 },
+  { x:   56, y:  144, z:  -62, size: 126, img: IMAGES[1], from: "b", bob: 9.4, phase: 1.2, spin: 0.9 },
+  { x: -142, y: -112, z:   56, size: 118, img: IMAGES[2], from: "l", bob: 9.0, phase: 2.1, spin: 1.8 },
+  { x:  142, y: -106, z:  -58, size: 118, img: IMAGES[0], from: "r", bob: 9.6, phase: 2.8, spin: 2.6 },
+  { x: -192, y:   86, z:  -34, size: 102, img: IMAGES[5], from: "l", bob: 9.3, phase: 3.6, spin: 3.5 },
+  { x:  190, y:   82, z:   42, size: 104, img: IMAGES[3], from: "r", bob: 9.8, phase: 4.4, spin: 4.4 },
+  { x:  -84, y: -184, z:  -38, size: 100, img: IMAGES[0], from: "t", bob: 9.5, phase: 5.1, spin: 5.2 },
+  { x:   86, y: -182, z:   48, size:  98, img: IMAGES[2], from: "t", bob: 9.9, phase: 5.8, spin: 6.0 },
+  { x: -182, y:  -36, z:  100, size:  92, img: IMAGES[4], from: "l", bob: 9.7, phase: 0.4, spin: 1.1 },
+  { x:  180, y:  -40, z:  -98, size:  92, img: IMAGES[5], from: "r", bob: 10.1, phase: 1.0, spin: 3.1 },
+  { x:    2, y:  202, z:   18, size:  90, img: IMAGES[0], from: "b", bob: 10.0, phase: 2.0, spin: 5.0 },
 ];
 
 const FROM_OFFSET = { l: { x: -1200, y: 80 }, r: { x: 1200, y: -80 }, t: { x: 0, y: -850 }, b: { x: 0, y: 850 } };
