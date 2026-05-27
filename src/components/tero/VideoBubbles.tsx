@@ -183,7 +183,7 @@ export function VideoBubbles() {
       raf = requestAnimationFrame(tick);
     };
 
-    computeProgress();
+    measure();
     const onScroll = () => computeProgress();
     const observer = new IntersectionObserver(([entry]) => { active = entry.isIntersecting; }, { rootMargin: "120px" });
     observer.observe(section);
@@ -206,7 +206,7 @@ export function VideoBubbles() {
 
   return (
     <section ref={sectionRef} data-nav-theme="dark" className="relative w-full bg-[#070707]" style={{ height: "260vh" }}>
-      <div ref={stageRef} className="sticky top-0 h-screen w-full overflow-hidden">
+      <div ref={stageRef} className="sticky top-0 h-screen w-full overflow-hidden [transform-style:preserve-3d]">
         <div aria-hidden className="pointer-events-none absolute inset-0" style={{
           background: "radial-gradient(ellipse at 50% 55%, rgba(232,57,14,0.10) 0%, transparent 55%)",
         }} />
@@ -228,7 +228,7 @@ export function VideoBubbles() {
         </div>
 
         {/* Bubbles — absolutely positioned at center, rAF-driven transforms */}
-        <div className="absolute inset-0 z-10" style={{ perspective: 900 }}>
+        <div className="absolute inset-0 z-10" style={{ perspective: 1100 }}>
           <div className="absolute left-1/2 top-1/2" style={{ transform: "translate(-50%,-50%)" }}>
             {BUBBLES.map((b, i) => (
               <div
@@ -241,6 +241,7 @@ export function VideoBubbles() {
                   left: -b.size / 2,
                   top: -b.size / 2,
                   willChange: "transform, opacity",
+                  transformOrigin: "50% 50%",
                 }}
               >
                 <BubbleLink img={b.img} />
