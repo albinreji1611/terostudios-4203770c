@@ -87,7 +87,7 @@ export function Hero() {
 
         const step = Math.max(2, Math.round(Math.min(sw, sh) / 180));
         const offsetX = (w - sw) / 2;
-        const offsetY = (h - sh) / 2;
+        const offsetY = (h - sh) / 2 * 0.72;
 
         const pts: { x: number; y: number }[] = [];
         for (let y = 0; y < sh; y += step) {
