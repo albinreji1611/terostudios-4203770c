@@ -133,7 +133,7 @@ export function Footer() {
             © {new Date().getFullYear()} Tero Studios — Crafted with care
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cream/40">
-            Bengaluru · India
+            Chennai · India
           </p>
         </div>
       </div>

@@ -17,7 +17,7 @@ export function KineticBand() {
     "3D · CGI",
     "VFX",
     "Storytelling",
-    "Crafted in Bengaluru",
+    "Crafted in Chennai",
   ];
 
   return (
@@ -29,7 +29,7 @@ export function KineticBand() {
       <div className="container-tero mb-10 flex items-end justify-between">
         <span className="overline">— In motion</span>
         <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-slate">
-          Est. Bengaluru · Worldwide
+          Est. Chennai · Worldwide
         </span>
       </div>
       <div className="mx-6 md:mx-12 h-px bg-parchment mb-10" />

@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: "Where is the studio based?",
-    a: "Our home studio is in Bengaluru, India, with collaborators in Mumbai, Berlin and Toronto. We work asynchronously with clients across every timezone.",
+    a: "Our home studio is in Chennai, India, with collaborators in Mumbai, Berlin and Toronto. We work asynchronously with clients across every timezone.",
   },
   {
     q: "Do you handle scripting and storyboarding?",

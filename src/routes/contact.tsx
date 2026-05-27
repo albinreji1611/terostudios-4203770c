@@ -75,7 +75,7 @@ function ContactPage() {
                   <MapPin className="mt-1 h-5 w-5 text-vermillion" strokeWidth={1.5} />
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate">Studio</p>
-                    <p className="mt-1 font-body text-[15px] text-ink">Bengaluru · India · IST</p>
+                    <p className="mt-1 font-body text-[15px] text-ink">Chennai · India · IST</p>
                   </div>
                 </li>
               </ul>

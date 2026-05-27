@@ -282,7 +282,7 @@ export function Hero() {
             Tero Studios — Est. 2014
           </span>
           <span className="hidden sm:inline font-mono text-[10px] uppercase tracking-[0.32em] text-ink/55">
-            Bengaluru · 12.97° N
+            Chennai · 13.08° N
           </span>
         </motion.div>
 

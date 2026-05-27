@@ -14,7 +14,7 @@ export const Route = createFileRoute("/about")({
 });
 
 const timeline = [
-  { y: "2014", t: "Studio founded", d: "Two animators, one rented room in Indiranagar, Bengaluru." },
+  { y: "2014", t: "Studio founded", d: "Two animators, one rented room in Adyar, Chennai." },
   { y: "2017", t: "First international client", d: "A Brooklyn-based fintech ships its launch film with us." },
   { y: "2019", t: "Vimeo Staff Pick", d: "Our short film 'Soft Atlas' is featured on the Vimeo homepage." },
   { y: "2022", t: "Studio of ten", d: "We grow into a fully-staffed studio with directors, animators and 3D artists." },
