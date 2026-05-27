@@ -62,7 +62,7 @@ export function VideoBubbles() {
       ref={sectionRef}
       data-nav-theme="dark"
       className="relative w-full bg-[#070707]"
-      style={{ height: "260vh" }}
+      style={{ height: "200vh" }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* vermillion ambient */}
