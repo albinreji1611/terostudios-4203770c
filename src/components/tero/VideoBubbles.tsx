@@ -69,6 +69,17 @@ export function VideoBubbles() {
     let stageW = stage.clientWidth;
     let stageH = stage.clientHeight;
     let t0 = performance.now();
+    let lastT = t0;
+
+    // Spring state per bubble — current rendered position + velocity in screen space.
+    // The "target" is the rigid 3D cluster projection; springs lag toward it, and
+    // pairwise cohesion forces pull overlapping bubbles together so they stick.
+    const N = BUBBLES.length;
+    const cur = new Float32Array(N * 2);
+    const vel = new Float32Array(N * 2);
+    const tgt = new Float32Array(N * 2);
+    const rad = new Float32Array(N); // projected radius for cohesion
+    let seeded = false;
 
     const onMove = (e: MouseEvent) => {
       const r = stage.getBoundingClientRect();
@@ -95,15 +106,15 @@ export function VideoBubbles() {
         return;
       }
       const now = performance.now();
+      const dtMs = now - lastT;
+      lastT = now;
+      // clamp dt so a tab-switch doesn't explode the spring integration
+      const dt = Math.min(0.033, Math.max(0.001, dtMs / 1000));
       const t = (now - t0) / 1000;
       // smooth mouse
       smx += (mx - smx) * 0.15;
       smy += (my - smy) * 0.15;
 
-      // Phases
-      // 0.00 - 0.30: bubbles enter from screen edges and lock into the clump
-      // 0.30 - 0.46: side copy appears while cluster breathes
-      // 0.46 - 1.00: the stuck clump performs a scroll-scrubbed 360° turn
       const flyIn = easeOutCubic(progress / 0.30);
       const spin = easeInOut((progress - 0.46) / 0.54);
       const yaw = spin * Math.PI * 2;
@@ -111,7 +122,6 @@ export function VideoBubbles() {
       const pitch = Math.sin(spin * Math.PI * 2 + 0.7) * 0.12;
       const clusterBob = Math.sin(t * 0.8) * 4;
 
-      // side text reveal
       const sideP = easeOutCubic((progress - 0.26) / 0.16);
       if (sideLRef.current) {
         sideLRef.current.style.transform = `translate3d(${(1 - sideP) * -80}px, -50%, 0)`;
@@ -125,23 +135,22 @@ export function VideoBubbles() {
       const cx = stageW / 2;
       const cy = stageH / 2;
 
-      for (let i = 0; i < BUBBLES.length; i++) {
-        const b = BUBBLES[i];
-        const node = nodesRef.current[i];
-        if (!node) continue;
+      // Cached per-bubble values for the render pass.
+      const projX = new Float32Array(N);
+      const projY = new Float32Array(N);
+      const projZ = new Float32Array(N);
+      const projS = new Float32Array(N);
 
-        // Rigid 3D cluster rotation: every bubble keeps its local position,
-        // so the group reads as stuck together while turning around.
+      // 1) Compute rigid target positions (cluster projection).
+      for (let i = 0; i < N; i++) {
+        const b = BUBBLES[i];
         const locked = 0.78 + 0.22 * flyIn;
         const lx = b.x * locked;
         const ly = b.y * locked;
         const lz = b.z * locked;
-        const cyaw = Math.cos(yaw);
-        const syaw = Math.sin(yaw);
-        const cp = Math.cos(pitch);
-        const sp = Math.sin(pitch);
-        const cr = Math.cos(roll);
-        const sr = Math.sin(roll);
+        const cyaw = Math.cos(yaw), syaw = Math.sin(yaw);
+        const cp = Math.cos(pitch), sp = Math.sin(pitch);
+        const cr = Math.cos(roll), sr = Math.sin(roll);
         const xYaw = lx * cyaw + lz * syaw;
         const zYaw = lz * cyaw - lx * syaw;
         const yPitch = ly * cp - zYaw * sp;
@@ -149,45 +158,105 @@ export function VideoBubbles() {
         const x1 = xYaw * cr - yPitch * sr;
         const y1 = yPitch * cr + xYaw * sr;
         const z3 = zPitch;
-
-        // perspective projection
         const persp = 980;
-        const scale = persp / (persp - z3); // closer = larger
+        const scale = persp / (persp - z3);
         const px = x1 * scale;
         const py = y1 * scale;
 
-        // Micro-movement only; the large motion remains a single stuck cluster.
+        // micro-bob keeps the cluster alive
         const bob = clusterBob + Math.sin(t / b.bob * Math.PI * 2 + b.phase) * 1.4;
         const bobX = Math.cos(t / b.bob * Math.PI * 2 + b.phase) * 0.8;
 
-        // fly-in offset
         const off = FROM_OFFSET[b.from];
         const inX = off.x * (1 - flyIn);
         const inY = off.y * (1 - flyIn);
 
-        // repel from mouse (only when no fly-in animation pending)
-        let rpx = 0, rpy = 0;
-        if (smx > -9000) {
-          const targetX = cx + px;
-          const targetY = cy + py + bob;
-          const dx = targetX - smx;
-          const dy = targetY - smy;
-          const dist = Math.hypot(dx, dy);
-          const radius = 175;
-          if (dist < radius && dist > 0.1) {
-            const f = (1 - dist / radius) * 46;
-            rpx = (dx / dist) * f;
-            rpy = (dy / dist) * f;
+        tgt[i * 2]     = px + inX + bobX;
+        tgt[i * 2 + 1] = py + inY + bob;
+        projX[i] = px;
+        projY[i] = py;
+        projZ[i] = z3;
+        projS[i] = scale;
+        rad[i]   = (BUBBLES[i].size * 0.5) * scale * (0.66 + 0.34 * flyIn);
+      }
+
+      if (!seeded) {
+        for (let i = 0; i < N * 2; i++) cur[i] = tgt[i];
+        seeded = true;
+      }
+
+      // 2) Integrate springs with cohesion + mouse repulsion.
+      // Spring toward target = adhesion to rigid cluster.
+      // Pairwise attraction when overlapping = bubbles "stick" to each other.
+      const stiffness = 180;   // pull toward rigid target
+      const damping   = 18;    // critical-ish damping
+      const cohesion  = 320;   // overlap pull strength
+      const sep       = 220;   // soft separation so they don't fully merge
+
+      for (let i = 0; i < N; i++) {
+        const ix = i * 2, iy = ix + 1;
+        let ax = (tgt[ix] - cur[ix]) * stiffness - vel[ix] * damping;
+        let ay = (tgt[iy] - cur[iy]) * stiffness - vel[iy] * damping;
+
+        // pairwise sticking — only neighbors whose targets are close enough to be "stuck"
+        for (let j = 0; j < N; j++) {
+          if (j === i) continue;
+          const jx = j * 2, jy = jx + 1;
+          const dx = cur[jx] - cur[ix];
+          const dy = cur[jy] - cur[iy];
+          const d2 = dx * dx + dy * dy;
+          const want = (rad[i] + rad[j]) * 0.88; // desired contact distance
+          const reach = want * 1.35;
+          if (d2 < reach * reach && d2 > 0.01) {
+            const d = Math.sqrt(d2);
+            const nx = dx / d, ny = dy / d;
+            // cohesion: pull together if farther than `want`
+            if (d > want) {
+              const k = (d - want) * cohesion * 0.5;
+              ax += nx * k;
+              ay += ny * k;
+            } else {
+              // gentle separation so they kiss instead of overlap fully
+              const k = (want - d) * sep * 0.5;
+              ax -= nx * k;
+              ay -= ny * k;
+            }
           }
         }
 
-        const finalX = px + inX + bobX + rpx;
-        const finalY = py + inY + bob + rpy;
+        // mouse repulsion
+        if (smx > -9000) {
+          const targetX = cx + cur[ix];
+          const targetY = cy + cur[iy];
+          const dx = targetX - smx;
+          const dy = targetY - smy;
+          const dist = Math.hypot(dx, dy);
+          const radius = 200;
+          if (dist < radius && dist > 0.1) {
+            const f = (1 - dist / radius) * 1400;
+            ax += (dx / dist) * f;
+            ay += (dy / dist) * f;
+          }
+        }
+
+        vel[ix] += ax * dt;
+        vel[iy] += ay * dt;
+        cur[ix] += vel[ix] * dt;
+        cur[iy] += vel[iy] * dt;
+      }
+
+      // 3) Render.
+      for (let i = 0; i < N; i++) {
+        const node = nodesRef.current[i];
+        if (!node) continue;
+        const finalX = cur[i * 2];
+        const finalY = cur[i * 2 + 1];
+        const z3 = projZ[i];
+        const scale = projS[i];
         const finalScale = scale * (0.66 + 0.34 * flyIn);
         const opacity = flyIn * (0.50 + 0.50 * clamp01(scale));
         const z = Math.round(z3 + 1000 + i * 0.01);
-
-        node.style.transform = `translate3d(${finalX}px, ${finalY}px, ${z3 * 0.18}px) rotate(${yaw * 10 + b.spin}deg) scale(${finalScale})`;
+        node.style.transform = `translate3d(${finalX}px, ${finalY}px, ${z3 * 0.18}px) rotate(${yaw * 10 + BUBBLES[i].spin}deg) scale(${finalScale})`;
         node.style.zIndex = String(z);
         node.style.opacity = String(opacity);
       }
@@ -204,7 +273,7 @@ export function VideoBubbles() {
     window.addEventListener("mousemove", onMove, { passive: true });
     stage.addEventListener("mouseleave", onLeave);
     if (!reduced) raf = requestAnimationFrame(tick);
-    else tick(); // single frame
+    else tick();
 
     return () => {
       cancelAnimationFrame(raf);
