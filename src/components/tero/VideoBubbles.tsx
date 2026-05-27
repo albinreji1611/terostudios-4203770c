@@ -114,9 +114,22 @@ export function VideoBubbles() {
       // clamp dt so a tab-switch doesn't explode the spring integration
       const dt = Math.min(0.033, Math.max(0.001, dtMs / 1000));
       const t = (now - t0) / 1000;
-      // smooth mouse
-      smx += (mx - smx) * 0.15;
-      smy += (my - smy) * 0.15;
+      // smooth mouse + derive pointer velocity for inertia-driven repel
+      const prevSmx = smx, prevSmy = smy;
+      smx += (mx - smx) * 0.18;
+      smy += (my - smy) * 0.18;
+      if (mx > -9000 && prevSmx > -9000) {
+        const ivx = (smx - prevSmx) / dt;
+        const ivy = (smy - prevSmy) / dt;
+        // low-pass the velocity so it has inertia (ramps up, decays gently)
+        pvx += (ivx - pvx) * Math.min(1, dt * 9);
+        pvy += (ivy - pvy) * Math.min(1, dt * 9);
+      } else {
+        pvx *= Math.max(0, 1 - dt * 3.5);
+        pvy *= Math.max(0, 1 - dt * 3.5);
+      }
+      pmx = prevSmx; pmy = prevSmy;
+      pspeed = Math.hypot(pvx, pvy);
 
       // Timing tuned to the reference video:
       //   0.00 – 0.22  fly-in from edges → lock into clump
