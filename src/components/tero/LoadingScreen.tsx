@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import logo from "@/assets/tero-mark.png";
 
 export function LoadingScreen() {
   const [show, setShow] = useState(false);
@@ -9,7 +10,7 @@ export function LoadingScreen() {
     if (sessionStorage.getItem("tero-loaded") === "1") return;
     setShow(true);
     sessionStorage.setItem("tero-loaded", "1");
-    const t = setTimeout(() => setShow(false), 1500);
+    const t = setTimeout(() => setShow(false), 1600);
     return () => clearTimeout(t);
   }, []);
 
@@ -20,36 +21,53 @@ export function LoadingScreen() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-cream"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-cream overflow-hidden"
         >
-          <svg
-            width="120"
-            height="120"
-            viewBox="0 0 120 120"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden
+          {/* Vermillion sweep */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            exit={{ scaleX: 0, originX: 1 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{ originX: 0 }}
+            className="absolute top-0 left-0 h-[2px] w-full bg-vermillion"
+          />
+
+          {/* Logo reveal */}
+          <div className="relative overflow-hidden">
+            <motion.img
+              src={logo}
+              alt="Tero Studios"
+              width={260}
+              height={60}
+              className="h-12 md:h-14 w-auto object-contain [filter:brightness(0)]"
+              initial={{ y: "110%" }}
+              animate={{ y: "0%" }}
+              exit={{ y: "-110%" }}
+              transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            />
+          </div>
+
+          {/* Overline tag */}
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-5 font-mono text-[10px] uppercase tracking-[0.32em] text-ink/60"
           >
-            <motion.path
-              d="M20 30 H100 M60 30 V100"
-              stroke="#E8390E"
-              strokeWidth="6"
-              strokeLinecap="square"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            />
-            <motion.circle
-              cx="60"
-              cy="65"
-              r="22"
-              stroke="#0E0E10"
-              strokeWidth="2"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            />
-          </svg>
+            <span className="text-vermillion">—</span> Tero Studios
+          </motion.p>
+
+          {/* Bottom vermillion sweep */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            exit={{ scaleX: 0, originX: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{ originX: 1 }}
+            className="absolute bottom-0 left-0 h-[2px] w-full bg-vermillion"
+          />
         </motion.div>
       )}
     </AnimatePresence>
