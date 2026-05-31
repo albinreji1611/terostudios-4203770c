@@ -21,7 +21,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="pt-[68px] relative z-10"
+        className="relative z-10"
       >
         {children}
       </motion.main>
