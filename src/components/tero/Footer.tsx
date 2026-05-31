@@ -1,24 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Instagram, Linkedin, Youtube } from "lucide-react";
 import logo from "@/assets/tero-mark.png";
-
-const services = [
-  "3D Animation",
-  "2D Animation",
-  "Motion Graphics",
-  "Explainer Videos",
-  "Visual Effects",
-  "Character Animation",
-  "Product Animation",
-  "Brand Films",
-  "Title Sequences",
-  "AR / VR Content",
-];
+import { services } from "@/data/services";
+import { industries } from "@/data/industries";
 
 export function Footer() {
   return (
     <footer data-nav-theme="dark" className="bg-ink text-cream">
-      {/* Final CTA strip */}
       <section className="border-b border-white/10">
         <div className="container-tero grid grid-cols-1 gap-10 py-24 md:grid-cols-12 md:py-32">
           <div className="md:col-span-8">
@@ -44,14 +32,14 @@ export function Footer() {
         </div>
       </section>
 
-      <div className="container-tero grid grid-cols-2 gap-12 py-20 md:grid-cols-12">
-        <div className="col-span-2 md:col-span-4">
+      <div className="container-tero grid grid-cols-2 gap-x-8 gap-y-12 py-20 md:grid-cols-12">
+        <div className="col-span-2 md:col-span-3">
           <div className="flex items-center">
             <img src={logo} alt="Tero Studios" width={220} height={64} className="h-16 md:h-20 w-auto object-contain [filter:brightness(0)_invert(1)]" />
           </div>
           <p className="mt-6 max-w-xs font-body text-[14px] leading-relaxed text-cream/60">
             An animation and motion design studio building films, frames and
-            stories that move.
+            stories that move. Chennai · USA.
           </p>
           <div className="mt-8 flex items-center gap-3">
             {[
@@ -75,49 +63,64 @@ export function Footer() {
 
         <div className="col-span-1 md:col-span-3">
           <p className="overline mb-5 text-cream/50">Services</p>
-          <ul className="space-y-3">
-            {services.slice(0, 5).map((s) => (
-              <li key={s}>
+          <ul className="space-y-2.5">
+            {services.slice(0, 8).map((s) => (
+              <li key={s.slug}>
                 <Link
-                  to="/services"
-                  className="font-body text-[14px] text-cream/80 hover:text-vermillion transition-colors"
+                  to="/services/$slug"
+                  params={{ slug: s.slug }}
+                  className="font-body text-[13px] text-cream/70 hover:text-vermillion transition-colors"
                 >
-                  {s}
+                  {s.name}
                 </Link>
               </li>
             ))}
+            <li>
+              <Link to="/services" className="font-body text-[13px] text-vermillion hover:text-cream">
+                View all 13 →
+              </Link>
+            </li>
           </ul>
         </div>
+
         <div className="col-span-1 md:col-span-3">
-          <p className="overline mb-5 text-cream/50">More services</p>
-          <ul className="space-y-3">
-            {services.slice(5).map((s) => (
-              <li key={s}>
+          <p className="overline mb-5 text-cream/50">Industries</p>
+          <ul className="space-y-2.5">
+            {industries.map((i) => (
+              <li key={i.slug}>
                 <Link
-                  to="/services"
-                  className="font-body text-[14px] text-cream/80 hover:text-vermillion transition-colors"
+                  to="/industries/$slug"
+                  params={{ slug: i.slug }}
+                  className="font-body text-[13px] text-cream/70 hover:text-vermillion transition-colors"
                 >
-                  {s}
+                  {i.name}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="col-span-2 md:col-span-2">
+        <div className="col-span-2 md:col-span-3">
           <p className="overline mb-5 text-cream/50">Studio</p>
-          <ul className="space-y-3">
+          <ul className="space-y-2.5">
             {[
               { to: "/about", label: "About" },
-              { to: "/team", label: "Team" },
+              { to: "/about/studio", label: "Our Studio" },
+              { to: "/about/team", label: "Team" },
+              { to: "/clients", label: "Clients" },
               { to: "/portfolio", label: "Portfolio" },
-              { to: "/blog", label: "Journal" },
+              { to: "/case-studies", label: "Case Studies" },
+              { to: "/showreel", label: "Showreel" },
+              { to: "/blog", label: "Blog" },
+              { to: "/careers", label: "Careers" },
               { to: "/contact", label: "Contact" },
+              { to: "/sitemap", label: "Sitemap" },
+              { to: "/privacy-policy", label: "Privacy" },
             ].map((l) => (
               <li key={l.to}>
                 <Link
                   to={l.to}
-                  className="font-body text-[14px] text-cream/80 hover:text-vermillion transition-colors"
+                  className="font-body text-[13px] text-cream/70 hover:text-vermillion transition-colors"
                 >
                   {l.label}
                 </Link>
@@ -133,7 +136,7 @@ export function Footer() {
             © {new Date().getFullYear()} Tero Studios — Crafted with care
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cream/40">
-            Chennai · India
+            Chennai · India · USA
           </p>
         </div>
       </div>
