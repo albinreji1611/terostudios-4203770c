@@ -390,20 +390,21 @@ export function VideoBubbles() {
 }
 
 function BubbleLink({ img, index }: { img: string; index: number }) {
+  const hex = "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)";
   return (
     <Link
       to="/portfolio"
       data-cursor-hover
-      className="group relative block w-full h-full rounded-full"
+      className="group relative block w-full h-full"
       style={{
-        boxShadow: "0 26px 42px rgba(0,0,0,0.46), 0 8px 18px rgba(0,0,0,0.35)",
+        filter: "drop-shadow(0 26px 30px rgba(0,0,0,0.46)) drop-shadow(0 8px 14px rgba(0,0,0,0.35))",
         transform: "translateZ(0)",
         backfaceVisibility: "hidden",
       }}
     >
       <div
-        className="relative w-full h-full rounded-full overflow-hidden bg-black"
-        style={{ clipPath: "circle(49.85% at 50% 50%)", isolation: "isolate" }}
+        className="relative w-full h-full overflow-hidden bg-black"
+        style={{ clipPath: hex, isolation: "isolate" }}
       >
         <img
           src={img}
@@ -414,32 +415,36 @@ function BubbleLink({ img, index }: { img: string; index: number }) {
           style={{ transform: `scale(1.18) rotate(${index % 2 ? -4 : 4}deg)`, filter: "saturate(1.2) contrast(1.12) brightness(0.9)" }}
         />
         {/* curvature shading */}
-        <div aria-hidden className="absolute inset-0 rounded-full pointer-events-none"
+        <div aria-hidden className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(circle at 44% 38%, transparent 32%, rgba(0,0,0,0.30) 68%, rgba(0,0,0,0.86) 100%)" }} />
         {/* top dark cap */}
-        <div aria-hidden className="absolute inset-0 rounded-full pointer-events-none"
+        <div aria-hidden className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(circle at 50% -4%, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.14) 28%, transparent 46%)" }} />
         {/* glass refraction wash */}
-        <div aria-hidden className="absolute inset-0 rounded-full pointer-events-none mix-blend-screen opacity-70"
+        <div aria-hidden className="absolute inset-0 pointer-events-none mix-blend-screen opacity-70"
           style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.55) 0%, transparent 22%, transparent 54%, rgba(255,120,64,0.20) 78%, rgba(255,255,255,0.34) 100%)" }} />
         {/* caustic crescent */}
-        <div aria-hidden className="absolute inset-0 rounded-full pointer-events-none mix-blend-screen"
+        <div aria-hidden className="absolute inset-0 pointer-events-none mix-blend-screen"
           style={{ background: "radial-gradient(circle at 76% 80%, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.25) 12%, transparent 27%)" }} />
         {/* chromatic tint */}
-        <div aria-hidden className="absolute inset-0 rounded-full pointer-events-none mix-blend-screen opacity-70"
+        <div aria-hidden className="absolute inset-0 pointer-events-none mix-blend-screen opacity-70"
           style={{ background: "radial-gradient(circle at 27% 20%, rgba(210,230,255,0.48) 0%, rgba(120,170,255,0.18) 22%, transparent 36%)" }} />
         {/* specular highlight */}
         <div aria-hidden className="absolute pointer-events-none"
-          style={{ top: "5%", left: "13%", width: "40%", height: "27%", borderRadius: "50%",
+          style={{ top: "8%", left: "20%", width: "38%", height: "24%", borderRadius: "50%",
             background: "radial-gradient(ellipse at 35% 30%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.78) 18%, rgba(255,255,255,0.18) 55%, transparent 82%)",
             filter: "blur(0.25px)" }} />
         {/* pinpoint catchlight */}
         <div aria-hidden className="absolute pointer-events-none rounded-full"
-          style={{ top: "11%", left: "22%", width: "8%", height: "8%",
+          style={{ top: "14%", left: "28%", width: "7%", height: "7%",
             background: "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.6) 40%, transparent 75%)" }} />
-        {/* rim */}
-        <div aria-hidden className="absolute inset-0 rounded-full pointer-events-none"
-          style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.62), inset 0 0 18px rgba(255,255,255,0.22), inset -10px -16px 28px rgba(0,0,0,0.58), inset 7px 10px 20px rgba(255,255,255,0.24)" }} />
+        {/* hex rim */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none"
+          style={{
+            clipPath: hex,
+            background: "linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 35%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.45) 100%)",
+            mixBlendMode: "overlay",
+          }} />
       </div>
     </Link>
   );

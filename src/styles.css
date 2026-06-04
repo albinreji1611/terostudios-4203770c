@@ -147,12 +147,10 @@
   .tero-logo-cycle-text {
     font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
     font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+    line-height: 1;
+    letter-spacing: -0.035em;
     text-transform: none;
-    display: block;
-    transform: scaleX(0.96);
-    transform-origin: left bottom;
+    display: inline-block;
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricPrecision;
   }
