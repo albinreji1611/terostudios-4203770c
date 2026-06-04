@@ -16,7 +16,7 @@ function CyclingWord({ onDark }: { onDark: boolean }) {
     return () => clearInterval(t);
   }, []);
   return (
-    <span className="relative inline-block h-[1em] min-w-[110px] md:min-w-[140px] overflow-hidden align-baseline leading-none">
+    <span className="relative inline-block h-[1.4em] min-w-[120px] md:min-w-[150px] overflow-hidden leading-none">
       <AnimatePresence mode="wait">
         <motion.span
           key={cyclingWords[i]}
