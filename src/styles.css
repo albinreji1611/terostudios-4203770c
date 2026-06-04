@@ -9,7 +9,7 @@
    Light-mode, Syne display, Plus Jakarta body, vermillion accent
    ============================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Outfit:wght@600;700;800;900&display=swap");
 
 @theme inline {
   --radius-sm: 2px;

@@ -16,7 +16,7 @@ function CyclingWord({ onDark }: { onDark: boolean }) {
     return () => clearInterval(t);
   }, []);
   return (
-    <span className="relative inline-block h-[1.4em] min-w-[120px] md:min-w-[150px] overflow-hidden leading-none">
+    <span className="relative inline-flex items-end h-7 md:h-8 min-w-[120px] md:min-w-[150px] overflow-hidden leading-none">
       <AnimatePresence mode="wait">
         <motion.span
           key={cyclingWords[i]}
@@ -25,11 +25,11 @@ function CyclingWord({ onDark }: { onDark: boolean }) {
           exit={{ y: "-100%", opacity: 0, filter: "blur(4px)" }}
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           className={[
-            "font-body font-extrabold absolute left-0 top-1/2 -translate-y-1/2 text-[20px] md:text-[24px] leading-none tracking-[-0.01em] whitespace-nowrap transition-colors",
+            "absolute left-0 bottom-0 uppercase whitespace-nowrap transition-colors",
+            "text-[15px] md:text-[17px] leading-none tracking-[0.02em]",
+            "[font-family:'Outfit',system-ui,sans-serif] font-extrabold",
             onDark ? "text-white" : "text-ink",
           ].join(" ")}
-
-
         >
           {cyclingWords[i]}
         </motion.span>
@@ -37,6 +37,7 @@ function CyclingWord({ onDark }: { onDark: boolean }) {
     </span>
   );
 }
+
 
 
 
