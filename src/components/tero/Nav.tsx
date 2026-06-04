@@ -2,10 +2,12 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import teroWordmark from "@/assets/tero-wordmark.png";
 import { servicesByCategory } from "@/data/services";
 import { industries } from "@/data/industries";
 
 const cyclingWords = ["Studios", "Create.", "Visualize.", "Immerse."];
+
 
 function CyclingWord({ onDark }: { onDark: boolean }) {
   const [i, setI] = useState(0);
