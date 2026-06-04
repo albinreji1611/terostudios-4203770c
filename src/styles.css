@@ -188,8 +188,15 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+@keyframes tero-marquee-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
 .animate-marquee {
   animation: tero-marquee 38s linear infinite;
+}
+.animate-marquee-reverse {
+  animation: tero-marquee-reverse 46s linear infinite;
 }
 
 /* Vermillion underline link */
