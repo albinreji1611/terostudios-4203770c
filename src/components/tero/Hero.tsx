@@ -1,7 +1,38 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import logoSrc from "@/assets/tero-mark.png";
+
+const taglines = ["Create.", "Visualize.", "Immerse."];
+
+function CyclingTagline() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % taglines.length);
+    }, 2500);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="relative h-[1.1em] overflow-hidden flex justify-center items-center">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={taglines[index]}
+          initial={{ y: 20, opacity: 0, filter: "blur(8px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: -20, opacity: 0, filter: "blur(6px)" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="hero-headline text-[clamp(18px,2.2vw,34px)] tracking-[0.12em] text-ink/85 absolute"
+        >
+          {taglines[index]}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+}
+
 
 /**
  * Particle/grain hero — chunky warm grains fly in from random
@@ -268,8 +299,16 @@ export function Hero() {
         <canvas ref={canvasRef} className="block w-full h-full" />
       </div>
 
+      {/* Cycling tagline — sits where "STUDIOS" would be */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
+        <div className="mt-[min(22vh,180px)] md:mt-[min(24vh,200px)]">
+          <CyclingTagline />
+        </div>
+      </div>
+
       {/* Foreground content */}
       <div className="relative z-20 mx-auto flex h-screen max-w-[1500px] flex-col px-6 md:px-12 pointer-events-none">
+
         {/* Top meta */}
         <motion.div
           initial={{ opacity: 0, y: -6 }}
