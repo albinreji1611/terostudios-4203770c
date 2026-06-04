@@ -299,8 +299,16 @@ export function Hero() {
         <canvas ref={canvasRef} className="block w-full h-full" />
       </div>
 
+      {/* Cycling tagline — sits where "STUDIOS" would be */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
+        <div className="mt-[min(22vh,180px)] md:mt-[min(24vh,200px)]">
+          <CyclingTagline />
+        </div>
+      </div>
+
       {/* Foreground content */}
       <div className="relative z-20 mx-auto flex h-screen max-w-[1500px] flex-col px-6 md:px-12 pointer-events-none">
+
         {/* Top meta */}
         <motion.div
           initial={{ opacity: 0, y: -6 }}
