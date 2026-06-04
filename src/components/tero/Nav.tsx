@@ -25,9 +25,10 @@ function CyclingWord({ onDark }: { onDark: boolean }) {
           exit={{ y: "-100%", opacity: 0, filter: "blur(4px)" }}
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           className={[
-            "hero-headline absolute left-0 top-1/2 -translate-y-1/2 text-[22px] md:text-[26px] leading-none tracking-[0.04em] whitespace-nowrap transition-colors",
+            "font-body font-extrabold absolute left-0 top-1/2 -translate-y-1/2 text-[20px] md:text-[24px] leading-none tracking-[-0.01em] whitespace-nowrap transition-colors",
             onDark ? "text-white" : "text-ink",
           ].join(" ")}
+
 
         >
           {cyclingWords[i]}
