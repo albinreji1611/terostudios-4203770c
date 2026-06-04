@@ -1,9 +1,40 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
-import logo from "@/assets/tero-mark.png";
+import { AnimatePresence, motion } from "framer-motion";
 import { servicesByCategory } from "@/data/services";
 import { industries } from "@/data/industries";
+
+const cyclingWords = ["Studios", "Create.", "Visualize.", "Immerse."];
+
+function CyclingWord({ onDark }: { onDark: boolean }) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((p) => (p + 1) % cyclingWords.length), 2200);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <span className="relative inline-block h-[1em] min-w-[110px] md:min-w-[140px] overflow-hidden align-baseline">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={cyclingWords[i]}
+          initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
+          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: "-100%", opacity: 0, filter: "blur(4px)" }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className={[
+            "hero-headline absolute left-0 top-0 text-[22px] md:text-[26px] leading-none tracking-[0.04em] whitespace-nowrap transition-colors",
+            onDark ? "text-vermillion" : "text-vermillion",
+          ].join(" ")}
+        >
+          {cyclingWords[i]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+
 
 type Item =
   | { to: string; label: string; mega?: never }
@@ -119,18 +150,23 @@ export function Nav() {
       />
 
       <div className="relative container-tero flex h-[72px] items-center justify-between pointer-events-auto">
-        <Link ref={logoRef} to="/" className="flex items-center group" aria-label="Tero Studios home">
-          <img
-            src={logo}
-            alt="Tero Studios"
-            width={220}
-            height={50}
+        <Link
+          ref={logoRef}
+          to="/"
+          className="flex items-baseline gap-2 group"
+          aria-label="Tero Studios home"
+        >
+          <span
             className={[
-              "h-9 md:h-10 w-auto object-contain transition-[filter] duration-300",
-              openMega || lightBg ? "[filter:brightness(0)]" : "[filter:brightness(0)_invert(1)]",
+              "hero-headline text-[22px] md:text-[26px] leading-none tracking-[0.04em] transition-colors duration-300",
+              openMega || lightBg ? "text-ink" : "text-white",
             ].join(" ")}
-          />
+          >
+            Tero
+          </span>
+          <CyclingWord onDark={!openMega && !lightBg} />
         </Link>
+
 
         <nav className="hidden lg:flex items-center gap-8">
           {items.map((it) => {
