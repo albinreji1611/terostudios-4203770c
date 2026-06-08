@@ -427,39 +427,6 @@ function AboutPage() {
       {/* 10 — FAQ (homepage reuse) */}
       <FAQ />
 
-      {/* 11 — CTA */}
-      <section data-nav-theme="dark" className="bg-ink text-cream">
-        <div className="container-tero grid grid-cols-1 items-end gap-10 py-24 md:grid-cols-12 md:py-32">
-          <div className="md:col-span-8">
-            <p className="overline text-vermillion">— Ready when you are</p>
-            <h2 className="mt-6 hero-headline text-[clamp(48px,8vw,120px)] text-cream leading-[0.95]">
-              Ready to bring your <br />
-              <span className="italic">story to life?</span>
-            </h2>
-          </div>
-          <div className="md:col-span-4 flex flex-col gap-5">
-            <p className="font-body text-[15px] leading-relaxed text-cream/70 max-w-sm">
-              Send a brief, an idea, or a half-formed thought. We&apos;ll come back within 48 hours
-              with a realistic plan.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                to="/contact"
-                className="group inline-flex items-center gap-3 rounded-[4px] bg-vermillion px-6 py-4 text-[14px] font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
-              >
-                Start a project
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </Link>
-              <Link
-                to="/showreel"
-                className="group inline-flex items-center gap-3 rounded-[4px] border border-cream/30 px-6 py-4 text-[14px] font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
-              >
-                <Cpu className="h-4 w-4" strokeWidth={1.5} /> Watch showreel
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </PageLayout>
   );
 }
