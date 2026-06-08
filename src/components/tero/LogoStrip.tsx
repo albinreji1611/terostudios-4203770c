@@ -18,32 +18,6 @@ export function LogoStrip() {
       </div>
 
       <div className="container-tero py-20 md:py-28 relative">
-        {/* Header */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-14 md:mb-20">
-          <div className="md:col-span-5">
-            <Reveal>
-              <div className="flex items-center gap-3">
-                <span className="h-px w-10 bg-vermillion" />
-                <p className="overline text-vermillion">— In good company</p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.05}>
-              <h2 className="mt-6 hero-headline text-[clamp(40px,5.5vw,76px)] leading-[0.95] text-ink">
-                Trusted by teams <br />
-                <span className="italic font-light">that move fast.</span>
-              </h2>
-            </Reveal>
-          </div>
-          <div className="md:col-span-5 md:col-start-8 flex md:items-end">
-            <Reveal delay={0.1}>
-              <p className="font-body text-[16px] md:text-[18px] leading-relaxed text-ink/70 max-w-md">
-                A decade of collaborations with global brands, ambitious
-                challengers and the studios behind them — shipping films,
-                frames and stories that earn attention.
-              </p>
-            </Reveal>
-          </div>
-        </div>
 
         {/* Marquee rows */}
         <div className="relative">
