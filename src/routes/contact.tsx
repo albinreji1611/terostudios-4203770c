@@ -267,6 +267,58 @@ function ContactPage() {
           </div>
         </div>
       </section>
+
+      <LogoStrip />
+
+      <section className="container-tero py-20 md:py-28">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
+          <div className="md:col-span-4">
+            <Reveal>
+              <p className="overline">— Visit the studio</p>
+              <h2 className="mt-6 hero-headline text-[clamp(36px,5vw,64px)]">
+                Find us in <span className="italic">Chennai.</span>
+              </h2>
+              <p className="mt-6 max-w-sm font-body text-[15px] leading-relaxed text-slate">
+                Drop by for a coffee, a pitch, or a screening — our doors are
+                open to collaborators, partners, and curious minds.
+              </p>
+              <ul className="mt-8 space-y-4 border-t border-parchment pt-6">
+                <li className="flex items-start gap-3">
+                  <MapPin className="mt-1 h-4 w-4 text-vermillion" strokeWidth={1.5} />
+                  <p className="font-body text-[14px] text-ink">
+                    Tero Studios, Anna Salai,<br />Chennai, Tamil Nadu 600002
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Calendar className="mt-1 h-4 w-4 text-vermillion" strokeWidth={1.5} />
+                  <p className="font-body text-[14px] text-ink">
+                    Mon – Fri · 10:00 – 19:00 IST
+                  </p>
+                </li>
+              </ul>
+            </Reveal>
+          </div>
+          <div className="md:col-span-8">
+            <Reveal>
+              <div className="overflow-hidden rounded-3xl border border-parchment bg-card">
+                <iframe
+                  title="Tero Studios — Chennai"
+                  src="https://www.google.com/maps?q=Anna+Salai,+Chennai,+Tamil+Nadu&output=embed"
+                  width="100%"
+                  height="480"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <KineticBand />
+      <Testimonials />
     </PageLayout>
   );
 }
