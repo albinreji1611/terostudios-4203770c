@@ -263,7 +263,7 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
       </section>
 
       {/* ── PROCESS (from homepage) ──────────────────────────── */}
-      <ServicesScroller />
+      <HorizontalShowcase />
 
       {/* ── SPECIALIZED SERVICES (accordion of process) ──────── */}
       <section className="border-y border-parchment bg-card">
