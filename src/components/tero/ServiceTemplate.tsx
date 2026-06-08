@@ -422,36 +422,6 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         </section>
       )}
 
-      {/* ── FINAL CTA ────────────────────────────────────────── */}
-      <section className="bg-ink text-cream">
-        <div className="container-tero py-24 md:py-32 text-center">
-          <Reveal>
-            <p className="overline text-vermillion">— Ready when you are</p>
-            <h2 className="mt-6 hero-headline text-[clamp(40px,7vw,96px)] text-cream max-w-4xl mx-auto">
-              Ready to grow <br />
-              <span className="italic">your brand?</span>
-            </h2>
-            <p className="mt-8 max-w-xl mx-auto font-body text-[16px] leading-relaxed text-cream/70">
-              Tell us about your {service.name.toLowerCase()} project. We'll come back within one working day with a senior lead.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                to="/contact"
-                className="group inline-flex items-center gap-3 rounded-[4px] bg-vermillion px-7 py-4 text-[14px] font-medium text-cream transition-colors hover:bg-vermillion/90"
-              >
-                Request a quote
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </Link>
-              <Link
-                to="/portfolio"
-                className="inline-flex items-center gap-3 rounded-[4px] border border-cream/30 px-7 py-4 text-[14px] font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
-              >
-                See more work
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
     </PageLayout>
   );
 }
