@@ -72,27 +72,6 @@ export function LogoStrip() {
           </div>
         </div>
 
-        {/* Footer stat row */}
-        <div className="mt-14 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-8">
-          {[
-            { k: "120+", v: "Brands shipped" },
-            { k: "32", v: "Countries reached" },
-            { k: "10 yrs", v: "Crafting motion" },
-            { k: "18", v: "Award honors" },
-          ].map((s, i) => (
-            <Reveal key={i} delay={i * 0.05}>
-              <div className="flex flex-col gap-2">
-                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-vermillion">
-                  — {String(i + 1).padStart(2, "0")}
-                </p>
-                <p className="hero-headline text-[clamp(32px,3.4vw,52px)] leading-none text-ink">
-                  {s.k}
-                </p>
-                <p className="font-body text-[13px] text-ink/60">{s.v}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </div>
     </section>
   );
