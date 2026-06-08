@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { PageLayout } from "./PageLayout";
 import { Reveal } from "./Reveal";
 import { LogoStrip } from "./LogoStrip";
-import { Process } from "./Process";
+import { ServicesScroller } from "./ServicesScroller";
 import { Testimonials } from "./Testimonials";
 import { ArrowUpRight, Check, Play, Sparkles, Clock, Award, Users } from "lucide-react";
 import type { ServiceEntry } from "@/data/services";
