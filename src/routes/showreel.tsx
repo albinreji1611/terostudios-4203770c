@@ -10,7 +10,7 @@ export const Route = createFileRoute("/showreel")({
   component: Showreel,
   head: () => ({
     meta: [
-      { title: "Showreel | Tero Studios | India & USA" },
+      { title: "Showreel | Tero Studios | India" },
       {
         name: "description",
         content:

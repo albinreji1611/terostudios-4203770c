@@ -8,7 +8,7 @@ export const Route = createFileRoute("/services/")({
   component: ServicesHub,
   head: () => ({
     meta: [
-      { title: "Services | Tero Studios | India & USA" },
+      { title: "Services | Tero Studios | India" },
       {
         name: "description",
         content:

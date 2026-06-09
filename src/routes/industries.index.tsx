@@ -8,7 +8,7 @@ export const Route = createFileRoute("/industries/")({
   component: IndustriesHub,
   head: () => ({
     meta: [
-      { title: "Industries | Tero Studios | India & USA" },
+      { title: "Industries | Tero Studios | India" },
       {
         name: "description",
         content:

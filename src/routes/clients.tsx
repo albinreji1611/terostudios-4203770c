@@ -13,7 +13,7 @@ export const Route = createFileRoute("/clients")({
   component: Clients,
   head: () => ({
     meta: [
-      { title: "Our Clients | Tero Studios | India & USA" },
+      { title: "Our Clients | Tero Studios | India" },
       {
         name: "description",
         content:

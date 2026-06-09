@@ -11,14 +11,14 @@ const team = [
   { name: "Rohan D'Souza", role: "VFX Supervisor", li: "#" },
   { name: "Aisha Khan", role: "Head of Immersive (XR & Anamorphic)", li: "#" },
   { name: "Vivek Rao", role: "Head of Hardware & Pipeline", li: "#" },
-  { name: "Sneha Pillai", role: "Executive Producer — USA", li: "#" },
+  { name: "Sneha Pillai", role: "Executive Producer", li: "#" },
 ];
 
 export const Route = createFileRoute("/about/team")({
   component: Team,
   head: () => ({
     meta: [
-      { title: "Our Team | Tero Studios | India & USA" },
+      { title: "Our Team | Tero Studios | India" },
       {
         name: "description",
         content:

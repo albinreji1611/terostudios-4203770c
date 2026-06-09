@@ -39,7 +39,7 @@ export function Footer() {
           </div>
           <p className="mt-6 max-w-xs font-body text-[14px] leading-relaxed text-cream/60">
             An animation and motion design studio building films, frames and
-            stories that move. Chennai · USA.
+            stories that move. Chennai.
           </p>
           <div className="mt-8 flex items-center gap-3">
             {[
@@ -136,7 +136,7 @@ export function Footer() {
             © {new Date().getFullYear()} Tero Studios — Crafted with care
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cream/40">
-            Chennai · India · USA
+            Chennai · India
           </p>
         </div>
       </div>

@@ -16,7 +16,7 @@ export const Route = createFileRoute("/careers")({
   component: Careers,
   head: () => ({
     meta: [
-      { title: "Careers | Tero Studios | India & USA" },
+      { title: "Careers | Tero Studios | India" },
       {
         name: "description",
         content: "Open roles, studio culture and the 2026 internship at Tero Studios in Chennai.",

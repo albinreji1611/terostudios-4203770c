@@ -20,7 +20,7 @@ export const Route = createFileRoute("/about/studio")({
   component: Studio,
   head: () => ({
     meta: [
-      { title: "Our Studio | Tero Studios | India & USA" },
+      { title: "Our Studio | Tero Studios | India" },
       {
         name: "description",
         content:

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/services/$slug")({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.service.name} | Tero Studios | India & USA` },
+          { title: `${loaderData.service.name} | Tero Studios | India` },
           {
             name: "description",
             content: `${loaderData.service.hero} ${loaderData.service.short}`.slice(0, 158),

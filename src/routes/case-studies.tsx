@@ -46,7 +46,7 @@ export const Route = createFileRoute("/case-studies")({
   component: CaseStudies,
   head: () => ({
     meta: [
-      { title: "Case Studies | Tero Studios | India & USA" },
+      { title: "Case Studies | Tero Studios | India" },
       {
         name: "description",
         content:

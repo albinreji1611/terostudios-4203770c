@@ -12,11 +12,11 @@ export const Route = createFileRoute("/about/")({
   component: AboutPage,
   head: () => ({
     meta: [
-      { title: "About Tero Studios | Independent Animation Studio · Chennai & USA" },
+      { title: "About Tero Studios | Independent Animation Studio · Chennai" },
       {
         name: "description",
         content:
-          "Tero Studios is an independent animation and motion design studio founded in 2014. Senior people, cinematic craft, on-time delivery — for brands across India, the US and beyond.",
+          "Tero Studios is an independent animation and motion design studio. Senior people, cinematic craft, on-time delivery — for brands across India and beyond.",
       },
       { property: "og:title", content: "About — Tero Studios" },
       { property: "og:description", content: "Senior people. Cinematic craft. An independent animation studio." },
@@ -84,7 +84,7 @@ const team = [
   { name: "Rohan D'Souza", role: "VFX Supervisor" },
   { name: "Aisha Khan", role: "Head of Immersive" },
   { name: "Vivek Rao", role: "Pipeline Lead" },
-  { name: "Sneha Pillai", role: "EP — USA" },
+  { name: "Sneha Pillai", role: "EP" },
   { name: "Aravind Menon", role: "Senior Animator" },
 ];
 
@@ -104,7 +104,7 @@ function AboutPage() {
                 <span className="italic text-vermillion">Tero Studios.</span>
               </h1>
               <p className="mt-8 max-w-xl font-body text-[19px] leading-relaxed text-slate">
-                An independent animation and motion design studio founded in Chennai in 2014. We
+                An independent animation and motion design studio based in Chennai. We
                 build cinematic films, motion design systems and immersive work for brands that
                 care about how their story moves.
               </p>
@@ -136,10 +136,10 @@ function AboutPage() {
                 <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60">Est.</p>
-                    <p className="font-sans-display text-[36px] font-bold text-cream leading-none">2014</p>
+                    <p className="font-sans-display text-[36px] font-bold text-cream leading-none">2016</p>
                   </div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60">
-                    Chennai · USA
+                    Chennai
                   </span>
                 </div>
               </div>
@@ -178,7 +178,7 @@ function AboutPage() {
                 </p>
                 <p>
                   Twelve years on, we&apos;re a team of forty senior animators, directors,
-                  engineers and producers across Chennai and the USA. Still small enough that the
+                  engineers and producers based in Chennai. Still small enough that the
                   founder reviews every frame. Still picky about the briefs we take.
                 </p>
               </div>
@@ -341,7 +341,7 @@ function AboutPage() {
             {
               name: "Arvind Subramanian",
               role: "Founder & Creative Director",
-              bio: "Twenty years across film, motion and design. Started Tero in 2014 after directing brand films for Apple, Nike and Tata.",
+              bio: "Twenty years across film, motion and design. Started Tero after directing brand films for Apple, Nike and Tata.",
             },
             {
               name: "Sneha Pillai",
