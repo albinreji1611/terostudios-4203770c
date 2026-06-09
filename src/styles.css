@@ -203,10 +203,10 @@
   to { transform: translateX(0); }
 }
 .animate-marquee {
-  animation: tero-marquee 18s linear infinite;
+  animation: tero-marquee 12s linear infinite;
 }
 .animate-marquee-reverse {
-  animation: tero-marquee-reverse 22s linear infinite;
+  animation: tero-marquee-reverse 14s linear infinite;
 }
 
 /* Vermillion underline link */

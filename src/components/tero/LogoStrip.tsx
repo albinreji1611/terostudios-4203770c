@@ -1,14 +1,22 @@
 import { useMemo } from "react";
 
-// Auto-import every uploaded client logo asset pointer.
 const logoModules = import.meta.glob<{ default: { url: string } }>(
   "@/assets/client-logos/*.png.asset.json",
   { eager: true },
 );
 
-const logoUrls = Object.entries(logoModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, mod]) => mod.default.url);
+const logoByName = (n: number) => {
+  const key = `/src/assets/client-logos/logo-${String(n).padStart(2, "0")}.png.asset.json`;
+  return logoModules[key]?.default.url;
+};
+
+// Curated set of globally / nationally well-known brands from the client list.
+const FEATURED = [
+  2, 5, 7, 8, 9, 10, 11, 14, 16, 17, 18, 19, 21, 22, 23, 32,
+  35, 36, 37, 38, 44, 46, 48, 49, 54, 55, 56, 58, 59, 61, 66, 67,
+];
+
+const logoUrls = FEATURED.map(logoByName).filter((u): u is string => Boolean(u));
 
 export function LogoStrip() {
   const { rowA, rowB } = useMemo(() => {
@@ -16,8 +24,8 @@ export function LogoStrip() {
     const a = logoUrls.slice(0, half);
     const b = logoUrls.slice(half);
     return {
-      rowA: [...a, ...a],
-      rowB: [...b.slice().reverse(), ...b.slice().reverse()],
+      rowA: [...a, ...a, ...a],
+      rowB: [...b.slice().reverse(), ...b.slice().reverse(), ...b.slice().reverse()],
     };
   }, []);
 
