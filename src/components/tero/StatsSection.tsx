@@ -102,7 +102,7 @@ export function StatsSection() {
       <div className="container-tero pt-24 md:pt-32">
         <div className="flex items-end justify-between gap-6 border-b border-parchment pb-8">
           <div>
-            <p className="overline">— By the numbers / 2016–2026</p>
+            <p className="overline">— By the numbers</p>
             <h2 className="mt-5 hero-headline text-[clamp(36px,5vw,72px)] max-w-3xl text-ink leading-[1.05]">
               A decade of frames,
               <br />
@@ -123,7 +123,7 @@ export function StatsSection() {
             ▸ Reel · Stats 2024
           </div>
           <div className="absolute bottom-3 right-4 md:right-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
-            Independent since 2016 ●
+            Independent ●
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x divide-y md:divide-y-0 divide-parchment border-x border-parchment">

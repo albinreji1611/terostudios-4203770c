@@ -134,10 +134,6 @@ function AboutPage() {
                   ▸ Reel · 2026
                 </div>
                 <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60">Est.</p>
-                    <p className="font-sans-display text-[36px] font-bold text-cream leading-none">2016</p>
-                  </div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60">
                     Chennai
                   </span>
