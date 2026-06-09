@@ -109,6 +109,24 @@ function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <head>
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var html = document.documentElement;
+                html.classList.remove('dark');
+                html.classList.add('light');
+                html.style.colorScheme = 'light';
+                try {
+                  localStorage.removeItem('theme');
+                  localStorage.removeItem('color-theme');
+                  localStorage.removeItem('darkMode');
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
