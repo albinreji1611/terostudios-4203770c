@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { PageLayout } from "./PageLayout";
 import { Reveal } from "./Reveal";
 import { LogoStrip } from "./LogoStrip";
-import { HorizontalShowcase } from "./HorizontalShowcase";
 import { Testimonials } from "./Testimonials";
 import { ArrowUpRight, Check, Play, Sparkles, Clock, Award, Users } from "lucide-react";
 import type { ServiceEntry } from "@/data/services";
@@ -14,31 +13,17 @@ const whyPartner = [
   { icon: Award, title: "Senior-led craft", body: "Every project run by a senior director — no juniors learning on your brief." },
   { icon: Clock, title: "Ships on time", body: "Locked treatments and weekly reviews keep delivery predictable from kickoff." },
   { icon: Sparkles, title: "Distinctive look", body: "We design the visual language before a single frame — never templated motion." },
-  { icon: Users, title: "Global clients", body: "Trusted by 120+ brands across India, the GCC, the UK and the US." },
+  { icon: Users, title: "Global clients", body: "Trusted by 120+ brands across India, the GCC and the UK." },
 ];
 
-function buildSeoOverview(service: ServiceEntry) {
+function buildBrief(service: ServiceEntry) {
   const niche = service.name.toLowerCase();
-  const cat = service.category.toLowerCase();
   const inds = service.industries.join(", ");
   return {
-    intro: `${service.name} is the craft of turning brand intent into screen language. At Tero Studios we approach ${niche} as a senior-led discipline — every project begins with a written treatment, a locked visual direction and a production plan that protects the work all the way to delivery. That's why brands across ${inds} return to us for their most visible ${cat} work.`,
+    intro: `${service.name} is the craft of turning brand intent into screen language. At Tero Studios we approach ${niche} as a senior-led discipline — every project begins with a written treatment, a locked visual direction and a production plan that protects the work all the way to delivery. That's why brands across ${inds} return to us for their most visible ${service.category.toLowerCase()} work.`,
     more: [
-      `Our ${niche} pipeline is built around one principle: the idea is the asset. We invest disproportionately in pre-production — story, references, frame design and motion language — so that when production begins, the team is executing a plan, not searching for one. The result is work that lands on brief, on time, and almost always sharper than the original ask.`,
-      `Because we keep design, animation, 3D, VFX, sound and finishing under one roof, we move faster than agencies that broker the work across multiple vendors. A single creative director shepherds every ${niche} engagement from kickoff to master, and you talk to the people actually making the frames. That continuity is what lets us deliver feature-grade craft on advertising timelines.`,
-      `We've shipped ${niche} for fintech launches, automotive reveals, healthcare narratives, retail activations and SaaS go-to-market campaigns. The brief always changes, the standard never does — every frame leaving our studio is colour-accurate, channel-ready, and built to look right on the largest screen it will ever play on.`,
-    ],
-  };
-}
-
-function buildSeoCapabilities(service: ServiceEntry) {
-  const niche = service.name.toLowerCase();
-  return {
-    intro: `When clients hire us for ${niche}, they're buying a stack — not a single deliverable. Behind every film is a full creative and technical pipeline: writing, art direction, look-development, lighting, simulation, compositing, finishing and sound. Each discipline is owned by a senior who has shipped that craft for a decade or more.`,
-    more: [
-      `Our tooling reflects that depth. We work natively in Houdini, Maya, Cinema 4D, Blender, Unreal Engine, Toon Boom Harmony, After Effects, Nuke, DaVinci Resolve and Pro Tools — chosen per project, not enforced by template. Render is handled across an in-house GPU farm and burst-to-cloud for peak load, so deadlines hold even when the brief expands.`,
-      `For ${service.primaryKeyword}, we also offer adjacent services that most studios outsource: scripting, storyboard, voice-over direction, original music composition, sound design and broadcast-spec quality control. That means fewer vendors to coordinate, tighter creative consistency, and a single point of accountability for the final master.`,
-      `Every engagement ships with documentation: a brand motion guideline where relevant, source files in editable formats, and two weeks of free polish after delivery. The work is yours, the system around it is yours, and our team stays available if you want to extend the language into the next campaign.`,
+      `Our ${niche} pipeline is built around one principle: the idea is the asset. We invest disproportionately in pre-production — story, references, frame design and motion language — so that when production begins, the team is executing a plan, not searching for one.`,
+      `Because we keep design, animation, 3D, VFX, sound and finishing under one roof, we move faster than agencies that broker the work across multiple vendors. A single creative director shepherds every ${niche} engagement from kickoff to master.`,
     ],
   };
 }
@@ -49,24 +34,22 @@ function ExpandableSEO({
   italic,
   intro,
   more,
-  invert = false,
 }: {
   overline: string;
   title: string;
   italic: string;
   intro: string;
   more: string[];
-  invert?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <section className={invert ? "bg-ink text-cream" : "bg-cream text-ink"}>
+    <section className="bg-cream text-ink">
       <div className="container-tero py-24 md:py-32">
         <div className="grid grid-cols-1 gap-14 md:grid-cols-12">
           <div className="md:col-span-4">
             <Reveal>
-              <p className={`overline ${invert ? "text-vermillion" : ""}`}>— {overline}</p>
-              <h2 className={`mt-4 hero-headline text-[clamp(32px,5vw,64px)] ${invert ? "text-cream" : "text-ink"}`}>
+              <p className="overline">— {overline}</p>
+              <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,64px)] text-ink">
                 {title} <br />
                 <span className="italic">{italic}</span>
               </h2>
@@ -74,7 +57,7 @@ function ExpandableSEO({
           </div>
           <div className="md:col-span-8">
             <Reveal>
-              <p className={`font-body text-[17px] leading-[1.7] ${invert ? "text-cream/80" : "text-slate"}`}>{intro}</p>
+              <p className="font-body text-[17px] leading-[1.7] text-slate">{intro}</p>
               <div
                 className={`grid overflow-hidden transition-[grid-template-rows] duration-500 ease-out ${
                   open ? "grid-rows-[1fr] mt-6" : "grid-rows-[0fr]"
@@ -82,10 +65,7 @@ function ExpandableSEO({
               >
                 <div className="min-h-0 space-y-5">
                   {more.map((p, i) => (
-                    <p
-                      key={i}
-                      className={`font-body text-[16px] leading-[1.75] ${invert ? "text-cream/75" : "text-slate"}`}
-                    >
+                    <p key={i} className="font-body text-[16px] leading-[1.75] text-slate">
                       {p}
                     </p>
                   ))}
@@ -94,9 +74,7 @@ function ExpandableSEO({
               <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}
-                className={`group mt-8 inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] ${
-                  invert ? "text-cream" : "text-ink"
-                }`}
+                className="group mt-8 inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-ink"
               >
                 {open ? "Read less" : "Read more"}
                 <span className={`text-vermillion text-lg leading-none transition-transform ${open ? "rotate-45" : ""}`}>+</span>
@@ -121,12 +99,11 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
   const headlineMain = service.name.split(" ").slice(0, -1).join(" ");
   const headlineTail = service.name.split(" ").slice(-1);
 
-  const seoOverview = buildSeoOverview(service);
-  const seoCapabilities = buildSeoCapabilities(service);
+  const brief = buildBrief(service);
 
   return (
     <PageLayout>
-      {/* ── HERO ─────────────────────────────────────────────── */}
+      {/* ── 01 · HERO ────────────────────────────────────────── */}
       <section className="container-tero py-24 md:py-32">
         <Reveal>
           <p className="overline">— {service.category}</p>
@@ -135,10 +112,19 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
           <div className="md:col-span-7">
             <Reveal>
               <h1 className="hero-headline text-[clamp(44px,7vw,108px)] leading-[0.95]">
-                {headlineMain} <br />
-                <span className="italic">{headlineTail}.</span>
+                {headlineMain ? (
+                  <>
+                    {headlineMain} <br />
+                    <span className="italic">{headlineTail}.</span>
+                  </>
+                ) : (
+                  <span className="italic">{service.name}.</span>
+                )}
               </h1>
-              <p className="mt-8 max-w-xl font-body text-[18px] leading-relaxed text-slate">
+              <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.25em] text-vermillion">
+                {service.primaryKeyword}
+              </p>
+              <p className="mt-6 max-w-xl font-body text-[18px] leading-relaxed text-slate">
                 {service.hero} {service.short}
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -182,10 +168,19 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         </div>
       </section>
 
-      {/* ── LOGO STRIP (from homepage) ───────────────────────── */}
+      {/* ── 02 · CLIENT LOGO STRIP ──────────────────────────── */}
       <LogoStrip />
 
-      {/* ── WHY PARTNER ──────────────────────────────────────── */}
+      {/* ── 03 · SERVICES BRIEF ─────────────────────────────── */}
+      <ExpandableSEO
+        overline="Services brief"
+        title="What good"
+        italic={`${service.name.toLowerCase()} looks like.`}
+        intro={brief.intro}
+        more={brief.more}
+      />
+
+      {/* ── 04 · USPs ───────────────────────────────────────── */}
       <section className="border-y border-parchment bg-card">
         <div className="container-tero py-20 md:py-28">
           <Reveal>
@@ -209,22 +204,12 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         </div>
       </section>
 
-      {/* ── SEO #1: Overview with Read more ──────────────────── */}
-      <ExpandableSEO
-        overline="The craft, in depth"
-        title="What good"
-        italic={`${service.name.toLowerCase()} looks like.`}
-        intro={seoOverview.intro}
-        more={seoOverview.more}
-      />
-
-      {/* ── OUR WORK ─────────────────────────────────────────── */}
+      {/* ── 05 · PORTFOLIO SHOWCASE ─────────────────────────── */}
       <section className="container-tero py-24 md:py-32">
         <Reveal>
-          <p className="overline">— Our work</p>
+          <p className="overline">— Portfolio showcase</p>
           <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,64px)] max-w-3xl">
-            High-performance <br />
-            <span className="italic">{service.category.toLowerCase()} content.</span>
+            Recent <span className="italic">{service.name.toLowerCase()}</span> work.
           </h2>
           <p className="mt-6 max-w-2xl font-body text-[16px] leading-relaxed text-slate">
             A selection of recent {service.name.toLowerCase()} projects — shipped for brands across categories.
@@ -262,16 +247,13 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         </div>
       </section>
 
-      {/* ── PROCESS (from homepage) ──────────────────────────── */}
-      <HorizontalShowcase />
-
-      {/* ── SPECIALIZED SERVICES (accordion of process) ──────── */}
+      {/* ── 06 · PRODUCTION PROCESS ─────────────────────────── */}
       <section className="border-y border-parchment bg-card">
         <div className="container-tero py-20 md:py-28">
           <Reveal>
-            <p className="overline">— Specialized services</p>
+            <p className="overline">— Production process</p>
             <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,56px)] max-w-4xl">
-              Specialized <span className="italic">{service.name.toLowerCase()}</span> capabilities.
+              How we ship <span className="italic">{service.name.toLowerCase()}.</span>
             </h2>
           </Reveal>
           <div className="mt-12 divide-y divide-parchment border-y border-parchment">
@@ -293,53 +275,57 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         </div>
       </section>
 
-      {/* ── SEO #2: Capabilities with Read more (inverted) ───── */}
-      <ExpandableSEO
-        invert
-        overline="Capabilities stack"
-        title="Everything that ships"
-        italic="under one roof."
-        intro={seoCapabilities.intro}
-        more={seoCapabilities.more}
-      />
-
-      {/* ── CAPABILITIES + VISUAL ────────────────────────────── */}
+      {/* ── 07 · INDUSTRIES SERVED ──────────────────────────── */}
       <section className="container-tero py-24 md:py-32">
-        <div className="grid grid-cols-1 gap-14 md:grid-cols-12 md:items-center">
+        <div className="grid grid-cols-1 gap-14 md:grid-cols-12 md:items-start">
           <div className="md:col-span-5">
             <Reveal>
-              <div className="relative aspect-square overflow-hidden rounded-2xl border border-parchment bg-ink">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(229,73,42,0.3),transparent_60%)]" />
-                <div className="absolute inset-x-10 bottom-10 top-10 rounded-xl border border-cream/15 bg-cream/[0.03]" />
-                <p className="absolute left-6 top-6 font-mono text-[10px] uppercase tracking-[0.25em] text-cream/60">
-                  — {service.primaryKeyword}
-                </p>
-              </div>
+              <p className="overline">— Industries served</p>
+              <h2 className="mt-4 hero-headline text-[clamp(32px,4.5vw,56px)]">
+                Built for teams who <span className="italic">need it sharp.</span>
+              </h2>
+              <p className="mt-6 max-w-md font-body text-[16px] leading-relaxed text-slate">
+                Where our {service.name.toLowerCase()} work most often ships.
+              </p>
             </Reveal>
           </div>
           <div className="md:col-span-7">
             <Reveal>
-              <p className="overline">— Built for</p>
-              <h2 className="mt-4 hero-headline text-[clamp(32px,4.5vw,56px)]">
-                Made for teams who <span className="italic">need it sharp.</span>
-              </h2>
-              <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {service.industries.map((ind) => (
-                  <li key={ind} className="flex items-start gap-3">
+                  <li key={ind} className="flex items-start gap-3 rounded-xl border border-parchment bg-cream p-5">
                     <Check className="mt-1 h-5 w-5 flex-shrink-0 text-vermillion" strokeWidth={2} />
                     <span className="font-sans-display text-[16px] font-medium text-ink">{ind}</span>
                   </li>
                 ))}
               </ul>
+              {relatedIndustries.length > 0 && (
+                <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {relatedIndustries.map((ind) => (
+                    <Link
+                      key={ind.slug}
+                      to="/industries/$slug"
+                      params={{ slug: ind.slug }}
+                      className="group flex items-center justify-between rounded-lg border border-parchment bg-card p-4 transition-all hover:border-vermillion/40"
+                    >
+                      <div>
+                        <p className="font-sans-display text-[15px] font-bold text-ink">{ind.name}</p>
+                        <p className="mt-0.5 font-body text-[12px] text-slate">{ind.short}</p>
+                      </div>
+                      <ArrowUpRight className="h-4 w-4 text-ink/40 transition-all group-hover:text-vermillion group-hover:-translate-y-1 group-hover:translate-x-1" strokeWidth={1.5} />
+                    </Link>
+                  ))}
+                </div>
+              )}
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* ── TESTIMONIALS (from homepage) ─────────────────────── */}
+      {/* ── 08 · TESTIMONIALS ───────────────────────────────── */}
       <Testimonials />
 
-      {/* ── FAQ ──────────────────────────────────────────────── */}
+      {/* ── 09 · FAQ ────────────────────────────────────────── */}
       <section className="container-tero py-24 md:py-32">
         <div className="grid grid-cols-1 gap-14 md:grid-cols-12">
           <div className="md:col-span-4">
@@ -363,65 +349,68 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         </div>
       </section>
 
-      {/* ── RELATED / BEYOND ─────────────────────────────────── */}
-      {relatedServices.length > 0 && (
-        <section className="border-y border-parchment bg-card">
-          <div className="container-tero py-20 md:py-28">
-            <Reveal>
-              <p className="overline">— Beyond {service.name.toLowerCase()}</p>
-              <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,56px)] max-w-3xl">
-                Comprehensive <span className="italic">{service.category.toLowerCase()}</span> solutions.
-              </h2>
-            </Reveal>
-            <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
-              {relatedServices.map((s) => (
-                <Link
-                  key={s.slug}
-                  to="/services/$slug"
-                  params={{ slug: s.slug }}
-                  className="group flex items-start justify-between gap-6 rounded-xl border border-parchment bg-cream p-7 transition-all hover:border-vermillion/40"
-                >
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-vermillion">— {s.category}</p>
-                    <p className="mt-3 font-sans-display text-[20px] font-bold text-ink">{s.name}</p>
-                    <p className="mt-2 font-body text-[14px] leading-relaxed text-slate">{s.short}</p>
-                  </div>
-                  <ArrowUpRight className="mt-1 h-5 w-5 flex-shrink-0 text-ink/40 transition-all group-hover:text-vermillion group-hover:-translate-y-1 group-hover:translate-x-1" strokeWidth={1.5} />
-                </Link>
-              ))}
+      {/* ── 10 · CTA FOOTER ─────────────────────────────────── */}
+      <section data-nav-theme="dark" className="bg-ink text-cream">
+        <div className="container-tero py-24 md:py-32">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:items-end">
+            <div className="md:col-span-8">
+              <Reveal>
+                <p className="overline text-vermillion">— Start a {service.name.toLowerCase()} project</p>
+                <h2 className="mt-6 hero-headline text-cream text-[clamp(40px,7vw,96px)]">
+                  Ready to ship your <br />
+                  <span className="italic">{service.name.toLowerCase()}?</span>
+                </h2>
+                <p className="mt-8 max-w-xl font-body text-[18px] leading-relaxed text-cream/70">
+                  Tell us about the brief — timelines, scope, references. A senior lead will
+                  reply within one working day with a clear next step.
+                </p>
+              </Reveal>
+            </div>
+            <div className="md:col-span-4">
+              <Reveal>
+                <div className="flex flex-col gap-4">
+                  <Link
+                    to="/contact"
+                    className="group inline-flex items-center justify-between gap-3 rounded-[4px] bg-vermillion px-6 py-5 text-[14px] font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
+                  >
+                    Start a project
+                    <ArrowUpRight className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </Link>
+                  <Link
+                    to="/showreel"
+                    className="group inline-flex items-center justify-between gap-3 rounded-[4px] border border-cream/20 px-6 py-5 text-[14px] font-medium text-cream transition-colors hover:border-cream"
+                  >
+                    Watch the showreel
+                    <ArrowUpRight className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </Link>
+                </div>
+              </Reveal>
             </div>
           </div>
-        </section>
-      )}
 
-      {/* ── RELATED INDUSTRIES ───────────────────────────────── */}
-      {relatedIndustries.length > 0 && (
-        <section className="container-tero py-20 md:py-24">
-          <Reveal>
-            <p className="overline">— Industries we serve here</p>
-            <h2 className="mt-4 font-sans-display text-[28px] md:text-[40px] font-bold text-ink max-w-3xl">
-              Where this service shows up.
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {relatedIndustries.map((ind) => (
-              <Link
-                key={ind.slug}
-                to="/industries/$slug"
-                params={{ slug: ind.slug }}
-                className="group flex items-center justify-between rounded-xl border border-parchment bg-card p-6 transition-all hover:border-vermillion/40"
-              >
-                <div>
-                  <p className="font-sans-display text-[18px] font-bold text-ink">{ind.name}</p>
-                  <p className="mt-1 font-body text-[13px] text-slate">{ind.short}</p>
-                </div>
-                <ArrowUpRight className="h-5 w-5 text-ink/40 transition-all group-hover:text-vermillion group-hover:-translate-y-1 group-hover:translate-x-1" strokeWidth={1.5} />
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
+          {relatedServices.length > 0 && (
+            <div className="mt-20 border-t border-cream/10 pt-12">
+              <p className="overline text-cream/60">— Beyond {service.name.toLowerCase()}</p>
+              <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {relatedServices.map((s) => (
+                  <Link
+                    key={s.slug}
+                    to="/services/$slug"
+                    params={{ slug: s.slug }}
+                    className="group flex items-start justify-between gap-4 rounded-xl border border-cream/10 bg-cream/[0.03] p-5 transition-all hover:border-vermillion/40"
+                  >
+                    <div>
+                      <p className="font-sans-display text-[16px] font-bold text-cream">{s.name}</p>
+                      <p className="mt-1 font-body text-[12px] leading-relaxed text-cream/60">{s.short}</p>
+                    </div>
+                    <ArrowUpRight className="mt-1 h-4 w-4 flex-shrink-0 text-cream/40 transition-all group-hover:text-vermillion group-hover:-translate-y-1 group-hover:translate-x-1" strokeWidth={1.5} />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
     </PageLayout>
   );
 }
