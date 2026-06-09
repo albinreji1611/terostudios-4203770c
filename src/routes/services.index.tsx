@@ -8,14 +8,14 @@ export const Route = createFileRoute("/services/")({
   component: ServicesHub,
   head: () => ({
     meta: [
-      { title: "Animation Services | Tero Studios | India & USA" },
+      { title: "Services | Tero Studios | India & USA" },
       {
         name: "description",
         content:
-          "Thirteen senior-led disciplines — 3D, 2D, motion, anamorphic, projection mapping, holograms, CGI/VFX, AI and animation hardware.",
+          "Five practices spanning content & visual storytelling, real estate & spatial experiences, immersive learning, brand & event experiences and immersive hardware.",
       },
       { property: "og:title", content: "Services — Tero Studios" },
-      { property: "og:description", content: "Thirteen disciplines under one editorial roof." },
+      { property: "og:description", content: "Five practices. One studio." },
     ],
   }),
 });
@@ -28,12 +28,12 @@ function ServicesHub() {
         <Reveal>
           <p className="overline">— Services</p>
           <h1 className="mt-6 hero-headline text-[clamp(56px,10vw,144px)] max-w-5xl">
-            Thirteen disciplines. <br />
+            Five practices. <br />
             <span className="italic">One studio.</span>
           </h1>
           <p className="mt-8 max-w-xl font-body text-[18px] leading-relaxed text-slate">
-            From traditional 2D and 3D animation to projection mapping,
-            holographic displays and the hardware that powers the studio.
+            From content and visual storytelling to immersive hardware — every
+            discipline Tero Studios ships, organised under one editorial roof.
           </p>
         </Reveal>
       </section>
