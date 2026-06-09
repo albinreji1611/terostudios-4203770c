@@ -4,12 +4,12 @@ import forum from "@/assets/Fourm_mall.png.asset.json";
 import lulu from "@/assets/Lulu_Mall.png.asset.json";
 import stEng from "@/assets/S_T_Engineering.png.asset.json";
 import shot from "@/assets/Shot_ready.png.asset.json";
-// Brand logos (from curated client-logos set)
-import bhimaLogo from "@/assets/client-logos/logo-50.png.asset.json";
-import forumLogo from "@/assets/client-logos/logo-30.png.asset.json";
-import luluLogo from "@/assets/client-logos/logo-11.png.asset.json";
-import stEngLogo from "@/assets/client-logos/logo-62.png.asset.json";
-import shotLogo from "@/assets/client-logos/logo-12.png.asset.json";
+// White brand logos for dark background
+import bhimaLogo from "@/assets/client-logos-white/bhima.png.asset.json";
+import forumLogo from "@/assets/client-logos-white/forum.png.asset.json";
+import luluLogo from "@/assets/client-logos-white/lulu.png.asset.json";
+import stEngLogo from "@/assets/client-logos-white/steng.png.asset.json";
+import shotLogo from "@/assets/client-logos-white/shot.png.asset.json";
 
 type Testimonial = {
   quote: string;
