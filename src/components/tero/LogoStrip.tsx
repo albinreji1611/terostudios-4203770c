@@ -1,75 +1,69 @@
-import { Reveal } from "./Reveal";
+import { useMemo } from "react";
 
-const logos = [
-  "NETFLIX", "SAMSUNG", "NIKE", "TATA", "SWIGGY", "RAZORPAY",
-  "ADIDAS", "FLIPKART", "ZOMATO", "MERCEDES", "UNILEVER", "ITC",
-];
+// Auto-import every uploaded client logo asset pointer.
+const logoModules = import.meta.glob<{ default: { url: string } }>(
+  "@/assets/client-logos/*.png.asset.json",
+  { eager: true },
+);
+
+const logoUrls = Object.entries(logoModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, mod]) => mod.default.url);
 
 export function LogoStrip() {
-  const rowA = [...logos, ...logos];
-  const rowB = [...logos.slice().reverse(), ...logos.slice().reverse()];
+  const { rowA, rowB } = useMemo(() => {
+    const half = Math.ceil(logoUrls.length / 2);
+    const a = logoUrls.slice(0, half);
+    const b = logoUrls.slice(half);
+    return {
+      rowA: [...a, ...a],
+      rowB: [...b.slice().reverse(), ...b.slice().reverse()],
+    };
+  }, []);
 
   return (
     <section className="relative border-y border-parchment bg-cream overflow-hidden">
-      {/* hairline grid accents */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute top-0 left-6 md:left-12 w-px h-full bg-ink/[0.06]" />
         <div className="absolute top-0 right-6 md:right-12 w-px h-full bg-ink/[0.06]" />
       </div>
 
       <div className="container-tero py-20 md:py-28 relative">
-
-        {/* Marquee rows */}
         <div className="relative">
-          {/* edge fades */}
           <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-cream to-transparent z-10" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-cream to-transparent z-10" />
 
           <div className="space-y-2 md:space-y-4">
-            {/* Row 1 — left */}
             <div className="overflow-hidden border-y border-ink/10 py-6 md:py-8">
-              <div className="flex gap-16 md:gap-24 animate-marquee whitespace-nowrap will-change-transform">
-                {rowA.map((l, i) => (
-                  <LogoCell key={`a-${i}`} label={l} />
+              <div className="flex items-center gap-16 md:gap-24 animate-marquee whitespace-nowrap will-change-transform">
+                {rowA.map((src, i) => (
+                  <LogoCell key={`a-${i}`} src={src} />
                 ))}
               </div>
             </div>
 
-            {/* Row 2 — right (reverse) */}
             <div className="overflow-hidden border-b border-ink/10 py-6 md:py-8">
-              <div className="flex gap-16 md:gap-24 animate-marquee-reverse whitespace-nowrap will-change-transform">
-                {rowB.map((l, i) => (
-                  <LogoCell key={`b-${i}`} label={l} variant="muted" />
+              <div className="flex items-center gap-16 md:gap-24 animate-marquee-reverse whitespace-nowrap will-change-transform">
+                {rowB.map((src, i) => (
+                  <LogoCell key={`b-${i}`} src={src} />
                 ))}
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
 }
 
-function LogoCell({
-  label,
-  variant = "default",
-}: {
-  label: string;
-  variant?: "default" | "muted";
-}) {
+function LogoCell({ src }: { src: string }) {
   return (
-    <span
-      className={`group relative inline-flex items-center gap-5 font-sans-display text-[28px] md:text-[44px] lg:text-[56px] font-bold tracking-[0.06em] leading-none transition-colors duration-300 ${
-        variant === "muted"
-          ? "text-ink/25 hover:text-ink"
-          : "text-ink/40 hover:text-vermillion"
-      }`}
-    >
-      {label}
-      <span
-        aria-hidden
-        className="inline-block w-2.5 h-2.5 rounded-full bg-vermillion/70 group-hover:scale-150 transition-transform duration-300"
+    <span className="group relative inline-flex shrink-0 items-center justify-center">
+      <img
+        src={src}
+        alt="Client logo"
+        loading="lazy"
+        className="h-[56px] md:h-[80px] lg:h-[96px] w-auto object-contain opacity-60 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
       />
     </span>
   );
