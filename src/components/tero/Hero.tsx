@@ -285,7 +285,7 @@ export function Hero() {
         >
           <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-ink/55 flex items-center gap-2.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-vermillion animate-pulse" />
-            Tero Studios — Est. 2014
+            Tero Studios — Est. 2016
           </span>
           <span className="hidden sm:inline font-mono text-[10px] uppercase tracking-[0.32em] text-ink/55">
             Chennai · 13.08° N
