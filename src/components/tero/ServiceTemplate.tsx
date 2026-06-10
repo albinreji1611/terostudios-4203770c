@@ -341,32 +341,8 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
       </section>
 
       {/* ── 06 · PRODUCTION PROCESS ─────────────────────────── */}
-      <section className="border-y border-parchment bg-card">
-        <div className="container-tero py-20 md:py-28">
-          <Reveal>
-            <p className="overline">— Production process</p>
-            <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,56px)] max-w-4xl">
-              How we ship <span className="italic">{service.name.toLowerCase()}.</span>
-            </h2>
-          </Reveal>
-          <div className="mt-12 divide-y divide-parchment border-y border-parchment">
-            {service.process.map((p, i) => (
-              <details key={p.title} className="group py-6" open={i === 0}>
-                <summary className="flex cursor-pointer items-center justify-between gap-6">
-                  <div className="flex items-center gap-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-vermillion">
-                      — {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="font-sans-display text-[20px] md:text-[24px] font-bold text-ink">{p.title}</span>
-                  </div>
-                  <span className="text-vermillion transition-transform group-open:rotate-45 text-2xl leading-none">+</span>
-                </summary>
-                <p className="mt-4 max-w-3xl pl-0 md:pl-[88px] font-body text-[15px] leading-relaxed text-slate">{p.description}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ServiceProcess service={service} />
+
 
       {/* ── 07 · INDUSTRIES SERVED ──────────────────────────── */}
       <section className="container-tero py-24 md:py-32">
