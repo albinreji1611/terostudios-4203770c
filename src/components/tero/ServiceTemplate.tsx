@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { motion, AnimatePresence } from "framer-motion";
 import { PageLayout } from "./PageLayout";
 import { Reveal } from "./Reveal";
 import { LogoStrip } from "./LogoStrip";
@@ -8,6 +9,98 @@ import { ArrowUpRight, Check, Play, Sparkles, Clock, Award, Users } from "lucide
 import type { ServiceEntry } from "@/data/services";
 import { services as allServices } from "@/data/services";
 import { industries as allIndustries } from "@/data/industries";
+import procScript from "@/assets/process-script.jpg";
+import procStoryboard from "@/assets/process-storyboard.jpg";
+import procAnimatics from "@/assets/process-animatics.jpg";
+import proc3D from "@/assets/process-3dmodel.jpg";
+import procLighting from "@/assets/process-lighting.jpg";
+import procVfx from "@/assets/process-vfx.jpg";
+import procDelivery from "@/assets/process-delivery.jpg";
+
+const processImages = [procScript, procStoryboard, procAnimatics, proc3D, procLighting, procVfx, procDelivery];
+
+function ServiceProcess({ service }: { service: ServiceEntry }) {
+  const [active, setActive] = useState(0);
+  const steps = service.process;
+  return (
+    <section className="border-y border-parchment bg-card">
+      <div className="container-tero py-20 md:py-28">
+        <Reveal>
+          <p className="overline">— Production process</p>
+          <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,56px)] max-w-4xl">
+            How we ship <span className="italic">{service.name.toLowerCase()}.</span>
+          </h2>
+        </Reveal>
+
+        <div className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-12 md:items-start">
+          <div className="md:col-span-5">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-parchment bg-ink">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={active}
+                  src={processImages[active % processImages.length]}
+                  alt={steps[active]?.title ?? "Process"}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </AnimatePresence>
+              <div className="absolute inset-x-5 bottom-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/70">
+                  — Step {String(active + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}
+                </p>
+                <p className="mt-2 font-sans-display text-[22px] font-bold text-cream">{steps[active]?.title}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="md:col-span-7">
+            <ol className="divide-y divide-parchment border-y border-parchment">
+              {steps.map((s, i) => {
+                const isActive = active === i;
+                return (
+                  <li key={s.title}>
+                    <button
+                      type="button"
+                      onClick={() => setActive(i)}
+                      onMouseEnter={() => setActive(i)}
+                      className="group w-full text-left py-6 flex items-start gap-6"
+                    >
+                      <span
+                        className={[
+                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-[12px] font-mono transition-colors",
+                          isActive
+                            ? "bg-vermillion border-vermillion text-cream"
+                            : "border-parchment text-slate group-hover:border-ink/40",
+                        ].join(" ")}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <div className="flex-1">
+                        <h3 className={["font-sans-display text-[20px] md:text-[26px] font-bold transition-colors", isActive ? "text-ink" : "text-ink/70"].join(" ")}>
+                          {s.title}
+                        </h3>
+                        <div
+                          className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-500 ease-out ${
+                            isActive ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0"
+                          }`}
+                        >
+                          <p className="min-h-0 font-body text-[15px] leading-relaxed text-slate">{s.description}</p>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 const whyPartner = [
   { icon: Award, title: "Senior-led craft", body: "Every project run by a senior director — no juniors learning on your brief." },
@@ -248,32 +341,8 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
       </section>
 
       {/* ── 06 · PRODUCTION PROCESS ─────────────────────────── */}
-      <section className="border-y border-parchment bg-card">
-        <div className="container-tero py-20 md:py-28">
-          <Reveal>
-            <p className="overline">— Production process</p>
-            <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,56px)] max-w-4xl">
-              How we ship <span className="italic">{service.name.toLowerCase()}.</span>
-            </h2>
-          </Reveal>
-          <div className="mt-12 divide-y divide-parchment border-y border-parchment">
-            {service.process.map((p, i) => (
-              <details key={p.title} className="group py-6" open={i === 0}>
-                <summary className="flex cursor-pointer items-center justify-between gap-6">
-                  <div className="flex items-center gap-6">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-vermillion">
-                      — {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="font-sans-display text-[20px] md:text-[24px] font-bold text-ink">{p.title}</span>
-                  </div>
-                  <span className="text-vermillion transition-transform group-open:rotate-45 text-2xl leading-none">+</span>
-                </summary>
-                <p className="mt-4 max-w-3xl pl-0 md:pl-[88px] font-body text-[15px] leading-relaxed text-slate">{p.description}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ServiceProcess service={service} />
+
 
       {/* ── 07 · INDUSTRIES SERVED ──────────────────────────── */}
       <section className="container-tero py-24 md:py-32">
