@@ -16,7 +16,7 @@ function CyclingWord({ onDark }: { onDark: boolean }) {
     return () => clearInterval(t);
   }, []);
   return (
-    <span className="relative inline-flex items-center h-7 md:h-8 min-w-[80px] md:min-w-[100px] overflow-hidden leading-none ml-2 md:ml-3">
+    <span className="relative inline-flex items-center h-8 md:h-10 min-w-[90px] md:min-w-[110px] overflow-hidden leading-none ml-2 md:ml-3">
       <span className="relative block h-full w-full" style={{ paddingTop: "1px" }}>
         <AnimatePresence mode="wait">
           <motion.span
@@ -30,7 +30,7 @@ function CyclingWord({ onDark }: { onDark: boolean }) {
               onDark ? "text-white" : "text-ink",
             ].join(" ")}
           >
-            <span className="tero-logo-cycle-text text-[13px] md:text-[15px]">{cyclingWords[i]}</span>
+            <span className="tero-logo-cycle-text text-[15px] md:text-[18px]">{cyclingWords[i]}</span>
           </motion.span>
         </AnimatePresence>
       </span>
@@ -168,7 +168,7 @@ export function Nav() {
             width={1317}
             height={480}
             className={[
-              "h-7 md:h-8 w-auto object-contain transition-[filter] duration-300",
+              "h-8 md:h-10 w-auto object-contain transition-[filter] duration-300",
               openMega || lightBg ? "[filter:brightness(0)]" : "[filter:brightness(0)_invert(1)]",
             ].join(" ")}
           />
