@@ -147,7 +147,7 @@ export function ServicesScroller() {
         </div>
 
         {/* Right side: mark + description */}
-        <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-30 w-[40%] md:w-[34%] max-w-[420px]">
+        <div className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 z-10 w-[32%] md:w-[26%] max-w-[340px] opacity-70 pointer-events-none">
           <GrainMorph active={active} />
         </div>
 
@@ -155,7 +155,7 @@ export function ServicesScroller() {
         <div className="relative h-full">
           <motion.ul
             style={{ y }}
-            className="absolute left-[8%] md:left-[12%] top-1/2 will-change-transform"
+            className="absolute left-[6%] md:left-[10%] right-[34%] md:right-[30%] top-1/2 will-change-transform z-20"
           >
             {services.map((s, i) => {
               const isActive = i === active;
@@ -172,18 +172,18 @@ export function ServicesScroller() {
                       scale: isActive ? 1 : 0.92,
                     }}
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-display font-bold leading-[0.85]"
+                    className="font-display font-bold leading-[0.9]"
                     style={{
-                      fontSize: "clamp(48px, 9vw, 140px)",
+                      fontSize: "clamp(32px, 5.6vw, 96px)",
                       color: "#1a1a1f",
-                      letterSpacing: "-0.04em",
+                      letterSpacing: "-0.03em",
                       textShadow: isActive
                         ? "0 0 60px rgba(232,57,14,0.15)"
                         : "none",
                       display: "block",
                       transformOrigin: "left center",
-                      maxWidth: "55vw",
-                      whiteSpace: "nowrap",
+                      wordBreak: "break-word",
+                      hyphens: "auto",
                     }}
                   >
                     {s.name}
