@@ -123,7 +123,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container-tero flex flex-col gap-3 py-6 md:flex-row md:items-center md:justify-between">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cream/40">
-            © {new Date().getFullYear()} Tero Studios — Crafted with care
+            © 2026 Tero Studios — Crafted with care
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cream/40">
             Chennai · India
