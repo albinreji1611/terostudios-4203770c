@@ -5,7 +5,6 @@ const stats = [
   { n: 48, suffix: "+", label: "Clients", meta: "Worldwide" },
   { n: 12, suffix: "", label: "Years", meta: "Independent" },
   { n: 27, suffix: "", label: "Awards", meta: "& features" },
-  { n: 5, suffix: "", label: "Studios", meta: "Across cities" },
 ];
 
 function useCountUp(target: number, duration = 1800) {
@@ -126,7 +125,7 @@ export function StatsSection() {
             Independent ●
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x divide-y md:divide-y-0 divide-parchment border-x border-parchment">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-parchment border-x border-parchment">
             {stats.map((s, i) => (
               <StatCard key={i} index={i} {...s} />
             ))}
