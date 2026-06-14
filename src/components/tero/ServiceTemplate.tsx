@@ -28,7 +28,7 @@ function ServiceProcess({ service }: { service: ServiceEntry }) {
         <Reveal>
           <p className="overline">— Production process</p>
           <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,56px)] max-w-4xl">
-            How we ship <span className="italic">{service.name.toLowerCase()}.</span>
+            How we ship <span className="italic">{service.name}.</span>
           </h2>
         </Reveal>
 
