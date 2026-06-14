@@ -84,8 +84,8 @@ export function CylinderGallery() {
           style={{
             perspective: "1400px",
             perspectiveOrigin: "50% 50%",
-            width: "min(60vw, 540px)",
-            height: "min(50vh, 380px)",
+            width: "min(70vw, 640px)",
+            height: "min(55vh, 440px)",
           }}
         >
           <motion.div
