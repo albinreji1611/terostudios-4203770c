@@ -146,8 +146,11 @@ function ContactPage() {
                     >
                       {step === 0 && (
                         <>
-                          <div>
+                          <div className="rounded-2xl border border-parchment bg-white p-5 md:p-6">
                             <p className="overline">— What service do you need?</p>
+                            <p className="mt-1 font-body text-[13px] text-slate">
+                              Select a service to continue
+                            </p>
                             <div className="mt-4 flex flex-wrap gap-2">
                               {services.map((s) => (
                                 <button
@@ -165,26 +168,46 @@ function ContactPage() {
                                 </button>
                               ))}
                             </div>
+                            {!data.service && (
+                              <p className="mt-3 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-vermillion">
+                                <span className="inline-block h-1.5 w-1.5 rounded-full bg-vermillion animate-pulse" />
+                                Pick a service above to unlock the next step
+                              </p>
+                            )}
                           </div>
-                          <div>
-                            <p className="overline">— Project budget</p>
-                            <div className="mt-4 flex flex-wrap gap-2">
-                              {budgets.map((s) => (
-                                <button
-                                  key={s}
-                                  type="button"
-                                  onClick={() => setData({ ...data, budget: s })}
-                                  className={[
-                                    "rounded-full border px-4 py-2 font-body text-[13px] font-medium transition-all",
-                                    data.budget === s
-                                      ? "bg-ink border-ink text-cream"
-                                      : "bg-muted border-parchment text-slate hover:border-ink/30",
-                                  ].join(" ")}
-                                >
-                                  {s}
-                                </button>
-                              ))}
-                            </div>
+                          <div className={[
+                            "rounded-2xl border p-5 md:p-6 transition-all duration-300",
+                            data.service ? "border-parchment bg-white" : "border-dashed border-parchment/60 bg-muted/50",
+                          ].join(" ")}>
+                            <p className={["overline", !data.service && "opacity-50"].join(" ")}>— Project budget</p>
+                            {!data.service ? (
+                              <p className="mt-3 font-body text-[13px] text-slate/60">
+                                Choose a service first, then set your budget range
+                              </p>
+                            ) : (
+                              <>
+                                <p className="mt-1 font-body text-[13px] text-slate">
+                                  Select a budget range
+                                </p>
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                  {budgets.map((s) => (
+                                    <button
+                                      key={s}
+                                      type="button"
+                                      onClick={() => setData({ ...data, budget: s })}
+                                      className={[
+                                        "rounded-full border px-4 py-2 font-body text-[13px] font-medium transition-all",
+                                        data.budget === s
+                                          ? "bg-ink border-ink text-cream"
+                                          : "bg-muted border-parchment text-slate hover:border-ink/30",
+                                      ].join(" ")}
+                                    >
+                                      {s}
+                                    </button>
+                                  ))}
+                                </div>
+                              </>
+                            )}
                           </div>
                         </>
                       )}
