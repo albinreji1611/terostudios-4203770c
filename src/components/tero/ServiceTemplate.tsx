@@ -438,7 +438,7 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
 
           {relatedServices.length > 0 && (
             <div className="mt-20 border-t border-cream/10 pt-12">
-              <p className="overline text-cream/60">— Beyond {service.name.toLowerCase()}</p>
+              <p className="overline text-cream/60">— Beyond {service.name}</p>
               <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {relatedServices.map((s) => (
                   <Link
