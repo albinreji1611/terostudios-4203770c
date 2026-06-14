@@ -99,10 +99,8 @@ export function CylinderGallery() {
             {items.map((item, i) => {
               const angle = i * angleStep;
               const z = RADIUS * fanVal;
-              // Fit within MAX_W x MAX_H while preserving aspect ratio
-              const fitByWidth = MAX_W / item.aspect <= MAX_H;
-              const w = fitByWidth ? MAX_W : MAX_H * item.aspect;
-              const h = fitByWidth ? MAX_W / item.aspect : MAX_H;
+              const w = CARD_W;
+              const h = CARD_H;
               return (
                 <div
                   key={i}
