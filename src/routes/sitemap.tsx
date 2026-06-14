@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageLayout } from "@/components/tero/PageLayout";
 import { Reveal } from "@/components/tero/Reveal";
 import { services } from "@/data/services";
-import { industries } from "@/data/industries";
 
 const tier1 = [
   { to: "/", label: "Home" },
