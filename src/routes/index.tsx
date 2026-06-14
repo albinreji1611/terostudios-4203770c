@@ -13,6 +13,7 @@ import { Testimonials } from "@/components/tero/Testimonials";
 import { Awards } from "@/components/tero/Awards";
 import { FAQ } from "@/components/tero/FAQ";
 import { KineticBand } from "@/components/tero/KineticBand";
+import { ScrollToTop } from "@/components/tero/ScrollToTop";
 
 
 export const Route = createFileRoute("/")({
@@ -44,6 +45,7 @@ function Index() {
       <Testimonials />
       <Awards />
       <FAQ />
+      <ScrollToTop />
     </PageLayout>
   );
 }
