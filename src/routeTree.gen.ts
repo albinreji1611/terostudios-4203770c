@@ -15,7 +15,6 @@ import { Route as ShowreelRouteImport } from './routes/showreel'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
-import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ClientsRouteImport } from './routes/clients'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
@@ -24,10 +23,8 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
-import { Route as IndustriesIndexRouteImport } from './routes/industries.index'
 import { Route as AboutIndexRouteImport } from './routes/about.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
-import { Route as IndustriesSlugRouteImport } from './routes/industries.$slug'
 import { Route as AboutTeamRouteImport } from './routes/about.team'
 import { Route as AboutStudioRouteImport } from './routes/about.studio'
 
@@ -59,11 +56,6 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndustriesRoute = IndustriesRouteImport.update({
-  id: '/industries',
-  path: '/industries',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -106,11 +98,6 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
-const IndustriesIndexRoute = IndustriesIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => IndustriesRoute,
-} as any)
 const AboutIndexRoute = AboutIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -120,11 +107,6 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
-} as any)
-const IndustriesSlugRoute = IndustriesSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => IndustriesRoute,
 } as any)
 const AboutTeamRoute = AboutTeamRouteImport.update({
   id: '/team',
@@ -145,7 +127,6 @@ export interface FileRoutesByFullPath {
   '/case-studies': typeof CaseStudiesRoute
   '/clients': typeof ClientsRoute
   '/contact': typeof ContactRoute
-  '/industries': typeof IndustriesRouteWithChildren
   '/portfolio': typeof PortfolioRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
@@ -154,10 +135,8 @@ export interface FileRoutesByFullPath {
   '/team': typeof TeamRoute
   '/about/studio': typeof AboutStudioRoute
   '/about/team': typeof AboutTeamRoute
-  '/industries/$slug': typeof IndustriesSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/about/': typeof AboutIndexRoute
-  '/industries/': typeof IndustriesIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -174,10 +153,8 @@ export interface FileRoutesByTo {
   '/team': typeof TeamRoute
   '/about/studio': typeof AboutStudioRoute
   '/about/team': typeof AboutTeamRoute
-  '/industries/$slug': typeof IndustriesSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/about': typeof AboutIndexRoute
-  '/industries': typeof IndustriesIndexRoute
   '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
@@ -189,7 +166,6 @@ export interface FileRoutesById {
   '/case-studies': typeof CaseStudiesRoute
   '/clients': typeof ClientsRoute
   '/contact': typeof ContactRoute
-  '/industries': typeof IndustriesRouteWithChildren
   '/portfolio': typeof PortfolioRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
@@ -198,10 +174,8 @@ export interface FileRoutesById {
   '/team': typeof TeamRoute
   '/about/studio': typeof AboutStudioRoute
   '/about/team': typeof AboutTeamRoute
-  '/industries/$slug': typeof IndustriesSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/about/': typeof AboutIndexRoute
-  '/industries/': typeof IndustriesIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
@@ -214,7 +188,6 @@ export interface FileRouteTypes {
     | '/case-studies'
     | '/clients'
     | '/contact'
-    | '/industries'
     | '/portfolio'
     | '/privacy-policy'
     | '/services'
@@ -223,10 +196,8 @@ export interface FileRouteTypes {
     | '/team'
     | '/about/studio'
     | '/about/team'
-    | '/industries/$slug'
     | '/services/$slug'
     | '/about/'
-    | '/industries/'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -243,10 +214,8 @@ export interface FileRouteTypes {
     | '/team'
     | '/about/studio'
     | '/about/team'
-    | '/industries/$slug'
     | '/services/$slug'
     | '/about'
-    | '/industries'
     | '/services'
   id:
     | '__root__'
@@ -257,7 +226,6 @@ export interface FileRouteTypes {
     | '/case-studies'
     | '/clients'
     | '/contact'
-    | '/industries'
     | '/portfolio'
     | '/privacy-policy'
     | '/services'
@@ -266,10 +234,8 @@ export interface FileRouteTypes {
     | '/team'
     | '/about/studio'
     | '/about/team'
-    | '/industries/$slug'
     | '/services/$slug'
     | '/about/'
-    | '/industries/'
     | '/services/'
   fileRoutesById: FileRoutesById
 }
@@ -281,7 +247,6 @@ export interface RootRouteChildren {
   CaseStudiesRoute: typeof CaseStudiesRoute
   ClientsRoute: typeof ClientsRoute
   ContactRoute: typeof ContactRoute
-  IndustriesRoute: typeof IndustriesRouteWithChildren
   PortfolioRoute: typeof PortfolioRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
@@ -332,13 +297,6 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/industries': {
-      id: '/industries'
-      path: '/industries'
-      fullPath: '/industries'
-      preLoaderRoute: typeof IndustriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -397,13 +355,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/industries/': {
-      id: '/industries/'
-      path: '/'
-      fullPath: '/industries/'
-      preLoaderRoute: typeof IndustriesIndexRouteImport
-      parentRoute: typeof IndustriesRoute
-    }
     '/about/': {
       id: '/about/'
       path: '/'
@@ -417,13 +368,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/services/$slug'
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
-    }
-    '/industries/$slug': {
-      id: '/industries/$slug'
-      path: '/$slug'
-      fullPath: '/industries/$slug'
-      preLoaderRoute: typeof IndustriesSlugRouteImport
-      parentRoute: typeof IndustriesRoute
     }
     '/about/team': {
       id: '/about/team'
@@ -456,20 +400,6 @@ const AboutRouteChildren: AboutRouteChildren = {
 
 const AboutRouteWithChildren = AboutRoute._addFileChildren(AboutRouteChildren)
 
-interface IndustriesRouteChildren {
-  IndustriesSlugRoute: typeof IndustriesSlugRoute
-  IndustriesIndexRoute: typeof IndustriesIndexRoute
-}
-
-const IndustriesRouteChildren: IndustriesRouteChildren = {
-  IndustriesSlugRoute: IndustriesSlugRoute,
-  IndustriesIndexRoute: IndustriesIndexRoute,
-}
-
-const IndustriesRouteWithChildren = IndustriesRoute._addFileChildren(
-  IndustriesRouteChildren,
-)
-
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -492,7 +422,6 @@ const rootRouteChildren: RootRouteChildren = {
   CaseStudiesRoute: CaseStudiesRoute,
   ClientsRoute: ClientsRoute,
   ContactRoute: ContactRoute,
-  IndustriesRoute: IndustriesRouteWithChildren,
   PortfolioRoute: PortfolioRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ServicesRoute: ServicesRouteWithChildren,
@@ -503,3 +432,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
