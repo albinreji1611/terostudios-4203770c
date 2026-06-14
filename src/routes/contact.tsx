@@ -6,7 +6,7 @@ import { Reveal } from "@/components/tero/Reveal";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { Testimonials } from "@/components/tero/Testimonials";
 import { KineticBand } from "@/components/tero/KineticBand";
-import { ArrowRight, ArrowLeft, Check, Calendar, Mail, MapPin } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, Calendar, Mail, MapPin, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
@@ -66,6 +66,13 @@ function ContactPage() {
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate">Email</p>
                     <p className="mt-1 font-body text-[15px] text-ink">hello@terostudios.com</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <Phone className="mt-1 h-5 w-5 text-vermillion" strokeWidth={1.5} />
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate">Phone</p>
+                    <p className="mt-1 font-body text-[15px] text-ink">+91 98765 43210</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
