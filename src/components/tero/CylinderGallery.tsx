@@ -17,9 +17,9 @@ export function CylinderGallery() {
   const N = items.length;
   const angleStep = 360 / N;
   // Uniform card size for all (16:9 like reel cards 02, 03)
-  const CARD_W = 200;
+  const CARD_W = 260;
   const CARD_H = Math.round((CARD_W * 9) / 16);
-  const GAP = 20;
+  const GAP = 18;
   const RADIUS = Math.ceil((CARD_W + GAP) / (2 * Math.sin(Math.PI / N)));
 
   // Fan-out progress (0 → 1) drives spread + scroll rotation
@@ -84,8 +84,8 @@ export function CylinderGallery() {
           style={{
             perspective: "1400px",
             perspectiveOrigin: "50% 50%",
-            width: "min(60vw, 540px)",
-            height: "min(50vh, 380px)",
+            width: "min(70vw, 640px)",
+            height: "min(55vh, 440px)",
           }}
         >
           <motion.div
