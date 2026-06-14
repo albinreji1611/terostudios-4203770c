@@ -69,6 +69,13 @@ function ContactPage() {
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
+                  <Phone className="mt-1 h-5 w-5 text-vermillion" strokeWidth={1.5} />
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate">Phone</p>
+                    <p className="mt-1 font-body text-[15px] text-ink">+91 98765 43210</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
                   <Calendar className="mt-1 h-5 w-5 text-vermillion" strokeWidth={1.5} />
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate">Book a call</p>
