@@ -4,7 +4,6 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import teroWordmark from "@/assets/tero-wordmark.png";
 import { servicesByCategory } from "@/data/services";
-import { industries } from "@/data/industries";
 
 const cyclingWords = ["Studio", "Create", "Visualize", "Immerse"];
 
