@@ -121,13 +121,21 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-tero flex flex-col gap-3 py-6 md:flex-row md:items-center md:justify-between">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cream/40">
-            © 2026 Tero Studios — Crafted with care
+        <div className="container-tero flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
+          <p className="font-body text-[14px] text-cream/50">
+            © Copyright 2015-2026 Tero Studios. All rights reserved.
           </p>
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cream/40">
-            Chennai · India
-          </p>
+          <div className="flex flex-wrap items-center gap-6">
+            <Link to="/terms" className="font-body text-[14px] text-cream/50 hover:text-cream transition-colors">
+              Terms & Conditions
+            </Link>
+            <Link to="/privacy-policy" className="font-body text-[14px] text-cream/50 hover:text-cream transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/refund-policy" className="font-body text-[14px] text-cream/50 hover:text-cream transition-colors">
+              Cancellation & Refund Policy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
