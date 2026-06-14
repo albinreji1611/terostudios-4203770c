@@ -65,14 +65,14 @@ function ContactPage() {
                   <Mail className="mt-1 h-5 w-5 text-vermillion" strokeWidth={1.5} />
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate">Email</p>
-                    <p className="mt-1 font-body text-[15px] text-ink">hello@terostudios.com</p>
+                    <p className="mt-1 font-body text-[15px] text-ink">info@terostudios.com</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
                   <Phone className="mt-1 h-5 w-5 text-vermillion" strokeWidth={1.5} />
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate">Phone</p>
-                    <p className="mt-1 font-body text-[15px] text-ink">+91 98765 43210</p>
+                    <p className="mt-1 font-body text-[15px] text-ink">+91 99000 13988</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
