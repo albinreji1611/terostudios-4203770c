@@ -6,7 +6,7 @@ import { Reveal } from "@/components/tero/Reveal";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { Testimonials } from "@/components/tero/Testimonials";
 import { KineticBand } from "@/components/tero/KineticBand";
-import { ArrowRight, ArrowLeft, Check, Calendar, Mail, MapPin } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, Calendar, Mail, MapPin, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
