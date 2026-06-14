@@ -403,10 +403,10 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
           <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:items-end">
             <div className="md:col-span-8">
               <Reveal>
-                <p className="overline text-vermillion">— Start a {service.name.toLowerCase()} project</p>
+              <p className="overline text-vermillion">— Start a {service.name} project</p>
                 <h2 className="mt-6 hero-headline text-cream text-[clamp(40px,7vw,96px)]">
                   Ready to ship your <br />
-                  <span className="italic">{service.name.toLowerCase()}?</span>
+                  <span className="italic">{service.name}?</span>
                 </h2>
                 <p className="mt-8 max-w-xl font-body text-[18px] leading-relaxed text-cream/70">
                   Tell us about the brief — timelines, scope, references. A senior lead will
