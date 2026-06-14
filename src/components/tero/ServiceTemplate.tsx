@@ -351,7 +351,7 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
                 Built for teams who <span className="italic">need it sharp.</span>
               </h2>
               <p className="mt-6 max-w-md font-body text-[16px] leading-relaxed text-slate">
-                Where our {service.name.toLowerCase()} work most often ships.
+                Where our {service.name} work most often ships.
               </p>
             </Reveal>
           </div>
