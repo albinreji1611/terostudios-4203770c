@@ -16,13 +16,11 @@ export function CylinderGallery() {
 
   const N = items.length;
   const angleStep = 360 / N;
-  // Card sizing caps (px). Cards fit within these while preserving aspect ratio.
-  const MAX_W = 260;
-  const MAX_H = 260;
-  // Radius derived so widest possible card + gap doesn't overlap its neighbour.
-  // chord = 2*R*sin(π/N) must be ≥ MAX_W + gap
+  // Uniform card size for all (16:9 like reel cards 02, 03)
+  const CARD_W = 300;
+  const CARD_H = Math.round((CARD_W * 9) / 16);
   const GAP = 28;
-  const RADIUS = Math.ceil((MAX_W + GAP) / (2 * Math.sin(Math.PI / N)));
+  const RADIUS = Math.ceil((CARD_W + GAP) / (2 * Math.sin(Math.PI / N)));
 
   // Fan-out progress (0 → 1) drives spread + scroll rotation
   const fanOut = useTransform(smooth, [0, 0.18], [0, 1]);
@@ -101,10 +99,8 @@ export function CylinderGallery() {
             {items.map((item, i) => {
               const angle = i * angleStep;
               const z = RADIUS * fanVal;
-              // Fit within MAX_W x MAX_H while preserving aspect ratio
-              const fitByWidth = MAX_W / item.aspect <= MAX_H;
-              const w = fitByWidth ? MAX_W : MAX_H * item.aspect;
-              const h = fitByWidth ? MAX_W / item.aspect : MAX_H;
+              const w = CARD_W;
+              const h = CARD_H;
               return (
                 <div
                   key={i}
@@ -127,7 +123,7 @@ export function CylinderGallery() {
                     loop
                     playsInline
                     preload="metadata"
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-contain"
                   />
 
 
