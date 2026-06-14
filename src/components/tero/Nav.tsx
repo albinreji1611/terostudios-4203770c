@@ -43,12 +43,11 @@ function CyclingWord({ onDark }: { onDark: boolean }) {
 
 type Item =
   | { to: string; label: string; mega?: never }
-  | { to: string; label: string; mega: "services" | "industries" };
+  | { to: string; label: string; mega: "services" };
 
 const items: Item[] = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services", mega: "services" },
-  { to: "/industries", label: "Industries", mega: "industries" },
   { to: "/portfolio", label: "Portfolio" },
   { to: "/about", label: "About" },
   { to: "/blog", label: "Blog" },
