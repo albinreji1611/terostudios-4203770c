@@ -94,17 +94,22 @@ export function CylinderGallery() {
           >
             {items.map((item, i) => {
               const angle = i * angleStep;
-              // Translate Z grows from 0 to RADIUS as fanOut goes 0 → 1
               const z = RADIUS * fanVal;
+              const H_VH = 32; // card height in vh
+              const H_MAX = 280; // px cap
+              const widthCss = `min(${H_VH * item.aspect}vh, ${H_MAX * item.aspect}px)`;
+              const heightCss = `min(${H_VH}vh, ${H_MAX}px)`;
+              const mlCss = `min(${(H_VH * item.aspect) / -2}vh, ${(H_MAX * item.aspect) / -2}px)`;
+              const mtCss = `min(${H_VH / -2}vh, ${H_MAX / -2}px)`;
               return (
                 <div
                   key={i}
                   className="absolute left-1/2 top-1/2 overflow-hidden rounded-[6px] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] ring-1 ring-cream/10"
                   style={{
-                    width: "min(24vw, 220px)",
-                    height: "min(36vh, 300px)",
-                    marginLeft: "min(-12vw, -110px)",
-                    marginTop: "min(-18vh, -150px)",
+                    width: widthCss,
+                    height: heightCss,
+                    marginLeft: mlCss,
+                    marginTop: mtCss,
                     transformStyle: "preserve-3d",
                     transform: `rotateY(${angle}deg) translateZ(${z}px)`,
                     backfaceVisibility: "visible",
@@ -120,6 +125,7 @@ export function CylinderGallery() {
                     preload="metadata"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
+
                   <div
                     aria-hidden
                     className="absolute inset-0"
