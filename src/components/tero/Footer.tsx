@@ -22,6 +22,11 @@ export function Footer() {
             </p>
             <Link
               to="/contact"
+              onClick={() => {
+                if (typeof window !== "undefined" && window.location.pathname === "/contact") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
               className="group inline-flex items-center justify-between gap-4 rounded-[4px] border border-cream/30 px-6 py-5 text-[15px] font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
             >
               Start the conversation
