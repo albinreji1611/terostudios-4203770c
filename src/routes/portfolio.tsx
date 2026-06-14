@@ -95,7 +95,7 @@ function PortfolioPage() {
       </section>
 
       {/* ─────────────── STICKY FILTER BAR ─────────────── */}
-      <section className="sticky top-0 z-30 bg-cream/85 backdrop-blur-md border-b border-ink/10">
+      <section className="sticky top-[72px] z-30 bg-cream/85 backdrop-blur-md border-b border-ink/10">
         <div className="container-tero py-4 flex flex-wrap items-center gap-x-6 gap-y-3">
           <FilterRow label="Service" value={svc} setValue={setSvc} options={services} />
           <div className="hidden md:block h-5 w-px bg-ink/15" />
