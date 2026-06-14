@@ -79,7 +79,7 @@ function PortfolioPage() {
               ● Now playing
             </span>
             <div className="overflow-hidden flex-1">
-              <div className="flex gap-10 animate-[marquee_40s_linear_infinite] whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.2em] text-slate">
+              <div className="flex gap-10 animate-marquee whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.2em] text-slate" style={{ animationDuration: "60s" }}>
                 {[...projects, ...projects].map((p, i) => (
                   <span key={i} className="shrink-0">
                     {p.client} — {p.title}
