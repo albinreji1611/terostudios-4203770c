@@ -299,10 +299,10 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         <Reveal>
           <p className="overline">— Portfolio showcase</p>
           <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,64px)] max-w-3xl">
-            Recent <span className="italic">{service.name.toLowerCase()}</span> work.
+            Recent <span className="italic">{service.name}</span> work.
           </h2>
           <p className="mt-6 max-w-2xl font-body text-[16px] leading-relaxed text-slate">
-            A selection of recent {service.name.toLowerCase()} projects — shipped for brands across categories.
+            A selection of recent {service.name} projects — shipped for brands across categories.
           </p>
         </Reveal>
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
