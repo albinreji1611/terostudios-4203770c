@@ -60,7 +60,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="col-span-1 md:col-span-3">
+        <div className="col-span-2 md:col-span-4">
           <p className="overline mb-5 text-cream/50">Services</p>
           <ul className="space-y-2.5">
             {services.slice(0, 8).map((s) => (
