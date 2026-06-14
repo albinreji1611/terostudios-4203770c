@@ -39,7 +39,7 @@ export function FAQ() {
           <div className="md:col-span-5">
             <Reveal>
               <p className="overline">— Frequently asked</p>
-              <h2 className="mt-6 hero-headline text-[clamp(48px,8vw,128px)] leading-[0.9]">
+              <h2 className="mt-6 hero-headline text-[clamp(42px,7vw,112px)] leading-[0.9]">
                 Honest <br /> answers.
               </h2>
               <p className="mt-8 max-w-sm font-body text-[15px] leading-relaxed text-slate">
