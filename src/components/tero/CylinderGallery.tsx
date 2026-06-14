@@ -101,21 +101,19 @@ export function CylinderGallery() {
             {items.map((item, i) => {
               const angle = i * angleStep;
               const z = RADIUS * fanVal;
-              const H_VH = 32; // card height in vh
-              const H_MAX = 280; // px cap
-              const widthCss = `min(${H_VH * item.aspect}vh, ${H_MAX * item.aspect}px)`;
-              const heightCss = `min(${H_VH}vh, ${H_MAX}px)`;
-              const mlCss = `min(${(H_VH * item.aspect) / -2}vh, ${(H_MAX * item.aspect) / -2}px)`;
-              const mtCss = `min(${H_VH / -2}vh, ${H_MAX / -2}px)`;
+              // Fit within MAX_W x MAX_H while preserving aspect ratio
+              const fitByWidth = MAX_W / item.aspect <= MAX_H;
+              const w = fitByWidth ? MAX_W : MAX_H * item.aspect;
+              const h = fitByWidth ? MAX_W / item.aspect : MAX_H;
               return (
                 <div
                   key={i}
-                  className="absolute left-1/2 top-1/2 overflow-hidden rounded-[6px] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] ring-1 ring-cream/10"
+                  className="absolute left-1/2 top-1/2 overflow-hidden rounded-[6px] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] ring-1 ring-cream/10 bg-black"
                   style={{
-                    width: widthCss,
-                    height: heightCss,
-                    marginLeft: mlCss,
-                    marginTop: mtCss,
+                    width: `${w}px`,
+                    height: `${h}px`,
+                    marginLeft: `${-w / 2}px`,
+                    marginTop: `${-h / 2}px`,
                     transformStyle: "preserve-3d",
                     transform: `rotateY(${angle}deg) translateZ(${z}px)`,
                     backfaceVisibility: "visible",
@@ -131,6 +129,7 @@ export function CylinderGallery() {
                     preload="metadata"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
+
 
                   <div
                     aria-hidden
