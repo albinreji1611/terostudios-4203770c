@@ -37,7 +37,7 @@ const defaultFaqs = [
 export const services: ServiceEntry[] = [
   // ─── 01 · Content & Visual Storytelling ──────────────────────────────
   {
-    slug: "2d-animation",
+    slug: "2D-animation",
     name: "2D Animation",
     category: "Content & Visual Storytelling",
     short: "Hand-crafted frame and rigged 2D for brands, broadcast and education.",
@@ -58,7 +58,7 @@ export const services: ServiceEntry[] = [
     ],
   },
   {
-    slug: "3d-animation",
+    slug: "3D-animation",
     name: "3D Animation",
     category: "Content & Visual Storytelling",
     short: "Photoreal characters, products and environments rendered at film quality.",
@@ -239,7 +239,7 @@ export const services: ServiceEntry[] = [
     faqs: defaultFaqs,
   },
   {
-    slug: "3d-cinematic-walkthrough",
+    slug: "3D-cinematic-walkthrough",
     name: "3D Cinematic Walkthrough",
     category: "Real Estate & Spatial Experiences",
     short: "Photoreal CGI films that fly through unbuilt spaces.",

@@ -28,7 +28,7 @@ function ServiceProcess({ service }: { service: ServiceEntry }) {
         <Reveal>
           <p className="overline">— Production process</p>
           <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,56px)] max-w-4xl">
-            How we ship <span className="italic">{service.name.toLowerCase()}.</span>
+            How we ship <span className="italic">{service.name}.</span>
           </h2>
         </Reveal>
 
@@ -110,7 +110,7 @@ const whyPartner = [
 ];
 
 function buildBrief(service: ServiceEntry) {
-  const niche = service.name.toLowerCase();
+  const niche = service.name;
   const inds = service.industries.join(", ");
   return {
     intro: `${service.name} is the craft of turning brand intent into screen language. At Tero Studios we approach ${niche} as a senior-led discipline — every project begins with a written treatment, a locked visual direction and a production plan that protects the work all the way to delivery. That's why brands across ${inds} return to us for their most visible ${service.category.toLowerCase()} work.`,
@@ -265,7 +265,7 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
       <ExpandableSEO
         overline="Services brief"
         title="What good"
-        italic={`${service.name.toLowerCase()} looks like.`}
+        italic={`${service.name} looks like.`}
         intro={brief.intro}
         more={brief.more}
       />
@@ -275,9 +275,9 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         <div className="container-tero py-20 md:py-28">
           <Reveal>
             <p className="overline">— Why partner with us</p>
-            <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,64px)] max-w-3xl">
-              Why partner with our <span className="italic">{service.name.toLowerCase()}</span> team?
-            </h2>
+          <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,64px)] max-w-3xl">
+            Why partner with our <span className="italic">{service.name}</span> team?
+          </h2>
             <p className="mt-6 max-w-2xl font-body text-[16px] leading-relaxed text-slate">{service.what}</p>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -299,10 +299,10 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         <Reveal>
           <p className="overline">— Portfolio showcase</p>
           <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,64px)] max-w-3xl">
-            Recent <span className="italic">{service.name.toLowerCase()}</span> work.
+            Recent <span className="italic">{service.name}</span> work.
           </h2>
           <p className="mt-6 max-w-2xl font-body text-[16px] leading-relaxed text-slate">
-            A selection of recent {service.name.toLowerCase()} projects — shipped for brands across categories.
+            A selection of recent {service.name} projects — shipped for brands across categories.
           </p>
         </Reveal>
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -351,7 +351,7 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
                 Built for teams who <span className="italic">need it sharp.</span>
               </h2>
               <p className="mt-6 max-w-md font-body text-[16px] leading-relaxed text-slate">
-                Where our {service.name.toLowerCase()} work most often ships.
+                Where our {service.name} work most often ships.
               </p>
             </Reveal>
           </div>
@@ -403,10 +403,10 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
           <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:items-end">
             <div className="md:col-span-8">
               <Reveal>
-                <p className="overline text-vermillion">— Start a {service.name.toLowerCase()} project</p>
+              <p className="overline text-vermillion">— Start a {service.name} project</p>
                 <h2 className="mt-6 hero-headline text-cream text-[clamp(40px,7vw,96px)]">
                   Ready to ship your <br />
-                  <span className="italic">{service.name.toLowerCase()}?</span>
+                  <span className="italic">{service.name}?</span>
                 </h2>
                 <p className="mt-8 max-w-xl font-body text-[18px] leading-relaxed text-cream/70">
                   Tell us about the brief — timelines, scope, references. A senior lead will
@@ -438,7 +438,7 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
 
           {relatedServices.length > 0 && (
             <div className="mt-20 border-t border-cream/10 pt-12">
-              <p className="overline text-cream/60">— Beyond {service.name.toLowerCase()}</p>
+              <p className="overline text-cream/60">— Beyond {service.name}</p>
               <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {relatedServices.map((s) => (
                   <Link
