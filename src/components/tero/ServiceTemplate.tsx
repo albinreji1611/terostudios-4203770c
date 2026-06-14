@@ -275,9 +275,9 @@ export function ServiceTemplate({ service }: { service: ServiceEntry }) {
         <div className="container-tero py-20 md:py-28">
           <Reveal>
             <p className="overline">— Why partner with us</p>
-            <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,64px)] max-w-3xl">
-              Why partner with our <span className="italic">{service.name.toLowerCase()}</span> team?
-            </h2>
+          <h2 className="mt-4 hero-headline text-[clamp(32px,5vw,64px)] max-w-3xl">
+            Why partner with our <span className="italic">{service.name}</span> team?
+          </h2>
             <p className="mt-6 max-w-2xl font-body text-[16px] leading-relaxed text-slate">{service.what}</p>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
