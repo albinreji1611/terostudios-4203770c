@@ -28,6 +28,7 @@ function ContactPage() {
     budget: "",
     name: "",
     email: "",
+    phone: "",
     company: "",
     brief: "",
   });
