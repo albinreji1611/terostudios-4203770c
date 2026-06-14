@@ -90,13 +90,14 @@ function PortfolioPage() {
               href="#"
               className="group block overflow-hidden rounded-2xl border border-parchment bg-card transition-all hover:border-vermillion/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
             >
-              <div className="relative aspect-[5/4] overflow-hidden">
-                <img
-                  src={p.img}
-                  alt={p.title}
-                  loading="lazy"
-                  width={1280}
-                  height={800}
+              <div className="relative aspect-[5/4] overflow-hidden bg-ink">
+                <video
+                  src={p.url}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
                   className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
