@@ -43,8 +43,15 @@ const services = [
     tag: "On ground",
     tilt: 0,
   },
+  {
+    n: "06",
+    name: "AI Content Creation",
+    mark: "AI",
+    desc: "Generative AI-powered visuals, motion variations and smart production pipelines that scale creativity.",
+    tag: "Generative",
+    tilt: 0,
+  },
 ];
-
 
 const ITEM_VH = 26; // vertical spacing between names (in vh)
 
