@@ -1,9 +1,4 @@
 import { Reveal, RevealGroup, RevealItem } from "./Reveal";
-import bhima from "@/assets/Bhima_Gold.png.asset.json";
-import forum from "@/assets/Fourm_mall.png.asset.json";
-import lulu from "@/assets/Lulu_Mall.png.asset.json";
-import stEng from "@/assets/S_T_Engineering.png.asset.json";
-import shot from "@/assets/Shot_ready.png.asset.json";
 // White brand logos for dark background
 import bhimaLogo from "@/assets/client-logos-white/bhima.png.asset.json";
 import forumLogo from "@/assets/client-logos-white/forum.png.asset.json";
@@ -16,7 +11,6 @@ type Testimonial = {
   name: string;
   role: string;
   company: string;
-  avatar: string;
   logo: string;
   project: string;
 };
@@ -28,7 +22,6 @@ const items: Testimonial[] = [
     name: "Sibi Jacob",
     role: "Brand Manager",
     company: "Bhima Gold",
-    avatar: bhima.url,
     logo: bhimaLogo.url,
     project: "Vara Mahalakshmi · Anamorphic",
   },
@@ -38,7 +31,6 @@ const items: Testimonial[] = [
     name: "Athira Nampiathiri",
     role: "Senior Marketing Manager",
     company: "Forum Mall",
-    avatar: forum.url,
     logo: forumLogo.url,
     project: "Mall Experience · Campaign",
   },
@@ -48,7 +40,6 @@ const items: Testimonial[] = [
     name: "Hari Suhas",
     role: "General Manager",
     company: "Lulu Mall Kochi",
-    avatar: lulu.url,
     logo: luluLogo.url,
     project: "Onam · AR Broadcast",
   },
@@ -58,7 +49,6 @@ const items: Testimonial[] = [
     name: "Ravivarman R",
     role: "Marketing Head",
     company: "S&T Engineers",
-    avatar: stEng.url,
     logo: stEngLogo.url,
     project: "IMTEX · ACMEE 2025",
   },
@@ -68,7 +58,6 @@ const items: Testimonial[] = [
     name: "Neha Gowda",
     role: "Producer",
     company: "Shot Ready",
-    avatar: shot.url,
     logo: shotLogo.url,
     project: "Campa Cola · TVC",
   },
@@ -134,7 +123,7 @@ export function Testimonials() {
               </blockquote>
 
               <div className="mt-12 flex items-center gap-4 border-t border-white/10 pt-6">
-                <Avatar src={featured.avatar} alt={featured.name} />
+                <Avatar alt={featured.name} />
                 <div>
                   <p className="font-sans-display text-[14px] font-bold uppercase tracking-wider text-cream">
                     {featured.name}
@@ -181,7 +170,7 @@ function SmallCard({ item }: { item: Testimonial }) {
       </blockquote>
 
       <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-5">
-        <Avatar src={item.avatar} alt={item.name} small />
+        <Avatar alt={item.name} small />
         <div>
           <p className="font-sans-display text-[12px] font-bold uppercase tracking-wider text-cream">
             {item.name}
@@ -221,26 +210,29 @@ function BrandMark({
 }
 
 function Avatar({
-  src,
   alt,
   small = false,
 }: {
-  src: string;
+  src?: string;
   alt: string;
   small?: boolean;
 }) {
+  const initials = alt
+    .split(" ")
+    .map((s) => s[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
   return (
     <div
-      className={`overflow-hidden rounded-full border border-cream/20 bg-ink ${
-        small ? "h-10 w-10" : "h-14 w-14"
+      aria-label={`${alt} avatar placeholder`}
+      className={`flex items-center justify-center overflow-hidden rounded-full border border-cream/20 bg-cream/[0.06] font-sans-display uppercase tracking-wider text-cream/70 ${
+        small ? "h-10 w-10 text-[11px]" : "h-14 w-14 text-[14px]"
       }`}
     >
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className="h-full w-full object-cover"
-      />
+      {initials}
     </div>
   );
 }
