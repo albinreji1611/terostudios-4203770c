@@ -1,9 +1,4 @@
 import { Reveal, RevealGroup, RevealItem } from "./Reveal";
-import bhima from "@/assets/Bhima_Gold.png.asset.json";
-import forum from "@/assets/Fourm_mall.png.asset.json";
-import lulu from "@/assets/Lulu_Mall.png.asset.json";
-import stEng from "@/assets/S_T_Engineering.png.asset.json";
-import shot from "@/assets/Shot_ready.png.asset.json";
 // White brand logos for dark background
 import bhimaLogo from "@/assets/client-logos-white/bhima.png.asset.json";
 import forumLogo from "@/assets/client-logos-white/forum.png.asset.json";
