@@ -18,6 +18,8 @@ const ICONS: string[] = [
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18"/><rect x="7" y="12" width="3" height="3"/><rect x="14" y="12" width="3" height="3"/><path d="M10 21v-4h4v4"/></svg>`,
   // 4 — Event & Immersive Hardware: projector / spotlight beams
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="14" height="8" rx="1"/><circle cx="10" cy="13" r="2"/><path d="M17 11l4-2v8l-4-2"/><path d="M5 17v2M15 17v2"/></svg>`,
+  // 5 — AI Content Creation: neural network / brain nodes
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="10" r="2"/><circle cx="18" cy="10" r="2"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/><path d="M12 7v2M7 11.5l-1 2M18 11.5l1 2M9.5 16.5l-1.5 1M15 16.5l1.5 1M11 15.5l-2.5-3.5M13 15.5l2.5-3.5"/></svg>`,
 ];
 
 const PALETTE = [
