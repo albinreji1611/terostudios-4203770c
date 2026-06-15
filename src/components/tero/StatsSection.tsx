@@ -126,7 +126,7 @@ export function StatsSection() {
             Independent ●
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-parchment border-x border-parchment">
+          <div className="grid grid-cols-2 md:grid-cols-5 divide-x divide-y md:divide-y-0 divide-parchment border-x border-parchment">
             {stats.map((s, i) => (
               <StatCard key={i} index={i} {...s} />
             ))}
