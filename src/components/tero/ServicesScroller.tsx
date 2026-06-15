@@ -51,7 +51,7 @@ const services = [
     tag: "Generative",
     tilt: 0,
   },
-
+];
 
 const ITEM_VH = 26; // vertical spacing between names (in vh)
 
