@@ -134,7 +134,7 @@ export function Testimonials() {
               </blockquote>
 
               <div className="mt-12 flex items-center gap-4 border-t border-white/10 pt-6">
-                <Avatar src={featured.avatar} alt={featured.name} />
+                <Avatar alt={featured.name} />
                 <div>
                   <p className="font-sans-display text-[14px] font-bold uppercase tracking-wider text-cream">
                     {featured.name}
