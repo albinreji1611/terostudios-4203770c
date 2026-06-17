@@ -28,13 +28,12 @@ export function LogoStrip() {
   const { rowA, rowB, durationA, durationB } = useMemo(() => {
     const a = wellKnownUrls;
     const b = restUrls;
-    // 2× duplication is enough for a seamless translateX(-50%) loop
     return {
-      rowA: [...a, ...a],
-      rowB: [...b, ...b],
-      // ~1.3 s per logo keeps the scroll moving while still letting each logo be seen
-      durationA: a.length * 1.3,
-      durationB: b.length * 1.3,
+      rowA: a,
+      rowB: b,
+      // Fast full pass; duplicated groups below ensure the complete logo set appears before looping.
+      durationA: a.length * 0.45,
+      durationB: b.length * 0.45,
     };
   }, []);
 
@@ -58,23 +57,21 @@ export function LogoStrip() {
           <div className="space-y-2 md:space-y-4">
             <div className="overflow-hidden border-y border-ink/10 py-6 md:py-8">
               <div
-                className="flex items-center gap-16 md:gap-24 animate-marquee whitespace-nowrap will-change-transform"
-                style={{ animationDuration: `${durationA}s` }}
+                className="flex w-max items-center animate-marquee whitespace-nowrap will-change-transform"
+                style={{ animationDuration: `${durationA}s`, width: "max-content" }}
               >
-                {rowA.map((src, i) => (
-                  <LogoCell key={`a-${i}`} src={src} />
-                ))}
+                <LogoGroup logos={rowA} row="a" />
+                <LogoGroup logos={rowA} row="a-copy" ariaHidden />
               </div>
             </div>
 
             <div className="overflow-hidden border-b border-ink/10 py-6 md:py-8">
               <div
-                className="flex items-center gap-16 md:gap-24 animate-marquee-reverse whitespace-nowrap will-change-transform"
-                style={{ animationDuration: `${durationB}s` }}
+                className="flex w-max items-center animate-marquee-reverse whitespace-nowrap will-change-transform"
+                style={{ animationDuration: `${durationB}s`, width: "max-content" }}
               >
-                {rowB.map((src, i) => (
-                  <LogoCell key={`b-${i}`} src={src} />
-                ))}
+                <LogoGroup logos={rowB} row="b" />
+                <LogoGroup logos={rowB} row="b-copy" ariaHidden />
               </div>
             </div>
           </div>
@@ -94,6 +91,27 @@ function LogoCell({ src }: { src: string }) {
         decoding="async"
         className="h-[56px] md:h-[80px] lg:h-[96px] w-auto object-contain opacity-60 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
       />
+    </span>
+  );
+}
+
+function LogoGroup({
+  logos,
+  row,
+  ariaHidden = false,
+}: {
+  logos: string[];
+  row: string;
+  ariaHidden?: boolean;
+}) {
+  return (
+    <span
+      aria-hidden={ariaHidden || undefined}
+      className="inline-flex shrink-0 items-center gap-16 pr-16 md:gap-24 md:pr-24"
+    >
+      {logos.map((src, i) => (
+        <LogoCell key={`${row}-${i}`} src={src} />
+      ))}
     </span>
   );
 }
