@@ -37,6 +37,10 @@ export function LogoStrip() {
       </div>
 
       <div className="container-tero py-20 md:py-28 relative">
+        <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-ink/80 tracking-tight text-center mb-12 md:mb-16">
+          Trusted by Industry Leaders
+        </h2>
+
         <div className="relative">
           <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-cream to-transparent z-10" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-cream to-transparent z-10" />
