@@ -8,18 +8,18 @@ import { useEffect, useRef } from "react";
 // Lucide-derived stroke SVGs (24×24 viewBox) — one per service.
 // Stroke is filled wide so sampling reliably picks up the shape.
 const ICONS: string[] = [
-  // 0 — Brand Storytelling: open book / quote
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/><path d="M6 8h3M6 12h3M15 8h3M15 12h3"/></svg>`,
-  // 1 — Anamorphic & DOOH: billboard / 3D cube popping out of frame
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="1"/><path d="M8 21l2-4M16 21l-2-4"/><path d="M9 13V9l3-2 3 2v4l-3 2z"/><path d="M9 9l3 2 3-2M12 11v4"/></svg>`,
+  // 0 — Brand Storytelling: monitor with play + megaphone
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="5" width="15" height="11" rx="1.2"/><path d="M7 19h4M9 16v3"/><circle cx="8.5" cy="10.5" r="2.6"/><path d="M7.6 9.4l2.4 1.1-2.4 1.1z" fill="black" stroke="none"/><path d="M16.5 8.5l4 -2v8l-4 -2z"/><path d="M21.6 7.5c.6 1 .6 3 0 4M22.6 6.5c1 1.6 1 5 0 6.6"/></svg>`,
+  // 1 — Anamorphic & DOOH: billboard on pole
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="9" rx="0.6"/><path d="M2.5 13h19l-1 2h-17z"/><path d="M11.4 15v6M12.6 15v6"/><path d="M8 21h8"/><path d="M5 2.5l1.5 1.5M9 2.5l1 1.5M13 2.5l1 1.5M17 2.5l1 1.5"/></svg>`,
   // 2 — Immersive XR Training: VR headset
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-4.5l-2.2-2.5a2 2 0 0 0-2.6 0L9.5 17H5a2 2 0 0 1-2-2V9a1 1 0 0 1 0-1z"/><circle cx="8" cy="13" r="2"/><circle cx="16" cy="13" r="2"/></svg>`,
-  // 3 — PropViz: building / blueprint
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18"/><rect x="7" y="12" width="3" height="3"/><rect x="14" y="12" width="3" height="3"/><path d="M10 21v-4h4v4"/></svg>`,
-  // 4 — Event & Immersive Hardware: projector / spotlight beams
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="14" height="8" rx="1"/><circle cx="10" cy="13" r="2"/><path d="M17 11l4-2v8l-4-2"/><path d="M5 17v2M15 17v2"/></svg>`,
-  // 5 — AI Content Creation: neural network / brain nodes
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="10" r="2"/><circle cx="18" cy="10" r="2"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/><path d="M12 7v2M7 11.5l-1 2M18 11.5l1 2M9.5 16.5l-1.5 1M15 16.5l1.5 1M11 15.5l-2.5-3.5M13 15.5l2.5-3.5"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4v2h-4z"/><path d="M3 9c0-1 .8-2 2-2h14c1.2 0 2 1 2 2v5c0 1.2-1 2-2 2h-3.5l-1.6-2a2 2 0 0 0-3.8 0L8.5 16H5c-1.2 0-2-.8-2-2z"/><circle cx="8.5" cy="12" r="1.8"/><circle cx="15.5" cy="12" r="1.8"/><path d="M2 18l1 1M22 18l-1 1M3.5 5.5l.8.8M20.5 5.5l-.8.8"/></svg>`,
+  // 3 — PropViz: city buildings
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21V10l-5 3v8z"/><path d="M20 21V5l-7-3v19z"/><path d="M13 2v19"/><rect x="15" y="11" width="6" height="10"/><path d="M16.5 13h1M19 13h1M16.5 15.5h1M19 15.5h1M16.5 18h1M19 18h1"/></svg>`,
+  // 4 — Event & Immersive Hardware: holographic cube projector
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l5 2.5v5L12 14 7 11.5v-5z"/><path d="M7 6.5l5 2.5 5-2.5M12 9v5"/><path d="M4 21h16M5 19h14a1 1 0 0 0 0-2H5a1 1 0 0 0 0 2z"/><path d="M3 21l3-4M21 21l-3-4M8 17l1-3M16 17l-1-3M12 17v-3" stroke-dasharray="1.6 1.6"/></svg>`,
+  // 5 — AI Content Creation: AI chip
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/><text x="12" y="14.3" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="5.2" fill="black" stroke="none">AI</text><path d="M9 2v3M12 2v3M15 2v3M9 19v3M12 19v3M15 19v3M2 9h3M2 12h3M2 15h3M19 9h3M19 12h3M19 15h3"/><circle cx="12" cy="3" r="0.9" fill="black" stroke="none"/><circle cx="12" cy="21" r="0.9" fill="black" stroke="none"/><circle cx="3" cy="12" r="0.9" fill="black" stroke="none"/><circle cx="21" cy="12" r="0.9" fill="black" stroke="none"/></svg>`,
 ];
 
 const PALETTE = [
