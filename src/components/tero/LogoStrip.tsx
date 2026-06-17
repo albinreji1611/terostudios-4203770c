@@ -32,9 +32,9 @@ export function LogoStrip() {
     return {
       rowA: [...a, ...a],
       rowB: [...b, ...b],
-      // ~1.3 s per logo keeps the scroll moving while still letting each logo be seen
-      durationA: a.length * 1.3,
-      durationB: b.length * 1.3,
+      // Faster pass, with the track sized to content so the full logo set crosses before looping.
+      durationA: a.length * 0.65,
+      durationB: b.length * 0.65,
     };
   }, []);
 
@@ -58,7 +58,7 @@ export function LogoStrip() {
           <div className="space-y-2 md:space-y-4">
             <div className="overflow-hidden border-y border-ink/10 py-6 md:py-8">
               <div
-                className="flex items-center gap-16 md:gap-24 animate-marquee whitespace-nowrap will-change-transform"
+                className="flex w-max items-center gap-16 md:gap-24 animate-marquee whitespace-nowrap will-change-transform"
                 style={{ animationDuration: `${durationA}s` }}
               >
                 {rowA.map((src, i) => (
@@ -69,7 +69,7 @@ export function LogoStrip() {
 
             <div className="overflow-hidden border-b border-ink/10 py-6 md:py-8">
               <div
-                className="flex items-center gap-16 md:gap-24 animate-marquee-reverse whitespace-nowrap will-change-transform"
+                className="flex w-max items-center gap-16 md:gap-24 animate-marquee-reverse whitespace-nowrap will-change-transform"
                 style={{ animationDuration: `${durationB}s` }}
               >
                 {rowB.map((src, i) => (
