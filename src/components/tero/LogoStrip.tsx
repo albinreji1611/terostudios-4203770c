@@ -94,3 +94,24 @@ function LogoCell({ src }: { src: string }) {
     </span>
   );
 }
+
+function LogoGroup({
+  logos,
+  row,
+  ariaHidden = false,
+}: {
+  logos: string[];
+  row: string;
+  ariaHidden?: boolean;
+}) {
+  return (
+    <span
+      aria-hidden={ariaHidden || undefined}
+      className="inline-flex shrink-0 items-center gap-16 md:gap-24"
+    >
+      {logos.map((src, i) => (
+        <LogoCell key={`${row}-${i}`} src={src} />
+      ))}
+    </span>
+  );
+}
