@@ -10,7 +10,7 @@ import { CylinderGallery } from "@/components/tero/CylinderGallery";
 
 import { StatsSection } from "@/components/tero/StatsSection";
 import { Testimonials } from "@/components/tero/Testimonials";
-import { Awards } from "@/components/tero/Awards";
+
 import { FAQ } from "@/components/tero/FAQ";
 import { KineticBand } from "@/components/tero/KineticBand";
 import { ScrollToTop } from "@/components/tero/ScrollToTop";
@@ -43,7 +43,7 @@ function Index() {
       <HorizontalShowcase />
       
       <Testimonials />
-      <Awards />
+      
       <FAQ />
       <ScrollToTop />
     </PageLayout>
