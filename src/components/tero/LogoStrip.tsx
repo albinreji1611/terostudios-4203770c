@@ -32,8 +32,8 @@ export function LogoStrip() {
       rowA: a,
       rowB: b,
       // Fast full pass; duplicated groups below ensure the complete logo set appears before looping.
-      durationA: a.length * 1.4,
-      durationB: b.length * 1.4,
+      durationA: a.length * 1,
+      durationB: b.length * 1,
     };
   }, []);
 
