@@ -437,7 +437,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         const fieldY = (p.fy + sectionProgress * h * (1.25 + p.lane * 0.22) + driftY + h * 2) % h;
         const streamX = currentX + p.sx * (1.38 + Math.sin(t * 0.12 + p.phase) * 0.07);
         const streamY = currentY + p.sy * (1.22 + Math.cos(t * 0.1 + p.phase) * 0.06);
-        const scatterMix = Math.pow(clamp01(1 - formed), 2.6);
+        const scatterMix = Math.pow(clamp01(1 - formed), 1.4);
         const cloudX = fieldX * fill + streamX * (1 - fill);
         const cloudY = fieldY * fill + streamY * (1 - fill);
         const tz = (p.fz * fill + p.sz * (1 - fill)) * scatterMix + rz2 * formed;
