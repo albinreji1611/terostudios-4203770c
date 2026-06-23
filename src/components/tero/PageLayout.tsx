@@ -18,8 +18,8 @@ export function PageLayout({ children }: { children: ReactNode }) {
       <Nav />
       <TeroCursor />
       <motion.main
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className="pt-[68px] relative z-10"
       >

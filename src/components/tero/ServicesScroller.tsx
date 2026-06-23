@@ -88,6 +88,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     let my = -9999;
     let smx = -9999;
     let smy = -9999;
+    let serviceTravel = 0;
+    let sectionProgress = 0;
+    let scrollVelocity = 0;
+    let lastScrollY = window.scrollY;
     let visible = false;
     let ready = false;
     let sampleRun = 0;
@@ -184,9 +188,15 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       if (!serviceNodes.length) {
         serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
       }
+      const scrollY = window.scrollY;
+      scrollVelocity += (scrollY - lastScrollY - scrollVelocity) * 0.18;
+      lastScrollY = scrollY;
+      const hostRect = host.getBoundingClientRect();
+      sectionProgress = clamp01((window.innerHeight * 0.5 - hostRect.top) / Math.max(1, hostRect.height - window.innerHeight));
       const viewportCenter = window.innerHeight / 2;
       let best = -1;
       let bestIndex = active;
+      let bestTravel = serviceTravel;
 
       for (const node of serviceNodes) {
         const rect = node.getBoundingClientRect();
@@ -196,15 +206,17 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         if (score > best) {
           best = score;
           bestIndex = index;
+          bestTravel = clamp01((viewportCenter - rect.top) / Math.max(1, rect.height));
         }
       }
 
       active = bestIndex;
-      formed = ease(best);
+      formed = 0.12 + ease(best) * 0.88;
+      serviceTravel += (bestTravel - serviceTravel) * 0.12;
       const mobile = w < 760;
       const objectOnRight = active % 2 === 0;
       targetX = mobile ? w / 2 : objectOnRight ? w * 0.72 : w * 0.28;
-      targetY = mobile ? h * 0.57 : h * 0.51;
+      targetY = mobile ? h * (0.18 + serviceTravel * 0.64) : h * (0.1 + serviceTravel * 0.8);
     };
 
     const onMove = (event: PointerEvent) => {
@@ -219,7 +231,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
 
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
-      if (!visible || !ready) return;
+      if (!visible || !ready) {
+        if (ready) ctx.clearRect(0, 0, w, h);
+        return;
+      }
       update();
       currentX += (targetX - currentX) * 0.055;
       currentY += (targetY - currentY) * 0.055;
@@ -256,14 +271,14 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         const rz2 = rz * cosP + pt.y * sinP;
         const dust = 1 + Math.sin(t * 0.18 + p.phase) * 0.025;
         const streamX = p.sx * dust + Math.sin(t * 0.34 + p.phase) * 24;
-        const streamY = p.sy * dust + Math.cos(t * 0.29 + p.phase) * 18;
+        const streamY = p.sy * dust + Math.cos(t * 0.29 + p.phase) * 18 + sectionProgress * h * 0.22;
         const tx = streamX * (1 - formed) + rx * formed;
         const ty = streamY * (1 - formed) + ry * formed;
         const tz = p.sz * (1 - formed) + rz2 * formed;
         const perspective = 720 / (720 - tz);
 
         let screenX = currentX + tx * perspective;
-        let screenY = currentY + ty * perspective;
+        let screenY = currentY + ty * perspective + scrollVelocity * 0.58;
         if (smx > -9000) {
           const dx = screenX - smx;
           const dy = screenY - smy;
@@ -315,7 +330,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     };
   }, [hostRef]);
 
-  return <canvas ref={canvasRef} className="pointer-events-none sticky top-0 z-[3] -mb-[100vh] block h-screen w-full" />;
+  return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-[3] block h-screen w-full" />;
 }
 
 function SpaceField({ hostRef }: { hostRef: React.RefObject<HTMLElement | null> }) {
