@@ -373,10 +373,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         p.y += (screenY - p.y) * lock + p.vy;
         p.z += (tz - p.z) * 0.14 + p.vz;
 
-        ctx.globalAlpha = Math.min(1, 0.18 + fill * 0.34 + formed * 0.56 + Math.max(0, p.z) / 1250);
+        ctx.globalAlpha = Math.min(0.92, 0.12 + fill * 0.26 + formed * 0.48 + Math.max(0, p.z) / 1600);
         ctx.fillStyle = p.color;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * (0.76 + formed * 0.46) * perspectiveScale, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size * (0.68 + formed * 0.42) * perspectiveScale, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
