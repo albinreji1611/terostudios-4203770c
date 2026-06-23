@@ -100,10 +100,10 @@ const ICONS: string[] = [
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" stroke="black" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round">
     <path d="M39 6 C51 6 62 14 67 25 C73 40 66 58 51 66 C42 71 30 69 22 63"/>
     <path d="M31 9 C22 12 16 20 14 29"/>
-    <path d="M21 49 C17 47 14 42 13 36"/>
-    <path d="M21 49 C17 53 19 59 24 62"/>
-    <path d="M24 62 C23 67 20 71 18 76"/>
-    <path d="M45 67 C43 71 42 74 42 78"/>
+    <path d="M21 49 C17 47 14 42 13 36" stroke-width="4.2"/>
+    <path d="M21 49 C17 53 18 58 24 62 C29 65 36 66 43 64" stroke-width="4.2"/>
+    <path d="M24 62 C23 68 20 72 18 78" stroke-width="4.2"/>
+    <path d="M45 66 C43 71 42 75 42 80" stroke-width="4.2"/>
     <path d="M12 30 C8 30 5 33 4 37 C3 41 5 45 9 47 C18 51 39 51 51 48 C57 46 60 43 60 38 C60 32 55 29 48 29 C36 28 22 29 12 30 Z"/>
     <path d="M7 36 C17 34 33 34 47 35"/>
     <path d="M9 43 C20 45 38 45 51 43"/>
@@ -111,9 +111,11 @@ const ICONS: string[] = [
     <path d="M58 18 C65 24 69 32 69 40"/>
     <path d="M55 57 C59 53 62 48 63 43"/>
     <path d="M35 13 C45 11 55 16 61 25" stroke-width="2.1"/>
-    <path d="M47 61 C40 63 32 61 26 56" stroke-width="2.1"/>
-    <path d="M29 52 C24 52 20 55 19 59" stroke-width="2.1"/>
-    <path d="M31 43 C29 47 26 49 22 49" stroke-width="2.1"/>
+    <path d="M49 59 C41 64 31 62 24 56" stroke-width="3"/>
+    <path d="M31 52 C25 52 21 55 19 60" stroke-width="3"/>
+    <path d="M33 44 C30 48 26 50 21 49" stroke-width="3"/>
+    <path d="M22 57 C26 58 30 58 35 57" stroke-width="2.4"/>
+    <path d="M48 66 C52 64 55 61 58 57" stroke-width="2.4"/>
     <circle cx="36" cy="21" r="1.8" fill="black" stroke="none"/>
     <circle cx="42" cy="18" r="1.4" fill="black" stroke="none"/>
     <circle cx="50" cy="21" r="1.5" fill="black" stroke="none"/>
