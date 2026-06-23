@@ -1,6 +1,13 @@
 import { useMemo, useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import { videos } from "@/data/videos";
+
 
 /**
  * Two-act anamorphic stage:
