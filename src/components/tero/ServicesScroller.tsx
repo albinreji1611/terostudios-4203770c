@@ -63,29 +63,35 @@ const ease = (n: number) => {
 
 type Point = { x: number; y: number };
 
-function ParticleObject({ icon, align }: { icon: string; align: "left" | "right" }) {
-  const wrapRef = useRef<HTMLDivElement>(null);
+function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | null> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const wrap = wrapRef.current;
     const canvas = canvasRef.current;
-    if (!wrap || !canvas) return;
+    const host = hostRef.current;
+    if (!canvas || !host) return;
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const dpr = Math.min(window.devicePixelRatio || 1, reduceMotion ? 1 : 1.35);
     let raf = 0;
     let w = 0;
     let h = 0;
-    let progress = 0;
-    let points: Point[] = [];
+    let formed = 0;
+    let active = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
     let mx = -9999;
     let my = -9999;
     let smx = -9999;
     let smy = -9999;
     let visible = false;
     let ready = false;
+    let sampleRun = 0;
+    let serviceNodes: HTMLElement[] = [];
 
     type Particle = {
       x: number;
@@ -104,6 +110,7 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
     };
 
     let particles: Particle[] = [];
+    let pointSets: Point[][] = [];
 
     const sampleIcon = async (svg: string, size: number) =>
       new Promise<Point[]>((resolve) => {
@@ -119,7 +126,7 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
           const off = (size - glyph) / 2;
           sctx.drawImage(img, off, off, glyph, glyph);
           const data = sctx.getImageData(0, 0, size, size).data;
-          const step = Math.max(3, Math.round(size / 92));
+          const step = Math.max(2, Math.round(size / 96));
           const pts: Point[] = [];
           for (let y = 0; y < size; y += step) {
             for (let x = 0; x < size; x += step) {
@@ -136,22 +143,25 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
       });
 
     const measure = async () => {
-      w = wrap.clientWidth;
-      h = wrap.clientHeight;
+      const run = ++sampleRun;
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const box = Math.round(Math.min(w, h) * 0.68);
-      points = await sampleIcon(icon, box);
-      const total = Math.min(420, Math.max(260, points.length));
+      const box = Math.round(Math.min(h * 0.58, w * (w < 760 ? 0.66 : 0.36)));
+      pointSets = await Promise.all(ICONS.map((icon) => sampleIcon(icon, box)));
+      if (run !== sampleRun) return;
+      serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
+      const total = reduceMotion ? 340 : 620;
       particles = new Array(total).fill(0).map((_, i) => {
         const a = Math.random() * Math.PI * 2;
-        const r = Math.min(w, h) * (0.28 + Math.random() * 0.42);
+        const r = Math.min(w, h) * (0.14 + Math.random() * 0.5);
         const sx = Math.cos(a) * r;
         const sy = Math.sin(a) * r;
         return {
-          x: sx,
-          y: sy,
+          x: Math.random() * w,
+          y: Math.random() * h,
           z: (Math.random() - 0.5) * 380,
           vx: 0,
           vy: 0,
@@ -165,20 +175,41 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
           phase: Math.random() * Math.PI * 2,
         };
       });
+      targetX = currentX = w < 760 ? w / 2 : w * 0.72;
+      targetY = currentY = h * 0.52;
       ready = true;
     };
 
     const update = () => {
-      const rect = wrap.getBoundingClientRect();
-      const center = rect.top + rect.height / 2;
+      if (!serviceNodes.length) {
+        serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
+      }
       const viewportCenter = window.innerHeight / 2;
-      progress = clamp01(1 - Math.abs(center - viewportCenter) / (window.innerHeight * 0.72));
+      let best = -1;
+      let bestIndex = active;
+
+      for (const node of serviceNodes) {
+        const rect = node.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const score = clamp01(1 - Math.abs(center - viewportCenter) / (window.innerHeight * 0.78));
+        const index = Number(node.dataset.serviceIndex || 0);
+        if (score > best) {
+          best = score;
+          bestIndex = index;
+        }
+      }
+
+      active = bestIndex;
+      formed = ease(best);
+      const mobile = w < 760;
+      const objectOnRight = active % 2 === 0;
+      targetX = mobile ? w / 2 : objectOnRight ? w * 0.72 : w * 0.28;
+      targetY = mobile ? h * 0.57 : h * 0.51;
     };
 
     const onMove = (event: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mx = event.clientX - rect.left;
-      my = event.clientY - rect.top;
+      mx = event.clientX;
+      my = event.clientY;
     };
 
     const onLeave = () => {
@@ -190,6 +221,8 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
       raf = requestAnimationFrame(tick);
       if (!visible || !ready) return;
       update();
+      currentX += (targetX - currentX) * 0.055;
+      currentY += (targetY - currentY) * 0.055;
       if (mx > -9000) {
         if (smx < -9000) {
           smx = mx;
@@ -204,16 +237,15 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
 
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = "lighter";
-      const formed = ease(progress);
-      const cx = w / 2;
-      const cy = h / 2;
       const t = now / 1000;
-      const yaw = (align === "left" ? -1 : 1) * (t * 0.16 + formed * 1.55);
-      const pitch = Math.sin(t * 0.28) * 0.24;
+      const objectOnRight = active % 2 === 0;
+      const yaw = Math.sin(t * 0.22) * 0.42 + (objectOnRight ? 0.22 : -0.22);
+      const pitch = Math.sin(t * 0.18) * 0.22;
       const cosY = Math.cos(yaw);
       const sinY = Math.sin(yaw);
       const cosP = Math.cos(pitch);
       const sinP = Math.sin(pitch);
+      const points = pointSets[active] || pointSets[0] || [];
 
       for (const p of particles) {
         const pt = points[p.idx % Math.max(1, points.length)] || { x: 0, y: 0 };
@@ -222,39 +254,39 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
         const rz = depth * cosY - pt.x * sinY;
         const ry = pt.y * cosP - rz * sinP;
         const rz2 = rz * cosP + pt.y * sinP;
-        const dust = 1 + Math.sin(t * 0.2 + p.phase) * 0.018;
-        let tx = p.sx * dust * (1 - formed) + rx * formed;
-        let ty = p.sy * dust * (1 - formed) + ry * formed;
+        const dust = 1 + Math.sin(t * 0.18 + p.phase) * 0.025;
+        const streamX = p.sx * dust + Math.sin(t * 0.34 + p.phase) * 24;
+        const streamY = p.sy * dust + Math.cos(t * 0.29 + p.phase) * 18;
+        const tx = streamX * (1 - formed) + rx * formed;
+        const ty = streamY * (1 - formed) + ry * formed;
         const tz = p.sz * (1 - formed) + rz2 * formed;
+        const perspective = 720 / (720 - tz);
 
-        const screenX = cx + tx;
-        const screenY = cy + ty;
+        let screenX = currentX + tx * perspective;
+        let screenY = currentY + ty * perspective;
         if (smx > -9000) {
           const dx = screenX - smx;
           const dy = screenY - smy;
           const dist = Math.hypot(dx, dy);
-          const radius = 105;
+          const radius = 118;
           if (dist < radius && dist > 0.1) {
-            const push = Math.pow(1 - dist / radius, 2) * 58;
-            tx += (dx / dist) * push;
-            ty += (dy / dist) * push;
+            const push = Math.pow(1 - dist / radius, 2) * 68;
+            screenX += (dx / dist) * push;
+            screenY += (dy / dist) * push;
           }
         }
 
-        p.vx = (p.vx + (tx - p.x) * 0.026) * 0.86;
-        p.vy = (p.vy + (ty - p.y) * 0.026) * 0.86;
+        p.vx = (p.vx + (screenX - p.x) * 0.018) * 0.88;
+        p.vy = (p.vy + (screenY - p.y) * 0.018) * 0.88;
         p.vz = (p.vz + (tz - p.z) * 0.02) * 0.88;
         p.x += p.vx;
         p.y += p.vy;
         p.z += p.vz;
 
-        const perspective = 720 / (720 - p.z);
-        const x = cx + p.x * perspective;
-        const y = cy + p.y * perspective;
-        ctx.globalAlpha = Math.min(1, 0.18 + formed * 0.76 + Math.max(0, p.z) / 1100);
+        ctx.globalAlpha = Math.min(1, 0.16 + formed * 0.72 + Math.max(0, p.z) / 1200);
         ctx.fillStyle = p.color;
         ctx.beginPath();
-        ctx.arc(x, y, p.size * perspective * (0.8 + formed * 0.42), 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size * (0.8 + formed * 0.54) * (720 / (720 - p.z)), 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
@@ -267,27 +299,23 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
       },
       { rootMargin: "200px 0px" },
     );
-    io.observe(wrap);
+    io.observe(host);
 
     measure();
     raf = requestAnimationFrame(tick);
     window.addEventListener("resize", measure);
-    canvas.addEventListener("pointermove", onMove, { passive: true });
-    canvas.addEventListener("pointerleave", onLeave);
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerleave", onLeave);
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", measure);
-      canvas.removeEventListener("pointermove", onMove);
-      canvas.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerleave", onLeave);
     };
-  }, [align, icon]);
+  }, [hostRef]);
 
-  return (
-    <div ref={wrapRef} className="relative h-[min(64vw,640px)] min-h-[360px] w-full">
-      <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" />
-    </div>
-  );
+  return <canvas ref={canvasRef} className="pointer-events-none sticky top-0 z-[3] -mb-[100vh] block h-screen w-full" />;
 }
 
 function SpaceField({ hostRef }: { hostRef: React.RefObject<HTMLElement | null> }) {
@@ -376,6 +404,7 @@ export function ServicesScroller() {
         style={{ background: "linear-gradient(180deg, #020309 0%, #07080d 45%, #020309 100%)" }}
       />
       <SpaceField hostRef={sectionRef} />
+      <ParticleJourney hostRef={sectionRef} />
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 pb-[18vh] pt-[18vh] md:px-12">
         <header className="mb-[10vh] max-w-[920px]">
           <div className="mb-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.32em] text-[#e8390e]">
@@ -394,6 +423,7 @@ export function ServicesScroller() {
           return (
             <article
               key={service.n}
+              data-service-index={i}
               className="grid min-h-screen items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
             >
               <div className={textLeft ? "md:order-1" : "md:order-2 md:text-right"}>
@@ -415,9 +445,7 @@ export function ServicesScroller() {
                   {service.desc}
                 </p>
               </div>
-              <div className={textLeft ? "md:order-2" : "md:order-1"}>
-                <ParticleObject icon={ICONS[i]} align={textLeft ? "right" : "left"} />
-              </div>
+              <div aria-hidden className={textLeft ? "hidden md:order-2 md:block" : "hidden md:order-1 md:block"} />
             </article>
           );
         })}
