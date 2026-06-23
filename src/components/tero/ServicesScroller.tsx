@@ -294,22 +294,22 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         const rz = depth * cosY - px * sinY;
         const ry = py * cosP - rz * sinP;
         const rz2 = rz * cosP + py * sinP;
-        const driftX = Math.sin(t * 0.16 + p.phase + sectionProgress * 3.8) * 52;
-        const driftY = Math.cos(t * 0.13 + p.phase * 0.8) * 42;
-        const fieldX = (p.fx + p.lane * sectionProgress * w * 0.42 + driftX + w * 2) % w;
-        const fieldY = (p.fy + sectionProgress * h * (1.15 + p.lane * 0.18) + driftY + h * 2) % h;
+        const driftX = Math.sin(t * 0.16 + p.phase + sectionProgress * 3.8) * (48 + fill * 36);
+        const driftY = Math.cos(t * 0.13 + p.phase * 0.8) * (40 + fill * 32);
+        const fieldX = (p.fx + p.lane * sectionProgress * w * 0.5 + driftX + w * 2) % w;
+        const fieldY = (p.fy + sectionProgress * h * (1.25 + p.lane * 0.22) + driftY + h * 2) % h;
         const streamX = currentX + p.sx * (1.15 + Math.sin(t * 0.12 + p.phase) * 0.05);
         const streamY = currentY + p.sy * (1.05 + Math.cos(t * 0.1 + p.phase) * 0.04);
-        const scatterMix = clamp01((1 - formed) * 0.34);
-        const cloudX = fieldX * 0.72 + streamX * 0.28;
-        const cloudY = fieldY * 0.72 + streamY * 0.28;
-        const tz = (p.fz * 0.6 + p.sz * 0.4) * scatterMix + rz2 * formed;
+        const scatterMix = clamp01(1 - formed);
+        const cloudX = fieldX * fill + streamX * (1 - fill);
+        const cloudY = fieldY * fill + streamY * (1 - fill);
+        const tz = (p.fz * fill + p.sz * (1 - fill)) * scatterMix + rz2 * formed;
         const perspectiveScale = 720 / (720 - tz);
         const shapeX = currentX + rx * perspectiveScale;
         const shapeY = currentY + ry * perspectiveScale;
 
-        let screenX = cloudX * scatterMix + shapeX * (1 - scatterMix);
-        let screenY = cloudY * scatterMix + shapeY * (1 - scatterMix) + scrollVelocity * 0.42;
+        let screenX = cloudX * scatterMix + shapeX * formed;
+        let screenY = cloudY * scatterMix + shapeY * formed + scrollVelocity * (0.34 + fill * 0.18);
         if (smx > -9000) {
           const dx = screenX - smx;
           const dy = screenY - smy;
@@ -330,7 +330,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         p.y += (screenY - p.y) * lock + p.vy;
         p.z += (tz - p.z) * 0.14 + p.vz;
 
-        ctx.globalAlpha = Math.min(1, 0.2 + formed * 0.64 + Math.max(0, p.z) / 1250);
+        ctx.globalAlpha = Math.min(1, 0.18 + fill * 0.34 + formed * 0.56 + Math.max(0, p.z) / 1250);
         ctx.fillStyle = p.color;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size * (0.76 + formed * 0.46) * perspectiveScale, 0, Math.PI * 2);
