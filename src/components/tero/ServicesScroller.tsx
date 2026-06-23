@@ -400,8 +400,8 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       ctx.globalCompositeOperation = "lighter";
       const t = now / 1000;
       const objectOnRight = active % 2 === 0;
-      const yaw = Math.sin(t * 0.25) * 0.14;
-      const pitch = Math.sin(t * 0.18 + active) * 0.06;
+      const yaw = Math.sin(t * 0.45 + sectionProgress * 1.6) * 0.42 + (objectOnRight ? 0.18 : -0.18);
+      const pitch = Math.sin(t * 0.32 + active * 0.7) * 0.18;
       const cosY = Math.cos(yaw);
       const sinY = Math.sin(yaw);
       const cosP = Math.cos(pitch);
