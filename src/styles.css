@@ -208,6 +208,14 @@
 .animate-marquee-reverse {
   animation: tero-marquee-reverse 14s linear infinite;
 }
+@keyframes tero-row-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes tero-row-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
 
 /* Slow vertical drift for logo grid */
 @keyframes tero-drift-up {
