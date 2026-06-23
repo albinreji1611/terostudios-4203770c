@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import xrTrainingReferenceMask from "@/assets/xr-training-reference-mask.png";
 
 type MotionDebug = {
   formed: number;
@@ -97,25 +96,29 @@ const ICONS: string[] = [
     <path d="M6 44 L18 50 L18 46 Z"/>
     <path d="M74 44 L62 50 L62 46 Z"/>
   </svg>`,
-  // 2 — Immersive XR Training: dotted reference-style profile wearing a large VR visor
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" stroke="black" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M43 9 C56 11 66 22 67 36 C68 51 58 63 43 67"/>
-    <path d="M43 67 C37 67 31 65 26 61"/>
-    <path d="M26 61 C22 58 20 55 19 50"/>
-    <path d="M19 50 L14 48 L17 43"/>
-    <path d="M17 43 C13 39 11 34 12 28 C13 19 20 12 29 9"/>
-    <path d="M28 62 C24 66 22 70 21 76"/>
-    <path d="M42 67 L42 76"/>
-    <path d="M10 29 H44 C50 29 54 33 54 39 C54 45 50 49 44 49 H10 C5 49 2 45 2 39 C2 33 5 29 10 29 Z" fill="black" stroke="none"/>
-    <path d="M53 33 C61 32 66 34 69 38 C67 43 61 46 53 46"/>
-    <rect x="12" y="34" width="13" height="9" rx="2" fill="white" stroke="none"/>
-    <rect x="32" y="34" width="13" height="9" rx="2" fill="white" stroke="none"/>
-    <path d="M27 38 C29 37 31 37 32 38" stroke="white" stroke-width="2.8"/>
-    <circle cx="20" cy="39" r="1.8" fill="black" stroke="none"/>
-    <circle cx="39" cy="39" r="1.8" fill="black" stroke="none"/>
-    <path d="M31 9 C25 13 21 20 20 28"/>
-    <path d="M70 12 L73 17 L78 19 L73 22 L71 27 L68 22 L63 20 L68 17 Z" fill="black" stroke="none"/>
-    <circle cx="10" cy="18" r="3" fill="black" stroke="none"/>
+  // 2 — Immersive XR Training: reference-style dotted profile with oversized VR visor
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" stroke="black" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M39 6 C51 6 62 14 67 25 C73 40 66 58 51 66 C42 71 30 69 22 63"/>
+    <path d="M31 9 C22 12 16 20 14 29"/>
+    <path d="M21 49 C17 47 14 42 13 36"/>
+    <path d="M21 49 C17 53 19 59 24 62"/>
+    <path d="M24 62 C23 67 20 71 18 76"/>
+    <path d="M45 67 C43 71 42 74 42 78"/>
+    <path d="M12 30 C8 30 5 33 4 37 C3 41 5 45 9 47 C18 51 39 51 51 48 C57 46 60 43 60 38 C60 32 55 29 48 29 C36 28 22 29 12 30 Z"/>
+    <path d="M7 36 C17 34 33 34 47 35"/>
+    <path d="M9 43 C20 45 38 45 51 43"/>
+    <path d="M51 30 C59 29 66 32 70 38 C66 44 59 47 51 47"/>
+    <path d="M58 18 C65 24 69 32 69 40"/>
+    <path d="M55 57 C59 53 62 48 63 43"/>
+    <path d="M35 13 C45 11 55 16 61 25" stroke-width="2.1"/>
+    <path d="M47 61 C40 63 32 61 26 56" stroke-width="2.1"/>
+    <path d="M29 52 C24 52 20 55 19 59" stroke-width="2.1"/>
+    <path d="M31 43 C29 47 26 49 22 49" stroke-width="2.1"/>
+    <circle cx="36" cy="21" r="1.8" fill="black" stroke="none"/>
+    <circle cx="42" cy="18" r="1.4" fill="black" stroke="none"/>
+    <circle cx="50" cy="21" r="1.5" fill="black" stroke="none"/>
+    <circle cx="60" cy="30" r="1.5" fill="black" stroke="none"/>
+    <circle cx="60" cy="50" r="1.4" fill="black" stroke="none"/>
   </svg>`,
   // 3 — PropViz: house with roof and windows (property visualization)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
@@ -245,42 +248,6 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     let particles: Particle[] = [];
     let pointSets: Point[][] = [];
 
-    const sampleImage = async (src: string, size: number) =>
-      new Promise<Point[]>((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-          const sample = document.createElement("canvas");
-          const sctx = sample.getContext("2d")!;
-          sample.width = size;
-          sample.height = size;
-          const glyph = size * 1.06;
-          const ratio = img.width / img.height;
-          const drawW = glyph;
-          const drawH = glyph / ratio;
-          const offX = (size - drawW) / 2;
-          const offY = (size - drawH) / 2;
-          sctx.drawImage(img, offX, offY, drawW, drawH);
-          const data = sctx.getImageData(0, 0, size, size).data;
-          const step = Math.max(2, Math.round(size / 150));
-          const pts: Point[] = [];
-          for (let y = 0; y < size; y += step) {
-            for (let x = 0; x < size; x += step) {
-              const i = (y * size + x) * 4;
-              if (data[i + 3] > 46) {
-                pts.push({ x: x - size / 2, y: y - size / 2 });
-              }
-            }
-          }
-          for (let i = pts.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [pts[i], pts[j]] = [pts[j], pts[i]];
-          }
-          resolve(pts);
-        };
-        img.onerror = () => resolve([]);
-        img.src = src;
-      });
-
     const sampleIcon = async (svg: string, size: number) =>
       new Promise<Point[]>((resolve) => {
         const blob = new Blob([svg], { type: "image/svg+xml" });
@@ -327,9 +294,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const box = Math.round(Math.min(h * 0.62, w * (w < 760 ? 0.78 : 0.44)));
-      pointSets = await Promise.all(
-        ICONS.map((icon, index) => (index === XR_TRAINING_ICON_INDEX ? sampleImage(xrTrainingReferenceMask, box) : sampleIcon(icon, box))),
-      );
+      pointSets = await Promise.all(ICONS.map((icon) => sampleIcon(icon, box)));
       if (run !== sampleRun) return;
       serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
       const total = reduceMotion ? 640 : w < 760 ? 1600 : 3200;
