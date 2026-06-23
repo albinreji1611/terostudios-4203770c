@@ -40,19 +40,19 @@ const services = [
 ];
 
 const ICONS: string[] = [
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="5" width="15" height="11" rx="1.2"/><path d="M7 19h4M9 16v3"/><circle cx="8.5" cy="10.5" r="2.6"/><path d="M7.6 9.4l2.4 1.1-2.4 1.1z" fill="black" stroke="none"/><path d="M16.5 8.5l4 -2v8l-4 -2z"/><path d="M21.6 7.5c.6 1 .6 3 0 4M22.6 6.5c1 1.6 1 5 0 6.6"/></svg>`,
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="9" rx="0.6"/><path d="M2.5 13h19l-1 2h-17z"/><path d="M11.4 15v6M12.6 15v6"/><path d="M8 21h8"/><path d="M5 2.5l1.5 1.5M9 2.5l1 1.5M13 2.5l1 1.5M17 2.5l1 1.5"/></svg>`,
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4v2h-4z"/><path d="M3 9c0-1 .8-2 2-2h14c1.2 0 2 1 2 2v5c0 1.2-1 2-2 2h-3.5l-1.6-2a2 2 0 0 0-3.8 0L8.5 16H5c-1.2 0-2-.8-2-2z"/><circle cx="8.5" cy="12" r="1.8"/><circle cx="15.5" cy="12" r="1.8"/></svg>`,
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21V10l-5 3v8z"/><path d="M20 21V5l-7-3v19z"/><path d="M13 2v19"/><rect x="15" y="11" width="6" height="10"/><path d="M16.5 13h1M19 13h1M16.5 15.5h1M19 15.5h1M16.5 18h1M19 18h1"/></svg>`,
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l5 2.5v5L12 14 7 11.5v-5z"/><path d="M7 6.5l5 2.5 5-2.5M12 9v5"/><path d="M4 21h16M5 19h14a1 1 0 0 0 0-2H5a1 1 0 0 0 0 2z"/></svg>`,
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/><text x="12" y="14.3" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="5.2" fill="black" stroke="none">AI</text><path d="M9 2v3M12 2v3M15 2v3M9 19v3M12 19v3M15 19v3M2 9h3M2 12h3M2 15h3M19 9h3M19 12h3M19 15h3"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="5" width="15" height="11" rx="1.2"/><path d="M7 19h4M9 16v3"/><circle cx="8.5" cy="10.5" r="2.6"/><path d="M7.6 9.4l2.4 1.1-2.4 1.1z" fill="black" stroke="none"/><path d="M16.5 8.5l4 -2v8l-4 -2z"/><path d="M21.6 7.5c.6 1 .6 3 0 4M22.6 6.5c1 1.6 1 5 0 6.6"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="9" rx="0.6"/><path d="M2.5 13h19l-1 2h-17z"/><path d="M11.4 15v6M12.6 15v6"/><path d="M8 21h8"/><path d="M5 2.5l1.5 1.5M9 2.5l1 1.5M13 2.5l1 1.5M17 2.5l1 1.5"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4v2h-4z"/><path d="M3 9c0-1 .8-2 2-2h14c1.2 0 2 1 2 2v5c0 1.2-1 2-2 2h-3.5l-1.6-2a2 2 0 0 0-3.8 0L8.5 16H5c-1.2 0-2-.8-2-2z"/><circle cx="8.5" cy="12" r="1.8"/><circle cx="15.5" cy="12" r="1.8"/><path d="M2 18l1 1M22 18l-1 1M3.5 5.5l.8.8M20.5 5.5l-.8.8"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21V10l-5 3v8z"/><path d="M20 21V5l-7-3v19z"/><path d="M13 2v19"/><rect x="15" y="11" width="6" height="10"/><path d="M16.5 13h1M19 13h1M16.5 15.5h1M19 15.5h1M16.5 18h1M19 18h1"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l5 2.5v5L12 14 7 11.5v-5z"/><path d="M7 6.5l5 2.5 5-2.5M12 9v5"/><path d="M4 21h16M5 19h14a1 1 0 0 0 0-2H5a1 1 0 0 0 0 2z"/><path d="M3 21l3-4M21 21l-3-4M8 17l1-3M16 17l-1-3M12 17v-3" stroke-dasharray="1.6 1.6"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/><text x="12" y="14.3" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="5.2" fill="black" stroke="none">AI</text><path d="M9 2v3M12 2v3M15 2v3M9 19v3M12 19v3M15 19v3M2 9h3M2 12h3M2 15h3M19 9h3M19 12h3M19 15h3"/><circle cx="12" cy="3" r="0.9" fill="black" stroke="none"/><circle cx="12" cy="21" r="0.9" fill="black" stroke="none"/><circle cx="3" cy="12" r="0.9" fill="black" stroke="none"/><circle cx="21" cy="12" r="0.9" fill="black" stroke="none"/></svg>`,
 ];
 
 const COLORS = [
-  "rgba(232,57,14,0.95)",
-  "rgba(232,57,14,0.72)",
-  "rgba(196,154,60,0.78)",
-  "rgba(253,250,246,0.76)",
+  "rgba(255,154,0,0.95)",
+  "rgba(232,57,14,0.82)",
+  "rgba(20,158,255,0.9)",
+  "rgba(253,250,246,0.82)",
 ];
 
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
@@ -74,11 +74,12 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     if (!ctx) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, reduceMotion ? 1 : 1.35);
+    const dpr = Math.min(window.devicePixelRatio || 1, reduceMotion ? 1 : 1.25);
     let raf = 0;
     let w = 0;
     let h = 0;
     let formed = 0;
+    let targetFormed = 0;
     let active = 0;
     let targetX = 0;
     let targetY = 0;
@@ -89,6 +90,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     let smx = -9999;
     let smy = -9999;
     let serviceTravel = 0;
+    let targetTravel = 0;
     let sectionProgress = 0;
     let scrollVelocity = 0;
     let lastScrollY = window.scrollY;
@@ -107,6 +109,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       sx: number;
       sy: number;
       sz: number;
+      fx: number;
+      fy: number;
+      fz: number;
+      lane: number;
       idx: number;
       size: number;
       color: string;
@@ -126,16 +132,16 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
           const sctx = sample.getContext("2d")!;
           sample.width = size;
           sample.height = size;
-          const glyph = size * 0.82;
+          const glyph = size * 0.9;
           const off = (size - glyph) / 2;
           sctx.drawImage(img, off, off, glyph, glyph);
           const data = sctx.getImageData(0, 0, size, size).data;
-          const step = Math.max(2, Math.round(size / 96));
+          const step = Math.max(2, Math.round(size / 136));
           const pts: Point[] = [];
           for (let y = 0; y < size; y += step) {
             for (let x = 0; x < size; x += step) {
               const i = (y * size + x) * 4;
-              if (data[i + 3] > 70) {
+              if (data[i + 3] > 52) {
                 pts.push({ x: x - size / 2, y: y - size / 2 });
               }
             }
@@ -153,19 +159,21 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const box = Math.round(Math.min(h * 0.58, w * (w < 760 ? 0.66 : 0.36)));
+      const box = Math.round(Math.min(h * 0.74, w * (w < 760 ? 0.82 : 0.56)));
       pointSets = await Promise.all(ICONS.map((icon) => sampleIcon(icon, box)));
       if (run !== sampleRun) return;
       serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
-      const total = reduceMotion ? 340 : 620;
+      const total = reduceMotion ? 520 : w < 760 ? 1280 : 2600;
       particles = new Array(total).fill(0).map((_, i) => {
         const a = Math.random() * Math.PI * 2;
-        const r = Math.min(w, h) * (0.14 + Math.random() * 0.5);
+        const r = Math.min(w, h) * (0.22 + Math.random() * 0.62);
         const sx = Math.cos(a) * r;
         const sy = Math.sin(a) * r;
+        const fx = Math.random() * w;
+        const fy = Math.random() * h;
         return {
-          x: Math.random() * w,
-          y: Math.random() * h,
+          x: fx,
+          y: fy,
           z: (Math.random() - 0.5) * 380,
           vx: 0,
           vy: 0,
@@ -173,8 +181,12 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
           sx,
           sy,
           sz: (Math.random() - 0.5) * 520,
+          fx,
+          fy,
+          fz: (Math.random() - 0.5) * 780,
+          lane: Math.random() * 2 - 1,
           idx: i,
-          size: 0.8 + Math.random() * 1.35,
+          size: 0.62 + Math.random() * 1.28,
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
           phase: Math.random() * Math.PI * 2,
         };
@@ -196,12 +208,12 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       const viewportCenter = window.innerHeight / 2;
       let best = -1;
       let bestIndex = active;
-      let bestTravel = serviceTravel;
+      let bestTravel = targetTravel;
 
       for (const node of serviceNodes) {
         const rect = node.getBoundingClientRect();
         const center = rect.top + rect.height / 2;
-        const score = clamp01(1 - Math.abs(center - viewportCenter) / (window.innerHeight * 0.78));
+        const score = clamp01(1 - Math.abs(center - viewportCenter) / (window.innerHeight * 0.98));
         const index = Number(node.dataset.serviceIndex || 0);
         if (score > best) {
           best = score;
@@ -211,12 +223,14 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       }
 
       active = bestIndex;
-      formed = 0.12 + ease(best) * 0.88;
-      serviceTravel += (bestTravel - serviceTravel) * 0.12;
+      const centered = clamp01(1 - Math.abs(bestTravel - 0.5) / 0.78);
+      targetFormed = best > 0.08 ? 0.58 + ease(centered) * 0.42 : 0.32;
+      targetTravel = bestTravel;
+      serviceTravel += (targetTravel - serviceTravel) * 0.085;
       const mobile = w < 760;
       const objectOnRight = active % 2 === 0;
-      targetX = mobile ? w / 2 : objectOnRight ? w * 0.72 : w * 0.28;
-      targetY = mobile ? h * (0.18 + serviceTravel * 0.64) : h * (0.1 + serviceTravel * 0.8);
+      targetX = mobile ? w / 2 : objectOnRight ? w * 0.78 : w * 0.22;
+      targetY = mobile ? h * (0.18 + serviceTravel * 0.56) : h * (0.18 + serviceTravel * 0.52);
     };
 
     const onMove = (event: PointerEvent) => {
@@ -236,8 +250,9 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         return;
       }
       update();
-      currentX += (targetX - currentX) * 0.055;
-      currentY += (targetY - currentY) * 0.055;
+      currentX += (targetX - currentX) * 0.18;
+      currentY += (targetY - currentY) * 0.13;
+      formed += (targetFormed - formed) * 0.12;
       if (mx > -9000) {
         if (smx < -9000) {
           smx = mx;
@@ -254,8 +269,8 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       ctx.globalCompositeOperation = "lighter";
       const t = now / 1000;
       const objectOnRight = active % 2 === 0;
-      const yaw = Math.sin(t * 0.22) * 0.42 + (objectOnRight ? 0.22 : -0.22);
-      const pitch = Math.sin(t * 0.18) * 0.22;
+      const yaw = Math.sin(t * 0.2 + sectionProgress * 2.2) * 0.5 + (objectOnRight ? 0.38 : -0.38);
+      const pitch = Math.sin(t * 0.16 + active) * 0.25;
       const cosY = Math.cos(yaw);
       const sinY = Math.sin(yaw);
       const cosP = Math.cos(pitch);
@@ -264,44 +279,54 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
 
       for (const p of particles) {
         const pt = points[p.idx % Math.max(1, points.length)] || { x: 0, y: 0 };
-        const depth = ((p.idx % 23) - 11) * 5 + Math.sin(p.idx * 0.77) * 18;
-        const rx = pt.x * cosY + depth * sinY;
-        const rz = depth * cosY - pt.x * sinY;
-        const ry = pt.y * cosP - rz * sinP;
-        const rz2 = rz * cosP + pt.y * sinP;
-        const dust = 1 + Math.sin(t * 0.18 + p.phase) * 0.025;
-        const streamX = p.sx * dust + Math.sin(t * 0.34 + p.phase) * 24;
-        const streamY = p.sy * dust + Math.cos(t * 0.29 + p.phase) * 18 + sectionProgress * h * 0.22;
-        const tx = streamX * (1 - formed) + rx * formed;
-        const ty = streamY * (1 - formed) + ry * formed;
-        const tz = p.sz * (1 - formed) + rz2 * formed;
-        const perspective = 720 / (720 - tz);
+        const volume = 14 + (p.idx % 11) * 2.4;
+        const px = pt.x * 1.18 + Math.sin(p.phase * 2.1) * volume;
+        const py = pt.y * 1.18 + Math.cos(p.phase * 1.7) * volume;
+        const depth = ((p.idx % 37) - 18) * 7 + Math.sin(p.idx * 0.77) * 24 + Math.sin(p.phase) * 72;
+        const rx = px * cosY + depth * sinY;
+        const rz = depth * cosY - px * sinY;
+        const ry = py * cosP - rz * sinP;
+        const rz2 = rz * cosP + py * sinP;
+        const driftX = Math.sin(t * 0.16 + p.phase + sectionProgress * 3.8) * 52;
+        const driftY = Math.cos(t * 0.13 + p.phase * 0.8) * 42;
+        const fieldX = (p.fx + p.lane * sectionProgress * w * 0.42 + driftX + w * 2) % w;
+        const fieldY = (p.fy + sectionProgress * h * (1.15 + p.lane * 0.18) + driftY + h * 2) % h;
+        const streamX = currentX + p.sx * (1.15 + Math.sin(t * 0.12 + p.phase) * 0.05);
+        const streamY = currentY + p.sy * (1.05 + Math.cos(t * 0.1 + p.phase) * 0.04);
+        const scatterMix = clamp01((1 - formed) * 0.34);
+        const cloudX = fieldX * 0.72 + streamX * 0.28;
+        const cloudY = fieldY * 0.72 + streamY * 0.28;
+        const tz = (p.fz * 0.6 + p.sz * 0.4) * scatterMix + rz2 * formed;
+        const perspectiveScale = 720 / (720 - tz);
+        const shapeX = currentX + rx * perspectiveScale;
+        const shapeY = currentY + ry * perspectiveScale;
 
-        let screenX = currentX + tx * perspective;
-        let screenY = currentY + ty * perspective + scrollVelocity * 0.58;
+        let screenX = cloudX * scatterMix + shapeX * (1 - scatterMix);
+        let screenY = cloudY * scatterMix + shapeY * (1 - scatterMix) + scrollVelocity * 0.42;
         if (smx > -9000) {
           const dx = screenX - smx;
           const dy = screenY - smy;
           const dist = Math.hypot(dx, dy);
-          const radius = 118;
+          const radius = 132;
           if (dist < radius && dist > 0.1) {
-            const push = Math.pow(1 - dist / radius, 2) * 68;
+            const push = Math.pow(1 - dist / radius, 2) * 76;
             screenX += (dx / dist) * push;
             screenY += (dy / dist) * push;
           }
         }
 
-        p.vx = (p.vx + (screenX - p.x) * 0.018) * 0.88;
-        p.vy = (p.vy + (screenY - p.y) * 0.018) * 0.88;
-        p.vz = (p.vz + (tz - p.z) * 0.02) * 0.88;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.z += p.vz;
+        const lock = 0.12 + formed * 0.16;
+        p.vx = (p.vx + (screenX - p.x) * 0.012) * 0.72;
+        p.vy = (p.vy + (screenY - p.y) * 0.012) * 0.72;
+        p.vz = (p.vz + (tz - p.z) * 0.02) * 0.78;
+        p.x += (screenX - p.x) * lock + p.vx;
+        p.y += (screenY - p.y) * lock + p.vy;
+        p.z += (tz - p.z) * 0.14 + p.vz;
 
-        ctx.globalAlpha = Math.min(1, 0.16 + formed * 0.72 + Math.max(0, p.z) / 1200);
+        ctx.globalAlpha = Math.min(1, 0.2 + formed * 0.64 + Math.max(0, p.z) / 1250);
         ctx.fillStyle = p.color;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * (0.8 + formed * 0.54) * (720 / (720 - p.z)), 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size * (0.76 + formed * 0.46) * perspectiveScale, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
