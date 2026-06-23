@@ -221,7 +221,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
           fz: (Math.random() - 0.5) * 780,
           lane: Math.random() * 2 - 1,
           idx: i,
-          size: 0.62 + Math.random() * 1.28,
+          size: 0.5 + Math.random() * 1.05,
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
           phase: Math.random() * Math.PI * 2,
         };
