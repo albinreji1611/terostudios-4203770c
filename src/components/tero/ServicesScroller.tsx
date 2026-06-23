@@ -198,7 +198,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       pointSets = await Promise.all(ICONS.map((icon) => sampleIcon(icon, box)));
       if (run !== sampleRun) return;
       serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
-      const total = reduceMotion ? 520 : w < 760 ? 1280 : 2600;
+      const total = reduceMotion ? 640 : w < 760 ? 1600 : 3200;
       particles = new Array(total).fill(0).map((_, i) => {
         const a = Math.random() * Math.PI * 2;
         const r = Math.min(w, h) * (0.22 + Math.random() * 0.62);
