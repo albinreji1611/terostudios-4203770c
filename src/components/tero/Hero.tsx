@@ -46,15 +46,18 @@ export function Hero() {
     let mouseY = -9999;
     let raf = 0;
     let formedAt = 0;
+    let formProgress = 0;
     const start = performance.now();
 
+    // Match ServicesScroller dust palette: warm cream dominant, amber embers, rare cool accent.
     const palette = [
-      "rgba(232, 57, 14, 0.95)",   // vermillion
-      "rgba(255, 95, 40, 0.85)",   // bright vermillion
-      "rgba(196, 154, 60, 0.9)",   // amber
-      "rgba(218, 160, 110, 0.85)", // sand
-      "rgba(26, 26, 31, 0.92)",    // ink
-      "rgba(60, 40, 30, 0.8)",     // espresso
+      "rgba(252,244,228,0.82)",
+      "rgba(252,244,228,0.82)",
+      "rgba(248,232,206,0.78)",
+      "rgba(248,232,206,0.78)",
+      "rgba(255,176,92,0.85)",
+      "rgba(238,118,42,0.78)",
+      "rgba(140,178,214,0.55)",
     ];
 
     function resize() {
@@ -76,7 +79,6 @@ export function Hero() {
         const sample = document.createElement("canvas");
         const sctx = sample.getContext("2d")!;
 
-        // Crop source to the "TERO" portion only (omit "STUDIOS")
         const cropW = Math.round(img.width * 0.62);
         const cropH = img.height;
 
@@ -108,22 +110,19 @@ export function Hero() {
         }
 
         particles = pts.map((pt) => {
-          const side = Math.floor(Math.random() * 4);
-          let sx = 0;
-          let sy = 0;
-          if (side === 0) { sx = Math.random() * w; sy = -60 - Math.random() * 300; }
-          else if (side === 1) { sx = w + 60 + Math.random() * 300; sy = Math.random() * h; }
-          else if (side === 2) { sx = Math.random() * w; sy = h + 60 + Math.random() * 300; }
-          else { sx = -60 - Math.random() * 300; sy = Math.random() * h; }
-
-          const baseSize = 0.8 + Math.random() * 1.6;
+          // Scatter origins drift in from a wide cloud around the canvas, like the services dust.
+          const angle = Math.random() * Math.PI * 2;
+          const radius = Math.min(w, h) * (0.5 + Math.random() * 0.9);
+          const sx = w / 2 + Math.cos(angle) * radius;
+          const sy = h / 2 + Math.sin(angle) * radius;
+          const baseSize = 0.55 + Math.random() * 1.1;
           return {
             hx: pt.x,
             hy: pt.y,
             x: sx,
             y: sy,
-            vx: 0,
-            vy: 0,
+            vx: (Math.random() - 0.5) * 0.6,
+            vy: (Math.random() - 0.5) * 0.6,
             size: baseSize,
             baseSize,
             color: palette[Math.floor(Math.random() * palette.length)],
@@ -137,26 +136,31 @@ export function Hero() {
     function tick(now: number) {
       const w = canvas!.clientWidth;
       const h = canvas!.clientHeight;
-      // Clear fully (no per-frame translucent fill — much cheaper)
-      ctx!.clearRect(0, 0, w, h);
+
+      // Motion trail: fade prior frame instead of wiping, matching the ServicesScroller look.
+      ctx!.globalCompositeOperation = "destination-out";
+      ctx!.fillStyle = `rgba(0,0,0,${0.18 + formProgress * 0.55})`;
+      ctx!.fillRect(0, 0, w, h);
+      ctx!.globalCompositeOperation = "lighter";
 
       const t = (now - start) / 1000;
-      const formProgress = Math.min(1, t / 2.2);
+      formProgress = Math.min(1, t / 2.6);
 
       let avgDist = 0;
       const mouseActive = mouseX > -9000;
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        const bob = Math.sin(t * 0.9 + p.phase) * 2.8;
-        const sway = Math.cos(t * 0.7 + p.phase * 0.7) * 2.4;
+        const bob = Math.sin(t * 0.9 + p.phase) * 2.4;
+        const sway = Math.cos(t * 0.7 + p.phase * 0.7) * 2.2;
         const tx = p.hx + sway;
         const ty = p.hy + bob;
 
         const dx = tx - p.x;
         const dy = ty - p.y;
-        const stiffness = 0.055 + formProgress * 0.04;
-        const damping = 0.8;
+        // Lower stiffness early so grains drift in slowly, then snap as formProgress rises.
+        const stiffness = 0.018 + formProgress * 0.06;
+        const damping = 0.86 - formProgress * 0.08;
         p.vx = (p.vx + dx * stiffness) * damping;
         p.vy = (p.vy + dy * stiffness) * damping;
 
@@ -164,10 +168,10 @@ export function Hero() {
           const mdx = p.x - mouseX;
           const mdy = p.y - mouseY;
           const md2 = mdx * mdx + mdy * mdy;
-          const R = 140;
+          const R = 150;
           if (md2 < R * R) {
             const d = Math.sqrt(md2) || 1;
-            const force = (1 - d / R) * 8;
+            const force = (1 - d / R) * 9;
             p.vx += (mdx / d) * force;
             p.vy += (mdy / d) * force;
           }
@@ -178,12 +182,14 @@ export function Hero() {
 
         avgDist += Math.abs(dx) + Math.abs(dy);
 
-        const r = p.baseSize;
-        ctx!.beginPath();
+        ctx!.globalAlpha = Math.min(0.95, 0.22 + formProgress * 0.6);
         ctx!.fillStyle = p.color;
-        ctx!.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.baseSize * (0.7 + formProgress * 0.45), 0, Math.PI * 2);
         ctx!.fill();
       }
+      ctx!.globalAlpha = 1;
+      ctx!.globalCompositeOperation = "source-over";
 
       if (!formed && particles.length > 0) {
         const a = avgDist / particles.length;
