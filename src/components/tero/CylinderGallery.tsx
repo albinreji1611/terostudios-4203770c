@@ -249,3 +249,66 @@ export function CylinderGallery() {
     </section>
   );
 }
+
+type Scatter = (typeof SCATTER)[number];
+
+function SwarmCard({
+  s,
+  progress,
+  url,
+}: {
+  s: Scatter;
+  progress: MotionValue<number>;
+  url: string;
+}) {
+  const z = useTransform(progress, [0, 0.5], [s.z, 120]);
+  const scl = useTransform(progress, [0, 0.5], [0.6, 1.05]);
+  const op = useTransform(progress, [0, 0.08, 0.5, 0.55], [0, 1, 1, 0.85]);
+  const driftX = useTransform(progress, [0, 0.5], [s.x * 0.4, s.x]);
+  const driftY = useTransform(progress, [0, 0.5], [s.y * 0.4, s.y]);
+  const rotYv = useTransform(progress, [0, 0.5], [s.rotY * 0.4, s.rotY]);
+
+  return (
+    <motion.div
+      className="absolute overflow-hidden rounded-[10px] ring-1 ring-cream/15 bg-black"
+      style={{
+        left: 0,
+        top: 0,
+        width: s.w,
+        height: s.w * 0.56,
+        x: driftX,
+        y: driftY,
+        z,
+        scale: scl,
+        rotateY: rotYv,
+        rotateX: s.rotX,
+        rotateZ: s.rotZ,
+        opacity: op,
+        transformStyle: "preserve-3d",
+        translateX: "-50%",
+        translateY: "-50%",
+        boxShadow:
+          "0 50px 100px -40px rgba(232,57,14,0.35), 0 30px 60px -30px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,0,0,0.4)",
+      }}
+    >
+      <video
+        src={url}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.4) 100%)",
+        }}
+      />
+    </motion.div>
+  );
+}
+
