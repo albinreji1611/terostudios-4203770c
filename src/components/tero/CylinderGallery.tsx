@@ -9,41 +9,47 @@ import {
 import { videos } from "@/data/videos";
 
 /**
- * Two-act anamorphic stage:
- *   Act 1 (scroll 0 → 0.55): a deck of video cards RISES UP from below the
- *     viewport and FANS OUT into a wide anamorphic arc — each card tilts on
- *     its own axis (rotateY/rotateZ) like cards being dealt in 3D.
- *   Act 2 (scroll 0.55 → 1): the fan dissolves and a curved 4-row reel wall
- *     settles in; rows pan left/right (alternating) forever.
- * Heading stays pinned at the top of the sticky viewport throughout.
+ * Anamorphic reel stage (space backdrop).
+ *
+ *   ACT 1 (scroll 0 → 0.5)
+ *     A deck of video cards rises from below and fans into a wide horizontal
+ *     band at the center of the viewport (gentle anamorphic tilt).
+ *
+ *   ACT 2 (scroll 0.5 → 1)
+ *     The fan dissolves while a 3-row reel wall settles into the same band.
+ *     Rows pan left/right (alternating) with subtle perspective curve.
+ *
+ *   Heading sits pinned at the top; wall is anchored to the lower middle so
+ *   nothing overlaps. Background is deep space with a faint star field.
  */
 
-const FAN_COUNT = 13; // odd → true center card
-const FAN_SPREAD_X = 720; // half-width of the fan spread (px from center)
-const FAN_SPREAD_Y = 80; // arc droop (px below center at edges)
-const FAN_ROT = 38; // max card rotation (deg) at the fan edges
+// ── Fan (Act 1) ──
+const FAN_COUNT = 11;
+const FAN_SPREAD_X = 720;
+const FAN_SPREAD_Y = 70;
+const FAN_ROT = 28;
 
-// Wall config (Act 2)
-const ROWS = 4;
+// ── Wall (Act 2) ──
+const ROWS = 3;
 const TILES_PER_ROW = 7;
-const TILE_W = 220;
-const TILE_H = 130;
-const GAP = 14;
-const CURVE = 60;
-const DEPTH = 380;
+const TILE_W = 240;
+const TILE_H = 140;
+const ROW_GAP = 28;
+const COL_GAP = 16;
+const CURVE = 28; // gentle horizontal wrap (reference is subtle)
+const DEPTH = 180;
 
-// Pre-computed fan layout (deterministic).
 const FAN = Array.from({ length: FAN_COUNT }, (_, i) => {
   const halfN = (FAN_COUNT - 1) / 2;
   const t = (i - halfN) / halfN; // -1..1
   return {
     t,
     finalX: t * FAN_SPREAD_X,
-    finalY: Math.abs(t) * FAN_SPREAD_Y, // arc droops at edges
-    finalRotZ: t * FAN_ROT,
-    finalRotY: -t * 18, // anamorphic facing inward
-    z: -Math.abs(t) * 220, // edge cards recede
-    w: 300 - Math.abs(t) * 60, // edge cards a bit smaller
+    finalY: Math.abs(t) * FAN_SPREAD_Y,
+    finalRotZ: t * (FAN_ROT * 0.4),
+    finalRotY: -t * 14,
+    z: -Math.abs(t) * 140,
+    w: 280 - Math.abs(t) * 50,
   };
 });
 
@@ -54,16 +60,17 @@ export function CylinderGallery() {
     offset: ["start start", "end end"],
   });
   const p = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 28,
-    mass: 0.5,
+    stiffness: 110,
+    damping: 30,
+    mass: 0.45,
   });
 
-  const fanOpacity = useTransform(p, [0, 0.45, 0.6], [1, 1, 0]);
-  const wallOpacity = useTransform(p, [0.45, 0.6, 1], [0, 1, 1]);
-  const wallScale = useTransform(p, [0.45, 0.7], [0.92, 1]);
+  // Smoother handoff: both layers overlap from 0.42 → 0.62.
+  const fanOpacity = useTransform(p, [0, 0.42, 0.6], [1, 1, 0]);
+  const fanScale = useTransform(p, [0.42, 0.62], [1, 0.96]);
+  const wallOpacity = useTransform(p, [0.42, 0.62, 1], [0, 1, 1]);
+  const wallScale = useTransform(p, [0.42, 0.62], [0.96, 1]);
 
-  // Stable row tiles for the wall, duplicated for seamless marquee.
   const rows = useMemo(
     () =>
       Array.from({ length: ROWS }, (_, r) => {
@@ -81,171 +88,194 @@ export function CylinderGallery() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-ink text-cream"
+      className="relative bg-[#02030a] text-cream"
       style={{ height: "300vh" }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Backdrop glow */}
+        {/* ── Space backdrop ── */}
         <div
           aria-hidden
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(70% 55% at 50% 50%, rgba(232,57,14,0.16) 0%, transparent 65%), #0a0b10",
+              "radial-gradient(80% 60% at 50% 35%, #0a0d1a 0%, #02030a 70%, #000 100%)",
+          }}
+        />
+        {/* Faint starfield (CSS-only) */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none opacity-60"
+          style={{
+            backgroundImage: `
+              radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.9), transparent 60%),
+              radial-gradient(1px 1px at 27% 72%, rgba(255,255,255,0.7), transparent 60%),
+              radial-gradient(1.5px 1.5px at 41% 34%, rgba(255,255,255,0.85), transparent 60%),
+              radial-gradient(1px 1px at 58% 80%, rgba(255,255,255,0.6), transparent 60%),
+              radial-gradient(1px 1px at 67% 22%, rgba(255,255,255,0.8), transparent 60%),
+              radial-gradient(1.2px 1.2px at 78% 58%, rgba(255,255,255,0.7), transparent 60%),
+              radial-gradient(1px 1px at 89% 11%, rgba(255,255,255,0.85), transparent 60%),
+              radial-gradient(1px 1px at 8% 88%, rgba(255,255,255,0.65), transparent 60%),
+              radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.55), transparent 60%)
+            `,
           }}
         />
 
-        {/* Heading pinned on top */}
-        <div className="absolute inset-x-0 top-0 z-40 px-6 pt-10 md:pt-14 text-center">
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60">
+        {/* ── Heading (pinned top, ample headroom) ── */}
+        <div className="absolute inset-x-0 top-0 z-40 px-6 pt-8 md:pt-12 text-center">
+          <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-cream/55">
             Reel Wall · Anamorphic Theatre
           </span>
-          <h2 className="mt-3 font-display text-[clamp(2rem,4.6vw,4rem)] leading-[1.02] tracking-[-0.02em] text-cream">
+          <h2 className="mt-3 font-display text-[clamp(1.8rem,3.6vw,3rem)] leading-[1.04] tracking-[-0.02em] text-cream">
             Stories That Bend Reality
           </h2>
-          <p className="mt-2 text-[12px] md:text-[13px] tracking-[0.18em] uppercase text-cream/55">
+          <p className="mt-2 text-[11px] md:text-[12px] tracking-[0.22em] uppercase text-cream/50">
             Anamorphic worlds, crafted frame by frame
           </p>
         </div>
 
-        {/* ── ACT 1: Deck rising from below, fanning out ── */}
-        <motion.div
-          className="absolute inset-0 z-10 flex items-center justify-center"
-          style={{
-            perspective: "1600px",
-            perspectiveOrigin: "50% 55%",
-            opacity: fanOpacity,
-          }}
-        >
-          <div
-            className="relative"
-            style={{ transformStyle: "preserve-3d", width: 1, height: 1 }}
-          >
-            {FAN.map((f, i) => (
-              <FanCard
-                key={i}
-                f={f}
-                index={i}
-                total={FAN_COUNT}
-                progress={p}
-                url={videos[i % videos.length].url}
-              />
-            ))}
-          </div>
-        </motion.div>
+        {/* ── Stage anchor: vertically centered with top padding so the heading never overlaps ── */}
+        <div className="absolute inset-0 flex items-center justify-center pt-[180px] md:pt-[200px] pb-16">
+          <div className="relative w-full h-full">
+            {/* ACT 1 — fan */}
+            <motion.div
+              className="absolute inset-0 z-10 flex items-center justify-center"
+              style={{
+                perspective: "1800px",
+                perspectiveOrigin: "50% 50%",
+                opacity: fanOpacity,
+                scale: fanScale,
+              }}
+            >
+              <div
+                className="relative"
+                style={{ transformStyle: "preserve-3d", width: 1, height: 1 }}
+              >
+                {FAN.map((f, i) => (
+                  <FanCard
+                    key={i}
+                    f={f}
+                    index={i}
+                    total={FAN_COUNT}
+                    progress={p}
+                    url={videos[i % videos.length].url}
+                  />
+                ))}
+              </div>
+            </motion.div>
 
-        {/* ── ACT 2: Curved 4-row reel wall (rows pan left/right) ── */}
-        <motion.div
-          className="absolute inset-0 z-20 flex items-center justify-center"
-          style={{
-            perspective: "1500px",
-            perspectiveOrigin: "50% 50%",
-            opacity: wallOpacity,
-            scale: wallScale,
-          }}
-        >
-          <div
-            className="relative mx-auto"
-            style={{
-              transformStyle: "preserve-3d",
-              width: "min(1400px, 96vw)",
-            }}
-          >
-            {rows.map((rowTiles, r) => {
-              const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
-              const duration = 38 + r * 6;
-              return (
-                <div
-                  key={r}
-                  className="relative mx-auto"
-                  style={{
-                    marginTop: r === 0 ? 0 : GAP,
-                    height: TILE_H,
-                    width: "100%",
-                    overflow: "hidden",
-                    maskImage:
-                      "linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%)",
-                  }}
-                >
-                  <div
-                    className="absolute top-0 left-0 flex"
-                    style={{
-                      gap: GAP,
-                      animation: `${dir} ${duration}s linear infinite`,
-                      transformStyle: "preserve-3d",
-                    }}
-                  >
-                    {rowTiles.map((vid, c) => {
-                      const cMod = c % TILES_PER_ROW;
-                      const t = (cMod - halfC) / halfC;
-                      const rotY = -t * (CURVE / 2);
-                      const tz = -Math.abs(t) * DEPTH;
-                      return (
-                        <div
-                          key={`${r}-${c}`}
-                          className="relative shrink-0 overflow-hidden rounded-[8px] ring-1 ring-cream/10 bg-black"
-                          style={{
-                            width: TILE_W,
-                            height: TILE_H,
-                            transform: `rotateY(${rotY}deg) translateZ(${tz}px)`,
-                            transformStyle: "preserve-3d",
-                            boxShadow:
-                              "0 30px 60px -30px rgba(0,0,0,0.7), inset 0 0 40px rgba(0,0,0,0.35)",
-                          }}
-                        >
-                          <video
-                            src={vid.url}
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
-                            className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-                          />
-                          <div
-                            aria-hidden
-                            className="absolute inset-0 pointer-events-none"
-                            style={{
-                              background:
-                                "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.35) 100%)",
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+            {/* ACT 2 — reel wall */}
+            <motion.div
+              className="absolute inset-0 z-20 flex items-center justify-center"
+              style={{
+                perspective: "1800px",
+                perspectiveOrigin: "50% 50%",
+                opacity: wallOpacity,
+                scale: wallScale,
+              }}
+            >
+              <div
+                className="relative mx-auto"
+                style={{
+                  transformStyle: "preserve-3d",
+                  width: "min(1400px, 96vw)",
+                }}
+              >
+                {rows.map((rowTiles, r) => {
+                  const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
+                  const duration = 42 + r * 8;
+                  return (
+                    <div
+                      key={r}
+                      className="relative mx-auto"
+                      style={{
+                        marginTop: r === 0 ? 0 : ROW_GAP,
+                        height: TILE_H,
+                        width: "100%",
+                        overflow: "hidden",
+                        maskImage:
+                          "linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%)",
+                      }}
+                    >
+                      <div
+                        className="absolute top-0 left-0 flex"
+                        style={{
+                          gap: COL_GAP,
+                          animation: `${dir} ${duration}s linear infinite`,
+                          transformStyle: "preserve-3d",
+                        }}
+                      >
+                        {rowTiles.map((vid, c) => {
+                          const cMod = c % TILES_PER_ROW;
+                          const t = (cMod - halfC) / halfC;
+                          const rotY = -t * (CURVE / 2);
+                          const tz = -Math.abs(t) * DEPTH;
+                          return (
+                            <div
+                              key={`${r}-${c}`}
+                              className="relative shrink-0 overflow-hidden rounded-[10px] ring-1 ring-cream/10 bg-black"
+                              style={{
+                                width: TILE_W,
+                                height: TILE_H,
+                                transform: `rotateY(${rotY}deg) translateZ(${tz}px)`,
+                                transformStyle: "preserve-3d",
+                                boxShadow:
+                                  "0 30px 60px -30px rgba(0,0,0,0.85), inset 0 0 40px rgba(0,0,0,0.35)",
+                              }}
+                            >
+                              <video
+                                src={vid.url}
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+                              />
+                              <div
+                                aria-hidden
+                                className="absolute inset-0 pointer-events-none"
+                                style={{
+                                  background:
+                                    "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.35) 100%)",
+                                }}
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Edge vignettes */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-0 w-[18%] z-30"
+          className="pointer-events-none absolute inset-y-0 left-0 w-[16%] z-30"
           style={{
             background:
-              "linear-gradient(90deg, #0a0b10 10%, rgba(10,11,16,0.5) 60%, transparent 100%)",
+              "linear-gradient(90deg, #02030a 8%, rgba(2,3,10,0.5) 60%, transparent 100%)",
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 w-[18%] z-30"
+          className="pointer-events-none absolute inset-y-0 right-0 w-[16%] z-30"
           style={{
             background:
-              "linear-gradient(-90deg, #0a0b10 10%, rgba(10,11,16,0.5) 60%, transparent 100%)",
+              "linear-gradient(-90deg, #02030a 8%, rgba(2,3,10,0.5) 60%, transparent 100%)",
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[18%] z-30"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[20%] z-30"
           style={{
-            background: "linear-gradient(0deg, #0a0b10 10%, transparent 100%)",
+            background: "linear-gradient(0deg, #02030a 8%, transparent 100%)",
           }}
         />
 
-        {/* Scroll hint */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/40">
           scroll ↓
         </div>
@@ -269,22 +299,21 @@ function FanCard({
   progress: MotionValue<number>;
   url: string;
 }) {
-  // Stagger: each card emerges in sequence from center outward.
-  const order = Math.abs(index - (total - 1) / 2); // 0 = center first
-  const delay = order * 0.025; // 0..~0.15
+  // Stagger emergence from center outward.
+  const order = Math.abs(index - (total - 1) / 2);
+  const delay = order * 0.022;
   const start = delay;
-  const end = delay + 0.42;
+  const end = delay + 0.38;
 
-  // Phase 1 only — settle by ~p=0.45, then Act 2 takes over.
-  const y = useTransform(progress, [start, end], [900, f.finalY]);
+  const y = useTransform(progress, [start, end], [780, f.finalY]);
   const x = useTransform(progress, [start, end], [0, f.finalX]);
   const rotZ = useTransform(progress, [start, end], [0, f.finalRotZ]);
   const rotY = useTransform(progress, [start, end], [0, f.finalRotY]);
-  const scl = useTransform(progress, [start, end], [0.55, 1]);
+  const scl = useTransform(progress, [start, end], [0.5, 1]);
   const op = useTransform(
     progress,
-    [start, start + 0.04, end, 0.55],
-    [0, 1, 1, 0.85],
+    [start, start + 0.05, end, 0.55],
+    [0, 1, 1, 0.9],
   );
 
   return (
@@ -307,7 +336,7 @@ function FanCard({
         translateY: "-50%",
         zIndex: 100 - Math.round(Math.abs(f.t) * 50),
         boxShadow:
-          "0 60px 120px -40px rgba(232,57,14,0.4), 0 30px 70px -30px rgba(0,0,0,0.85), inset 0 0 40px rgba(0,0,0,0.4)",
+          "0 60px 120px -40px rgba(120,140,200,0.18), 0 30px 70px -30px rgba(0,0,0,0.9), inset 0 0 40px rgba(0,0,0,0.4)",
       }}
     >
       <video
