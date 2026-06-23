@@ -82,28 +82,31 @@ const ICONS: string[] = [
     <path d="M52 26 L72 18 L72 50 L52 42 Z"/>
     <path d="M54 28 V40 L50 38 V30 Z" fill="white"/>
   </svg>`,
-  // 1 — Anamorphic & DOOH: big billboard frame with image bars, on a pole
+  // 1 — Anamorphic & DOOH: billboard panel on TWO posts with a ground base
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <rect x="6" y="10" width="68" height="36" rx="2"/>
-    <rect x="10" y="14" width="60" height="28" fill="white"/>
-    <rect x="14" y="18" width="22" height="20" fill="black"/>
-    <rect x="40" y="18" width="26" height="6" fill="black"/>
-    <rect x="40" y="28" width="20" height="4" fill="black"/>
-    <rect x="40" y="34" width="16" height="4" fill="black"/>
-    <rect x="36" y="46" width="8" height="22"/>
-    <rect x="22" y="68" width="36" height="5" rx="1"/>
-    <rect x="4" y="6" width="3" height="6"/><rect x="20" y="4" width="3" height="6"/>
-    <rect x="38" y="4" width="3" height="6"/><rect x="56" y="4" width="3" height="6"/>
-    <rect x="73" y="6" width="3" height="6"/>
+    <rect x="6" y="10" width="68" height="34" rx="2"/>
+    <rect x="10" y="14" width="60" height="26" fill="white"/>
+    <rect x="14" y="18" width="20" height="18" fill="black"/>
+    <rect x="38" y="18" width="28" height="5" fill="black"/>
+    <rect x="38" y="26" width="22" height="4" fill="black"/>
+    <rect x="38" y="32" width="18" height="4" fill="black"/>
+    <rect x="18" y="44" width="4" height="24"/>
+    <rect x="58" y="44" width="4" height="24"/>
+    <rect x="10" y="68" width="60" height="5" rx="1"/>
+    <path d="M6 44 L18 50 L18 46 Z"/>
+    <path d="M74 44 L62 50 L62 46 Z"/>
   </svg>`,
-  // 2 — Immersive XR Training: chunky VR headset with strap loop + lenses
+  // 2 — Immersive XR Training: ski-goggle VR headset, two big lenses + head strap
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <path d="M6 32 a8 8 0 0 1 8 -8 H66 a8 8 0 0 1 8 8 V52 a8 8 0 0 1 -8 8 H52 L46 50 a6 6 0 0 0 -12 0 L28 60 H14 a8 8 0 0 1 -8 -8 Z"/>
-    <ellipse cx="24" cy="42" rx="9" ry="7" fill="white"/>
-    <ellipse cx="56" cy="42" rx="9" ry="7" fill="white"/>
-    <circle cx="24" cy="42" r="3"/>
-    <circle cx="56" cy="42" r="3"/>
-    <path d="M14 30 Q40 8 66 30 L66 34 Q40 14 14 34 Z"/>
+    <path d="M8 28 H72 a4 4 0 0 1 4 4 V52 a4 4 0 0 1 -4 4 H54 a4 4 0 0 1 -3 -1 L46 50 a8 8 0 0 0 -12 0 L29 55 a4 4 0 0 1 -3 1 H8 a4 4 0 0 1 -4 -4 V32 a4 4 0 0 1 4 -4 Z"/>
+    <ellipse cx="22" cy="42" rx="11" ry="8" fill="white"/>
+    <ellipse cx="58" cy="42" rx="11" ry="8" fill="white"/>
+    <ellipse cx="22" cy="42" rx="3.5" ry="3.5"/>
+    <ellipse cx="58" cy="42" rx="3.5" ry="3.5"/>
+    <path d="M4 34 Q2 24 12 22 L16 26 Q10 28 10 34 Z"/>
+    <path d="M76 34 Q78 24 68 22 L64 26 Q70 28 70 34 Z"/>
+    <path d="M10 50 Q4 60 14 66 L18 62 Q12 58 14 52 Z"/>
+    <path d="M70 50 Q76 60 66 66 L62 62 Q68 58 66 52 Z"/>
   </svg>`,
   // 3 — PropViz: house with roof and windows (property visualization)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
@@ -115,22 +118,27 @@ const ICONS: string[] = [
     </g>
     <rect x="56" y="14" width="6" height="12"/>
   </svg>`,
-  // 4 — Event & Immersive Hardware: LED screen wall on stage with spotlights
+  // 4 — Event & Immersive Hardware: stage truss with hanging spotlights, beams, stage
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <rect x="10" y="14" width="60" height="40" rx="2"/>
-    <g fill="white">
-      <rect x="14" y="18" width="14" height="14"/>
-      <rect x="30" y="18" width="14" height="14"/>
-      <rect x="46" y="18" width="14" height="14"/>
-      <rect x="62" y="18" width="4" height="14"/>
-      <rect x="14" y="34" width="14" height="14"/>
-      <rect x="30" y="34" width="14" height="14"/>
-      <rect x="46" y="34" width="14" height="14"/>
-      <rect x="62" y="34" width="4" height="14"/>
-    </g>
-    <rect x="36" y="54" width="8" height="10"/>
-    <rect x="14" y="64" width="52" height="6" rx="1"/>
-    <path d="M6 6 L14 14 L10 14 L4 8 Z M74 6 L66 14 L70 14 L76 8 Z"/>
+    <rect x="4" y="8" width="72" height="6"/>
+    <rect x="6" y="14" width="3" height="22"/>
+    <rect x="71" y="14" width="3" height="22"/>
+    <rect x="14" y="14" width="4" height="6"/>
+    <rect x="32" y="14" width="4" height="6"/>
+    <rect x="44" y="14" width="4" height="6"/>
+    <rect x="62" y="14" width="4" height="6"/>
+    <path d="M16 20 L10 44 L22 44 Z" fill-opacity="0.35"/>
+    <path d="M34 20 L28 50 L40 50 Z" fill-opacity="0.35"/>
+    <path d="M46 20 L40 50 L52 50 Z" fill-opacity="0.35"/>
+    <path d="M64 20 L58 44 L70 44 Z" fill-opacity="0.35"/>
+    <circle cx="16" cy="22" r="2.5"/>
+    <circle cx="34" cy="22" r="2.5"/>
+    <circle cx="46" cy="22" r="2.5"/>
+    <circle cx="64" cy="22" r="2.5"/>
+    <rect x="8" y="54" width="64" height="6"/>
+    <rect x="12" y="60" width="4" height="10"/>
+    <rect x="64" y="60" width="4" height="10"/>
+    <rect x="36" y="46" width="8" height="8"/>
   </svg>`,
   // 5 — AI Content Creation: chip with pins on all four sides, "AI" label, fits inside frame
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
