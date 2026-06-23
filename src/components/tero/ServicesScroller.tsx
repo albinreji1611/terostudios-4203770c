@@ -65,20 +65,79 @@ const services = [
   },
 ];
 
-import iconBrand from "@/assets/service-icons/icon-brand.jpeg.asset.json";
-import iconBillboard from "@/assets/service-icons/icon-billboard.jpeg.asset.json";
-import iconVr from "@/assets/service-icons/icon-vr.jpeg.asset.json";
-import iconBuildings from "@/assets/service-icons/icon-buildings.jpeg.asset.json";
-import iconCube from "@/assets/service-icons/icon-cube.jpeg.asset.json";
-import iconAi from "@/assets/service-icons/icon-ai.jpeg.asset.json";
-
-const ICON_URLS: string[] = [
-  iconBrand.url,
-  iconBillboard.url,
-  iconVr.url,
-  iconBuildings.url,
-  iconCube.url,
-  iconAi.url,
+// Clean line-art SVG re-creations of the reference icons, tuned for particle sampling.
+// 0 Brand Storytelling — monitor with play + megaphone
+// 1 Anamorphic & DOOH — billboard on pole with lights
+// 2 Immersive XR Training — VR headset on head with sparkles + coins
+// 3 PropViz — three buildings, one tall
+// 4 Event & Immersive Hardware — holographic projector cube with dashed beams
+// 5 AI Content Creation — AI chip with pins
+const ICONS: string[] = [
+  // 0 — monitor + megaphone (ref: screen with play, megaphone top-right)
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="12" width="40" height="28" rx="2"/>
+    <path d="M18 44h12M22 40v4M20 48h12"/>
+    <circle cx="22" cy="26" r="7"/>
+    <path d="M20 22.5l5 3.5-5 3.5z" fill="black" stroke="none"/>
+    <path d="M44 20l14-6v22l-14-6z"/>
+    <path d="M58 16c2.4 2.5 2.4 8 0 11M60 13c3.4 4 3.4 12 0 18"/>
+  </svg>`,
+  // 1 — billboard on pole with top lights and ladder
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 8l3 4M16 6l2 5M28 6l2 5M40 6l2 5M52 6l2 5"/>
+    <rect x="4" y="14" width="56" height="22" rx="1"/>
+    <path d="M4 36h56l-3 5H7z"/>
+    <path d="M30 41v18M34 41v18"/>
+    <path d="M22 60h20"/>
+    <path d="M30 44h4M30 48h4M30 52h4M30 56h4"/>
+  </svg>`,
+  // 2 — VR headset on head, sparkles, coins around
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 18c0-5 4-9 10-9s10 4 10 9"/>
+    <path d="M16 30c0-3 2-5 5-5h22c3 0 5 2 5 5v8c0 3-2 5-5 5h-5l-3-4a3 3 0 0 0-6 0l-3 4h-5c-3 0-5-2-5-5z"/>
+    <circle cx="24" cy="34" r="3"/>
+    <circle cx="40" cy="34" r="3"/>
+    <path d="M22 50c2 3 6 5 10 5s8-2 10-5"/>
+    <circle cx="8" cy="26" r="5"/>
+    <path d="M6 26h4M8 24v4" stroke-width="1.6"/>
+    <circle cx="56" cy="32" r="5"/>
+    <path d="M54 30l4 4M58 30l-4 4" stroke-width="1.6"/>
+    <path d="M10 14l1.5 3 3 1.5-3 1.5L10 23l-1.5-3-3-1.5 3-1.5z" fill="black" stroke="none"/>
+    <path d="M54 48l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" fill="black" stroke="none"/>
+    <path d="M6 42h8M8 46h6" stroke-width="2"/>
+  </svg>`,
+  // 3 — three buildings cluster (filled, varied heights)
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="black" stroke="none">
+    <path d="M6 30 L6 60 L24 60 L24 30 L18 24 L18 38 L12 38 L12 24 Z"/>
+    <path d="M22 14 L22 60 L42 60 L42 14 L32 6 Z M30 18 L30 28 L34 28 L34 18 Z" fill-rule="evenodd"/>
+    <path d="M42 22 L42 60 L60 60 L60 22 Z"/>
+    <g fill="white">
+      <rect x="45" y="26" width="3" height="3"/><rect x="50" y="26" width="3" height="3"/><rect x="55" y="26" width="3" height="3"/>
+      <rect x="45" y="32" width="3" height="3"/><rect x="50" y="32" width="3" height="3"/><rect x="55" y="32" width="3" height="3"/>
+      <rect x="45" y="38" width="3" height="3"/><rect x="50" y="38" width="3" height="3"/><rect x="55" y="38" width="3" height="3"/>
+      <rect x="45" y="44" width="3" height="3"/><rect x="50" y="44" width="3" height="3"/><rect x="55" y="44" width="3" height="3"/>
+      <rect x="45" y="50" width="3" height="3"/><rect x="50" y="50" width="3" height="3"/><rect x="55" y="50" width="3" height="3"/>
+    </g>
+  </svg>`,
+  // 4 — holographic projector cube with dashed beams (ref: cube above base with rays)
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 8 L48 16 L48 30 L32 38 L16 30 L16 16 Z"/>
+    <path d="M16 16 L32 24 L48 16 M32 24 L32 38"/>
+    <path d="M6 60 L26 38 M58 60 L38 38 M18 60 L24 42 M46 60 L40 42 M32 60 L32 42" stroke-dasharray="3 3"/>
+    <ellipse cx="32" cy="58" rx="22" ry="3"/>
+    <ellipse cx="32" cy="56" rx="18" ry="2.4"/>
+  </svg>`,
+  // 5 — AI chip with pins, dots, and bold "AI" label
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="14" y="14" width="36" height="36" rx="4" fill="black"/>
+    <rect x="20" y="20" width="24" height="24" rx="2" fill="none" stroke="white" stroke-width="2"/>
+    <text x="32" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="white" stroke="none">AI</text>
+    <path d="M22 8v6M32 8v6M42 8v6 M22 50v6M32 50v6M42 50v6 M8 22h6M8 32h6M8 42h6 M50 22h6M50 32h6M50 42h6"/>
+    <circle cx="32" cy="6" r="2.4" fill="black"/>
+    <circle cx="32" cy="58" r="2.4" fill="black"/>
+    <circle cx="6" cy="32" r="2.4" fill="black"/>
+    <circle cx="58" cy="32" r="2.4" fill="black"/>
+  </svg>`,
 ];
 
 // Reference dust palette: warm cream dominant, soft amber embers, sparse cool accent.
