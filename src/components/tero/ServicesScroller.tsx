@@ -352,20 +352,20 @@ export function ServicesScroller() {
         style={{ background: "linear-gradient(180deg, #020309 0%, #07080d 45%, #020309 100%)" }}
       />
       <SpaceField />
-      <div className="relative z-10 mx-auto flex min-h-[46vh] max-w-[1440px] flex-col justify-end px-6 pb-14 pt-32 text-center md:px-12">
+      <div className="pointer-events-none absolute inset-x-0 top-24 z-20 mx-auto max-w-[1440px] px-6 text-center md:px-12">
         <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#fdfaf6]/45">What we craft</span>
         <h2 className="mt-3 font-display text-[clamp(32px,5vw,72px)] leading-[0.94] text-[#fdfaf6]">
           Our Primary Services
         </h2>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1440px] px-6 pb-[26vh] md:px-12">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-6 pb-[26vh] pt-[18vh] md:px-12">
         {services.map((service, i) => {
           const textLeft = i % 2 === 0;
           return (
             <article
               key={service.n}
-              className="grid min-h-[128vh] items-center gap-10 py-[10vh] md:grid-cols-2 md:gap-16"
+              className="grid min-h-[120vh] items-center gap-10 py-[4vh] md:grid-cols-2 md:gap-16"
             >
               <div className={textLeft ? "md:order-1" : "md:order-2 md:text-right"}>
                 <div
