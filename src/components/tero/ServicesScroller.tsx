@@ -73,70 +73,64 @@ const services = [
 // 4 Event & Immersive Hardware — holographic projector cube with dashed beams
 // 5 AI Content Creation — AI chip with pins
 const ICONS: string[] = [
-  // 0 — monitor + megaphone (ref: screen with play, megaphone top-right)
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="4" y="12" width="40" height="28" rx="2"/>
-    <path d="M18 44h12M22 40v4M20 48h12"/>
-    <circle cx="22" cy="26" r="7"/>
-    <path d="M20 22.5l5 3.5-5 3.5z" fill="black" stroke="none"/>
-    <path d="M44 20l14-6v22l-14-6z"/>
-    <path d="M58 16c2.4 2.5 2.4 8 0 11M60 13c3.4 4 3.4 12 0 18"/>
-  </svg>`,
-  // 1 — billboard on pole with top lights and ladder
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M6 8l3 4M16 6l2 5M28 6l2 5M40 6l2 5M52 6l2 5"/>
-    <rect x="4" y="14" width="56" height="22" rx="1"/>
-    <path d="M4 36h56l-3 5H7z"/>
-    <path d="M30 41v18M34 41v18"/>
-    <path d="M22 60h20"/>
-    <path d="M30 44h4M30 48h4M30 52h4M30 56h4"/>
-  </svg>`,
-  // 2 — VR headset on head, sparkles, coins around
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 18c0-5 4-9 10-9s10 4 10 9"/>
-    <path d="M16 30c0-3 2-5 5-5h22c3 0 5 2 5 5v8c0 3-2 5-5 5h-5l-3-4a3 3 0 0 0-6 0l-3 4h-5c-3 0-5-2-5-5z"/>
-    <circle cx="24" cy="34" r="3"/>
-    <circle cx="40" cy="34" r="3"/>
-    <path d="M22 50c2 3 6 5 10 5s8-2 10-5"/>
-    <circle cx="8" cy="26" r="5"/>
-    <path d="M6 26h4M8 24v4" stroke-width="1.6"/>
-    <circle cx="56" cy="32" r="5"/>
-    <path d="M54 30l4 4M58 30l-4 4" stroke-width="1.6"/>
-    <path d="M10 14l1.5 3 3 1.5-3 1.5L10 23l-1.5-3-3-1.5 3-1.5z" fill="black" stroke="none"/>
-    <path d="M54 48l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" fill="black" stroke="none"/>
-    <path d="M6 42h8M8 46h6" stroke-width="2"/>
-  </svg>`,
-  // 3 — three buildings cluster (filled, varied heights)
+  // 0 — Brand Storytelling: bold filled TV/monitor + megaphone silhouette
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="black" stroke="none">
-    <path d="M6 30 L6 60 L24 60 L24 30 L18 24 L18 38 L12 38 L12 24 Z"/>
-    <path d="M22 14 L22 60 L42 60 L42 14 L32 6 Z M30 18 L30 28 L34 28 L34 18 Z" fill-rule="evenodd"/>
-    <path d="M42 22 L42 60 L60 60 L60 22 Z"/>
+    <path d="M2 12 H44 a2 2 0 0 1 2 2 V38 a2 2 0 0 1 -2 2 H2 a2 2 0 0 1 -2 -2 V14 a2 2 0 0 1 2 -2 Z M4 16 V36 H42 V16 Z" fill-rule="evenodd"/>
+    <rect x="18" y="44" width="14" height="3" rx="1"/>
+    <rect x="22" y="40" width="6" height="6"/>
+    <path d="M18 26 L30 18 L30 34 Z"/>
+    <path d="M44 18 L62 10 L62 42 L44 34 Z"/>
+    <path d="M46 20 V32 L42 30 V22 Z" fill="white"/>
+  </svg>`,
+  // 1 — Anamorphic & DOOH: bold filled billboard on pole
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="black" stroke="none">
+    <rect x="2" y="8" width="60" height="26" rx="2"/>
+    <rect x="6" y="12" width="52" height="18" fill="white"/>
+    <rect x="28" y="34" width="8" height="22"/>
+    <rect x="18" y="56" width="28" height="4" rx="1"/>
+  </svg>`,
+  // 2 — Immersive XR: bold filled VR headset silhouette
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="black" stroke="none">
+    <path d="M8 22 H56 a4 4 0 0 1 4 4 V44 a4 4 0 0 1 -4 4 H42 L36 40 a4 4 0 0 0 -8 0 L22 48 H8 a4 4 0 0 1 -4 -4 V26 a4 4 0 0 1 4 -4 Z"/>
+    <ellipse cx="20" cy="35" rx="7" ry="6" fill="white"/>
+    <ellipse cx="44" cy="35" rx="7" ry="6" fill="white"/>
+    <rect x="26" y="14" width="12" height="8" rx="1"/>
+  </svg>`,
+  // 3 — PropViz: bold filled buildings cluster
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="black" stroke="none">
+    <path d="M4 28 L4 60 L22 60 L22 28 L13 20 Z"/>
+    <path d="M20 8 L40 8 L40 60 L20 60 Z"/>
+    <path d="M40 18 L60 18 L60 60 L40 60 Z"/>
     <g fill="white">
-      <rect x="45" y="26" width="3" height="3"/><rect x="50" y="26" width="3" height="3"/><rect x="55" y="26" width="3" height="3"/>
-      <rect x="45" y="32" width="3" height="3"/><rect x="50" y="32" width="3" height="3"/><rect x="55" y="32" width="3" height="3"/>
-      <rect x="45" y="38" width="3" height="3"/><rect x="50" y="38" width="3" height="3"/><rect x="55" y="38" width="3" height="3"/>
-      <rect x="45" y="44" width="3" height="3"/><rect x="50" y="44" width="3" height="3"/><rect x="55" y="44" width="3" height="3"/>
-      <rect x="45" y="50" width="3" height="3"/><rect x="50" y="50" width="3" height="3"/><rect x="55" y="50" width="3" height="3"/>
+      <rect x="8" y="34" width="4" height="4"/><rect x="14" y="34" width="4" height="4"/>
+      <rect x="8" y="42" width="4" height="4"/><rect x="14" y="42" width="4" height="4"/>
+      <rect x="8" y="50" width="4" height="4"/><rect x="14" y="50" width="4" height="4"/>
+      <rect x="24" y="14" width="4" height="4"/><rect x="32" y="14" width="4" height="4"/>
+      <rect x="24" y="22" width="4" height="4"/><rect x="32" y="22" width="4" height="4"/>
+      <rect x="24" y="30" width="4" height="4"/><rect x="32" y="30" width="4" height="4"/>
+      <rect x="24" y="38" width="4" height="4"/><rect x="32" y="38" width="4" height="4"/>
+      <rect x="24" y="46" width="4" height="4"/><rect x="32" y="46" width="4" height="4"/>
+      <rect x="44" y="24" width="4" height="4"/><rect x="52" y="24" width="4" height="4"/>
+      <rect x="44" y="32" width="4" height="4"/><rect x="52" y="32" width="4" height="4"/>
+      <rect x="44" y="40" width="4" height="4"/><rect x="52" y="40" width="4" height="4"/>
+      <rect x="44" y="48" width="4" height="4"/><rect x="52" y="48" width="4" height="4"/>
     </g>
   </svg>`,
-  // 4 — holographic projector cube with dashed beams (ref: cube above base with rays)
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M32 8 L48 16 L48 30 L32 38 L16 30 L16 16 Z"/>
-    <path d="M16 16 L32 24 L48 16 M32 24 L32 38"/>
-    <path d="M6 60 L26 38 M58 60 L38 38 M18 60 L24 42 M46 60 L40 42 M32 60 L32 42" stroke-dasharray="3 3"/>
+  // 4 — Event & Immersive Hardware: bold filled 3D cube
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="black" stroke="none">
+    <path d="M32 4 L58 16 L58 42 L32 54 L6 42 L6 16 Z"/>
+    <path d="M32 4 L58 16 L32 28 L6 16 Z" fill="white" opacity="0.18"/>
+    <path d="M32 28 L58 16 L58 42 L32 54 Z" fill="white" opacity="0.32"/>
     <ellipse cx="32" cy="58" rx="22" ry="3"/>
-    <ellipse cx="32" cy="56" rx="18" ry="2.4"/>
   </svg>`,
-  // 5 — AI chip with pins, dots, and bold "AI" label
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="black" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="14" y="14" width="36" height="36" rx="4" fill="black"/>
-    <rect x="20" y="20" width="24" height="24" rx="2" fill="none" stroke="white" stroke-width="2"/>
-    <text x="32" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="white" stroke="none">AI</text>
-    <path d="M22 8v6M32 8v6M42 8v6 M22 50v6M32 50v6M42 50v6 M8 22h6M8 32h6M8 42h6 M50 22h6M50 32h6M50 42h6"/>
-    <circle cx="32" cy="6" r="2.4" fill="black"/>
-    <circle cx="32" cy="58" r="2.4" fill="black"/>
-    <circle cx="6" cy="32" r="2.4" fill="black"/>
-    <circle cx="58" cy="32" r="2.4" fill="black"/>
+  // 5 — AI Content Creation: bold filled AI chip block with "AI"
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="black" stroke="none">
+    <rect x="12" y="12" width="40" height="40" rx="4"/>
+    <text x="32" y="42" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="22" fill="white">AI</text>
+    <rect x="20" y="4" width="4" height="8"/><rect x="30" y="4" width="4" height="8"/><rect x="40" y="4" width="4" height="8"/>
+    <rect x="20" y="52" width="4" height="8"/><rect x="30" y="52" width="4" height="8"/><rect x="40" y="52" width="4" height="8"/>
+    <rect x="4" y="20" width="8" height="4"/><rect x="4" y="30" width="8" height="4"/><rect x="4" y="40" width="8" height="4"/>
+    <rect x="52" y="20" width="8" height="4"/><rect x="52" y="30" width="8" height="4"/><rect x="52" y="40" width="8" height="4"/>
   </svg>`,
 ];
 
