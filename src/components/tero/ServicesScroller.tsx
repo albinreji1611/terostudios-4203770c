@@ -172,7 +172,8 @@ const ease = (n: number) => {
 };
 
 const ramp = (from: number, to: number, value: number) => ease((value - from) / (to - from));
-const motionWindow = (value: number) => ramp(0.12, 0.38, value) * (1 - ramp(0.82, 1, value));
+// Tighter window: scatter longer at edges, snap and hold the formed icon across the middle.
+const motionWindow = (value: number) => ramp(0.22, 0.44, value) * (1 - ramp(0.6, 0.82, value));
 
 type Point = { x: number; y: number };
 
