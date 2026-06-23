@@ -338,7 +338,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       serviceTravel += (targetTravel - serviceTravel) * 0.085;
       const mobile = w < 760;
       const objectOnRight = active % 2 === 0;
-      targetX = mobile ? w / 2 : objectOnRight ? w * 0.76 : w * 0.24;
+      targetX = mobile ? w / 2 : objectOnRight ? w * 0.7 : w * 0.3;
       targetY = mobile ? h * (0.14 + serviceTravel * 0.72) : h * (0.16 + serviceTravel * 0.64);
     };
 
