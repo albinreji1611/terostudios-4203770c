@@ -34,10 +34,10 @@ const ROWS = 3;
 const TILES_PER_ROW = 7;
 const TILE_W = 240;
 const TILE_H = 140;
-const ROW_GAP = 28;
-const COL_GAP = 16;
-const CURVE = 28; // gentle horizontal wrap (reference is subtle)
-const DEPTH = 180;
+const ROW_GAP = 56;
+const COL_GAP = 28;
+const CURVE = 18; // gentler wrap so rotated tiles don't bleed into neighbors
+const DEPTH = 110;
 
 const FAN = Array.from({ length: FAN_COUNT }, (_, i) => {
   const halfN = (FAN_COUNT - 1) / 2;
