@@ -352,9 +352,9 @@ export function ServicesScroller() {
         style={{ background: "linear-gradient(180deg, #020309 0%, #07080d 45%, #020309 100%)" }}
       />
       <SpaceField />
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1440px] flex-col justify-center px-6 py-28 text-center md:px-12">
+      <div className="relative z-10 mx-auto flex min-h-[46vh] max-w-[1440px] flex-col justify-end px-6 pb-14 pt-32 text-center md:px-12">
         <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#fdfaf6]/45">What we craft</span>
-        <h2 className="mt-3 font-display text-[clamp(34px,6vw,92px)] leading-[0.92] text-[#fdfaf6]">
+        <h2 className="mt-3 font-display text-[clamp(32px,5vw,72px)] leading-[0.94] text-[#fdfaf6]">
           Our Primary Services
         </h2>
       </div>
@@ -365,7 +365,7 @@ export function ServicesScroller() {
           return (
             <article
               key={service.n}
-              className="grid min-h-[145vh] items-center gap-10 py-[16vh] md:grid-cols-2 md:gap-16"
+              className="grid min-h-[128vh] items-center gap-10 py-[10vh] md:grid-cols-2 md:gap-16"
             >
               <div className={textLeft ? "md:order-1" : "md:order-2 md:text-right"}>
                 <div
