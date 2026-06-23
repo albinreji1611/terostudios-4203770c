@@ -348,8 +348,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
 
       active = bestIndex;
       const profile = motionWindow(bestTravel);
-      targetFormed = best > 0.05 ? profile : 0;
-      targetFill = clamp01(1 - profile * 1.15);
+      const activeLock = Math.pow(clamp01(best), 1.55) * 0.94;
+      const formation = Math.max(profile, activeLock);
+      targetFormed = best > 0.05 ? formation : 0;
+      targetFill = clamp01(1 - formation * 1.15);
       targetTravel = bestTravel;
       serviceTravel += (targetTravel - serviceTravel) * 0.085;
       const mobile = w < 760;
