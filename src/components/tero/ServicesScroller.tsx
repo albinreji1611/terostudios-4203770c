@@ -61,6 +61,9 @@ const ease = (n: number) => {
   return t * t * t * (t * (t * 6 - 15) + 10);
 };
 
+const ramp = (from: number, to: number, value: number) => ease((value - from) / (to - from));
+const motionWindow = (value: number) => ramp(0.1, 0.34, value) * (1 - ramp(0.68, 0.92, value));
+
 type Point = { x: number; y: number };
 
 function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | null> }) {
@@ -80,6 +83,8 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     let h = 0;
     let formed = 0;
     let targetFormed = 0;
+    let fill = 1;
+    let targetFill = 1;
     let active = 0;
     let targetX = 0;
     let targetY = 0;
@@ -223,14 +228,15 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       }
 
       active = bestIndex;
-      const centered = clamp01(1 - Math.abs(bestTravel - 0.5) / 0.78);
-      targetFormed = best > 0.08 ? 0.58 + ease(centered) * 0.42 : 0.32;
+      const profile = motionWindow(bestTravel);
+      targetFormed = best > 0.08 ? 0.06 + profile * 0.94 : 0;
+      targetFill = clamp01(1 - profile);
       targetTravel = bestTravel;
       serviceTravel += (targetTravel - serviceTravel) * 0.085;
       const mobile = w < 760;
       const objectOnRight = active % 2 === 0;
       targetX = mobile ? w / 2 : objectOnRight ? w * 0.78 : w * 0.22;
-      targetY = mobile ? h * (0.18 + serviceTravel * 0.56) : h * (0.18 + serviceTravel * 0.52);
+      targetY = mobile ? h * (0.14 + serviceTravel * 0.72) : h * (0.16 + serviceTravel * 0.64);
     };
 
     const onMove = (event: PointerEvent) => {
@@ -253,6 +259,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       currentX += (targetX - currentX) * 0.18;
       currentY += (targetY - currentY) * 0.13;
       formed += (targetFormed - formed) * 0.12;
+      fill += (targetFill - fill) * 0.08;
       if (mx > -9000) {
         if (smx < -9000) {
           smx = mx;
