@@ -394,8 +394,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       update();
       currentX += (targetX - currentX) * 0.18;
       currentY += (targetY - currentY) * 0.13;
-      formed += (targetFormed - formed) * 0.12;
-      fill += (targetFill - fill) * 0.08;
+      // Asymmetric easing: snap quickly into form, dissolve slowly back to scatter.
+      const formedLerp = targetFormed > formed ? 0.22 : 0.07;
+      formed += (targetFormed - formed) * formedLerp;
+      fill += (targetFill - fill) * (targetFill > fill ? 0.06 : 0.14);
       if (mx > -9000) {
         if (smx < -9000) {
           smx = mx;
