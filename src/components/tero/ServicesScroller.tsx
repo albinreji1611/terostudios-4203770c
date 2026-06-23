@@ -383,8 +383,8 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       ctx.globalCompositeOperation = "lighter";
       const t = now / 1000;
       const objectOnRight = active % 2 === 0;
-      const yaw = Math.sin(t * 0.2 + sectionProgress * 2.2) * 0.5 + (objectOnRight ? 0.38 : -0.38);
-      const pitch = Math.sin(t * 0.16 + active) * 0.25;
+      const yaw = Math.sin(t * 0.25) * 0.14;
+      const pitch = Math.sin(t * 0.18 + active) * 0.06;
       const cosY = Math.cos(yaw);
       const sinY = Math.sin(yaw);
       const cosP = Math.cos(pitch);
@@ -393,10 +393,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
 
       for (const p of particles) {
         const pt = points[p.idx % Math.max(1, points.length)] || { x: 0, y: 0 };
-        const volume = 2.2 + (p.idx % 11) * 0.45;
-        const px = pt.x * 1.08 + Math.sin(p.phase * 2.1 + t * 0.5) * volume;
-        const py = pt.y * 1.08 + Math.cos(p.phase * 1.7 + t * 0.4) * volume;
-        const depth = ((p.idx % 37) - 18) * 2.2 + Math.sin(p.idx * 0.77) * 10 + Math.sin(p.phase + t * 0.3) * 22;
+        const volume = 0.8 + (p.idx % 11) * 0.12;
+        const px = pt.x + Math.sin(p.phase * 2.1 + t * 0.5) * volume;
+        const py = pt.y + Math.cos(p.phase * 1.7 + t * 0.4) * volume;
+        const depth = Math.sin(p.idx * 0.77) * 4 + Math.sin(p.phase + t * 0.3) * 6;
         const rx = px * cosY + depth * sinY;
         const rz = depth * cosY - px * sinY;
         const ry = py * cosP - rz * sinP;
