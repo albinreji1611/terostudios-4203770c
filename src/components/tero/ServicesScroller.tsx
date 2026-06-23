@@ -96,17 +96,15 @@ const ICONS: string[] = [
     <path d="M6 44 L18 50 L18 46 Z"/>
     <path d="M74 44 L62 50 L62 46 Z"/>
   </svg>`,
-  // 2 — Immersive XR Training: ski-goggle VR headset, two big lenses + head strap
+  // 2 — Immersive XR Training: side-profile head wearing VR headset (like reference)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <path d="M8 28 H72 a4 4 0 0 1 4 4 V52 a4 4 0 0 1 -4 4 H54 a4 4 0 0 1 -3 -1 L46 50 a8 8 0 0 0 -12 0 L29 55 a4 4 0 0 1 -3 1 H8 a4 4 0 0 1 -4 -4 V32 a4 4 0 0 1 4 -4 Z"/>
-    <ellipse cx="22" cy="42" rx="11" ry="8" fill="white"/>
-    <ellipse cx="58" cy="42" rx="11" ry="8" fill="white"/>
-    <ellipse cx="22" cy="42" rx="3.5" ry="3.5"/>
-    <ellipse cx="58" cy="42" rx="3.5" ry="3.5"/>
-    <path d="M4 34 Q2 24 12 22 L16 26 Q10 28 10 34 Z"/>
-    <path d="M76 34 Q78 24 68 22 L64 26 Q70 28 70 34 Z"/>
-    <path d="M10 50 Q4 60 14 66 L18 62 Q12 58 14 52 Z"/>
-    <path d="M70 50 Q76 60 66 66 L62 62 Q68 58 66 52 Z"/>
+    <path d="M44 8 C58 8 68 18 68 32 C68 38 66 42 64 46 C63 49 64 52 64 56 C64 62 60 66 54 66 L52 66 L52 72 L34 72 L34 64 C28 62 24 58 22 52 L18 52 C15 52 13 50 13 47 L13 41 C13 38 15 36 18 36 L20 36 C22 20 32 8 44 8 Z"/>
+    <path d="M8 36 H46 a3 3 0 0 1 3 3 V49 a3 3 0 0 1 -3 3 H36 a2 2 0 0 1 -2 -1 L31 47 a4 4 0 0 0 -7 0 L21 51 a2 2 0 0 1 -2 1 H8 a3 3 0 0 1 -3 -3 V39 a3 3 0 0 1 3 -3 Z" fill="black"/>
+    <rect x="11" y="39" width="14" height="10" rx="2" fill="white"/>
+    <rect x="33" y="39" width="13" height="10" rx="2" fill="white"/>
+    <circle cx="18" cy="44" r="2.2"/>
+    <circle cx="39" cy="44" r="2.2"/>
+    <path d="M46 30 Q56 26 64 32 L64 36 Q56 31 46 34 Z"/>
   </svg>`,
   // 3 — PropViz: house with roof and windows (property visualization)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
