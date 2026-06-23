@@ -61,6 +61,9 @@ const ease = (n: number) => {
   return t * t * t * (t * (t * 6 - 15) + 10);
 };
 
+const ramp = (from: number, to: number, value: number) => ease((value - from) / (to - from));
+const motionWindow = (value: number) => ramp(0.18, 0.46, value) * (1 - ramp(0.74, 0.96, value));
+
 type Point = { x: number; y: number };
 
 function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | null> }) {
@@ -80,6 +83,8 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     let h = 0;
     let formed = 0;
     let targetFormed = 0;
+    let fill = 1;
+    let targetFill = 1;
     let active = 0;
     let targetX = 0;
     let targetY = 0;
@@ -223,14 +228,15 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       }
 
       active = bestIndex;
-      const centered = clamp01(1 - Math.abs(bestTravel - 0.5) / 0.78);
-      targetFormed = best > 0.08 ? 0.58 + ease(centered) * 0.42 : 0.32;
+      const profile = motionWindow(bestTravel);
+      targetFormed = best > 0.08 ? 0.06 + profile * 0.94 : 0;
+      targetFill = clamp01(1 - profile);
       targetTravel = bestTravel;
       serviceTravel += (targetTravel - serviceTravel) * 0.085;
       const mobile = w < 760;
       const objectOnRight = active % 2 === 0;
-      targetX = mobile ? w / 2 : objectOnRight ? w * 0.78 : w * 0.22;
-      targetY = mobile ? h * (0.18 + serviceTravel * 0.56) : h * (0.18 + serviceTravel * 0.52);
+      targetX = mobile ? w / 2 : objectOnRight ? w * 0.76 : w * 0.24;
+      targetY = mobile ? h * (0.14 + serviceTravel * 0.72) : h * (0.16 + serviceTravel * 0.64);
     };
 
     const onMove = (event: PointerEvent) => {
@@ -253,6 +259,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       currentX += (targetX - currentX) * 0.18;
       currentY += (targetY - currentY) * 0.13;
       formed += (targetFormed - formed) * 0.12;
+      fill += (targetFill - fill) * 0.08;
       if (mx > -9000) {
         if (smx < -9000) {
           smx = mx;
@@ -287,22 +294,22 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         const rz = depth * cosY - px * sinY;
         const ry = py * cosP - rz * sinP;
         const rz2 = rz * cosP + py * sinP;
-        const driftX = Math.sin(t * 0.16 + p.phase + sectionProgress * 3.8) * 52;
-        const driftY = Math.cos(t * 0.13 + p.phase * 0.8) * 42;
-        const fieldX = (p.fx + p.lane * sectionProgress * w * 0.42 + driftX + w * 2) % w;
-        const fieldY = (p.fy + sectionProgress * h * (1.15 + p.lane * 0.18) + driftY + h * 2) % h;
-        const streamX = currentX + p.sx * (1.15 + Math.sin(t * 0.12 + p.phase) * 0.05);
-        const streamY = currentY + p.sy * (1.05 + Math.cos(t * 0.1 + p.phase) * 0.04);
-        const scatterMix = clamp01((1 - formed) * 0.34);
-        const cloudX = fieldX * 0.72 + streamX * 0.28;
-        const cloudY = fieldY * 0.72 + streamY * 0.28;
-        const tz = (p.fz * 0.6 + p.sz * 0.4) * scatterMix + rz2 * formed;
+        const driftX = Math.sin(t * 0.16 + p.phase + sectionProgress * 3.8) * (48 + fill * 36);
+        const driftY = Math.cos(t * 0.13 + p.phase * 0.8) * (40 + fill * 32);
+        const fieldX = (p.fx + p.lane * sectionProgress * w * 0.68 + driftX + w * 2) % w;
+        const fieldY = (p.fy + sectionProgress * h * (1.25 + p.lane * 0.22) + driftY + h * 2) % h;
+        const streamX = currentX + p.sx * (1.38 + Math.sin(t * 0.12 + p.phase) * 0.07);
+        const streamY = currentY + p.sy * (1.22 + Math.cos(t * 0.1 + p.phase) * 0.06);
+        const scatterMix = clamp01(1 - formed);
+        const cloudX = fieldX * fill + streamX * (1 - fill);
+        const cloudY = fieldY * fill + streamY * (1 - fill);
+        const tz = (p.fz * fill + p.sz * (1 - fill)) * scatterMix + rz2 * formed;
         const perspectiveScale = 720 / (720 - tz);
         const shapeX = currentX + rx * perspectiveScale;
         const shapeY = currentY + ry * perspectiveScale;
 
-        let screenX = cloudX * scatterMix + shapeX * (1 - scatterMix);
-        let screenY = cloudY * scatterMix + shapeY * (1 - scatterMix) + scrollVelocity * 0.42;
+        let screenX = cloudX * scatterMix + shapeX * formed;
+        let screenY = cloudY * scatterMix + shapeY * formed + scrollVelocity * (0.34 + fill * 0.18);
         if (smx > -9000) {
           const dx = screenX - smx;
           const dy = screenY - smy;
@@ -323,7 +330,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         p.y += (screenY - p.y) * lock + p.vy;
         p.z += (tz - p.z) * 0.14 + p.vz;
 
-        ctx.globalAlpha = Math.min(1, 0.2 + formed * 0.64 + Math.max(0, p.z) / 1250);
+        ctx.globalAlpha = Math.min(1, 0.18 + fill * 0.34 + formed * 0.56 + Math.max(0, p.z) / 1250);
         ctx.fillStyle = p.color;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size * (0.76 + formed * 0.46) * perspectiveScale, 0, Math.PI * 2);
@@ -485,7 +492,7 @@ export function ServicesScroller() {
                   {service.desc}
                 </p>
               </div>
-              <div aria-hidden className={textLeft ? "hidden md:order-2 md:block" : "hidden md:order-1 md:block"} />
+              <div aria-hidden className={textLeft ? "min-h-[52vh] md:order-2" : "min-h-[52vh] md:order-1"} />
             </article>
           );
         })}
