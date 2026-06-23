@@ -96,19 +96,27 @@ const ICONS: string[] = [
     <path d="M6 44 L18 50 L18 46 Z"/>
     <path d="M74 44 L62 50 L62 46 Z"/>
   </svg>`,
-  // 2 — Immersive XR Training: side-profile head wearing VR headset (matches reference)
+  // 2 — Immersive XR Training: reference-style side head with chunky VR visor + rear strap
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <!-- head + hair + neck silhouette, face pointing left -->
-    <path d="M34 6 C20 6 10 16 9 30 C8 36 10 40 11 44 L9 50 L13 52 L11 58 L16 60 L16 66 L20 70 L20 78 L42 78 L42 64 C56 62 64 52 64 36 C64 18 52 6 34 6 Z"/>
-    <!-- VR headset band across the face -->
-    <path d="M2 30 H48 a3 3 0 0 1 3 3 V45 a3 3 0 0 1 -3 3 H38 a2 2 0 0 1 -2 -1 L33 43 a3 3 0 0 0 -6 0 L24 47 a2 2 0 0 1 -2 1 H2 a3 3 0 0 1 -3 -3 V33 a3 3 0 0 1 3 -3 Z"/>
-    <!-- lens cutouts -->
-    <rect x="5" y="33" width="15" height="11" rx="2" fill="white"/>
-    <rect x="28" y="33" width="18" height="11" rx="2" fill="white"/>
-    <circle cx="12" cy="38" r="2.4"/>
-    <circle cx="37" cy="38" r="2.4"/>
-    <!-- head strap wrapping around back of head -->
-    <path d="M48 32 Q62 30 64 38 Q62 46 48 46 L48 42 Q58 42 59 38 Q58 34 48 36 Z"/>
+    <defs>
+      <mask id="xr-visor-cut">
+        <rect width="80" height="80" fill="white"/>
+        <rect x="13" y="35" width="13" height="8" rx="2" fill="black"/>
+        <rect x="32" y="35" width="12" height="8" rx="2" fill="black"/>
+        <circle cx="20" cy="39" r="1.7" fill="white"/>
+        <circle cx="38" cy="39" r="1.7" fill="white"/>
+        <path d="M28 37 C30 36 31 36 33 37 L33 41 C31 40 30 40 28 41 Z" fill="black"/>
+      </mask>
+    </defs>
+    <g mask="url(#xr-visor-cut)">
+      <path d="M44 5 C58 8 68 20 68 36 C68 52 58 63 44 66 L44 76 L25 76 L25 67 C19 64 17 58 18 52 L13 50 L16 44 C12 40 10 34 11 28 C13 14 27 3 44 5 Z"/>
+      <path d="M10 28 H45 C50 28 53 31 53 36 V43 C53 48 50 51 45 51 H10 C5 51 2 48 2 43 V36 C2 31 5 28 10 28 Z"/>
+      <path d="M51 31 C59 30 65 32 68 36 C68 40 64 45 51 47 V42 C57 42 61 40 62 37 C61 34 57 33 51 35 Z"/>
+      <path d="M30 8 C22 12 17 19 16 27 L9 29 C10 16 20 7 33 4 Z"/>
+      <path d="M24 66 C18 65 13 69 10 76 H31 C30 72 28 69 24 66 Z"/>
+      <circle cx="12" cy="17" r="3"/>
+      <path d="M71 14 L74 18 L78 19 L74 22 L72 26 L69 22 L65 20 L69 18 Z"/>
+    </g>
   </svg>`,
   // 3 — PropViz: house with roof and windows (property visualization)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
@@ -402,8 +410,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       ctx.globalCompositeOperation = "lighter";
       const t = now / 1000;
       const objectOnRight = active % 2 === 0;
-      const yaw = Math.sin(t * 0.6 + sectionProgress * 2.4) * 0.7 + (objectOnRight ? 0.35 : -0.35);
-      const pitch = Math.sin(t * 0.45 + active * 0.9) * 0.32;
+      const easedOsc = (phase: number) => ease((Math.sin(phase) + 1) / 2) * 2 - 1;
+      const tumblePhase = t * 0.74 + sectionProgress * 3.65 + active * 0.42;
+      const yaw = easedOsc(tumblePhase) * 0.92 + easedOsc(t * 0.22 + active) * 0.14 + (objectOnRight ? 0.18 : -0.18);
+      const pitch = easedOsc(tumblePhase * 0.78 + active * 0.9) * 0.58;
       const cosY = Math.cos(yaw);
       const sinY = Math.sin(yaw);
       const cosP = Math.cos(pitch);
@@ -415,7 +425,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         const volume = 0.8 + (p.idx % 11) * 0.12;
         const px = pt.x + Math.sin(p.phase * 2.1 + t * 0.5) * volume;
         const py = pt.y + Math.cos(p.phase * 1.7 + t * 0.4) * volume;
-        const depth = Math.sin(p.idx * 0.77) * 4 + Math.sin(p.phase + t * 0.3) * 6;
+        const depth = Math.sin(p.idx * 1.37) * 28 + Math.cos(pt.x * 0.08 + pt.y * 0.055 + p.phase) * 34 + Math.sin(p.phase + t * 0.28) * 10;
         const rx = px * cosY + depth * sinY;
         const rz = depth * cosY - px * sinY;
         const ry = py * cosP - rz * sinP;
@@ -430,7 +440,8 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         const cloudX = fieldX * fill + streamX * (1 - fill);
         const cloudY = fieldY * fill + streamY * (1 - fill);
         const tz = (p.fz * fill + p.sz * (1 - fill)) * scatterMix + rz2 * formed;
-        const perspectiveScale = 720 / (720 - tz);
+        const perspective = 620;
+        const perspectiveScale = Math.max(0.62, Math.min(1.72, perspective / (perspective - tz)));
         const shapeX = currentX + rx * perspectiveScale;
         const shapeY = currentY + ry * perspectiveScale;
 
