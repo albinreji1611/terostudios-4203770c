@@ -62,7 +62,7 @@ const ease = (n: number) => {
 };
 
 const ramp = (from: number, to: number, value: number) => ease((value - from) / (to - from));
-const motionWindow = (value: number) => ramp(0.1, 0.34, value) * (1 - ramp(0.68, 0.92, value));
+const motionWindow = (value: number) => ramp(0.18, 0.46, value) * (1 - ramp(0.74, 0.96, value));
 
 type Point = { x: number; y: number };
 
@@ -235,7 +235,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       serviceTravel += (targetTravel - serviceTravel) * 0.085;
       const mobile = w < 760;
       const objectOnRight = active % 2 === 0;
-      targetX = mobile ? w / 2 : objectOnRight ? w * 0.78 : w * 0.22;
+      targetX = mobile ? w / 2 : objectOnRight ? w * 0.76 : w * 0.24;
       targetY = mobile ? h * (0.14 + serviceTravel * 0.72) : h * (0.16 + serviceTravel * 0.64);
     };
 
@@ -296,10 +296,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         const rz2 = rz * cosP + py * sinP;
         const driftX = Math.sin(t * 0.16 + p.phase + sectionProgress * 3.8) * (48 + fill * 36);
         const driftY = Math.cos(t * 0.13 + p.phase * 0.8) * (40 + fill * 32);
-        const fieldX = (p.fx + p.lane * sectionProgress * w * 0.5 + driftX + w * 2) % w;
+        const fieldX = (p.fx + p.lane * sectionProgress * w * 0.68 + driftX + w * 2) % w;
         const fieldY = (p.fy + sectionProgress * h * (1.25 + p.lane * 0.22) + driftY + h * 2) % h;
-        const streamX = currentX + p.sx * (1.15 + Math.sin(t * 0.12 + p.phase) * 0.05);
-        const streamY = currentY + p.sy * (1.05 + Math.cos(t * 0.1 + p.phase) * 0.04);
+        const streamX = currentX + p.sx * (1.38 + Math.sin(t * 0.12 + p.phase) * 0.07);
+        const streamY = currentY + p.sy * (1.22 + Math.cos(t * 0.1 + p.phase) * 0.06);
         const scatterMix = clamp01(1 - formed);
         const cloudX = fieldX * fill + streamX * (1 - fill);
         const cloudY = fieldY * fill + streamY * (1 - fill);
