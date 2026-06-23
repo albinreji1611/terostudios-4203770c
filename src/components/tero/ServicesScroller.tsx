@@ -267,7 +267,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const box = Math.round(Math.min(h * 0.74, w * (w < 760 ? 0.82 : 0.56)));
+      const box = Math.round(Math.min(h * 0.62, w * (w < 760 ? 0.78 : 0.44)));
       pointSets = await Promise.all(ICONS.map((icon) => sampleIcon(icon, box)));
       if (run !== sampleRun) return;
       serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
