@@ -206,7 +206,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         if (score > best) {
           best = score;
           bestIndex = index;
-          bestTravel = clamp01((rect.top + rect.height / 2) / window.innerHeight);
+          bestTravel = clamp01((viewportCenter - rect.top) / Math.max(1, rect.height));
         }
       }
 
