@@ -659,6 +659,7 @@ export function ServicesScroller() {
           );
         })}
       </div>
+      <MotionDebugOverlay hostRef={sectionRef} />
     </section>
   );
 }
