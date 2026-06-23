@@ -1,28 +1,28 @@
-import { useRef, useState, useEffect } from "react";
-import {
-  useScroll,
-  useTransform,
-  useSpring,
-  motion,
-  useMotionValueEvent,
-} from "framer-motion";
+import { useRef, useMemo } from "react";
+import { useScroll, useTransform, useSpring, motion } from "framer-motion";
 import { videos } from "@/data/videos";
 
-const items = videos.slice(0, 8);
-
 /**
- * Anamorphic DOOH billboard stage.
- * A massive corner-wrapped LED screen (two faces meeting at a 90° edge)
- * sits center-stage. The active reel "breaks out" of the corner with a
- * 3D forced-perspective illusion — content appears to leap forward off
- * the screen. Scroll cycles through reels; a vertical filmstrip on the
- * right tracks position; a holographic data HUD frames the stage.
+ * Curved concave video-wall hero (reference: "Your Next Big Idea Starts Here").
+ * A grid of video tiles arranged across 4 rows, each row curved horizontally
+ * by per-tile rotateY + translateZ so the wall wraps toward the camera on
+ * both sides. The center stays flat and readable; the heading floats over
+ * the wall. Scroll subtly pushes the wall back and drifts it sideways.
  */
+
+const ROWS = 4;
+const COLS = 9; // odd → true center column
+const TILE_W = 200;
+const TILE_H = 120;
+const GAP = 10;
+const CURVE = 55; // degrees of total horizontal wrap
+const DEPTH = 360; // how far side tiles recede
+
 export function CylinderGallery() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end end"],
+    offset: ["start end", "end start"],
   });
   const smooth = useSpring(scrollYProgress, {
     stiffness: 80,
@@ -30,338 +30,198 @@ export function CylinderGallery() {
     mass: 0.5,
   });
 
-  const N = items.length;
-  const [active, setActive] = useState(0);
-  useMotionValueEvent(smooth, "change", (v) => {
-    const i = Math.min(N - 1, Math.max(0, Math.floor(v * N * 0.999)));
-    if (i !== active) setActive(i);
-  });
+  const drift = useTransform(smooth, [0, 1], [-6, 6]);
+  const pushZ = useTransform(smooth, [0, 0.5, 1], [-40, 0, -40]);
 
-  // Build-in: corner unfolds from a flat plane into a 90° edge
-  const fold = useTransform(smooth, [0, 0.12], [0, 1]);
-  // Slight parallax of the whole rig
-  const rigY = useTransform(smooth, [0, 1], [0, -40]);
-
-  const [foldVal, setFoldVal] = useState(0);
-  useMotionValueEvent(fold, "change", (v) => setFoldVal(v));
-
-  // Clock for HUD
-  const [tick, setTick] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 1000);
-    return () => clearInterval(id);
+  // Stable tile assignment
+  const tiles = useMemo(() => {
+    const out: { row: number; col: number; vid: (typeof videos)[number] }[] = [];
+    let k = 0;
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        out.push({ row: r, col: c, vid: videos[k % videos.length] });
+        k++;
+      }
+    }
+    return out;
   }, []);
 
-  const current = items[active];
+  const halfC = (COLS - 1) / 2;
+  const halfR = (ROWS - 1) / 2;
 
   return (
     <section
       ref={ref}
-      className="relative bg-ink text-cream"
-      style={{ height: `${100 + N * 60}vh` }}
+      className="relative bg-ink text-cream overflow-hidden"
+      style={{ height: "150vh" }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* === Backdrop: grid + scanlines + vignette === */}
+        {/* Backdrop glow */}
         <div
           aria-hidden
-          className="absolute inset-0 z-0"
+          className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(60% 50% at 50% 45%, rgba(232,57,14,0.18) 0%, transparent 65%), #0b0c10",
-          }}
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 z-[1] opacity-[0.18]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(247,231,204,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(247,231,204,0.18) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-            maskImage:
-              "radial-gradient(70% 60% at 50% 55%, black 30%, transparent 80%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 z-[1] pointer-events-none mix-blend-overlay opacity-30"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(0deg, rgba(247,231,204,0.08) 0px, rgba(247,231,204,0.08) 1px, transparent 1px, transparent 3px)",
+              "radial-gradient(70% 55% at 50% 50%, rgba(232,57,14,0.14) 0%, transparent 65%), #0a0b10",
           }}
         />
 
-        {/* === Header HUD === */}
-        <div className="absolute inset-x-0 top-[80px] md:top-[96px] z-30 flex items-start justify-between px-6 md:px-12 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/55">
-          <div className="flex flex-col gap-1">
-            <span className="text-vermillion">● LIVE FEED</span>
-            <span>tero / dooh-stage v2.39</span>
-          </div>
-          <div className="hidden md:flex flex-col items-center gap-1">
-            <span className="font-display text-[11px] tracking-[0.4em] text-cream">
-              ANAMORPHIC THEATRE
-            </span>
-            <span>Stories that move.</span>
-          </div>
-          <div className="flex flex-col items-end gap-1">
-            <span>
-              {String(active + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
-            </span>
-            <span>{new Date().toLocaleTimeString([], { hour12: false })}</span>
-          </div>
-        </div>
-
-        {/* === Center stage: corner-wrap LED billboard === */}
+        {/* Curved video wall stage */}
         <motion.div
-          className="absolute inset-0 z-10 flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center"
           style={{
-            y: rigY,
-            perspective: "1800px",
+            perspective: "1400px",
             perspectiveOrigin: "50% 50%",
           }}
         >
-          <div
+          <motion.div
             className="relative"
             style={{
-              width: "min(78vw, 1100px)",
-              height: "min(56vh, 560px)",
               transformStyle: "preserve-3d",
-              transform: `rotateX(${(1 - foldVal) * 8 - 4}deg)`,
+              rotateY: drift,
+              z: pushZ,
             }}
           >
-            {/* LEFT FACE of the corner */}
-            <div
-              className="absolute left-0 top-0 h-full w-1/2 origin-right overflow-hidden bg-black ring-1 ring-cream/15"
-              style={{
-                transform: `rotateY(${foldVal * 35}deg) translateZ(0px)`,
-                transformStyle: "preserve-3d",
-                boxShadow:
-                  "inset 0 0 80px rgba(0,0,0,0.6), 0 60px 120px -40px rgba(0,0,0,0.8)",
-              }}
-            >
-              <video
-                key={`L-${active}`}
-                src={current.url}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-                style={{ filter: "saturate(1.1) brightness(0.95)" }}
-              />
-              {/* Anamorphic break-out: left half of the image is shifted/scaled to feel like it leaves the screen */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%)",
-                }}
-              />
-              {/* LED pixel mask */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 mix-blend-multiply opacity-40"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(rgba(0,0,0,0.55) 1px, transparent 1.6px)",
-                  backgroundSize: "5px 5px",
-                }}
-              />
-            </div>
+            {tiles.map(({ row, col, vid }, i) => {
+              const dxFromCenter = col - halfC; // -halfC..+halfC
+              const dyFromCenter = row - halfR;
+              const t = dxFromCenter / halfC; // -1..1
+              const rotY = -t * (CURVE / 2);
+              const tz = -Math.abs(t) * DEPTH;
+              // Slight vertical recession for top/bottom rows
+              const rotX = (dyFromCenter / halfR) * 6;
 
-            {/* RIGHT FACE of the corner */}
-            <div
-              className="absolute right-0 top-0 h-full w-1/2 origin-left overflow-hidden bg-black ring-1 ring-cream/15"
-              style={{
-                transform: `rotateY(${-foldVal * 35}deg) translateZ(0px)`,
-                transformStyle: "preserve-3d",
-                boxShadow:
-                  "inset 0 0 80px rgba(0,0,0,0.6), 0 60px 120px -40px rgba(0,0,0,0.8)",
-              }}
-            >
-              <video
-                key={`R-${active}`}
-                src={current.url}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-                style={{
-                  filter: "saturate(1.1) brightness(0.95)",
-                  transform: "scaleX(-1)",
-                }}
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(-90deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%)",
-                }}
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 mix-blend-multiply opacity-40"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(rgba(0,0,0,0.55) 1px, transparent 1.6px)",
-                  backgroundSize: "5px 5px",
-                }}
-              />
-            </div>
+              const x = dxFromCenter * (TILE_W + GAP);
+              const y = dyFromCenter * (TILE_H + GAP);
 
-            {/* Bright corner seam */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute top-0 bottom-0 left-1/2 w-px"
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent 0%, rgba(247,231,204,0.7) 50%, transparent 100%)",
-                boxShadow: "0 0 24px rgba(232,57,14,0.55)",
-                transform: `translateX(-0.5px) scaleY(${0.6 + 0.4 * foldVal})`,
-              }}
-            />
+              // Dim tiles behind center text band
+              const nearCenter =
+                Math.abs(dxFromCenter) <= 1.5 && Math.abs(dyFromCenter) <= 0.6;
 
-            {/* Break-out element: a tilted floating "leap" frame */}
-            <motion.div
-              key={`leap-${active}`}
-              initial={{ opacity: 0, y: 20, rotateX: -20 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute left-1/2 top-1/2 overflow-hidden rounded-[2px] bg-black ring-1 ring-vermillion/60"
-              style={{
-                width: "min(36vw, 460px)",
-                aspectRatio: "2.39 / 1",
-                transform:
-                  "translate(-50%, -40%) translateZ(220px) rotateX(8deg)",
-                transformStyle: "preserve-3d",
-                boxShadow:
-                  "0 60px 140px -30px rgba(232,57,14,0.55), 0 30px 80px -20px rgba(0,0,0,0.9)",
-              }}
-            >
-              <video
-                key={`F-${active}`}
-                src={current.url}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-              />
-              {/* Letterbox */}
-              <div aria-hidden className="absolute inset-x-0 top-0 h-[5%] bg-black" />
-              <div aria-hidden className="absolute inset-x-0 bottom-0 h-[5%] bg-black" />
-              {/* Lens flare */}
-              <div
-                aria-hidden
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(50% 80% at 25% 30%, rgba(247,231,204,0.22) 0%, transparent 55%)",
-                  mixBlendMode: "screen",
-                }}
-              />
-              {/* Caption */}
-              <div className="absolute bottom-[7%] left-3 right-3 flex items-end justify-between font-mono text-[10px] uppercase tracking-[0.28em] text-cream/90">
-                <span>{String(active + 1).padStart(2, "0")}</span>
-                <span className="font-display tracking-[0.2em]">
-                  {current.client}
-                </span>
-              </div>
-            </motion.div>
-
-            {/* Stage floor reflection */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-1/2 top-full h-32 w-[120%] -translate-x-1/2"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(232,57,14,0.25), transparent 70%)",
-                filter: "blur(20px)",
-              }}
-            />
-          </div>
+              return (
+                <div
+                  key={i}
+                  className="absolute left-1/2 top-1/2 overflow-hidden rounded-[6px] ring-1 ring-cream/10 bg-black"
+                  style={{
+                    width: TILE_W,
+                    height: TILE_H,
+                    transform: `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) rotateX(${rotX}deg) translateZ(${tz}px)`,
+                    transformStyle: "preserve-3d",
+                    boxShadow:
+                      "0 30px 60px -30px rgba(0,0,0,0.7), inset 0 0 40px rgba(0,0,0,0.35)",
+                  }}
+                >
+                  <video
+                    src={vid.url}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+                    style={{
+                      filter: nearCenter
+                        ? "brightness(0.35) saturate(0.9)"
+                        : "brightness(0.85) saturate(1.05)",
+                    }}
+                  />
+                  {/* Per-tile inner darkening for depth */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.0) 40%, rgba(0,0,0,0.35) 100%)",
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </motion.div>
         </motion.div>
 
-        {/* === Left meta panel === */}
-        <div className="absolute left-6 md:left-12 top-1/2 z-20 -translate-y-1/2 hidden md:flex flex-col gap-6 font-mono text-[10px] uppercase tracking-[0.28em] text-cream/65">
-          <div className="flex flex-col gap-1 border-l border-cream/20 pl-3">
-            <span className="text-cream/40">Client</span>
-            <span className="text-cream font-display text-[15px] tracking-[0.05em] normal-case">
-              {current.client}
+        {/* Edge vignettes to deepen the wrap */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-0 w-[28%]"
+          style={{
+            background:
+              "linear-gradient(90deg, #0a0b10 10%, rgba(10,11,16,0.6) 60%, transparent 100%)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 w-[28%]"
+          style={{
+            background:
+              "linear-gradient(-90deg, #0a0b10 10%, rgba(10,11,16,0.6) 60%, transparent 100%)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-[18%]"
+          style={{
+            background:
+              "linear-gradient(180deg, #0a0b10 0%, transparent 100%)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[28%]"
+          style={{
+            background:
+              "linear-gradient(0deg, #0a0b10 10%, transparent 100%)",
+          }}
+        />
+
+        {/* Center spotlight to make text readable */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(28% 22% at 50% 50%, rgba(10,11,16,0.85) 0%, rgba(10,11,16,0.55) 50%, transparent 80%)",
+          }}
+        />
+
+        {/* HUD: top center pills */}
+        <div className="absolute inset-x-0 top-[80px] md:top-[96px] z-30 flex items-center justify-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em]">
+          <span className="rounded-full bg-cream text-ink px-4 py-1.5">
+            Reels
+          </span>
+          <span className="rounded-full bg-cream/10 text-cream/80 px-4 py-1.5 ring-1 ring-cream/15">
+            Explore
+          </span>
+        </div>
+
+        {/* Center heading */}
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center px-6 text-center">
+          <h2 className="font-display text-[clamp(2.4rem,5.5vw,4.8rem)] leading-[1.02] tracking-[-0.02em] text-cream">
+            Stories That
+            <br />
+            Bend Reality
+          </h2>
+          <p className="mt-4 text-[13px] md:text-sm tracking-[0.18em] uppercase text-cream/60">
+            Anamorphic worlds, crafted frame by frame
+          </p>
+
+          {/* Faux command bar */}
+          <div className="mt-10 w-[min(560px,90vw)] rounded-full bg-cream/95 text-ink/70 pl-5 pr-2 py-2 flex items-center justify-between shadow-[0_20px_50px_-10px_rgba(0,0,0,0.6)]">
+            <span className="text-[13px] truncate">
+              A futuristic anamorphic reel for…
             </span>
-          </div>
-          <div className="flex flex-col gap-1 border-l border-cream/20 pl-3">
-            <span className="text-cream/40">Title</span>
-            <span className="text-cream/90 normal-case tracking-normal">
-              {current.title}
-            </span>
-          </div>
-          <div className="flex flex-col gap-1 border-l border-vermillion/70 pl-3">
-            <span className="text-cream/40">Service</span>
-            <span className="text-vermillion">{current.service}</span>
-          </div>
-          <div className="flex flex-col gap-1 border-l border-cream/20 pl-3">
-            <span className="text-cream/40">Industry</span>
-            <span>{current.industry}</span>
+            <button className="rounded-full bg-ink text-cream text-[11px] tracking-[0.25em] uppercase px-4 py-2">
+              Create ↗
+            </button>
           </div>
         </div>
 
-        {/* === Right filmstrip === */}
-        <div className="absolute right-6 md:right-12 top-1/2 z-20 -translate-y-1/2 flex flex-col gap-2">
-          {items.map((it, i) => {
-            const isActive = i === active;
-            return (
-              <div
-                key={i}
-                className="relative overflow-hidden ring-1 transition-all duration-500"
-                style={{
-                  width: isActive ? 96 : 56,
-                  height: isActive ? 40 : 22,
-                  borderColor: isActive
-                    ? "rgba(232,57,14,0.9)"
-                    : "rgba(247,231,204,0.18)",
-                  boxShadow: isActive
-                    ? "0 0 30px rgba(232,57,14,0.4)"
-                    : "none",
-                  opacity: isActive ? 1 : 0.45,
-                }}
-              >
-                <video
-                  src={it.url}
-                  muted
-                  loop
-                  playsInline
-                  autoPlay={isActive}
-                  preload="metadata"
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-                {!isActive && (
-                  <div className="absolute inset-0 bg-ink/40 mix-blend-multiply" />
-                )}
-              </div>
-            );
-          })}
+        {/* Bottom corner labels */}
+        <div className="absolute bottom-6 left-6 md:left-12 z-30 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/50">
+          tero / reel-wall v3
         </div>
-
-        {/* === Bottom HUD rail === */}
-        <div className="absolute inset-x-0 bottom-6 z-30 flex items-center justify-between px-6 md:px-12 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/55">
-          <div className="flex items-center gap-3">
-            <span className="text-vermillion">REC</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-vermillion animate-pulse" />
-            <span>00:{String(tick % 60).padStart(2, "0")}</span>
-          </div>
-          <div className="flex-1 mx-6 h-px bg-cream/15 relative">
-            <motion.div
-              className="absolute top-0 left-0 h-px bg-vermillion"
-              style={{ width: `${((active + 1) / N) * 100}%` }}
-            />
-          </div>
-          <span>Scroll to cycle ↓</span>
+        <div className="absolute bottom-6 right-6 md:right-12 z-30 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/50">
+          Smart Editing Tools
         </div>
       </div>
     </section>
