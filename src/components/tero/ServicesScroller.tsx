@@ -328,6 +328,12 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       scrollVelocity += (scrollY - lastScrollY - scrollVelocity) * 0.18;
       lastScrollY = scrollY;
       const hostRect = host.getBoundingClientRect();
+      // Clip the fixed canvas to the section's slice of the viewport so particles
+      // never bleed into the LogoStrip / sections above or below while scrolling.
+      const vh = window.innerHeight;
+      const clipTop = Math.max(0, hostRect.top);
+      const clipBottom = Math.max(0, vh - Math.min(vh, hostRect.bottom));
+      canvas.style.clipPath = `inset(${clipTop}px 0px ${clipBottom}px 0px)`;
       sectionProgress = clamp01((window.innerHeight * 0.5 - hostRect.top) / Math.max(1, hostRect.height - window.innerHeight));
       const viewportCenter = window.innerHeight / 2;
       let best = -1;
