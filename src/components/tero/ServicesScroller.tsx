@@ -96,15 +96,19 @@ const ICONS: string[] = [
     <path d="M6 44 L18 50 L18 46 Z"/>
     <path d="M74 44 L62 50 L62 46 Z"/>
   </svg>`,
-  // 2 — Immersive XR Training: side-profile head wearing VR headset (like reference)
+  // 2 — Immersive XR Training: side-profile head wearing VR headset (matches reference)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <path d="M44 8 C58 8 68 18 68 32 C68 38 66 42 64 46 C63 49 64 52 64 56 C64 62 60 66 54 66 L52 66 L52 72 L34 72 L34 64 C28 62 24 58 22 52 L18 52 C15 52 13 50 13 47 L13 41 C13 38 15 36 18 36 L20 36 C22 20 32 8 44 8 Z"/>
-    <path d="M8 36 H46 a3 3 0 0 1 3 3 V49 a3 3 0 0 1 -3 3 H36 a2 2 0 0 1 -2 -1 L31 47 a4 4 0 0 0 -7 0 L21 51 a2 2 0 0 1 -2 1 H8 a3 3 0 0 1 -3 -3 V39 a3 3 0 0 1 3 -3 Z" fill="black"/>
-    <rect x="11" y="39" width="14" height="10" rx="2" fill="white"/>
-    <rect x="33" y="39" width="13" height="10" rx="2" fill="white"/>
-    <circle cx="18" cy="44" r="2.2"/>
-    <circle cx="39" cy="44" r="2.2"/>
-    <path d="M46 30 Q56 26 64 32 L64 36 Q56 31 46 34 Z"/>
+    <!-- head + hair + neck silhouette, face pointing left -->
+    <path d="M34 6 C20 6 10 16 9 30 C8 36 10 40 11 44 L9 50 L13 52 L11 58 L16 60 L16 66 L20 70 L20 78 L42 78 L42 64 C56 62 64 52 64 36 C64 18 52 6 34 6 Z"/>
+    <!-- VR headset band across the face -->
+    <path d="M2 30 H48 a3 3 0 0 1 3 3 V45 a3 3 0 0 1 -3 3 H38 a2 2 0 0 1 -2 -1 L33 43 a3 3 0 0 0 -6 0 L24 47 a2 2 0 0 1 -2 1 H2 a3 3 0 0 1 -3 -3 V33 a3 3 0 0 1 3 -3 Z"/>
+    <!-- lens cutouts -->
+    <rect x="5" y="33" width="15" height="11" rx="2" fill="white"/>
+    <rect x="28" y="33" width="18" height="11" rx="2" fill="white"/>
+    <circle cx="12" cy="38" r="2.4"/>
+    <circle cx="37" cy="38" r="2.4"/>
+    <!-- head strap wrapping around back of head -->
+    <path d="M48 32 Q62 30 64 38 Q62 46 48 46 L48 42 Q58 42 59 38 Q58 34 48 36 Z"/>
   </svg>`,
   // 3 — PropViz: house with roof and windows (property visualization)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
