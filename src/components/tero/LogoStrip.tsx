@@ -49,7 +49,7 @@ export function LogoStrip() {
 
       <div className="container-tero py-20 md:py-28 relative">
         {/* Editorial header */}
-        <header className="relative z-20 mb-12 md:mb-16 text-center">
+        <header className="relative z-20 mb-20 md:mb-28 text-center">
           <div className="mb-4 flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-vermillion/60" />
             <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-vermillion">
