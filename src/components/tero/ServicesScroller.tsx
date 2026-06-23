@@ -119,7 +119,7 @@ function ParticleObject({ icon, align }: { icon: string; align: "left" | "right"
           const off = (size - glyph) / 2;
           sctx.drawImage(img, off, off, glyph, glyph);
           const data = sctx.getImageData(0, 0, size, size).data;
-          const step = Math.max(4, Math.round(size / 64));
+          const step = Math.max(3, Math.round(size / 92));
           const pts: Point[] = [];
           for (let y = 0; y < size; y += step) {
             for (let x = 0; x < size; x += step) {
@@ -376,7 +376,19 @@ export function ServicesScroller() {
         style={{ background: "linear-gradient(180deg, #020309 0%, #07080d 45%, #020309 100%)" }}
       />
       <SpaceField hostRef={sectionRef} />
-      <div className="relative z-10 mx-auto max-w-[1440px] px-6 pb-[18vh] pt-0 md:px-12">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-6 pb-[18vh] pt-[18vh] md:px-12">
+        <header className="mb-[10vh] max-w-[920px]">
+          <div className="mb-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.32em] text-[#e8390e]">
+            <span className="inline-block h-px w-8 bg-[#e8390e]" />
+            <span>What we do</span>
+          </div>
+          <h2 className="font-display text-[clamp(48px,8vw,128px)] font-bold leading-[0.92] text-[#fdfaf6]">
+            Our Primary <span className="italic text-[#fdfaf6]/70">Services</span>
+          </h2>
+          <p className="mt-6 max-w-[56ch] font-body text-[15px] leading-[1.65] text-[#fdfaf6]/62 md:text-[17px]">
+            Six disciplines, one studio — scroll through the constellation as each capability forms from dust.
+          </p>
+        </header>
         {services.map((service, i) => {
           const textLeft = i % 2 === 0;
           return (
