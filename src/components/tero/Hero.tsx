@@ -241,7 +241,7 @@ export function Hero() {
       wrap.removeEventListener("mousemove", onMove);
       wrap.removeEventListener("mouseleave", onLeave);
     };
-  }, [formed]);
+  }, []);
 
   return (
     <section
