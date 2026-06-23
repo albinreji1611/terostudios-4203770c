@@ -96,32 +96,19 @@ const ICONS: string[] = [
     <path d="M6 44 L18 50 L18 46 Z"/>
     <path d="M74 44 L62 50 L62 46 Z"/>
   </svg>`,
-  // 2 — Immersive XR Training: reference-style dotted profile with oversized VR visor
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" stroke="black" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M39 6 C51 6 62 14 67 25 C73 40 66 58 51 66 C42 71 30 69 22 63"/>
-    <path d="M31 9 C22 12 16 20 14 29"/>
-    <path d="M21 49 C17 47 14 42 13 36" stroke-width="4.2"/>
-    <path d="M21 49 C17 53 18 58 24 62 C29 65 36 66 43 64" stroke-width="4.2"/>
-    <path d="M24 62 C23 68 20 72 18 78" stroke-width="4.2"/>
-    <path d="M45 66 C43 71 42 75 42 80" stroke-width="4.2"/>
-    <path d="M12 30 C8 30 5 33 4 37 C3 41 5 45 9 47 C18 51 39 51 51 48 C57 46 60 43 60 38 C60 32 55 29 48 29 C36 28 22 29 12 30 Z"/>
-    <path d="M7 36 C17 34 33 34 47 35"/>
-    <path d="M9 43 C20 45 38 45 51 43"/>
-    <path d="M51 30 C59 29 66 32 70 38 C66 44 59 47 51 47"/>
-    <path d="M58 18 C65 24 69 32 69 40"/>
-    <path d="M55 57 C59 53 62 48 63 43"/>
-    <path d="M35 13 C45 11 55 16 61 25" stroke-width="2.1"/>
-    <path d="M49 59 C41 64 31 62 24 56" stroke-width="3"/>
-    <path d="M31 52 C25 52 21 55 19 60" stroke-width="3"/>
-    <path d="M33 44 C30 48 26 50 21 49" stroke-width="3"/>
-    <path d="M22 57 C26 58 30 58 35 57" stroke-width="2.4"/>
-    <path d="M48 66 C52 64 55 61 58 57" stroke-width="2.4"/>
-    <circle cx="36" cy="21" r="1.8" fill="black" stroke="none"/>
-    <circle cx="42" cy="18" r="1.4" fill="black" stroke="none"/>
-    <circle cx="50" cy="21" r="1.5" fill="black" stroke="none"/>
-    <circle cx="60" cy="30" r="1.5" fill="black" stroke="none"/>
-    <circle cx="60" cy="50" r="1.4" fill="black" stroke="none"/>
+  // 2 — Immersive XR Training: front-view VR goggles / headset
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
+    <path d="M14 26 C10 26 7 29 7 33 L7 52 C7 56 10 59 14 59 L24 59 C27 59 29 57 31 55 L34 51 C36 48 44 48 46 51 L49 55 C51 57 53 59 56 59 L66 59 C70 59 73 56 73 52 L73 33 C73 29 70 26 66 26 Z"/>
+    <ellipse cx="23" cy="42" rx="9" ry="7" fill="white"/>
+    <ellipse cx="57" cy="42" rx="9" ry="7" fill="white"/>
+    <circle cx="23" cy="42" r="3" fill="black"/>
+    <circle cx="57" cy="42" r="3" fill="black"/>
+    <rect x="2" y="36" width="6" height="4" rx="1"/>
+    <rect x="72" y="36" width="6" height="4" rx="1"/>
+    <path d="M7 30 C4 28 2 24 4 20" stroke="black" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M73 30 C76 28 78 24 76 20" stroke="black" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`,
+
   // 3 — PropViz: house with roof and windows (property visualization)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
     <path d="M40 8 L72 32 L72 36 L66 36 L66 70 L14 70 L14 36 L8 36 L8 32 Z"/>
