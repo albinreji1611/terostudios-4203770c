@@ -74,11 +74,15 @@ const ICONS: string[] = [
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/><text x="12" y="14.3" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="5.2" fill="black" stroke="none">AI</text><path d="M9 2v3M12 2v3M15 2v3M9 19v3M12 19v3M15 19v3M2 9h3M2 12h3M2 15h3M19 9h3M19 12h3M19 15h3"/><circle cx="12" cy="3" r="0.9" fill="black" stroke="none"/><circle cx="12" cy="21" r="0.9" fill="black" stroke="none"/><circle cx="3" cy="12" r="0.9" fill="black" stroke="none"/><circle cx="21" cy="12" r="0.9" fill="black" stroke="none"/></svg>`,
 ];
 
+// Reference dust palette: warm cream dominant, soft amber embers, sparse cool accent.
 const COLORS = [
-  "rgba(255,154,0,0.95)",
-  "rgba(232,57,14,0.82)",
-  "rgba(20,158,255,0.9)",
-  "rgba(253,250,246,0.82)",
+  "rgba(252,244,228,0.78)", // cream (dominant)
+  "rgba(252,244,228,0.78)",
+  "rgba(248,232,206,0.72)", // warm bone
+  "rgba(248,232,206,0.72)",
+  "rgba(255,176,92,0.78)",  // amber ember
+  "rgba(238,118,42,0.7)",   // burnt orange
+  "rgba(140,178,214,0.55)", // muted cool accent (rare)
 ];
 
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
@@ -194,7 +198,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       pointSets = await Promise.all(ICONS.map((icon) => sampleIcon(icon, box)));
       if (run !== sampleRun) return;
       serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
-      const total = reduceMotion ? 520 : w < 760 ? 1280 : 2600;
+      const total = reduceMotion ? 640 : w < 760 ? 1600 : 3200;
       particles = new Array(total).fill(0).map((_, i) => {
         const a = Math.random() * Math.PI * 2;
         const r = Math.min(w, h) * (0.22 + Math.random() * 0.62);
@@ -217,7 +221,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
           fz: (Math.random() - 0.5) * 780,
           lane: Math.random() * 2 - 1,
           idx: i,
-          size: 0.62 + Math.random() * 1.28,
+          size: 0.5 + Math.random() * 1.05,
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
           phase: Math.random() * Math.PI * 2,
         };
@@ -369,10 +373,10 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         p.y += (screenY - p.y) * lock + p.vy;
         p.z += (tz - p.z) * 0.14 + p.vz;
 
-        ctx.globalAlpha = Math.min(1, 0.18 + fill * 0.34 + formed * 0.56 + Math.max(0, p.z) / 1250);
+        ctx.globalAlpha = Math.min(0.92, 0.12 + fill * 0.26 + formed * 0.48 + Math.max(0, p.z) / 1600);
         ctx.fillStyle = p.color;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * (0.76 + formed * 0.46) * perspectiveScale, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size * (0.68 + formed * 0.42) * perspectiveScale, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
