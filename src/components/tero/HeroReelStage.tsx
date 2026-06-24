@@ -354,8 +354,7 @@ function CurvedWallSection() {
   const wallScale = useTransform(p, [0, 0.28, 1], [1.18, 1, 1.03]);
   const wallRotateX = useTransform(p, [0, 0.28], [7, 0]);
   const wallY = useTransform(p, [0, 1], ["-18vh", "-18vh"]);
-  const panelOpacity = useTransform(p, [0.22, 0.36, 0.9, 1], [0, 1, 1, 0.85]);
-  const sidebarOpacity = useTransform(p, [0.18, 0.32], [0, 1]);
+  const cfg = useWallConfig();
   const cfg = useWallConfig();
 
   const rows = useMemo(
