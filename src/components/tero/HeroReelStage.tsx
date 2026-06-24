@@ -50,40 +50,40 @@ type WallConfig = {
 
 const WALL_CONFIGS: Record<"mobile" | "tablet" | "desktop", WallConfig> = {
   mobile: {
-    rows: 6,
+    rows: 7,
     tilesPerRow: 7,
-    tileW: 168,
-    tileH: 96,
-    colGap: 8,
-    curve: 36,
-    depth: 160,
-    perspective: 720,
-    rowSpacingPct: 9.5,
-    rowTopStartPct: -3,
+    tileW: 194,
+    tileH: 90,
+    colGap: 9,
+    curve: 58,
+    depth: 330,
+    perspective: 570,
+    rowSpacingPct: 11.2,
+    rowTopStartPct: 8,
   },
   tablet: {
-    rows: 5,
-    tilesPerRow: 8,
-    tileW: 240,
-    tileH: 130,
+    rows: 7,
+    tilesPerRow: 9,
+    tileW: 270,
+    tileH: 116,
     colGap: 10,
-    curve: 40,
-    depth: 200,
-    perspective: 900,
-    rowSpacingPct: 10.5,
-    rowTopStartPct: -2,
+    curve: 62,
+    depth: 410,
+    perspective: 660,
+    rowSpacingPct: 11.7,
+    rowTopStartPct: 8,
   },
   desktop: {
-    rows: 5,
-    tilesPerRow: 10,
-    tileW: 330,
-    tileH: 148,
+    rows: 7,
+    tilesPerRow: 11,
+    tileW: 332,
+    tileH: 142,
     colGap: 12,
-    curve: 42,
-    depth: 235,
-    perspective: 1050,
-    rowSpacingPct: 10.5,
-    rowTopStartPct: -2,
+    curve: 66,
+    depth: 500,
+    perspective: 720,
+    rowSpacingPct: 12.2,
+    rowTopStartPct: 8,
   },
 };
 
@@ -147,10 +147,21 @@ function useSectionProgress(ref: RefObject<HTMLElement | null>) {
 }
 
 function useResolvedVideoUrl(url: string) {
-  const [resolvedUrl, setResolvedUrl] = useState(url);
+  const resolveForPlayback = (value: string) => {
+    const resolved = resolveAssetUrl(value);
+    if (typeof window === "undefined") return resolved;
+    const isLocal = ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
+    if (!isLocal) return resolved;
+    const parsed = new URL(resolved, window.location.origin);
+    return parsed.pathname.startsWith("/__l5e/")
+      ? `https://id-preview--12ac4244-7645-4fb2-a900-5ab683320d3c.lovable.app${parsed.pathname}${parsed.search}${parsed.hash}`
+      : resolved;
+  };
+
+  const [resolvedUrl, setResolvedUrl] = useState(() => resolveForPlayback(url));
 
   useEffect(() => {
-    setResolvedUrl(resolveAssetUrl(url));
+    setResolvedUrl(resolveForPlayback(url));
   }, [url]);
 
   return resolvedUrl;
@@ -350,10 +361,10 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
 function CurvedWallSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const p = useSectionProgress(sectionRef);
-  const wallOpacity = useTransform(p, [0, 0.16, 1], [0, 1, 1]);
-  const wallScale = useTransform(p, [0, 0.28, 1], [1.18, 1, 1.03]);
-  const wallRotateX = useTransform(p, [0, 0.28], [7, 0]);
-  const wallY = useTransform(p, [0, 1], ["-18vh", "-18vh"]);
+  const wallOpacity = useTransform(p, [0, 0.12, 1], [0, 1, 1]);
+  const wallScale = useTransform(p, [0, 0.28, 1], [1.12, 1, 1.02]);
+  const wallRotateX = useTransform(p, [0, 0.28], [5, 0]);
+  const wallY = useTransform(p, [0, 1], ["2vh", "2vh"]);
   const cfg = useWallConfig();
 
   const rows = useMemo(
@@ -370,20 +381,19 @@ function CurvedWallSection() {
   const halfC = (cfg.tilesPerRow - 1) / 2;
 
   return (
-    <section ref={sectionRef} className="relative h-[260vh] bg-black text-cream">
+    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[260vh] bg-black text-cream">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
-        <TopChrome />
 
         <motion.div
           style={{ opacity: wallOpacity, scale: wallScale, rotateX: wallRotateX, y: wallY }}
-          className="absolute inset-0 z-10 overflow-hidden"
+          className="absolute inset-0 z-10 overflow-visible"
         >
           <div
-            className="absolute left-1/2 top-1/2 h-[118vh] w-[min(3200px,205vw)] sm:w-[min(3200px,180vw)] lg:w-[min(3200px,205vw)]"
+            className="absolute left-1/2 top-1/2 h-[128vh] w-[232vw] sm:w-[214vw] lg:w-[224vw]"
             style={{
               perspective: `${cfg.perspective}px`,
-              perspectiveOrigin: "50% 44%",
+              perspectiveOrigin: "50% 38%",
               transform: "translate(-50%, -50%)",
               transformStyle: "preserve-3d",
             }}
@@ -396,8 +406,8 @@ function CurvedWallSection() {
               const rowDepth = Math.abs(rowOffset);
               const rowTop = cfg.rowTopStartPct + r * cfg.rowSpacingPct;
               const rowZ = -rowDepth * 150;
-              const rowRotateX = -rowOffset * 4.5;
-              const rowScale = 1 - rowDepth * 0.03;
+              const rowRotateX = -rowOffset * 5.5;
+              const rowScale = 1 - rowDepth * 0.035;
 
               return (
                 <div
@@ -414,7 +424,7 @@ function CurvedWallSection() {
                   <div
                     className="absolute top-0 left-0 flex"
                     style={{
-                      left: r % 2 === 0 ? "-9%" : "-28%",
+                      left: r % 2 === 0 ? "-14%" : "-36%",
                       gap: cfg.colGap,
                       animation: `${dir} ${duration}s linear infinite`,
                       transformStyle: "preserve-3d",
@@ -424,7 +434,8 @@ function CurvedWallSection() {
                       const cMod = c % cfg.tilesPerRow;
                       const t = (cMod - halfC) / halfC;
                       const rotY = -t * cfg.curve;
-                      const tz = -Math.abs(t) * cfg.depth;
+                      const tz = -Math.pow(Math.abs(t), 1.28) * cfg.depth;
+                      const ty = Math.pow(Math.abs(t), 1.45) * cfg.tileH * 0.1;
 
                       return (
                         <WallTile
@@ -432,6 +443,7 @@ function CurvedWallSection() {
                           url={vid.url}
                           rotY={rotY}
                           tz={tz}
+                          ty={ty}
                           w={cfg.tileW}
                           h={cfg.tileH}
                         />
@@ -450,26 +462,24 @@ function CurvedWallSection() {
           className="absolute inset-0 z-20 pointer-events-none"
           style={{
             background:
-              "radial-gradient(74% 52% at 50% 39%, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.68) 100%)",
+              "radial-gradient(88% 62% at 50% 32%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 44%, rgba(0,0,0,0.58) 100%)",
           }}
         />
         <div
           aria-hidden
-          className="absolute inset-x-0 bottom-0 h-[56%] z-30 pointer-events-none"
+          className="absolute inset-x-0 bottom-0 h-[52%] z-30 pointer-events-none"
           style={{
             background:
-              "linear-gradient(0deg, #000 18%, rgba(0,0,0,0.96) 42%, rgba(0,0,0,0.62) 70%, transparent 100%)",
+              "linear-gradient(0deg, #000 16%, rgba(0,0,0,0.94) 38%, rgba(0,0,0,0.54) 66%, rgba(0,0,0,0.12) 88%, transparent 100%)",
           }}
         />
 
-
-        <SectionFade />
       </div>
     </section>
   );
 }
 
-function WallTile({ url, rotY, tz, w, h }: { url: string; rotY: number; tz: number; w: number; h: number }) {
+function WallTile({ url, rotY, tz, ty, w, h }: { url: string; rotY: number; tz: number; ty: number; w: number; h: number }) {
   const videoUrl = useResolvedVideoUrl(url);
 
   return (
@@ -478,10 +488,10 @@ function WallTile({ url, rotY, tz, w, h }: { url: string; rotY: number; tz: numb
       style={{
         width: w,
         height: h,
-        transform: `rotateY(${rotY}deg) translateZ(${tz}px)`,
+        transform: `translateY(${ty}px) rotateY(${rotY}deg) translateZ(${tz}px)`,
         transformStyle: "preserve-3d",
         boxShadow:
-          "0 28px 80px -34px rgba(0,0,0,0.95), inset 0 0 38px rgba(0,0,0,0.28)",
+          "0 34px 92px -36px rgba(0,0,0,0.98), inset 0 0 44px rgba(0,0,0,0.34)",
       }}
     >
       <video

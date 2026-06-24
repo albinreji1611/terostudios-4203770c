@@ -62,7 +62,18 @@ export function resolveAssetUrl(url: string): string {
     return url;
   }
 
-  if (/^\/\//i.test(url)) return url;
+  if (/^\/\//i.test(url)) {
+    const parsed = new URL(`${typeof window === "undefined" ? "https:" : window.location.protocol}${url}`);
+    if (parsed.pathname.startsWith(ASSET_PREFIX)) {
+      const localAssetOrigin =
+        parsed.hostname === "localhost" ||
+        parsed.hostname === "127.0.0.1" ||
+        parsed.hostname === "0.0.0.0";
+      const base = localAssetOrigin ? "https://terostudios.lovable.app" : pickBase();
+      return base ? `${base}${parsed.pathname}${parsed.search}${parsed.hash}` : `${parsed.pathname}${parsed.search}${parsed.hash}`;
+    }
+    return url;
+  }
   if (!url.startsWith(ASSET_PREFIX)) return url;
 
   const base = pickBase();

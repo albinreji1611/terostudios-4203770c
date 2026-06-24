@@ -32,6 +32,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [lightBg, setLightBg] = useState(false);
+  const [hiddenOverReel, setHiddenOverReel] = useState(false);
   const [openMega, setOpenMega] = useState<"services" | null>(null);
   const { pathname } = useLocation();
   const logoRef = useRef<HTMLAnchorElement>(null);
@@ -43,6 +44,8 @@ export function Nav() {
       ticking = false;
       const now = performance.now();
       setScrolled(window.scrollY > 60);
+      const centerStack = document.elementsFromPoint(window.innerWidth / 2, Math.min(window.innerHeight * 0.18, 160));
+      setHiddenOverReel(centerStack.some((node) => node instanceof HTMLElement && node.closest('[data-hide-site-nav="true"]')));
       if (now - lastDetect < 180) return;
       lastDetect = now;
       const el = logoRef.current;
@@ -105,7 +108,7 @@ export function Nav() {
 
   return (
     <header
-      className="fixed left-0 right-0 top-0 z-50 pointer-events-none"
+      className={`fixed left-0 right-0 top-0 z-50 pointer-events-none transition-opacity duration-300 ${hiddenOverReel && !openMega && !open ? "opacity-0" : "opacity-100"}`}
       onMouseLeave={() => setOpenMega(null)}
     >
       <div
