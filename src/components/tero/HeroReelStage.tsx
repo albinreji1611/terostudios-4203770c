@@ -242,10 +242,14 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
           className="absolute inset-0 z-10 flex items-center pointer-events-none"
         >
           <h2
-            className="font-display whitespace-nowrap tracking-[-0.04em] text-cream/95 leading-[0.85]"
-            style={{ fontSize: "clamp(6rem, 17vw, 15rem)" }}
+            className="font-display tracking-[-0.035em] text-cream/95 leading-[0.9] pl-6 md:pl-14"
+            style={{ fontSize: "clamp(4.5rem, 12vw, 11rem)" }}
           >
-            Revolutionizing <span className="italic font-light text-cream/80">motion.</span>
+            Revolutionizing
+            <br />
+            <span className="italic font-light text-cream/85">Product</span>
+            <br />
+            Visualization
           </h2>
         </motion.div>
 
