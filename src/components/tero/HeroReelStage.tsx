@@ -60,41 +60,41 @@ const WALL_CONFIGS: Record<"mobile" | "tablet" | "desktop", WallConfig> = {
   mobile: {
     rows: 4,
     tilesPerRow: 10,
-    tileW: 178,
-    tileH: 82,
-    colGap: 10,
-    perspective: 920,
-    rowGap: 10,
-    wallTop: "-2vh",
-    wallWidth: "248vw",
-    wallTilt: 5,
-    edgeTilt: 20,
+    tileW: 188,
+    tileH: 86,
+    colGap: 12,
+    perspective: 980,
+    rowGap: 13,
+    wallTop: "4vh",
+    wallWidth: "252vw",
+    wallTilt: 3,
+    edgeTilt: 16,
   },
   tablet: {
     rows: 4,
     tilesPerRow: 11,
-    tileW: 252,
-    tileH: 108,
-    colGap: 12,
-    perspective: 1050,
-    rowGap: 12,
-    wallTop: "-3vh",
-    wallWidth: "226vw",
-    wallTilt: 5.5,
-    edgeTilt: 22,
+    tileW: 274,
+    tileH: 116,
+    colGap: 14,
+    perspective: 1120,
+    rowGap: 15,
+    wallTop: "3vh",
+    wallWidth: "232vw",
+    wallTilt: 3.5,
+    edgeTilt: 18,
   },
   desktop: {
     rows: 4,
     tilesPerRow: 12,
-    tileW: 318,
-    tileH: 128,
-    colGap: 12,
-    perspective: 1180,
-    rowGap: 12,
-    wallTop: "-4vh",
-    wallWidth: "218vw",
-    wallTilt: 6,
-    edgeTilt: 24,
+    tileW: 342,
+    tileH: 136,
+    colGap: 16,
+    perspective: 1240,
+    rowGap: 16,
+    wallTop: "2vh",
+    wallWidth: "224vw",
+    wallTilt: 3.5,
+    edgeTilt: 18,
   },
 };
 
@@ -417,7 +417,7 @@ function CurvedWallSection() {
             >
               {rows.map((rowTiles, r) => {
                 const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
-                const duration = 32 + r * 5;
+                const duration = 34 + r * 5;
                 const top = r * (cfg.tileH + cfg.rowGap);
 
                 return (
@@ -435,7 +435,7 @@ function CurvedWallSection() {
                     <div
                       className="absolute top-0 left-0 flex"
                       style={{
-                        left: r % 2 === 0 ? "-6%" : "-29%",
+                        left: r % 2 === 0 ? "-9%" : "-31%",
                         gap: cfg.colGap,
                         animation: `${dir} ${duration}s linear infinite`,
                         transformStyle: "preserve-3d",
@@ -454,7 +454,7 @@ function CurvedWallSection() {
                             w={cfg.tileW}
                             h={cfg.tileH}
                             curve={center * cfg.edgeTilt}
-                            depth={-Math.abs(center) * 92}
+                            depth={-Math.abs(center) * 58}
                           />
                         );
                       })}
@@ -472,15 +472,15 @@ function CurvedWallSection() {
           className="absolute inset-0 z-20 pointer-events-none"
           style={{
             background:
-              "radial-gradient(94% 58% at 50% 26%, transparent 0%, transparent 58%, rgba(0,0,0,0.34) 100%)",
+              "radial-gradient(94% 60% at 50% 28%, transparent 0%, transparent 64%, rgba(0,0,0,0.28) 100%)",
           }}
         />
         <div
           aria-hidden
-          className="absolute inset-x-0 bottom-0 h-[42%] z-30 pointer-events-none"
+          className="absolute inset-x-0 bottom-0 h-[34%] z-30 pointer-events-none"
           style={{
             background:
-              "linear-gradient(0deg, #000 18%, rgba(0,0,0,0.96) 44%, rgba(0,0,0,0.58) 72%, transparent 100%)",
+              "linear-gradient(0deg, #000 22%, rgba(0,0,0,0.92) 50%, rgba(0,0,0,0.42) 76%, transparent 100%)",
           }}
         />
 
