@@ -354,8 +354,6 @@ function CurvedWallSection() {
   const wallScale = useTransform(p, [0, 0.28, 1], [1.18, 1, 1.03]);
   const wallRotateX = useTransform(p, [0, 0.28], [7, 0]);
   const wallY = useTransform(p, [0, 1], ["-18vh", "-18vh"]);
-  const panelOpacity = useTransform(p, [0.22, 0.36, 0.9, 1], [0, 1, 1, 0.85]);
-  const sidebarOpacity = useTransform(p, [0.18, 0.32], [0, 1]);
   const cfg = useWallConfig();
 
   const rows = useMemo(
@@ -464,60 +462,6 @@ function CurvedWallSection() {
           }}
         />
 
-        <motion.aside
-          style={{ opacity: sidebarOpacity }}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2"
-        >
-          {[
-            { label: "Home", icon: "◐" },
-            { label: "Creations", icon: "✦" },
-            { label: "Canvas", icon: "◇" },
-            { label: "Plans", icon: "◎" },
-          ].map((it) => (
-            <button
-              key={it.label}
-              className="flex items-center gap-3 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-cream/12 pl-2.5 pr-5 py-2 text-[11px] font-mono uppercase tracking-[0.18em] text-cream/85 hover:text-cream hover:bg-black/65 transition-colors"
-            >
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-cream/10 ring-1 ring-cream/15 text-cream">
-                {it.icon}
-              </span>
-              {it.label}
-            </button>
-          ))}
-        </motion.aside>
-
-        <motion.div
-          style={{ opacity: panelOpacity }}
-          className="absolute inset-x-0 top-[42%] -translate-y-1/2 z-40 flex flex-col items-center justify-center px-6 text-center pointer-events-none"
-        >
-          <h2 className="font-display text-[clamp(2.5rem,5.6vw,5rem)] leading-[0.95] tracking-[-0.025em] text-cream drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
-            A decade of stories,
-            <br />
-            built frame by frame.
-          </h2>
-          <div className="mt-5 flex w-[min(680px,88vw)] items-center justify-between gap-4 rounded-full bg-cream/18 py-2 pl-6 pr-2 ring-1 ring-cream/25 backdrop-blur-xl shadow-[0_24px_80px_rgba(0,0,0,0.38)] pointer-events-auto">
-            <span className="min-w-0 truncate text-left text-[12px] md:text-[14px] text-cream/82">
-              Animation, VFX and CGI crafted for films and brands
-            </span>
-            <Link
-              to="/portfolio"
-              className="shrink-0 inline-flex items-center gap-2 rounded-full bg-cream text-black px-5 py-2.5 text-[10px] font-mono font-bold uppercase tracking-[0.16em] hover:bg-vermillion hover:text-cream transition-colors"
-            >
-              View reel
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
-          <div className="mt-3 flex items-center justify-center gap-2 pointer-events-auto">
-            {['3D', 'VFX', 'CGI', 'DOOH'].map((label) => (
-              <span
-                key={label}
-                className="rounded-full bg-black/35 px-4 py-2 text-[10px] font-mono uppercase tracking-[0.14em] text-cream/80 ring-1 ring-cream/18 backdrop-blur-md"
-              >
-                {label}
-              </span>
-            ))}
-          </div>
-        </motion.div>
 
         <SectionFade />
       </div>
