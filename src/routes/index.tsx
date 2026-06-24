@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageLayout } from "@/components/tero/PageLayout";
-import { Hero } from "@/components/tero/Hero";
+import { HeroReelStage } from "@/components/tero/HeroReelStage";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { ServicesScroller } from "@/components/tero/ServicesScroller";
 
 import { HorizontalShowcase } from "@/components/tero/HorizontalShowcase";
-import { CylinderGallery } from "@/components/tero/CylinderGallery";
 
 
 import { StatsSection } from "@/components/tero/StatsSection";
@@ -33,8 +32,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <PageLayout>
-      <Hero />
-      <CylinderGallery />
+      <HeroReelStage />
       <LogoStrip />
       <ServicesScroller />
       <KineticBand />
