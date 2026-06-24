@@ -194,22 +194,14 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
           style={{ opacity: captionOpacity }}
           className="absolute inset-0 z-30 pointer-events-none"
         >
-          <div className="absolute left-6 md:left-10 top-1/3 text-cream/85">
-            <p className="text-[13px] md:text-[14px] leading-tight">
-              Instant
+          <div className="absolute inset-x-0 top-[58%] flex justify-center">
+            <p className="text-center text-cream/85 text-[13px] md:text-[15px] leading-snug tracking-wide">
+              Instantly Generate
               <br />
-              Visual
+              Stunning Visual Stories
               <br />
-              Stories
+              with AI
             </p>
-          </div>
-          <div className="absolute right-6 md:right-10 top-1/3">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-cream/10 ring-1 ring-cream/20 backdrop-blur-md px-4 py-2 text-[10px] font-mono uppercase tracking-[0.22em] text-cream hover:bg-cream hover:text-black transition-colors pointer-events-auto"
-            >
-              Start a project ↗
-            </Link>
           </div>
           <div className="absolute left-6 md:left-10 bottom-10 flex flex-wrap gap-1.5">
             {["+ Creativity", "Quality", "Endless Customization"].map((label) => (
@@ -220,6 +212,9 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
                 {label}
               </span>
             ))}
+          </div>
+          <div className="absolute right-6 md:right-10 bottom-10 text-[10px] font-mono uppercase tracking-[0.22em] text-cream/55">
+            The Future of Visual Storytelling
           </div>
         </motion.div>
 
