@@ -355,7 +355,6 @@ function CurvedWallSection() {
   const wallRotateX = useTransform(p, [0, 0.28], [7, 0]);
   const wallY = useTransform(p, [0, 1], ["-18vh", "-18vh"]);
   const cfg = useWallConfig();
-  const cfg = useWallConfig();
 
   const rows = useMemo(
     () =>
