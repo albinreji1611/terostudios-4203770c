@@ -465,6 +465,11 @@ function CurvedWallSection() {
 
 function WallTile({ url, fallback, w, h }: { url: string; fallback: string; w: number; h: number }) {
   const videoUrl = useResolvedVideoUrl(url);
+  const [videoFailed, setVideoFailed] = useState(false);
+
+  useEffect(() => {
+    setVideoFailed(false);
+  }, [videoUrl]);
 
   return (
     <div
@@ -489,7 +494,9 @@ function WallTile({ url, fallback, w, h }: { url: string; fallback: string; w: n
         loop
         playsInline
         preload="metadata"
-        className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+        onCanPlay={() => setVideoFailed(false)}
+        onError={() => setVideoFailed(true)}
+        className={`absolute inset-0 h-full w-full object-cover pointer-events-none select-none transition-opacity duration-300 ${videoFailed ? "opacity-0" : "opacity-100"}`}
       />
       <div
         aria-hidden
