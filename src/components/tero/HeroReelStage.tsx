@@ -40,8 +40,8 @@ const TILE_W = 215;
 const TILE_H = 135;
 const ROW_GAP = 30;
 const COL_GAP = 20;
-const CURVE = 42;
-const DEPTH = 185;
+const CURVE = 78;
+const DEPTH = 340;
 
 function useCardSeeds(): CardSeed[] {
   return useMemo(() => {
@@ -187,15 +187,6 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
           style={{ opacity: captionOpacity }}
           className="absolute inset-0 z-30 pointer-events-none"
         >
-          <div className="absolute inset-x-0 top-[58%] flex justify-center">
-            <p className="text-center text-cream/85 text-[13px] md:text-[15px] leading-snug tracking-wide">
-              A motion &amp; visual effects studio
-              <br />
-              crafting films, campaigns and
-              <br />
-              immersive brand worlds.
-            </p>
-          </div>
           <div className="absolute left-6 md:left-10 bottom-10 flex flex-wrap gap-1.5">
             {["3D Animation", "VFX", "CGI Films"].map((label) => (
               <span
@@ -207,7 +198,7 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
             ))}
           </div>
           <div className="absolute right-6 md:right-10 bottom-10 text-[10px] font-mono uppercase tracking-[0.22em] text-cream/55">
-            Bengaluru · Est. 2015
+            Chennai · Est. 2015
           </div>
         </motion.div>
 
