@@ -365,38 +365,7 @@ function CurvedWallSection() {
                       const rotY = -t * CURVE;
                       const tz = -Math.abs(t) * DEPTH;
 
-                      return (
-                        <div
-                          key={`${r}-${c}`}
-                          className="relative shrink-0 overflow-hidden rounded-[18px] ring-1 ring-cream/10 bg-black"
-                          style={{
-                            width: TILE_W,
-                            height: TILE_H,
-                            transform: `rotateY(${rotY}deg) translateZ(${tz}px)`,
-                            transformStyle: "preserve-3d",
-                            boxShadow:
-                              "0 28px 80px -34px rgba(0,0,0,0.95), inset 0 0 38px rgba(0,0,0,0.28)",
-                          }}
-                        >
-                          <video
-                            src={resolveAssetUrl(vid.url)}
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
-                            className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-                          />
-                          <div
-                            aria-hidden
-                            className="absolute inset-0 pointer-events-none"
-                            style={{
-                              background:
-                                "linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.38) 100%)",
-                            }}
-                          />
-                        </div>
-                      );
+                      return <WallTile key={`${r}-${c}`} url={vid.url} rotY={rotY} tz={tz} />;
                     })}
                   </div>
                 </div>
@@ -483,6 +452,42 @@ function CurvedWallSection() {
   );
 }
 
+function WallTile({ url, rotY, tz }: { url: string; rotY: number; tz: number }) {
+  const videoUrl = useResolvedVideoUrl(url);
+
+  return (
+    <div
+      className="relative shrink-0 overflow-hidden rounded-[18px] ring-1 ring-cream/10 bg-black"
+      style={{
+        width: TILE_W,
+        height: TILE_H,
+        transform: `rotateY(${rotY}deg) translateZ(${tz}px)`,
+        transformStyle: "preserve-3d",
+        boxShadow:
+          "0 28px 80px -34px rgba(0,0,0,0.95), inset 0 0 38px rgba(0,0,0,0.28)",
+      }}
+    >
+      <video
+        src={videoUrl}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.38) 100%)",
+        }}
+      />
+    </div>
+  );
+}
+
 function SectionFade() {
   return (
     <>
@@ -518,6 +523,7 @@ function PopOutCard({
   seed: CardSeed;
   progress: MotionValue<number>;
 }) {
+  const videoUrl = useResolvedVideoUrl(seed.url);
   const start = 0.04 + seed.delay;
   const hit = 0.35 + seed.delay * 0.35;
   const hold = 0.8;
@@ -555,7 +561,7 @@ function PopOutCard({
       }}
     >
       <video
-        src={resolveAssetUrl(seed.url)}
+        src={videoUrl}
         autoPlay
         muted
         loop
@@ -574,6 +580,7 @@ function SnakeCard({
   seed: CardSeed;
   progress: MotionValue<number>;
 }) {
+  const videoUrl = useResolvedVideoUrl(seed.url);
   const shift = (seed.id / CARD_COUNT) * 0.34;
   const enterAt = 0.02 + shift;
   const midAt = 0.36 + shift * 0.45;
@@ -620,7 +627,7 @@ function SnakeCard({
       }}
     >
       <video
-        src={resolveAssetUrl(seed.url)}
+        src={videoUrl}
         autoPlay
         muted
         loop
