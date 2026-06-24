@@ -34,14 +34,14 @@ type CardSeed = {
   delay: number;
 };
 
-const WALL_ROWS = 3;
+const WALL_ROWS = 5;
 const TILES_PER_ROW = 9;
-const TILE_W = 215;
-const TILE_H = 135;
-const ROW_GAP = 30;
-const COL_GAP = 20;
-const CURVE = 55;
-const DEPTH = 260;
+const TILE_W = 260;
+const TILE_H = 165;
+const ROW_GAP = 22;
+const COL_GAP = 18;
+const CURVE = 62;
+const DEPTH = 320;
 
 function useCardSeeds(): CardSeed[] {
   return useMemo(() => {
@@ -226,14 +226,10 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
           className="absolute inset-0 z-10 flex items-center pointer-events-none"
         >
           <h2
-            className="font-display tracking-[-0.035em] text-cream/95 leading-[0.9] pl-6 md:pl-14"
-            style={{ fontSize: "clamp(4.5rem, 12vw, 11rem)" }}
+            className="font-display tracking-[-0.035em] text-cream/95 leading-[0.95] pl-6 md:pl-14 whitespace-nowrap"
+            style={{ fontSize: "clamp(3.5rem, 11vw, 10rem)" }}
           >
-            Revolutionizing
-            <br />
-            <span className="italic font-light text-cream/85">Product</span>
-            <br />
-            Visualization
+            Visualization, <span className="italic font-light text-cream/85">revolutionized.</span>
           </h2>
         </motion.div>
 
