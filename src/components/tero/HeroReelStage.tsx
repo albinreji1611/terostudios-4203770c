@@ -40,8 +40,8 @@ const TILE_W = 215;
 const TILE_H = 135;
 const ROW_GAP = 30;
 const COL_GAP = 20;
-const CURVE = 78;
-const DEPTH = 340;
+const CURVE = 55;
+const DEPTH = 260;
 
 function useCardSeeds(): CardSeed[] {
   return useMemo(() => {
