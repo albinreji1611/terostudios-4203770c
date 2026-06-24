@@ -525,15 +525,15 @@ function CurvedWallSection() {
   );
 }
 
-function WallTile({ url, rotY, tz }: { url: string; rotY: number; tz: number }) {
+function WallTile({ url, rotY, tz, w, h }: { url: string; rotY: number; tz: number; w: number; h: number }) {
   const videoUrl = useResolvedVideoUrl(url);
 
   return (
     <div
       className="relative shrink-0 overflow-hidden rounded-[18px] ring-1 ring-cream/10 bg-black"
       style={{
-        width: TILE_W,
-        height: TILE_H,
+        width: w,
+        height: h,
         transform: `rotateY(${rotY}deg) translateZ(${tz}px)`,
         transformStyle: "preserve-3d",
         boxShadow:
