@@ -159,9 +159,11 @@ function useSectionProgress(ref: RefObject<HTMLElement | null>) {
 
 function useResolvedVideoUrl(url: string) {
   const resolveForPlayback = (value: string) => {
-    const resolved = resolveAssetUrl(value);
     if (typeof window === "undefined") return resolved;
     const isLocal = ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
+    const resolved = isLocal && value.includes("/__l5e/")
+      ? value.replace(/^https?:\/\/[^/]+/i, "")
+      : resolveAssetUrl(value);
     if (!isLocal) return resolved;
     const parsed = new URL(resolved, window.location.origin);
     return parsed.pathname.startsWith("/__l5e/")
