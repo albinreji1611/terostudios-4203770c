@@ -169,7 +169,7 @@ function useResolvedVideoUrl(url: string) {
       : resolved;
   };
 
-  const [resolvedUrl, setResolvedUrl] = useState(() => resolveForPlayback(url));
+  const [resolvedUrl, setResolvedUrl] = useState(url);
 
   useEffect(() => {
     setResolvedUrl(resolveForPlayback(url));
