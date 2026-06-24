@@ -465,10 +465,10 @@ function CurvedWallSection() {
 
 function WallTile({ url, fallback, w, h }: { url: string; fallback: string; w: number; h: number }) {
   const videoUrl = useResolvedVideoUrl(url);
-  const [videoFailed, setVideoFailed] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
-    setVideoFailed(false);
+    setVideoReady(false);
   }, [videoUrl]);
 
   return (
@@ -485,7 +485,7 @@ function WallTile({ url, fallback, w, h }: { url: string; fallback: string; w: n
         src={fallback}
         alt=""
         loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+        className="absolute inset-0 z-10 h-full w-full object-cover pointer-events-none select-none"
       />
       <video
         src={videoUrl}
@@ -494,9 +494,9 @@ function WallTile({ url, fallback, w, h }: { url: string; fallback: string; w: n
         loop
         playsInline
         preload="metadata"
-        onCanPlay={() => setVideoFailed(false)}
-        onError={() => setVideoFailed(true)}
-        className={`absolute inset-0 h-full w-full object-cover pointer-events-none select-none transition-opacity duration-300 ${videoFailed ? "opacity-0" : "opacity-100"}`}
+        onCanPlay={() => setVideoReady(true)}
+        onError={() => setVideoReady(false)}
+        className={`absolute inset-0 z-20 h-full w-full object-cover pointer-events-none select-none transition-opacity duration-300 ${videoReady ? "opacity-100" : "opacity-0"}`}
       />
       <div
         aria-hidden
