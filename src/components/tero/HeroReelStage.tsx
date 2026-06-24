@@ -66,7 +66,7 @@ const WALL_CONFIGS: Record<"mobile" | "tablet" | "desktop", WallConfig> = {
     depth: 0,
     perspective: 950,
     rowSpacingPct: 14.5,
-    rowTopStartPct: -3,
+    rowTopStartPct: 5,
   },
   tablet: {
     rows: 5,
@@ -78,7 +78,7 @@ const WALL_CONFIGS: Record<"mobile" | "tablet" | "desktop", WallConfig> = {
     depth: 0,
     perspective: 1050,
     rowSpacingPct: 15,
-    rowTopStartPct: -4,
+    rowTopStartPct: 5,
   },
   desktop: {
     rows: 5,
@@ -90,7 +90,7 @@ const WALL_CONFIGS: Record<"mobile" | "tablet" | "desktop", WallConfig> = {
     depth: 0,
     perspective: 1100,
     rowSpacingPct: 15,
-    rowTopStartPct: -5,
+    rowTopStartPct: 5,
   },
 };
 
@@ -395,7 +395,7 @@ function CurvedWallSection() {
           className="absolute inset-0 z-10 overflow-hidden"
         >
           <div
-            className="absolute left-1/2 top-0 h-[68vh] w-[232vw] sm:w-[204vw] lg:w-[196vw]"
+            className="absolute left-1/2 top-[6vh] h-[68vh] w-[232vw] sm:w-[204vw] lg:w-[196vw]"
             style={{ transform: "translateX(-50%)" }}
           >
             {rows.map((rowTiles, r) => {
