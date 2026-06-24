@@ -52,38 +52,38 @@ const WALL_CONFIGS: Record<"mobile" | "tablet" | "desktop", WallConfig> = {
   mobile: {
     rows: 6,
     tilesPerRow: 8,
-    tileW: 170,
-    tileH: 82,
-    colGap: 10,
-    curve: 22,
+    tileW: 162,
+    tileH: 78,
+    colGap: 12,
+    curve: 0,
     depth: 0,
     perspective: 950,
-    rowSpacingPct: 12.8,
-    rowTopStartPct: -4,
+    rowSpacingPct: 13.4,
+    rowTopStartPct: -2,
   },
   tablet: {
     rows: 6,
     tilesPerRow: 10,
-    tileW: 250,
-    tileH: 108,
-    colGap: 12,
-    curve: 24,
+    tileW: 238,
+    tileH: 104,
+    colGap: 14,
+    curve: 0,
     depth: 0,
     perspective: 1050,
-    rowSpacingPct: 13.6,
-    rowTopStartPct: -5,
+    rowSpacingPct: 14.2,
+    rowTopStartPct: -3,
   },
   desktop: {
     rows: 6,
     tilesPerRow: 11,
-    tileW: 302,
-    tileH: 122,
-    colGap: 12,
-    curve: 26,
+    tileW: 294,
+    tileH: 120,
+    colGap: 14,
+    curve: 0,
     depth: 0,
     perspective: 1100,
-    rowSpacingPct: 13.9,
-    rowTopStartPct: -6,
+    rowSpacingPct: 14.8,
+    rowTopStartPct: -4,
   },
 };
 
@@ -390,18 +390,18 @@ function CurvedWallSection() {
           className="absolute inset-0 z-10 overflow-visible"
         >
           <div
-            className="absolute left-1/2 top-0 h-screen w-[218vw] sm:w-[196vw] lg:w-[190vw]"
+            className="absolute left-1/2 top-0 h-screen w-[216vw] sm:w-[194vw] lg:w-[188vw]"
             style={{
               perspective: `${cfg.perspective}px`,
               perspectiveOrigin: "50% 26%",
-              transform: "translateX(-50%)",
+              transform: "translateX(-50%) rotateX(0.01deg)",
             }}
           >
             {rows.map((rowTiles, r) => {
               const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
               const duration = 34 + r * 6;
               const rowTop = cfg.rowTopStartPct + r * cfg.rowSpacingPct;
-              const rowSkew = r % 2 === 0 ? -0.7 : 0.7;
+              const rowCurve = r % 2 === 0 ? -2.2 : 2.2;
 
               return (
                 <div
@@ -411,7 +411,7 @@ function CurvedWallSection() {
                     top: `${rowTop}%`,
                     height: cfg.tileH,
                     width: "100%",
-                    transform: `translateX(-50%) skewY(${rowSkew}deg)`,
+                    transform: `translateX(-50%) perspective(${cfg.perspective}px) rotateY(${rowCurve}deg)`,
                   }}
                 >
                   <div
@@ -425,10 +425,10 @@ function CurvedWallSection() {
                     {rowTiles.map((vid, c) => {
                       const cMod = c % cfg.tilesPerRow;
                       const t = (cMod - halfC) / halfC;
-                      const rotY = -t * cfg.curve;
+                      const rotY = 0;
                       const tz = 0;
                       const ty = 0;
-                      const scale = 1 - Math.pow(Math.abs(t), 1.65) * 0.09;
+                      const scale = 1;
 
                       return (
                         <WallTile
@@ -482,7 +482,7 @@ function WallTile({ url, rotY, tz, ty, scale, w, h }: { url: string; rotY: numbe
       style={{
         width: w,
         height: h,
-        transform: `translateY(${ty}px) perspective(1100px) rotateY(${rotY}deg) translateZ(${tz}px) scale(${scale})`,
+        transform: `translateY(${ty}px) rotateY(${rotY}deg) translateZ(${tz}px) scale(${scale})`,
         boxShadow:
           "0 22px 54px -34px rgba(0,0,0,0.95), inset 0 0 34px rgba(0,0,0,0.24)",
       }}
