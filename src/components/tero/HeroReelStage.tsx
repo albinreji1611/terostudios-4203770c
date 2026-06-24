@@ -9,6 +9,12 @@ import {
 import { Link } from "@tanstack/react-router";
 import { videos } from "@/data/videos";
 import { resolveAssetUrl } from "@/lib/asset-url";
+import portfolio1 from "@/assets/portfolio-1.jpg";
+import portfolio2 from "@/assets/portfolio-2.jpg";
+import portfolio3 from "@/assets/portfolio-3.jpg";
+import portfolio4 from "@/assets/portfolio-4.jpg";
+import portfolio5 from "@/assets/portfolio-5.jpg";
+import portfolio6 from "@/assets/portfolio-6.jpg";
 
 /**
  * Three separate scroll sections:
@@ -18,6 +24,7 @@ import { resolveAssetUrl } from "@/lib/asset-url";
  */
 
 const CARD_COUNT = 16;
+const WALL_FALLBACKS = [portfolio1, portfolio2, portfolio3, portfolio4, portfolio5, portfolio6];
 
 type CardSeed = {
   id: number;
@@ -50,40 +57,40 @@ type WallConfig = {
 
 const WALL_CONFIGS: Record<"mobile" | "tablet" | "desktop", WallConfig> = {
   mobile: {
-    rows: 6,
+    rows: 5,
     tilesPerRow: 8,
-    tileW: 162,
-    tileH: 78,
+    tileW: 174,
+    tileH: 82,
     colGap: 12,
     curve: 0,
     depth: 0,
     perspective: 950,
-    rowSpacingPct: 13.4,
-    rowTopStartPct: -2,
+    rowSpacingPct: 14.5,
+    rowTopStartPct: 5,
   },
   tablet: {
-    rows: 6,
+    rows: 5,
     tilesPerRow: 10,
-    tileW: 238,
-    tileH: 104,
+    tileW: 254,
+    tileH: 112,
     colGap: 14,
     curve: 0,
     depth: 0,
     perspective: 1050,
-    rowSpacingPct: 14.2,
-    rowTopStartPct: -3,
+    rowSpacingPct: 15,
+    rowTopStartPct: 5,
   },
   desktop: {
-    rows: 6,
+    rows: 5,
     tilesPerRow: 11,
-    tileW: 294,
-    tileH: 120,
+    tileW: 316,
+    tileH: 132,
     colGap: 14,
     curve: 0,
     depth: 0,
     perspective: 1100,
-    rowSpacingPct: 14.8,
-    rowTopStartPct: -4,
+    rowSpacingPct: 15,
+    rowTopStartPct: 5,
   },
 };
 
@@ -361,9 +368,8 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
 function CurvedWallSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const p = useSectionProgress(sectionRef);
-  const wallOpacity = useTransform(p, [0, 0.1, 1], [0, 1, 1]);
-  const wallScale = useTransform(p, [0, 0.28, 1], [1.02, 1, 1]);
-  const wallRotateX = useTransform(p, [0, 0.28], [0, 0]);
+  const wallOpacity = useTransform(p, [0, 1], [1, 1]);
+  const wallScale = useTransform(p, [0, 0.28, 1], [1.01, 1, 1]);
   const wallY = useTransform(p, [0, 1], ["0vh", "0vh"]);
   const cfg = useWallConfig();
 
@@ -378,7 +384,6 @@ function CurvedWallSection() {
       }),
     [cfg.rows, cfg.tilesPerRow],
   );
-  const halfC = (cfg.tilesPerRow - 1) / 2;
 
   return (
     <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[260vh] bg-black text-cream">
@@ -386,22 +391,17 @@ function CurvedWallSection() {
         <Backdrop />
 
         <motion.div
-          style={{ opacity: wallOpacity, scale: wallScale, rotateX: wallRotateX, y: wallY }}
-          className="absolute inset-0 z-10 overflow-visible"
+          style={{ opacity: wallOpacity, scale: wallScale, y: wallY }}
+          className="absolute inset-0 z-10 overflow-hidden"
         >
           <div
-            className="absolute left-1/2 top-0 h-screen w-[216vw] sm:w-[194vw] lg:w-[188vw]"
-            style={{
-              perspective: `${cfg.perspective}px`,
-              perspectiveOrigin: "50% 26%",
-              transform: "translateX(-50%) rotateX(0.01deg)",
-            }}
+            className="absolute left-1/2 top-[6vh] h-[68vh] w-[232vw] sm:w-[204vw] lg:w-[196vw]"
+            style={{ transform: "translateX(-50%)" }}
           >
             {rows.map((rowTiles, r) => {
               const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
               const duration = 34 + r * 6;
               const rowTop = cfg.rowTopStartPct + r * cfg.rowSpacingPct;
-              const rowCurve = r % 2 === 0 ? -2.2 : 2.2;
 
               return (
                 <div
@@ -411,7 +411,7 @@ function CurvedWallSection() {
                     top: `${rowTop}%`,
                     height: cfg.tileH,
                     width: "100%",
-                    transform: `translateX(-50%) perspective(${cfg.perspective}px) rotateY(${rowCurve}deg)`,
+                    transform: "translateX(-50%)",
                   }}
                 >
                   <div
@@ -423,21 +423,11 @@ function CurvedWallSection() {
                     }}
                   >
                     {rowTiles.map((vid, c) => {
-                      const cMod = c % cfg.tilesPerRow;
-                      const t = (cMod - halfC) / halfC;
-                      const rotY = 0;
-                      const tz = 0;
-                      const ty = 0;
-                      const scale = 1;
-
                       return (
                         <WallTile
                           key={`${r}-${c}`}
                           url={vid.url}
-                          rotY={rotY}
-                          tz={tz}
-                          ty={ty}
-                          scale={scale}
+                          fallback={WALL_FALLBACKS[(r + c) % WALL_FALLBACKS.length]}
                           w={cfg.tileW}
                           h={cfg.tileH}
                         />
@@ -473,8 +463,13 @@ function CurvedWallSection() {
   );
 }
 
-function WallTile({ url, rotY, tz, ty, scale, w, h }: { url: string; rotY: number; tz: number; ty: number; scale: number; w: number; h: number }) {
+function WallTile({ url, fallback, w, h }: { url: string; fallback: string; w: number; h: number }) {
   const videoUrl = useResolvedVideoUrl(url);
+  const [videoReady, setVideoReady] = useState(false);
+
+  useEffect(() => {
+    setVideoReady(false);
+  }, [videoUrl]);
 
   return (
     <div
@@ -482,11 +477,16 @@ function WallTile({ url, rotY, tz, ty, scale, w, h }: { url: string; rotY: numbe
       style={{
         width: w,
         height: h,
-        transform: `translateY(${ty}px) rotateY(${rotY}deg) translateZ(${tz}px) scale(${scale})`,
         boxShadow:
           "0 18px 42px -30px rgba(0,0,0,0.82)",
       }}
     >
+      <img
+        src={fallback}
+        alt=""
+        loading="lazy"
+        className="absolute inset-0 z-10 h-full w-full object-cover pointer-events-none select-none"
+      />
       <video
         src={videoUrl}
         autoPlay
@@ -494,7 +494,9 @@ function WallTile({ url, rotY, tz, ty, scale, w, h }: { url: string; rotY: numbe
         loop
         playsInline
         preload="metadata"
-        className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+        onCanPlay={() => setVideoReady(true)}
+        onError={() => setVideoReady(false)}
+        className={`absolute inset-0 z-20 h-full w-full object-cover pointer-events-none select-none transition-opacity duration-300 ${videoReady ? "opacity-100" : "opacity-0"}`}
       />
       <div
         aria-hidden
