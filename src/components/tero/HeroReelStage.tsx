@@ -456,15 +456,15 @@ function CurvedWallSection() {
           className="absolute inset-0 z-20 pointer-events-none"
           style={{
             background:
-              "radial-gradient(98% 62% at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.02) 58%, rgba(0,0,0,0.42) 100%)",
+              "radial-gradient(100% 68% at 50% 28%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 62%, rgba(0,0,0,0.26) 100%)",
           }}
         />
         <div
           aria-hidden
-          className="absolute inset-x-0 bottom-0 h-[50%] z-30 pointer-events-none"
+          className="absolute inset-x-0 bottom-0 h-[38%] z-30 pointer-events-none"
           style={{
             background:
-              "linear-gradient(0deg, #000 22%, rgba(0,0,0,0.98) 43%, rgba(0,0,0,0.62) 66%, rgba(0,0,0,0.12) 90%, transparent 100%)",
+              "linear-gradient(0deg, #000 12%, rgba(0,0,0,0.92) 38%, rgba(0,0,0,0.46) 68%, transparent 100%)",
           }}
         />
 
@@ -484,7 +484,7 @@ function WallTile({ url, rotY, tz, ty, scale, w, h }: { url: string; rotY: numbe
         height: h,
         transform: `translateY(${ty}px) rotateY(${rotY}deg) translateZ(${tz}px) scale(${scale})`,
         boxShadow:
-          "0 22px 54px -34px rgba(0,0,0,0.95), inset 0 0 34px rgba(0,0,0,0.24)",
+          "0 18px 42px -30px rgba(0,0,0,0.82)",
       }}
     >
       <video
@@ -501,7 +501,7 @@ function WallTile({ url, rotY, tz, ty, scale, w, h }: { url: string; rotY: numbe
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.38) 100%)",
+            "linear-gradient(180deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0) 48%, rgba(0,0,0,0.16) 100%)",
         }}
       />
     </div>
