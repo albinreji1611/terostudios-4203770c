@@ -406,7 +406,7 @@ function CurvedWallSection() {
   );
 
   return (
-    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[280vh] bg-black text-cream">
+    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[160vh] bg-black text-cream">
       <div
         className="sticky top-0 h-screen w-full overflow-hidden bg-black"
         style={{ perspective: "1200px" }}
