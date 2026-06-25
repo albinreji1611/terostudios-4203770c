@@ -335,12 +335,12 @@ function TopChrome() {
 function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const p = useSectionProgress(sectionRef);
-  const titleScale = useTransform(p, [0, 0.35, 0.82, 1], [1, 1.04, 1.1, 1.2]);
-  const titleOpacity = useTransform(p, [0, 0.82, 1], [1, 1, 0]);
-  const captionOpacity = useTransform(p, [0.28, 0.45, 0.82, 1], [0, 1, 1, 0]);
+  const titleScale = useTransform(p, [0, 0.5, 1], [1, 1.06, 1.18]);
+  const titleOpacity = useTransform(p, [0, 0.08, 0.88, 1], [1, 0.55, 0.45, 0.25]);
+  const captionOpacity = useTransform(p, [0.25, 0.4, 0.85, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[260vh] bg-black text-cream">
+    <section ref={sectionRef} className="relative h-[220vh] bg-black text-cream">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
@@ -361,7 +361,7 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
           <div
             className="relative"
             style={{
-              perspective: "1200px",
+              perspective: "1400px",
               perspectiveOrigin: "50% 52%",
               width: 1,
               height: 1,
@@ -402,12 +402,12 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
 function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const p = useSectionProgress(sectionRef);
-  const headlineX = useTransform(p, [0, 1], ["10%", "-38%"]);
-  const headlineOpacity = useTransform(p, [0, 0.12, 0.88, 1], [0, 1, 1, 0]);
+  const headlineX = useTransform(p, [0, 1], ["8%", "-32%"]);
+  const headlineOpacity = useTransform(p, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
   const microOpacity = useTransform(p, [0.15, 0.28, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[240vh] bg-black text-cream">
+    <section ref={sectionRef} className="relative h-[200vh] bg-black text-cream">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
@@ -685,18 +685,26 @@ function PopOutCard({
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  const start = 0.04 + seed.delay;
-  const hit = 0.35 + seed.delay * 0.35;
-  const hold = 0.8;
+  const start = 0.02 + seed.delay * 0.6;
+  const hit = 0.32 + seed.delay * 0.4;
+  // Hold cards visible across the bulk of the section, only drift slightly
+  const restX = seed.popX;
+  const restY = seed.popY;
+  const driftX = seed.popX * 1.05;
+  const driftY = seed.popY * 1.04;
 
-  const x = useTransform(progress, [start, hit, hold, 1], [0, seed.popX, seed.popX * 1.08, seed.popX * 1.22]);
-  const y = useTransform(progress, [start, hit, hold, 1], [0, seed.popY, seed.popY * 1.05, seed.popY * 1.16]);
-  const z = useTransform(progress, [start, hit, 1], [-980, seed.popZ, seed.popZ + 160]);
-  const scale = useTransform(progress, [start, hit, 1], [0.08, 1, 1.12]);
-  const opacity = useTransform(progress, [start, start + 0.05, 0.86, 1], [0, 1, 1, 0]);
-  const rotateX = useTransform(progress, [start, hit], [0, seed.popRotX]);
-  const rotateY = useTransform(progress, [start, hit], [0, seed.popRotY]);
-  const rotateZ = useTransform(progress, [start, hit], [0, seed.popRotZ]);
+  const x = useTransform(progress, [start, hit, 0.95, 1], [0, restX, driftX, driftX * 1.25]);
+  const y = useTransform(progress, [start, hit, 0.95, 1], [0, restY, driftY, driftY * 1.18]);
+  const z = useTransform(progress, [start, hit, 0.95, 1], [-820, seed.popZ, seed.popZ + 40, seed.popZ + 180]);
+  const scale = useTransform(progress, [start, hit, 0.95, 1], [0.1, 1, 1.02, 1.15]);
+  const opacity = useTransform(
+    progress,
+    [start, start + 0.04, 0.92, 1],
+    [0, 1, 1, 0],
+  );
+  const rotateX = useTransform(progress, [start, hit, 1], [0, seed.popRotX, seed.popRotX * 1.1]);
+  const rotateY = useTransform(progress, [start, hit, 1], [0, seed.popRotY, seed.popRotY * 1.1]);
+  const rotateZ = useTransform(progress, [start, hit, 1], [0, seed.popRotZ, seed.popRotZ * 1.1]);
 
   return (
     <motion.div
@@ -742,29 +750,31 @@ function SnakeCard({
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  const shift = (seed.id / CARD_COUNT) * 0.34;
-  const enterAt = 0.02 + shift;
-  const midAt = 0.36 + shift * 0.45;
-  const exitAt = 0.74 + shift * 0.25;
+  // Stagger across the full scroll: each card travels left→right over a ~0.55 window
+  const span = 0.55;
+  const startOffset = (seed.id / (CARD_COUNT - 1)) * (1 - span); // 0 → 0.45
+  const enterAt = startOffset;
+  const midAt = startOffset + span * 0.5;
+  const exitAt = startOffset + span;
 
   const x = useTransform(
     progress,
     [enterAt, midAt, exitAt],
-    [-980, seed.id % 2 === 0 ? 40 : -60, 980],
+    [-820, seed.id % 2 === 0 ? 30 : -50, 820],
   );
   const y = useTransform(
     progress,
     [enterAt, midAt, exitAt],
-    [seed.snakeY - 180, seed.snakeY, seed.snakeY + 120],
+    [seed.snakeY - 160, seed.snakeY, seed.snakeY + 110],
   );
-  const z = useTransform(progress, [enterAt, midAt, exitAt], [-240, 150, -180]);
+  const z = useTransform(progress, [enterAt, midAt, exitAt], [-220, 140, -180]);
   const opacity = useTransform(
     progress,
-    [enterAt - 0.03, enterAt + 0.04, exitAt - 0.08, exitAt],
+    [enterAt - 0.02, enterAt + 0.04, exitAt - 0.06, exitAt],
     [0, 1, 1, 0],
   );
-  const rotateZ = useTransform(progress, [enterAt, midAt, exitAt], [-18, seed.snakeRot, 16]);
-  const rotateY = useTransform(progress, [enterAt, midAt, exitAt], [-30, 0, 28]);
+  const rotateZ = useTransform(progress, [enterAt, midAt, exitAt], [-16, seed.snakeRot, 14]);
+  const rotateY = useTransform(progress, [enterAt, midAt, exitAt], [-28, 0, 26]);
 
   return (
     <motion.div
