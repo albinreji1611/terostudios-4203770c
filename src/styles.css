@@ -2,6 +2,14 @@
 @import "tw-animate-css";
 @source "../src";
 
+@font-face {
+  font-family: "Coolvetica Rg Cond";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/CoolveticaRgCond.woff2") format("woff2");
+}
+
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================
@@ -144,7 +152,7 @@
   }
 
   .tero-logo-cycle-text {
-    font-family: "Clash Display", "Anton", "Plus Jakarta Sans", system-ui, sans-serif;
+    font-family: "Coolvetica Rg Cond", "Clash Display", "Anton", "Plus Jakarta Sans", system-ui, sans-serif;
     font-weight: 700;
     line-height: 1;
     letter-spacing: 0.005em;
