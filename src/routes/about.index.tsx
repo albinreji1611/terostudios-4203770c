@@ -324,20 +324,16 @@ function AboutPage() {
       {/* 6 — Kinetic band (homepage reuse) */}
       <KineticBand />
 
-      {/* 7 — Founder & CEO + Team — horizontal name marquee on starfield */}
-      <TeamMarquee
-        eyebrow="— Leadership"
-        title={<>Meet the founder <br /><span className="italic">& CEO.</span></>}
-        people={[
-          { name: "Arvind", role: "Founder & Creative Director" },
-          { name: "Sneha", role: "CEO & Executive Producer" },
-        ]}
-        featured
-      />
+      {/* 7 — Team — horizontal name marquee */}
       <TeamMarquee
         eyebrow="— The team"
         title={<>Our team of <br /><span className="italic">strategists.</span></>}
-        people={team.map((t) => ({ name: t.name.split(" ")[0], role: t.role }))}
+        people={[
+          { name: "Arvind", role: "Founder & Creative Director" },
+          { name: "Sneha", role: "CEO & Executive Producer" },
+          ...team.map((t) => ({ name: t.name.split(" ")[0], role: t.role })),
+        ]}
+        rows={3}
       />
 
 
