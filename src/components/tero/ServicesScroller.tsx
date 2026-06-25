@@ -133,7 +133,7 @@ const ICONS: string[] = [
     <circle cx="43" cy="63" r="1" fill="black"/>
     <rect x="32" y="68" width="16" height="2" fill="black"/>
   </svg>`,
-  // 4 — Event & Immersive Hardware: microphone on stand + speaker cabinet
+  // 4 — Event & Immersive Hardware: microphone on stand + speaker with real driver holes
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
     <!-- microphone capsule -->
     <rect x="16" y="8" width="14" height="26" rx="7"/>
@@ -144,35 +144,36 @@ const ICONS: string[] = [
     <!-- mic base -->
     <rect x="13" y="56" width="20" height="4" rx="1"/>
     <rect x="10" y="60" width="26" height="3" rx="1.5"/>
-    <!-- speaker cabinet -->
-    <rect x="44" y="10" width="30" height="58" rx="2"/>
-    <!-- speaker inner panel cutout -->
-    <rect x="47" y="13" width="24" height="52" rx="1" fill="white"/>
-    <!-- tweeter (top) with concentric rings -->
-    <circle cx="59" cy="22" r="5" fill="black"/>
-    <circle cx="59" cy="22" r="3.5" fill="white"/>
-    <circle cx="59" cy="22" r="2" fill="black"/>
-    <circle cx="59" cy="22" r="0.8" fill="white"/>
-    <!-- woofer (big) with cone rings -->
-    <circle cx="59" cy="44" r="11" fill="black"/>
-    <circle cx="59" cy="44" r="9" fill="white"/>
-    <circle cx="59" cy="44" r="7.5" fill="black"/>
-    <circle cx="59" cy="44" r="5.5" fill="white"/>
-    <circle cx="59" cy="44" r="3.5" fill="black"/>
-    <circle cx="59" cy="44" r="1.4" fill="white"/>
-    <!-- bass port -->
-    <rect x="53" y="60" width="12" height="3" rx="1.5" fill="black"/>
-    <circle cx="56" cy="61.5" r="0.7" fill="white"/>
-    <circle cx="59" cy="61.5" r="0.7" fill="white"/>
-    <circle cx="62" cy="61.5" r="0.7" fill="white"/>
+    <!-- speaker cabinet with tweeter, woofer and bass-port punched out (evenodd) -->
+    <path fill-rule="evenodd" d="
+      M44 10 H74 V68 H44 Z
+      M59 22 m-5 0 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0 Z
+      M59 44 m-10 0 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 Z
+      M52 59 H66 V63 H52 Z
+    "/>
+    <!-- woofer dust cap (solid dot inside the punched hole) -->
+    <circle cx="59" cy="44" r="2.4"/>
+    <!-- tweeter dome (solid dot inside the punched hole) -->
+    <circle cx="59" cy="22" r="1.4"/>
   </svg>`,
-  // 5 — AI Content Creation: chip with pins on all four sides, "AI" label
+  // 5 — AI Content Creation: chip with pins on all four sides and an "AI" cutout
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <rect x="22" y="22" width="36" height="36" rx="4"/>
-    <text x="40" y="49" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="20" fill="white">AI</text>
+    <!-- chip body with letter holes punched via evenodd.
+         Outer rect = chip. A-outline + I-outline = holes.
+         Inner A-triangle = solid (double-nested, evenodd flips back to fill). -->
+    <path fill-rule="evenodd" d="
+      M22 22 H58 V58 H22 Z
+      M27 47 L31 29 L35 29 L39 47 L35.4 47 L34.6 43 L31.4 43 L30.6 47 Z
+      M31.8 40 H34.2 L33 34 Z
+      M42 29 H48 V32 H46.5 V44 H48 V47 H42 V44 H43.5 V32 H42 Z
+    "/>
+    <!-- pins top -->
     <rect x="27" y="14" width="4" height="8"/><rect x="38" y="14" width="4" height="8"/><rect x="49" y="14" width="4" height="8"/>
+    <!-- pins bottom -->
     <rect x="27" y="58" width="4" height="8"/><rect x="38" y="58" width="4" height="8"/><rect x="49" y="58" width="4" height="8"/>
+    <!-- pins left -->
     <rect x="14" y="27" width="8" height="4"/><rect x="14" y="38" width="8" height="4"/><rect x="14" y="49" width="8" height="4"/>
+    <!-- pins right -->
     <rect x="58" y="27" width="8" height="4"/><rect x="58" y="38" width="8" height="4"/><rect x="58" y="49" width="8" height="4"/>
   </svg>`,
 ];
