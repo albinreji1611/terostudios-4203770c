@@ -485,10 +485,12 @@ function WallTile({
   const poster = thumb || fallback;
 
   return (
-    <div
-      ref={tileRef}
-      className="relative shrink-0 overflow-hidden bg-black rounded-[12px]"
+    <Link
+      to="/portfolio"
+      ref={tileRef as never}
+      className="relative shrink-0 overflow-hidden bg-black rounded-[12px] cursor-pointer block"
       style={{ width: w, height: "100%", contain: "layout paint" }}
+      aria-label="View portfolio"
     >
       <img
         src={poster}
@@ -518,7 +520,7 @@ function WallTile({
             "linear-gradient(180deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0) 48%, rgba(0,0,0,0.16) 100%)",
         }}
       />
-    </div>
+    </Link>
   );
 }
 
