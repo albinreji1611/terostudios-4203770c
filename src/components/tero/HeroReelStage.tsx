@@ -375,6 +375,22 @@ function CurvedWallSection() {
   const CARD_W = 320;
   const GAP = 8;
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const p = useSpring(scrollYProgress, {
+    stiffness: 60,
+    damping: 26,
+    mass: 0.7,
+    restDelta: 0.0005,
+  });
+
+  const wallOpacity = useTransform(p, [0.05, 0.22, 0.82, 0.97], [0, 1, 1, 0]);
+  const wallScale = useTransform(p, [0.05, 0.28, 0.78, 0.97], [1.22, 1.12, 1.12, 1.2]);
+  const wallRotateX = useTransform(p, [0.05, 0.28, 0.78, 0.97], [18, 12, 12, 16]);
+  const wallY = useTransform(p, [0.05, 0.28, 0.78, 0.97], ["6%", "0%", "0%", "-4%"]);
+
   const rows = useMemo(
     () =>
       Array.from({ length: ROWS }, (_, r) => {
@@ -388,18 +404,22 @@ function CurvedWallSection() {
   );
 
   return (
-    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[260vh] bg-black text-cream">
+    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[280vh] bg-black text-cream">
       <div
         className="sticky top-0 h-screen w-full overflow-hidden bg-black"
         style={{ perspective: "1200px" }}
       >
-        <div
+        <motion.div
           className="absolute inset-0 flex flex-col"
           style={{
             gap: `${GAP}px`,
-            transform: "rotateX(12deg) scale(1.12)",
+            opacity: wallOpacity,
+            scale: wallScale,
+            rotateX: wallRotateX,
+            y: wallY,
             transformOrigin: "center center",
             transformStyle: "preserve-3d",
+            willChange: "transform, opacity",
           }}
         >
             {rows.map((rowTiles, r) => {
@@ -432,9 +452,7 @@ function CurvedWallSection() {
                 </div>
               );
             })}
-          </div>
-
-
+        </motion.div>
 
         <div
           aria-hidden
