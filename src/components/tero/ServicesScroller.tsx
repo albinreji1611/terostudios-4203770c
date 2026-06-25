@@ -98,15 +98,17 @@ const ICONS: string[] = [
     <rect x="14" y="68" width="52" height="4" rx="1"/>
   </svg>`,
 
-  // 2 — Immersive XR: VR goggles with a head strap arching behind
+  // 2 — Immersive XR: VR goggles with side strap tabs (strap reads as going behind the head)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <!-- head strap (band arching over the top, narrow so it reads as a strap) -->
-    <path d="M6 40 Q40 6 74 40 L74 32 Q40 -2 6 32 Z"/>
     <!-- visor body with two eye-lens holes punched out -->
-    <path fill-rule="evenodd" d="M14 34 C10 34 7 37 7 41 L7 56 C7 60 10 63 14 63 L24 63 C27 63 29 61 31 59 L34 55 C36 52 44 52 46 55 L49 59 C51 61 53 63 56 63 L66 63 C70 63 73 60 73 56 L73 41 C73 37 70 34 66 34 Z M23 48 m-7 0 a7 5.5 0 1 0 14 0 a7 5.5 0 1 0 -14 0 Z M57 48 m-7 0 a7 5.5 0 1 0 14 0 a7 5.5 0 1 0 -14 0 Z"/>
-    <!-- pupils inside the lens holes -->
-    <circle cx="23" cy="48" r="2.6"/>
-    <circle cx="57" cy="48" r="2.6"/>
+    <path fill-rule="evenodd" d="M14 30 C10 30 7 33 7 37 L7 54 C7 58 10 61 14 61 L24 61 C27 61 29 59 31 57 L34 53 C36 50 44 50 46 53 L49 57 C51 59 53 61 56 61 L66 61 C70 61 73 58 73 54 L73 37 C73 33 70 30 66 30 Z M23 44 m-7 0 a7 5.5 0 1 0 14 0 a7 5.5 0 1 0 -14 0 Z M57 44 m-7 0 a7 5.5 0 1 0 14 0 a7 5.5 0 1 0 -14 0 Z"/>
+    <!-- pupils -->
+    <circle cx="23" cy="44" r="2.6"/>
+    <circle cx="57" cy="44" r="2.6"/>
+    <!-- left strap tab — emerges from temple, angles back/up (toward behind head) -->
+    <path d="M7 38 L2 30 L2 36 L7 44 Z"/>
+    <!-- right strap tab -->
+    <path d="M73 38 L78 30 L78 36 L73 44 Z"/>
   </svg>`,
 
 
