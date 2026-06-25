@@ -17,7 +17,7 @@ import reelF from "@/assets/reel-placeholder-f.jpg";
 const FALLBACKS = [reelF, reelE, reelB, reelA, reelD, reelC, portfolio1, portfolio2, portfolio3, portfolio4, portfolio5, portfolio6];
 
 const ROWS = 5;
-const TILES_PER_ROW = 9;
+const TILES_PER_ROW = 8;
 const TILE_GAP = "clamp(10px, 0.9vw, 18px)";
 
 const ROW_DURATION = [34, 29, 25, 31, 38];
@@ -30,16 +30,18 @@ const ROW_LAYOUT = [
   { top: "74%", height: "19.6%", opacity: 0.2, z: -210, rotateX: 10, scale: 0.94 },
 ];
 
+const TILE_LEFT = [-18, 1.5, 21, 40.5, 60, 79.5, 99, 118.5];
+
 function getTileCurve(index: number) {
   const center = (TILES_PER_ROW - 1) / 2;
   const normalized = (index - center) / center;
   const distance = Math.abs(normalized);
   return {
-    rotateY: normalized * -44,
-    translateZ: -Math.pow(distance, 1.35) * 470,
-    translateY: Math.pow(distance, 1.5) * 18,
-    scale: 1 - distance * 0.16,
-    brightness: 1 - distance * 0.38,
+    rotateY: normalized * -58,
+    translateZ: -Math.pow(distance, 1.28) * 780,
+    translateY: Math.pow(distance, 1.45) * 26,
+    scale: 1 - distance * 0.28,
+    brightness: 1 - distance * 0.5,
   };
 }
 
@@ -114,7 +116,8 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
         alt=""
         loading="eager"
         decoding="async"
-        className="absolute inset-0 z-10 h-full w-full object-cover select-none pointer-events-none brightness-[0.82] contrast-[1.08] grayscale saturate-0"
+        className="absolute inset-0 z-10 h-full w-full object-cover select-none pointer-events-none"
+        style={{ filter: "grayscale(1) saturate(0) brightness(0.82) contrast(1.08)" }}
       />
       {mount && (
         <video
@@ -131,7 +134,8 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
           onCanPlay={() => {
             if (didPrime.current) setReady(true);
           }}
-          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none brightness-[0.86] contrast-[1.08] grayscale saturate-0 transition-opacity duration-700 ${ready ? "opacity-95" : "opacity-0"}`}
+          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none transition-opacity duration-700 ${ready ? "opacity-95" : "opacity-0"}`}
+          style={{ filter: "grayscale(1) saturate(0) brightness(0.86) contrast(1.08)" }}
         />
       )}
     </div>
@@ -159,12 +163,12 @@ export function ImaxReelWall() {
             "linear-gradient(180deg, #000 0%, #000 65%, rgba(0,0,0,0.56) 82%, transparent 100%)",
           maskImage:
             "linear-gradient(180deg, #000 0%, #000 65%, rgba(0,0,0,0.56) 82%, transparent 100%)",
-          perspective: "clamp(520px, 54vw, 920px)",
+          perspective: "clamp(360px, 42vw, 680px)",
           perspectiveOrigin: "50% 43%",
         }}
       >
         <div
-          className="absolute inset-x-[-2vw] top-0 h-full"
+          className="absolute inset-x-[-7vw] top-0 h-full"
           style={{
             transformStyle: "preserve-3d",
             transform: "rotateX(5deg) scale(1.045)",
@@ -197,10 +201,8 @@ export function ImaxReelWall() {
                 }}
               >
                 <div
-                  className="absolute inset-0 grid"
+                  className="absolute inset-0"
                   style={{
-                    gridTemplateColumns: "repeat(9, minmax(0, 1fr))",
-                    gap: TILE_GAP,
                     animation: `${dir === "tero-row-left" ? "tero-row-drift-left" : "tero-row-drift-right"} ${duration}s ease-in-out infinite alternate`,
                     willChange: "transform",
                     transformStyle: "preserve-3d",
@@ -211,12 +213,13 @@ export function ImaxReelWall() {
                     return (
                       <div
                         key={`${r}-${c}`}
-                        className="h-full min-w-0"
+                        className="absolute top-0 h-full"
                         style={{
+                          left: `calc(${TILE_LEFT[c] ?? 0}% + ${c % 2 === 0 ? "0px" : TILE_GAP})`,
                           aspectRatio: "16 / 9",
                           transform: `translateY(${curve.translateY}px) translateZ(${curve.translateZ}px) rotateY(${curve.rotateY}deg) scale(${curve.scale})`,
                           transformStyle: "preserve-3d",
-                          transformOrigin: "50% 50%",
+                          transformOrigin: c < TILES_PER_ROW / 2 ? "100% 50%" : "0% 50%",
                           filter: `brightness(${curve.brightness})`,
                         }}
                       >
