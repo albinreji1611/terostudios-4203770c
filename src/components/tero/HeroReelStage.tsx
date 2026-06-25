@@ -155,6 +155,9 @@ function useResolvedVideoUrl(url: string) {
 
 export function HeroReelStage() {
   const seeds = useCardSeeds();
+  const isMobile = useIsMobileViewport();
+
+  if (isMobile) return <MobileHeroReel />;
 
   return (
     <div className="relative bg-black text-cream">
@@ -164,6 +167,126 @@ export function HeroReelStage() {
     </div>
   );
 }
+
+function useIsMobileViewport() {
+  const [m, setM] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setM(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return m;
+}
+
+function MobileHeroReel() {
+  const tiles = useMemo(() => {
+    return Array.from({ length: 8 }, (_, i) => {
+      const v = videos[i % videos.length];
+      return { url: v.url, fallback: WALL_FALLBACKS[i % WALL_FALLBACKS.length] };
+    });
+  }, []);
+
+  return (
+    <section data-hide-site-nav="true" className="relative bg-black text-cream overflow-hidden">
+      <Backdrop />
+      {/* Headline */}
+      <div className="relative z-10 px-6 pt-28 pb-10 text-center">
+        <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-cream/55">
+          Animation · VFX · CGI
+        </span>
+        <h1
+          className="mt-5 font-display tracking-[-0.04em] leading-[0.9] text-cream"
+          style={{ fontSize: "clamp(3.5rem, 18vw, 6rem)" }}
+        >
+          TERO
+        </h1>
+        <p className="mt-5 mx-auto max-w-[28ch] font-body text-[14px] leading-relaxed text-cream/70">
+          A motion & visual effects studio crafting films, campaigns and immersive brand worlds.
+        </p>
+        <Link
+          to="/portfolio"
+          className="mt-7 inline-flex items-center gap-2 rounded-full bg-cream text-ink px-6 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.22em]"
+        >
+          View the reel →
+        </Link>
+      </div>
+
+      {/* Vertical reel grid */}
+      <div className="relative z-10 grid grid-cols-2 gap-2 px-2 pb-10">
+        {tiles.map((t, i) => (
+          <MobileReelTile key={i} url={t.url} fallback={t.fallback} />
+        ))}
+      </div>
+
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 z-20"
+        style={{ background: "linear-gradient(0deg, #000 20%, transparent 100%)" }}
+      />
+    </section>
+  );
+}
+
+function MobileReelTile({ url, fallback }: { url: string; fallback: string }) {
+  const videoUrl = useResolvedVideoUrl(url);
+  const thumb = useVideoThumbnail(url);
+  const ref = useRef<HTMLAnchorElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [mount, setMount] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setMount(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px", threshold: 0.05 },
+    );
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || !mount) return;
+    const play = () => v.play().catch(() => {});
+    if (v.readyState >= 2) play();
+    else v.addEventListener("loadeddata", play, { once: true });
+  }, [mount, videoUrl]);
+
+  const poster = thumb || fallback;
+
+  return (
+    <Link
+      to="/portfolio"
+      ref={ref as never}
+      className="relative aspect-[9/14] overflow-hidden rounded-[10px] bg-black block"
+      aria-label="View portfolio"
+    >
+      <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+      {mount && (
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          onCanPlay={() => setReady(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${ready ? "opacity-100" : "opacity-0"}`}
+        />
+      )}
+    </Link>
+  );
+}
+
 
 function Backdrop() {
   return (

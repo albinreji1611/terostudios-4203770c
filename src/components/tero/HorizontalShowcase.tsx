@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import pScript from "@/assets/process-script.jpg";
 import pStoryboard from "@/assets/process-storyboard.jpg";
@@ -22,7 +22,54 @@ const cards = [
 const tilts = [-6, 4, -3, 6, -4, 3, -5];
 
 
+function useIsMobileHS() {
+  const [m, setM] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setM(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return m;
+}
+
+function MobileShowcase() {
+  return (
+    <section
+      className="relative mt-20 py-16 px-6"
+      style={{ background: "linear-gradient(180deg, #cfdce6 0%, #d9e4ec 60%, #c9d8e3 100%)" }}
+    >
+      <div className="text-center mb-10">
+        <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-ink/55">
+          From brief to launch
+        </span>
+        <h2 className="mt-2 font-display text-[28px] leading-none text-ink">Our Process</h2>
+      </div>
+      <ul className="grid grid-cols-2 gap-3">
+        {cards.map((c) => (
+          <li
+            key={c.n}
+            className="relative aspect-[3/4] overflow-hidden rounded-[4px] bg-ink shadow-[0_20px_40px_-20px_rgba(20,30,50,0.45)]"
+          >
+            <img src={c.img} alt={c.title} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-x-0 top-0 p-3 text-center">
+              <h3 className="font-display text-white text-[18px] leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                {c.title}
+              </h3>
+              <p className="mt-1 font-mono text-[8px] uppercase tracking-[0.25em] text-white/90">
+                {c.subtitle}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function HorizontalShowcase() {
+  const isMobile = useIsMobileHS();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -38,6 +85,8 @@ export function HorizontalShowcase() {
     const i = Math.min(cards.length - 1, Math.max(0, Math.floor(v * cards.length)));
     if (i !== active) setActive(i);
   });
+
+  if (isMobile) return <MobileShowcase />;
 
   return (
     <section
