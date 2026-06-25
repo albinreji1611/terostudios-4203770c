@@ -161,46 +161,46 @@ export function ImaxReelWall() {
         {/* Top soft glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-[16%] z-30"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[12%] sm:h-[14%] md:h-[16%] z-30"
           style={{
             background:
-              "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%)",
+              "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.45) 50%, transparent 100%)",
           }}
         />
         {/* Bottom immersive fade */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[32%] z-30"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[26%] sm:h-[30%] md:h-[34%] z-30"
           style={{
             background:
-              "linear-gradient(0deg, #000 5%, rgba(0,0,0,0.65) 55%, transparent 100%)",
+              "linear-gradient(0deg, #000 6%, rgba(0,0,0,0.55) 55%, transparent 100%)",
           }}
         />
         {/* Center projector bloom */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-30 mix-blend-overlay opacity-40"
+          className="pointer-events-none absolute inset-0 z-30 mix-blend-overlay opacity-25 sm:opacity-30 md:opacity-35"
           style={{
             background:
-              "radial-gradient(60% 45% at 50% 50%, rgba(255,235,200,0.35) 0%, rgba(255,200,140,0.12) 40%, transparent 75%)",
+              "radial-gradient(60% 45% at 50% 50%, rgba(255,235,200,0.28) 0%, rgba(255,200,140,0.08) 45%, transparent 78%)",
           }}
         />
         {/* Subtle scanlines */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-30 opacity-[0.08] mix-blend-overlay"
+          className="pointer-events-none absolute inset-0 z-30 opacity-[0.05] sm:opacity-[0.06] md:opacity-[0.07] mix-blend-overlay"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(0deg, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 3px)",
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.55) 0px, rgba(255,255,255,0.55) 1px, transparent 1px, transparent 3px)",
           }}
         />
         {/* Film grain */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-30 opacity-[0.06] mix-blend-overlay"
+          className="pointer-events-none absolute inset-0 z-30 opacity-[0.04] sm:opacity-[0.05] md:opacity-[0.06] mix-blend-overlay"
           style={{
             backgroundImage:
-              "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
+              "radial-gradient(rgba(255,255,255,0.55) 1px, transparent 1px)",
             backgroundSize: "3px 3px",
           }}
         />
