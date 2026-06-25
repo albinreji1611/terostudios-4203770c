@@ -1,5 +1,4 @@
-import { Reveal, RevealGroup, RevealItem } from "./Reveal";
-// White brand logos for dark background
+import { Reveal } from "./Reveal";
 import bhimaLogo from "@/assets/client-logos-white/bhima.png.asset.json";
 import forumLogo from "@/assets/client-logos-white/forum.png.asset.json";
 import luluLogo from "@/assets/client-logos-white/lulu.png.asset.json";
@@ -13,6 +12,7 @@ type Testimonial = {
   company: string;
   logo: string;
   project: string;
+  accent?: boolean;
 };
 
 const items: Testimonial[] = [
@@ -60,179 +60,105 @@ const items: Testimonial[] = [
     company: "Shot Ready",
     logo: shotLogo.url,
     project: "Campa Cola · TVC",
+    accent: true,
   },
 ];
 
 export function Testimonials() {
-  const [featured, ...rest] = items;
+  // Duplicate the track for a seamless -50% marquee loop.
+  const track = [...items, ...items];
 
   return (
-    <section data-nav-theme="dark" className="relative bg-ink text-cream overflow-hidden">
-      {/* Ambient backdrop */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-vermillion/[0.07] blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-[420px] w-[420px] rounded-full bg-cream/[0.04] blur-3xl" />
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-          }}
-        />
+    <section
+      data-nav-theme="dark"
+      className="relative overflow-hidden bg-[#101010] text-cream"
+    >
+      <style>{`
+        @keyframes tero-marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .tero-marquee-track {
+          display: flex;
+          width: max-content;
+          animation: tero-marquee 60s linear infinite;
+        }
+        .tero-marquee-track:hover { animation-play-state: paused; }
+        @media (prefers-reduced-motion: reduce) {
+          .tero-marquee-track { animation: none; }
+        }
+      `}</style>
+
+      {/* Header */}
+      <div className="container-tero relative pt-24 md:pt-40 pb-16 md:pb-20">
+        <Reveal>
+          <p className="overline text-vermillion">— Portfolio of consensus</p>
+          <h2 className="mt-6 hero-headline text-[clamp(40px,7vw,96px)] leading-[1.05] text-cream max-w-4xl">
+            What clients say after the
+            <br />
+            <em className="not-italic font-display italic">lights come up.</em>
+          </h2>
+        </Reveal>
       </div>
 
-      <div className="container-tero relative py-24 md:py-40">
-        {/* Header */}
-        <Reveal>
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-3xl">
-              <p className="overline text-vermillion">— Portfolio of consensus</p>
-              <h2 className="mt-6 hero-headline text-[clamp(40px,7vw,96px)] text-cream">
-                What clients say <br /> after the lights come up.
-              </h2>
-            </div>
-            <p className="max-w-xs font-body text-[14px] leading-relaxed text-cream/60 md:text-right">
-              Words from the brand, marketing and production leads who shipped the
-              work alongside our studio.
-            </p>
-          </div>
-        </Reveal>
+      {/* Marquee */}
+      <div className="relative w-full overflow-hidden pb-24 md:pb-40">
+        {/* Edge fade masks */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-40 bg-gradient-to-r from-[#101010] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-40 bg-gradient-to-l from-[#101010] to-transparent" />
 
-        {/* Featured + grid */}
-        <div className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-12">
-          {/* Featured large card */}
-          <RevealItem className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-8 md:p-12 lg:col-span-7">
-            <div
-              aria-hidden
-              className="absolute -top-10 -right-6 select-none font-display text-[260px] leading-none text-vermillion/15"
-            >
-              &ldquo;
-            </div>
-
-            <div className="relative flex h-full flex-col">
-              <div className="flex items-center justify-between gap-6">
-                <BrandMark logo={featured.logo} company={featured.company} large />
-                <span className="hidden font-sans-display text-[11px] uppercase tracking-[0.2em] text-cream/40 md:inline">
-                  {featured.project}
-                </span>
-              </div>
-
-              <blockquote className="mt-12 font-display text-[clamp(22px,2.4vw,34px)] leading-[1.25] text-cream">
-                &ldquo;{featured.quote}&rdquo;
-              </blockquote>
-
-              <div className="mt-12 flex items-center gap-4 border-t border-white/10 pt-6">
-                <Avatar alt={featured.name} />
-                <div>
-                  <p className="font-sans-display text-[14px] font-bold uppercase tracking-wider text-cream">
-                    {featured.name}
-                  </p>
-                  <p className="mt-0.5 font-body text-[12px] text-cream/60">
-                    {featured.role} · {featured.company}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </RevealItem>
-
-          {/* Stacked small cards */}
-          <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
-            {rest.slice(0, 2).map((q) => (
-              <SmallCard key={q.name} item={q} />
-            ))}
-          </RevealGroup>
-        </div>
-
-        {/* Remaining row */}
-        <RevealGroup className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-          {rest.slice(2).map((q) => (
-            <SmallCard key={q.name} item={q} />
+        <div className="tero-marquee-track gap-6">
+          {track.map((item, i) => (
+            <Card key={`${item.name}-${i}`} item={item} />
           ))}
-        </RevealGroup>
+        </div>
       </div>
     </section>
   );
 }
 
-function SmallCard({ item }: { item: Testimonial }) {
+function Card({ item }: { item: Testimonial }) {
+  const accent = item.accent;
   return (
-    <RevealItem className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-8 transition-colors duration-500 hover:bg-white/[0.05]">
-      <div className="flex items-start justify-between gap-4">
-        <BrandMark logo={item.logo} company={item.company} />
-        <span className="font-sans-display text-[10px] uppercase tracking-[0.2em] text-cream/40">
+    <article
+      className={[
+        "flex w-[88vw] sm:w-[520px] md:w-[560px] shrink-0 flex-col justify-between",
+        "bg-[#1E1E1E] p-8 md:p-10 min-h-[440px]",
+        "border-l-2",
+        accent ? "border-[#FF4A1C]/70" : "border-white/5",
+      ].join(" ")}
+    >
+      <div className="flex items-start justify-between gap-6">
+        <img
+          src={item.logo}
+          alt={`${item.company} logo`}
+          loading="lazy"
+          className="h-10 md:h-12 w-auto object-contain object-left"
+        />
+        <span
+          className={[
+            "shrink-0 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em]",
+            accent
+              ? "bg-[#FF4A1C]/10 text-[#FF4A1C]"
+              : "bg-white/5 text-cream/45",
+          ].join(" ")}
+        >
           {item.project}
         </span>
       </div>
 
-      <blockquote className="mt-8 font-display text-[clamp(16px,1.4vw,19px)] leading-snug text-cream/90">
+      <blockquote className="mt-10 font-display text-[clamp(20px,2vw,28px)] leading-[1.35] text-cream">
         &ldquo;{item.quote}&rdquo;
       </blockquote>
 
-      <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-5">
-        <Avatar alt={item.name} small />
-        <div>
-          <p className="font-sans-display text-[12px] font-bold uppercase tracking-wider text-cream">
-            {item.name}
-          </p>
-          <p className="mt-0.5 font-body text-[11px] text-cream/60">
-            {item.role} · {item.company}
-          </p>
-        </div>
+      <div className="mt-10 border-t border-white/10 pt-5">
+        <p className="font-sans-display text-[13px] font-bold uppercase tracking-wider text-cream">
+          {item.name}
+        </p>
+        <p className="mt-1 font-body text-[12px] text-cream/55">
+          {item.role} · {item.company}
+        </p>
       </div>
-
-      <div className="pointer-events-none absolute inset-x-8 bottom-0 h-px scale-x-0 bg-gradient-to-r from-transparent via-vermillion to-transparent transition-transform duration-500 group-hover:scale-x-100" />
-    </RevealItem>
-  );
-}
-
-function BrandMark({
-  logo,
-  company,
-  large = false,
-}: {
-  logo: string;
-  company: string;
-  large?: boolean;
-}) {
-  return (
-    <div className="flex items-center">
-      <img
-        src={logo}
-        alt={`${company} logo`}
-        loading="lazy"
-        className={`w-auto object-contain ${
-          large ? "h-14 md:h-20" : "h-12 md:h-14"
-        }`}
-      />
-    </div>
-  );
-}
-
-function Avatar({
-  alt,
-  small = false,
-}: {
-  src?: string;
-  alt: string;
-  small?: boolean;
-}) {
-  const initials = alt
-    .split(" ")
-    .map((s) => s[0])
-    .filter(Boolean)
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-
-  return (
-    <div
-      aria-label={`${alt} avatar placeholder`}
-      className={`flex items-center justify-center overflow-hidden rounded-full border border-cream/20 bg-cream/[0.06] font-sans-display uppercase tracking-wider text-cream/70 ${
-        small ? "h-10 w-10 text-[11px]" : "h-14 w-14 text-[14px]"
-      }`}
-    >
-      {initials}
-    </div>
+    </article>
   );
 }
