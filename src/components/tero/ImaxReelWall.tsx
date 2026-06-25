@@ -12,14 +12,14 @@ const FALLBACKS = [portfolio1, portfolio2, portfolio3, portfolio4, portfolio5, p
 
 const ROWS = 5;
 const TILES_PER_ROW = 9;
-const TILE_GAP = "clamp(8px, 1vw, 15px)";
+const TILE_GAP = "clamp(9px, 0.9vw, 16px)";
 
 const ROW_CURVE = [
-  { top: "0%", angle: -20, z: -260, scale: 1, scaleX: 1.34, opacity: 0.96, duration: 84 },
-  { top: "13%", angle: -10, z: -95, scale: 1.04, scaleX: 1.22, opacity: 1, duration: 68 },
-  { top: "27%", angle: 0, z: 180, scale: 1.1, scaleX: 1.13, opacity: 1, duration: 58 },
-  { top: "41%", angle: 11, z: -110, scale: 1.04, scaleX: 1.22, opacity: 0.9, duration: 76 },
-  { top: "55%", angle: 25, z: -380, scale: 1, scaleX: 1.36, opacity: 0.18, duration: 90 },
+  { top: "0%", angle: -8, z: -70, scale: 0.98, scaleX: 1.1, opacity: 0.96, duration: 82 },
+  { top: "15.5%", angle: -3.5, z: 10, scale: 1.01, scaleX: 1.06, opacity: 1, duration: 67 },
+  { top: "31%", angle: 0, z: 60, scale: 1.03, scaleX: 1.03, opacity: 1, duration: 56 },
+  { top: "46.5%", angle: 4.5, z: 5, scale: 1.01, scaleX: 1.06, opacity: 0.94, duration: 74 },
+  { top: "62%", angle: 10, z: -105, scale: 0.98, scaleX: 1.12, opacity: 0.28, duration: 88 },
 ];
 
 function getTileCurve(index: number) {
@@ -29,9 +29,9 @@ function getTileCurve(index: number) {
   const edge = Math.abs(normalized);
 
   return {
-    rotateY: normalized * -32,
-    translateZ: -Math.pow(edge, 1.45) * 310,
-    scale: 1 - edge * 0.1,
+    rotateY: normalized * -14,
+    translateZ: -Math.pow(edge, 1.35) * 95,
+    scale: 1 - edge * 0.025,
   };
 }
 
@@ -150,16 +150,16 @@ export function ImaxReelWall() {
             "linear-gradient(180deg, #000 0%, #000 71%, rgba(0,0,0,0.66) 86%, transparent 100%)",
           maskImage:
             "linear-gradient(180deg, #000 0%, #000 71%, rgba(0,0,0,0.66) 86%, transparent 100%)",
-          perspective: "clamp(430px, 58vw, 840px)",
-          perspectiveOrigin: "50% 43%",
+          perspective: "clamp(760px, 86vw, 1280px)",
+          perspectiveOrigin: "50% 44%",
         }}
       >
         <div
-          className="absolute inset-x-[-22vw] inset-y-0"
+          className="absolute inset-x-[-10vw] inset-y-0"
           style={{
             transformStyle: "preserve-3d",
-            transform: "rotateX(0deg) scale(1.04)",
-            transformOrigin: "50% 43%",
+            transform: "rotateX(1.5deg) scale(1.02)",
+            transformOrigin: "50% 46%",
           }}
         >
           {rows.map((tiles, r) => {
@@ -172,17 +172,17 @@ export function ImaxReelWall() {
                 className="absolute w-full overflow-visible"
                 style={{
                   top: curve.top,
-                  height: "clamp(150px, 25.5vh, 310px)",
+                  height: "clamp(116px, 20vh, 230px)",
                   opacity: curve.opacity,
                   transform: `translate3d(0, 0, ${curve.z}px) rotateX(${curve.angle}deg) scale(${curve.scale}) scaleX(${curve.scaleX})`,
                   transformStyle: "preserve-3d",
                   transformOrigin: "50% 48%",
                   zIndex: r === 2 ? 5 : r === 1 || r === 3 ? 4 : 3,
                   maskImage: isLast
-                    ? "linear-gradient(180deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.42) 42%, transparent 100%)"
+                    ? "linear-gradient(180deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.46) 46%, transparent 100%)"
                     : undefined,
                   WebkitMaskImage: isLast
-                    ? "linear-gradient(180deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.42) 42%, transparent 100%)"
+                    ? "linear-gradient(180deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.46) 46%, transparent 100%)"
                     : undefined,
                 }}
               >
@@ -190,7 +190,7 @@ export function ImaxReelWall() {
                   className="absolute inset-y-0 left-0 flex"
                   style={{
                     gap: TILE_GAP,
-                    animation: `${dir} ${curve.duration}s cubic-bezier(0.45, 0, 0.55, 1) infinite`,
+                    animation: `${dir} ${curve.duration}s linear infinite`,
                     willChange: "transform",
                     transformStyle: "preserve-3d",
                   }}
