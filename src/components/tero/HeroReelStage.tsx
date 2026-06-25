@@ -452,16 +452,10 @@ function WallTile({
   url,
   fallback,
   w,
-  h,
-  curve,
-  depth,
 }: {
   url: string;
   fallback: string;
   w: number;
-  h: number;
-  curve: number;
-  depth: number;
 }) {
   const videoUrl = useResolvedVideoUrl(url);
   const [videoReady, setVideoReady] = useState(false);
