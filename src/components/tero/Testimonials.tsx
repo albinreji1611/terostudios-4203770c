@@ -99,38 +99,39 @@ export function Testimonials() {
   );
 }
 
-function Card({ item, index }: { item: Testimonial; index: number }) {
+
+function Card({ item }: { item: Testimonial; index: number }) {
   const accent = item.accent;
   return (
-    <Reveal delay={index * 60}>
-      <article
-        className={[
-          "group relative flex h-full flex-col justify-between",
-          "bg-[#1E1E1E] p-6 md:p-7 min-h-[260px]",
-          "border-l-2 transition-colors duration-300",
-          accent
-            ? "border-[#FF4A1C]/70"
-            : "border-white/5 hover:border-vermillion/50",
-        ].join(" ")}
-      >
-        <div className="flex items-start justify-between gap-4">
-          <img
-            src={item.logo}
-            alt={`${item.company} logo`}
-            loading="lazy"
-            className="h-7 md:h-8 w-auto object-contain object-left opacity-90"
-          />
-          <span
-            className={[
-              "shrink-0 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em]",
-              accent
-                ? "bg-[#FF4A1C]/10 text-[#FF4A1C]"
-                : "bg-white/5 text-cream/45",
-            ].join(" ")}
-          >
-            {item.project}
-          </span>
-        </div>
+    <article
+      className={[
+        "group relative flex h-full flex-col justify-between",
+        "bg-[#1E1E1E] p-6 md:p-7 min-h-[260px]",
+        "border-l-2 transition-colors duration-300",
+        accent
+          ? "border-[#FF4A1C]/70"
+          : "border-white/5 hover:border-vermillion/50",
+      ].join(" ")}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <img
+          src={item.logo}
+          alt={`${item.company} logo`}
+          loading="lazy"
+          className="h-7 md:h-8 w-auto object-contain object-left opacity-90"
+        />
+        <span
+          className={[
+            "shrink-0 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em]",
+            accent
+              ? "bg-[#FF4A1C]/10 text-[#FF4A1C]"
+              : "bg-white/5 text-cream/45",
+          ].join(" ")}
+        >
+          {item.project}
+        </span>
+      </div>
+
 
         <blockquote className="mt-5 font-display text-[15px] md:text-[16px] leading-[1.5] text-cream/95">
           &ldquo;{item.quote}&rdquo;
@@ -144,7 +145,7 @@ function Card({ item, index }: { item: Testimonial; index: number }) {
             {item.role} · {item.company}
           </p>
         </div>
-      </article>
-    </Reveal>
+    </article>
+
   );
 }
