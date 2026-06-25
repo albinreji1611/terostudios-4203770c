@@ -608,7 +608,7 @@ function SnakeCard({
   seed: CardSeed;
   progress: MotionValue<number>;
 }) {
-  const videoUrl = useResolvedVideoUrl(seed.url);
+  const poster = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const shift = (seed.id / CARD_COUNT) * 0.34;
   const enterAt = 0.02 + shift;
   const midAt = 0.36 + shift * 0.45;
@@ -654,13 +654,11 @@ function SnakeCard({
           "0 50px 100px -30px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,0.35)",
       }}
     >
-      <video
-        src={videoUrl}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
+      <img
+        src={poster}
+        alt=""
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
       />
     </motion.div>
