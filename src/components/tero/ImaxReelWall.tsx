@@ -18,16 +18,16 @@ const FALLBACKS = [reelF, reelE, reelB, reelA, reelD, reelC, portfolio1, portfol
 
 const ROWS = 5;
 const TILES_PER_ROW = 16;
-const TILE_GAP = "clamp(5px, 0.48vw, 9px)";
+const TILE_GAP = "clamp(10px, 0.95vw, 18px)";
 
-const ROW_DURATION = [92, 78, 66, 84, 104];
+const ROW_DURATION = [108, 92, 80, 98, 118];
 
 const ROW_LAYOUT = [
-  { top: "0%", height: "20.5%", opacity: 0.92, z: -210, rotateX: -12, scaleX: 1.08, scale: 0.96 },
-  { top: "15.2%", height: "22.5%", opacity: 1, z: -70, rotateX: -6, scaleX: 1.16, scale: 1 },
-  { top: "31.5%", height: "24%", opacity: 1, z: 65, rotateX: 0, scaleX: 1.24, scale: 1.035 },
-  { top: "49.4%", height: "22.5%", opacity: 0.9, z: -85, rotateX: 6, scaleX: 1.15, scale: 0.99 },
-  { top: "65.8%", height: "24%", opacity: 0.25, z: -255, rotateX: 13, scaleX: 1.06, scale: 0.94 },
+  { top: "0%", height: "17.4%", opacity: 0.92, z: -145, rotateX: -8, scaleX: 1.13, scale: 0.98 },
+  { top: "18.2%", height: "17.4%", opacity: 1, z: -45, rotateX: -4, scaleX: 1.2, scale: 1.01 },
+  { top: "36.4%", height: "17.4%", opacity: 1, z: 55, rotateX: 0, scaleX: 1.28, scale: 1.04 },
+  { top: "54.6%", height: "17.4%", opacity: 0.86, z: -70, rotateX: 5, scaleX: 1.18, scale: 1 },
+  { top: "72.8%", height: "17.4%", opacity: 0.2, z: -185, rotateX: 10, scaleX: 1.1, scale: 0.96 },
 ];
 
 function getTileCurve(index: number) {
@@ -35,10 +35,10 @@ function getTileCurve(index: number) {
   const normalized = (index - center) / center;
   const distance = Math.abs(normalized);
   return {
-    rotateY: normalized * -31,
-    translateZ: -Math.pow(distance, 1.55) * 270,
-    translateY: Math.pow(distance, 1.7) * 10,
-    scale: 1 - distance * 0.085,
+    rotateY: normalized * -20,
+    translateZ: -Math.pow(distance, 1.55) * 185,
+    translateY: Math.pow(distance, 1.7) * 4,
+    scale: 1 - distance * 0.045,
   };
 }
 
@@ -105,7 +105,7 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
   return (
     <div
       ref={ref}
-      className="relative shrink-0 h-full overflow-hidden rounded-[14px] bg-black ring-1 ring-white/5"
+      className="relative shrink-0 h-full overflow-hidden rounded-[22px] bg-black ring-1 ring-white/10"
       style={{ aspectRatio: "16 / 9" }}
     >
       <img
@@ -113,7 +113,7 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
         alt=""
         loading="eager"
         decoding="async"
-        className="absolute inset-0 z-10 h-full w-full object-cover select-none pointer-events-none brightness-[0.9] contrast-[1.08]"
+        className="absolute inset-0 z-10 h-full w-full object-cover select-none pointer-events-none brightness-[0.74] contrast-[1.12] saturate-[0.52]"
       />
       {mount && (
         <video
@@ -130,7 +130,7 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
           onCanPlay={() => {
             if (didPrime.current) setReady(true);
           }}
-          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none brightness-[1.08] contrast-[1.08] transition-opacity duration-700 ${ready ? "opacity-90" : "opacity-0"}`}
+          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none brightness-[0.8] contrast-[1.1] saturate-[0.58] transition-opacity duration-700 ${ready ? "opacity-95" : "opacity-0"}`}
         />
       )}
     </div>
@@ -156,20 +156,19 @@ export function ImaxReelWall() {
         className="relative isolate w-full h-[82vh] sm:h-[92vh] md:h-[100svh] bg-black overflow-hidden"
         style={{
           WebkitMaskImage:
-            "linear-gradient(180deg, #000 0%, #000 73%, rgba(0,0,0,0.62) 86%, transparent 100%)",
+            "linear-gradient(180deg, #000 0%, #000 66%, rgba(0,0,0,0.58) 82%, transparent 100%)",
           maskImage:
-            "linear-gradient(180deg, #000 0%, #000 73%, rgba(0,0,0,0.62) 86%, transparent 100%)",
-          perspective: "clamp(560px, 62vw, 980px)",
-          perspectiveOrigin: "50% 42%",
+            "linear-gradient(180deg, #000 0%, #000 66%, rgba(0,0,0,0.58) 82%, transparent 100%)",
+          perspective: "clamp(680px, 72vw, 1120px)",
+          perspectiveOrigin: "50% 44%",
         }}
       >
         <div
-          className="absolute inset-x-[-13vw] top-0 h-full"
+          className="absolute inset-x-[-10vw] top-0 h-full"
           style={{
             transformStyle: "preserve-3d",
-            transform: "rotateX(7deg) translateY(-1.5%) scale(1.08)",
+            transform: "rotateX(4deg) translateY(0%) scale(1.06)",
             transformOrigin: "50% 45%",
-            clipPath: "ellipse(72% 54% at 50% 46%)",
           }}
         >
           {rows.map((tiles, r) => {
@@ -232,15 +231,10 @@ export function ImaxReelWall() {
 
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-[-10%] top-[-15%] z-20 h-[31%] rounded-[0_0_50%_50%] bg-black/72"
-        />
-
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[13%] opacity-28"
+          className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[11%] opacity-24"
           style={{
             background:
-              "linear-gradient(180deg, rgba(255,244,220,0.07) 0%, rgba(255,244,220,0.018) 45%, transparent 100%)",
+              "linear-gradient(180deg, rgba(255,244,220,0.055) 0%, rgba(255,244,220,0.014) 48%, transparent 100%)",
           }}
         />
         <div
@@ -253,15 +247,15 @@ export function ImaxReelWall() {
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-[-16%] bottom-[-29%] z-20 h-[48%] rounded-[55%_55%_0_0] bg-black/90"
+          className="pointer-events-none absolute inset-x-[-16%] bottom-[-31%] z-20 h-[48%] rounded-[55%_55%_0_0] bg-black/92"
         />
         {/* Bottom immersive fade */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[24%] sm:h-[29%] md:h-[34%] z-30"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[36%] sm:h-[40%] md:h-[44%] z-30"
           style={{
             background:
-              "linear-gradient(0deg, #000 2%, rgba(0,0,0,0.78) 32%, rgba(0,0,0,0.28) 70%, transparent 100%)",
+              "linear-gradient(0deg, #000 0%, rgba(0,0,0,0.86) 28%, rgba(0,0,0,0.46) 66%, transparent 100%)",
           }}
         />
         <div
