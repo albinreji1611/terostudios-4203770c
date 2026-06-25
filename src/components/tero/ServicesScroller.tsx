@@ -773,7 +773,7 @@ export function ServicesScroller() {
             <article
               key={service.n}
               data-service-index={i}
-              className="grid min-h-screen items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
+              className="grid min-h-[180vh] items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
             >
               <div className={textLeft ? "md:order-1" : "md:order-2 md:text-right"}>
                 <div
