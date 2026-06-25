@@ -13,9 +13,11 @@ import imax5 from "@/assets/imax-reference-style-5.jpg";
 import imax6 from "@/assets/imax-reference-style-6.jpg";
 import imax7 from "@/assets/imax-reference-style-7.jpg";
 import imax8 from "@/assets/imax-reference-style-8.jpg";
+import imax9 from "@/assets/imax-reference-style-9.jpg";
+import imax10 from "@/assets/imax-reference-style-10.jpg";
 
-const FALLBACKS = [imax1, imax2, imax3, imax4, imax5, imax6, imax7, imax8, reelF, reelB, portfolio3, portfolio6];
-const GENERATED_FALLBACKS = [imax1, imax2, imax3, imax4, imax5, imax6, imax7, imax8];
+const FALLBACKS = [imax1, imax2, imax3, imax4, imax5, imax6, imax7, imax8, imax9, imax10, reelF, reelB, portfolio3, portfolio6];
+const GENERATED_FALLBACKS = [imax1, imax2, imax3, imax4, imax5, imax6, imax7, imax8, imax9, imax10];
 
 const ROWS = 5;
 const TILES_PER_ROW = 7;
