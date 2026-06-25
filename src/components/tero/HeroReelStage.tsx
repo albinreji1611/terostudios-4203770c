@@ -430,7 +430,9 @@ function CurvedWallSection() {
                   </div>
                 </div>
               );
+            })}
           </div>
+
 
 
         <div
