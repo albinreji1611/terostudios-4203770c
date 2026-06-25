@@ -7,6 +7,8 @@ import { KineticBand } from "@/components/tero/KineticBand";
 import { Testimonials } from "@/components/tero/Testimonials";
 import { FAQ } from "@/components/tero/FAQ";
 import { ArrowUpRight, Linkedin, Sparkles, Compass, Zap, Layers, Film, Cpu } from "lucide-react";
+import { TeamMarquee } from "@/components/tero/TeamMarquee";
+
 
 export const Route = createFileRoute("/about/")({
   component: AboutPage,
