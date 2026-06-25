@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageLayout } from "@/components/tero/PageLayout";
 import { HeroReelStage } from "@/components/tero/HeroReelStage";
+import { MobileHero } from "@/components/tero/MobileHero";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { ServicesScroller } from "@/components/tero/ServicesScroller";
 
@@ -30,9 +32,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const isMobile = useIsMobile();
   return (
     <PageLayout>
-      <HeroReelStage />
+      {isMobile ? <MobileHero /> : <HeroReelStage />}
       <LogoStrip />
       <ServicesScroller />
       <KineticBand />
