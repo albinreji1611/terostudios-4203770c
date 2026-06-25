@@ -95,7 +95,7 @@ export function MobileHero() {
         {rows.map((row, r) => {
           const tiles = [...row, ...row];
           const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
-          const duration = 20 + r * 4;
+          const duration = 10 + r * 2;
           return (
             <div key={r} className="relative w-full overflow-hidden">
               <div
