@@ -11,7 +11,7 @@ import pDelivery from "@/assets/process-delivery.jpg";
 const cards = [
   { img: pScript, n: "01", title: "Script", subtitle: "Step 01 — Story" },
   { img: pStoryboard, n: "02", title: "Storyboard", subtitle: "Step 02 — Frames" },
-  { img: pAnimatics, n: "03", title: "Animatics", subtitle: "Step 03 — Timing" },
+  { img: pAnimatics, n: "03", title: "Animation", subtitle: "Step 03 — Timing" },
   { img: p3D, n: "04", title: "3D Modelling", subtitle: "Step 04 — Build" },
   { img: pLighting, n: "05", title: "Lighting", subtitle: "Step 05 — Mood" },
   { img: pVFX, n: "06", title: "VFX", subtitle: "Step 06 — Effects" },

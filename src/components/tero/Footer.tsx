@@ -123,7 +123,15 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container-tero flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
           <p className="font-body text-[14px] text-cream/50">
-            © Copyright 2015-2026 Tero Studios. All rights reserved.
+            All rights Reserved © Copyright 2026 Tero Studios | Powered by{" "}
+            <a
+              href="https://bigstoneagency.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cream/70 hover:text-vermillion transition-colors"
+            >
+              BigStone Agency
+            </a>
           </p>
           <div className="flex flex-wrap items-center gap-6">
             <Link to="/terms" className="font-body text-[14px] text-cream/50 hover:text-cream transition-colors">

@@ -19,7 +19,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 const services = ["3D Animation", "Motion Graphics", "Explainer", "Character", "VFX", "Brand Film", "Other"];
-const budgets = ["< $5k", "$5k – $15k", "$15k – $40k", "$40k – $100k", "$100k+"];
+const budgets = ["0-2L", "2L-5L", "5L-10L", "10L+"];
 
 function ContactPage() {
   const [step, setStep] = useState(0);
