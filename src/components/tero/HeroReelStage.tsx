@@ -356,7 +356,7 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
   const captionOpacity = useTransform(p, [0.25, 0.4, 0.85, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[220vh] bg-black text-cream">
+    <section ref={sectionRef} className="relative h-[360vh] bg-black text-cream">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
@@ -425,7 +425,7 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
   const microOpacity = useTransform(p, [0.15, 0.28, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[200vh] bg-black text-cream">
+    <section ref={sectionRef} className="relative h-[300vh] bg-black text-cream">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
@@ -521,7 +521,7 @@ function CurvedWallSection() {
   );
 
   return (
-    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[160vh] bg-black text-cream">
+    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[220vh] bg-black text-cream">
       <div
         className="sticky top-0 h-screen w-full overflow-hidden bg-black"
         style={{ perspective: "1200px" }}
