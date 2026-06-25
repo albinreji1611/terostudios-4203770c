@@ -178,7 +178,7 @@ export function ImaxReelWall() {
                 className="absolute w-full overflow-visible"
                 style={{
                   top: curve.top,
-                  height: "clamp(118px, 18.5vh, 215px)",
+                  height: "clamp(118px, 19.5vh, 225px)",
                   opacity: curve.opacity,
                   transform: `translate3d(0, 0, ${curve.z}px) rotateX(${curve.angle}deg) scale(${curve.scale}) scaleX(${curve.scaleX})`,
                   transformStyle: "preserve-3d",
