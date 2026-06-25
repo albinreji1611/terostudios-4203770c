@@ -225,48 +225,48 @@ export function ImaxReelWall() {
 
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[22%] opacity-60"
+          className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[15%] opacity-35"
           style={{
             background:
-              "linear-gradient(180deg, rgba(255,244,220,0.12) 0%, rgba(255,244,220,0.035) 36%, transparent 100%)",
+              "linear-gradient(180deg, rgba(255,244,220,0.08) 0%, rgba(255,244,220,0.022) 42%, transparent 100%)",
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-[-12%] top-[2%] z-20 h-[58%] opacity-45 mix-blend-screen"
+          className="pointer-events-none absolute inset-x-[-12%] top-[1%] z-20 h-[48%] opacity-28 mix-blend-screen"
           style={{
             background:
-              "radial-gradient(70% 38% at 50% 0%, rgba(255,235,198,0.18) 0%, rgba(255,235,198,0.05) 52%, transparent 100%)",
+              "radial-gradient(70% 36% at 50% 0%, rgba(255,235,198,0.13) 0%, rgba(255,235,198,0.035) 54%, transparent 100%)",
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-[-18%] bottom-[-29%] z-20 h-[52%] rounded-[55%_55%_0_0] bg-black/95"
+          className="pointer-events-none absolute inset-x-[-18%] bottom-[-30%] z-20 h-[46%] rounded-[55%_55%_0_0] bg-black/88"
         />
         {/* Bottom immersive fade */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[24%] sm:h-[30%] md:h-[36%] z-30"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[24%] sm:h-[29%] md:h-[34%] z-30"
           style={{
             background:
-              "linear-gradient(0deg, #000 4%, rgba(0,0,0,0.82) 34%, rgba(0,0,0,0.36) 70%, transparent 100%)",
+              "linear-gradient(0deg, #000 2%, rgba(0,0,0,0.78) 32%, rgba(0,0,0,0.28) 70%, transparent 100%)",
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[18%] z-30 opacity-80"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] z-30 opacity-70"
           style={{
             background:
-              "radial-gradient(85% 115% at 50% 100%, #000 0%, rgba(0,0,0,0.84) 42%, transparent 76%)",
+              "radial-gradient(85% 115% at 50% 100%, #000 0%, rgba(0,0,0,0.78) 40%, transparent 76%)",
           }}
         />
         {/* Center projector bloom */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-30 mix-blend-overlay opacity-25 sm:opacity-30 md:opacity-35"
+          className="pointer-events-none absolute inset-0 z-30 mix-blend-overlay opacity-18 sm:opacity-22 md:opacity-25"
           style={{
             background:
-              "radial-gradient(60% 45% at 50% 50%, rgba(255,235,200,0.28) 0%, rgba(255,200,140,0.08) 45%, transparent 78%)",
+              "radial-gradient(60% 45% at 50% 50%, rgba(255,235,200,0.2) 0%, rgba(255,200,140,0.055) 45%, transparent 78%)",
           }}
         />
         {/* Subtle scanlines */}
