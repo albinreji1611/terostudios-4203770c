@@ -20,7 +20,7 @@ const ROW_CURVE = [
   { angle: -7, z: -34, scale: 1.01, y: 6, opacity: 1 },
   { angle: 0, z: 105, scale: 1.09, y: 0, opacity: 1 },
   { angle: 8, z: -38, scale: 1.01, y: -6, opacity: 0.96 },
-  { angle: 18, z: -170, scale: 0.95, y: -16, opacity: 0.34 },
+  { angle: 18, z: -170, scale: 0.95, y: -16, opacity: 0.18 },
 ];
 
 function getTileCurve(index: number) {
