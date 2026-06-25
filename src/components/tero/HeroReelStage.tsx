@@ -16,6 +16,7 @@ import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
 import portfolio5 from "@/assets/portfolio-5.jpg";
 import portfolio6 from "@/assets/portfolio-6.jpg";
+import teroWordmark from "@/assets/tero-wordmark.png";
 
 /**
  * Three separate scroll sections:
