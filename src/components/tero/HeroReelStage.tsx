@@ -369,119 +369,80 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
 
 function CurvedWallSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const cfg = useWallConfig();
+  const ROWS = 4;
+  const TILES_PER_ROW = 10;
+  const CARD_W = 320;
+  const GAP = 8;
 
   const rows = useMemo(
     () =>
-      Array.from({ length: cfg.rows }, (_, r) => {
-        const base = Array.from({ length: cfg.tilesPerRow }, (_, c) => {
-          const idx = (r * 4 + c * 2) % videos.length;
+      Array.from({ length: ROWS }, (_, r) => {
+        const base = Array.from({ length: TILES_PER_ROW }, (_, c) => {
+          const idx = (r * 3 + c * 2) % videos.length;
           return videos[idx];
         });
         return [...base, ...base];
       }),
-    [cfg.rows, cfg.tilesPerRow],
+    [],
   );
 
   return (
     <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[260vh] bg-black text-cream">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className="absolute inset-0 z-10 overflow-hidden bg-black">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+        <div
+          className="absolute inset-0"
+          style={{ perspective: "1200px", overflow: "hidden" }}
+        >
           <div
-            aria-hidden
-            className="absolute inset-x-0 top-0 h-[16vh] z-20 pointer-events-none"
+            className="absolute inset-0 flex flex-col"
             style={{
-              background: "linear-gradient(180deg, rgba(0,0,0,0.38) 0%, transparent 100%)",
-            }}
-          />
-
-          <div
-            className="absolute left-1/2 origin-top overflow-visible"
-            style={{
-              top: cfg.wallTop,
-              width: cfg.wallWidth,
-              perspective: cfg.perspective,
-              perspectiveOrigin: "50% 32%",
-              transform: "translateX(-50%)",
+              gap: `${GAP}px`,
+              transform: "rotateX(15deg) scale(1.15)",
+              transformOrigin: "50% 50%",
+              transformStyle: "preserve-3d",
             }}
           >
-            <div
-              className="relative mx-auto"
-              style={{
-                height: cfg.rows * cfg.tileH,
-                transform: `rotateX(${cfg.wallTilt}deg) scale(1.1)`,
-                transformOrigin: "50% 50%",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              {rows.map((rowTiles, r) => {
-                const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
-                const duration = 34 + r * 5;
-                const top = r * cfg.tileH;
+            {rows.map((rowTiles, r) => {
+              const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
+              const duration = 38 + r * 6;
 
-                return (
+              return (
+                <div
+                  key={r}
+                  className="relative w-full overflow-hidden"
+                  style={{ height: `calc((100% - ${GAP * (ROWS - 1)}px) / ${ROWS})` }}
+                >
                   <div
-                    key={r}
-                    className="absolute left-1/2 overflow-hidden"
+                    className="absolute inset-y-0 left-0 flex"
                     style={{
-                      top,
-                      height: cfg.tileH,
-                      width: "100%",
-                      transform: "translateX(-50%)",
+                      gap: `${GAP}px`,
+                      animation: `${dir} ${duration}s linear infinite`,
+                      willChange: "transform",
                     }}
                   >
-                    <div
-                      className="absolute top-0 left-0 flex"
-                      style={{
-                        left: r % 2 === 0 ? "-9%" : "-31%",
-                        gap: cfg.colGap,
-                        animation: `${dir} ${duration}s linear infinite`,
-                        transformStyle: "preserve-3d",
-                        willChange: "transform",
-                      }}
-                    >
-                      {rowTiles.map((vid, c) => {
-                        const halfIndex = c % cfg.tilesPerRow;
-                        const center = (halfIndex - (cfg.tilesPerRow - 1) / 2) / ((cfg.tilesPerRow - 1) / 2);
-
-                        return (
-                          <WallTile
-                            key={`${r}-${c}`}
-                            url={vid.url}
-                            fallback={WALL_FALLBACKS[(r + c) % WALL_FALLBACKS.length]}
-                            w={cfg.tileW}
-                            h={cfg.tileH}
-                            curve={center * cfg.edgeTilt}
-                            depth={-Math.abs(center) * 58}
-                          />
-                        );
-                      })}
-                    </div>
+                    {rowTiles.map((vid, c) => (
+                      <WallTile
+                        key={`${r}-${c}`}
+                        url={vid.url}
+                        fallback={WALL_FALLBACKS[(r + c) % WALL_FALLBACKS.length]}
+                        w={CARD_W}
+                      />
+                    ))}
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-
         <div
           aria-hidden
-          className="absolute inset-0 z-20 pointer-events-none"
+          className="absolute inset-x-0 bottom-0 h-[28%] z-30 pointer-events-none"
           style={{
             background:
-              "radial-gradient(94% 60% at 50% 28%, transparent 0%, transparent 64%, rgba(0,0,0,0.28) 100%)",
+              "linear-gradient(0deg, #000 18%, rgba(0,0,0,0.85) 55%, transparent 100%)",
           }}
         />
-        <div
-          aria-hidden
-          className="absolute inset-x-0 bottom-0 h-[34%] z-30 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(0deg, #000 22%, rgba(0,0,0,0.92) 50%, rgba(0,0,0,0.42) 76%, transparent 100%)",
-          }}
-        />
-
       </div>
     </section>
   );
