@@ -351,7 +351,7 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
   const captionOpacity = useTransform(p, [0.2, 0.34, 0.9, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} data-hero-section="pop" className="relative h-[560vh] lg:h-[540vh] xl:h-[520vh] bg-black text-cream">
+    <section ref={sectionRef} data-hero-section="pop" className="relative h-[360vh] bg-black text-cream">
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
