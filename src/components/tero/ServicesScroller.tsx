@@ -200,8 +200,8 @@ const ease = (n: number) => {
 };
 
 const ramp = (from: number, to: number, value: number) => ease((value - from) / (to - from));
-// Longer readable window: form earlier and hold the completed icon much longer.
-const motionWindow = (value: number) => ramp(0.12, 0.34, value) * (1 - ramp(0.7, 0.94, value));
+// Tighter window: scatter longer at edges, snap and hold the formed icon across the middle.
+const motionWindow = (value: number) => ramp(0.22, 0.44, value) * (1 - ramp(0.6, 0.82, value));
 
 type Point = { x: number; y: number };
 
@@ -216,7 +216,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     if (!ctx) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, reduceMotion ? 1 : 1);
+    const dpr = Math.min(window.devicePixelRatio || 1, reduceMotion ? 1 : 1.25);
     let raf = 0;
     let w = 0;
     let h = 0;
@@ -315,7 +315,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       pointSets = await Promise.all(ICONS.map((icon) => sampleIcon(icon, box)));
       if (run !== sampleRun) return;
       serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
-      const total = reduceMotion ? 400 : w < 760 ? 900 : 1600;
+      const total = reduceMotion ? 640 : w < 760 ? 1600 : 3200;
       particles = new Array(total).fill(0).map((_, i) => {
         const a = Math.random() * Math.PI * 2;
         const r = Math.min(w, h) * (0.22 + Math.random() * 0.62);
@@ -773,7 +773,7 @@ export function ServicesScroller() {
             <article
               key={service.n}
               data-service-index={i}
-              className="grid min-h-[240vh] items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
+              className="grid min-h-screen items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
             >
               <div className={textLeft ? "md:order-1" : "md:order-2 md:text-right"}>
                 <div
