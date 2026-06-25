@@ -60,41 +60,41 @@ const WALL_CONFIGS: Record<"mobile" | "tablet" | "desktop", WallConfig> = {
   mobile: {
     rows: 4,
     tilesPerRow: 10,
-    tileW: 188,
-    tileH: 86,
-    colGap: 12,
-    perspective: 980,
-    rowGap: 13,
+    tileW: 320,
+    tileH: 140,
+    colGap: 10,
+    perspective: 900,
+    rowGap: 0,
     wallTop: "4vh",
-    wallWidth: "252vw",
-    wallTilt: 3,
-    edgeTilt: 16,
+    wallWidth: "260vw",
+    wallTilt: 10,
+    edgeTilt: 0,
   },
   tablet: {
     rows: 4,
     tilesPerRow: 11,
-    tileW: 248,
-    tileH: 104,
-    colGap: 14,
-    perspective: 1120,
-    rowGap: 13,
-    wallTop: "1vh",
-    wallWidth: "232vw",
-    wallTilt: 3.5,
-    edgeTilt: 18,
+    tileW: 380,
+    tileH: 170,
+    colGap: 10,
+    perspective: 900,
+    rowGap: 0,
+    wallTop: "2vh",
+    wallWidth: "240vw",
+    wallTilt: 10,
+    edgeTilt: 0,
   },
   desktop: {
     rows: 4,
     tilesPerRow: 12,
-    tileW: 342,
-    tileH: 136,
-    colGap: 16,
-    perspective: 1240,
-    rowGap: 16,
+    tileW: 440,
+    tileH: 200,
+    colGap: 12,
+    perspective: 900,
+    rowGap: 0,
     wallTop: "2vh",
-    wallWidth: "224vw",
-    wallTilt: 3.5,
-    edgeTilt: 18,
+    wallWidth: "230vw",
+    wallTilt: 10,
+    edgeTilt: 0,
   },
 };
 
@@ -406,28 +406,28 @@ function CurvedWallSection() {
             }}
           >
             <div
-              className="relative mx-auto overflow-visible"
+              className="relative mx-auto"
               style={{
-                height: cfg.rows * cfg.tileH + (cfg.rows - 1) * cfg.rowGap,
-                transform: `rotateX(${cfg.wallTilt}deg)`,
+                height: cfg.rows * cfg.tileH,
+                transform: `rotateX(${cfg.wallTilt}deg) scale(1.08)`,
+                transformOrigin: "50% 50%",
                 transformStyle: "preserve-3d",
               }}
             >
               {rows.map((rowTiles, r) => {
                 const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
                 const duration = 34 + r * 5;
-                const top = r * (cfg.tileH + cfg.rowGap);
+                const top = r * cfg.tileH;
 
                 return (
                   <div
                     key={r}
-                    className="absolute left-1/2 overflow-visible"
+                    className="absolute left-1/2 overflow-hidden"
                     style={{
                       top,
                       height: cfg.tileH,
                       width: "100%",
                       transform: "translateX(-50%)",
-                      transformStyle: "preserve-3d",
                     }}
                   >
                     <div
@@ -511,14 +511,10 @@ function WallTile({
 
   return (
     <div
-      className="relative shrink-0 overflow-hidden rounded-[18px] ring-1 ring-cream/10 bg-black"
+      className="relative shrink-0 overflow-hidden bg-black"
       style={{
         width: w,
         height: h,
-        transform: `translateZ(${depth}px) rotateY(${-curve}deg)`,
-        transformStyle: "preserve-3d",
-        boxShadow:
-          "0 18px 36px -28px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.04)",
       }}
     >
       <img
