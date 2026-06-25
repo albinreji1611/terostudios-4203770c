@@ -180,6 +180,19 @@ function useIsMobileViewport() {
   return m;
 }
 
+function useViewportMetrics() {
+  const [metrics, setMetrics] = useState({ width: 1440, height: 900 });
+
+  useEffect(() => {
+    const update = () => setMetrics({ width: window.innerWidth, height: window.innerHeight });
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return metrics;
+}
+
 function MobileHeroReel() {
   const tiles = useMemo(() => {
     return Array.from({ length: 8 }, (_, i) => {
@@ -334,13 +347,16 @@ function TopChrome() {
 
 function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const { width, height } = useViewportMetrics();
   const p = useSectionProgress(sectionRef);
+  const popScale = Math.min(1, Math.max(0.58, width / 1440));
+  const popYScale = Math.min(1, Math.max(0.62, height / 900));
   const titleScale = useTransform(p, [0, 0.5, 1], [1, 1.06, 1.18]);
   const titleOpacity = useTransform(p, [0, 0.08, 0.88, 1], [1, 0.55, 0.45, 0.25]);
   const captionOpacity = useTransform(p, [0.25, 0.4, 0.85, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[220vh] bg-black text-cream">
+    <section ref={sectionRef} className="relative h-[360vh] bg-black text-cream">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
@@ -369,7 +385,7 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
             }}
           >
             {seeds.map((s) => (
-              <PopOutCard key={s.id} seed={s} progress={p} />
+              <PopOutCard key={s.id} seed={s} progress={p} popScale={popScale} popYScale={popYScale} />
             ))}
           </div>
         </div>
@@ -401,13 +417,15 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
 
 function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const { width } = useViewportMetrics();
   const p = useSectionProgress(sectionRef);
+  const snakeTravel = Math.min(820, Math.max(560, width * 0.62));
   const headlineX = useTransform(p, [0, 1], ["8%", "-32%"]);
   const headlineOpacity = useTransform(p, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
   const microOpacity = useTransform(p, [0.15, 0.28, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[200vh] bg-black text-cream">
+    <section ref={sectionRef} className="relative h-[300vh] bg-black text-cream">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
@@ -436,7 +454,7 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
             }}
           >
             {seeds.map((s) => (
-              <SnakeCard key={s.id} seed={s} progress={p} />
+              <SnakeCard key={s.id} seed={s} progress={p} travel={snakeTravel} />
             ))}
           </div>
         </div>
@@ -503,7 +521,7 @@ function CurvedWallSection() {
   );
 
   return (
-    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[160vh] bg-black text-cream">
+    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[220vh] bg-black text-cream">
       <div
         className="sticky top-0 h-screen w-full overflow-hidden bg-black"
         style={{ perspective: "1200px" }}
@@ -678,9 +696,13 @@ function SectionFade() {
 function PopOutCard({
   seed,
   progress,
+  popScale,
+  popYScale,
 }: {
   seed: CardSeed;
   progress: MotionValue<number>;
+  popScale: number;
+  popYScale: number;
 }) {
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
@@ -688,18 +710,18 @@ function PopOutCard({
   const start = 0.02 + seed.delay * 0.6;
   const hit = 0.32 + seed.delay * 0.4;
   // Hold cards visible across the bulk of the section, only drift slightly
-  const restX = seed.popX;
-  const restY = seed.popY;
-  const driftX = seed.popX * 1.05;
-  const driftY = seed.popY * 1.04;
+  const restX = seed.popX * popScale;
+  const restY = seed.popY * popYScale;
+  const driftX = restX * 1.03;
+  const driftY = restY * 1.02;
 
-  const x = useTransform(progress, [start, hit, 0.95, 1], [0, restX, driftX, driftX * 1.25]);
-  const y = useTransform(progress, [start, hit, 0.95, 1], [0, restY, driftY, driftY * 1.18]);
-  const z = useTransform(progress, [start, hit, 0.95, 1], [-820, seed.popZ, seed.popZ + 40, seed.popZ + 180]);
-  const scale = useTransform(progress, [start, hit, 0.95, 1], [0.1, 1, 1.02, 1.15]);
+  const x = useTransform(progress, [start, hit, 0.98, 1], [0, restX, driftX, driftX * 1.04]);
+  const y = useTransform(progress, [start, hit, 0.98, 1], [0, restY, driftY, driftY * 1.03]);
+  const z = useTransform(progress, [start, hit, 0.98, 1], [-820, seed.popZ, seed.popZ + 30, seed.popZ + 70]);
+  const scale = useTransform(progress, [start, hit, 0.98, 1], [0.1, 1, 1.02, 1.06]);
   const opacity = useTransform(
     progress,
-    [start, start + 0.04, 0.92, 1],
+    [start, start + 0.04, 0.985, 1],
     [0, 1, 1, 0],
   );
   const rotateX = useTransform(progress, [start, hit, 1], [0, seed.popRotX, seed.popRotX * 1.1]);
@@ -708,6 +730,7 @@ function PopOutCard({
 
   return (
     <motion.div
+      data-hero-pop-card="true"
       className="absolute overflow-hidden rounded-[14px] ring-1 ring-cream/12 bg-black"
       style={{
         left: 0,
@@ -743,9 +766,11 @@ function PopOutCard({
 function SnakeCard({
   seed,
   progress,
+  travel,
 }: {
   seed: CardSeed;
   progress: MotionValue<number>;
+  travel: number;
 }) {
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
@@ -760,7 +785,7 @@ function SnakeCard({
   const x = useTransform(
     progress,
     [enterAt, midAt, exitAt],
-    [-820, seed.id % 2 === 0 ? 30 : -50, 820],
+    [-travel, seed.id % 2 === 0 ? 30 : -50, travel],
   );
   const y = useTransform(
     progress,
@@ -778,6 +803,7 @@ function SnakeCard({
 
   return (
     <motion.div
+      data-hero-snake-card="true"
       className="absolute overflow-hidden rounded-[14px] ring-1 ring-cream/12 bg-black"
       style={{
         left: 0,
