@@ -743,54 +743,8 @@ function MotionDebugOverlay({ hostRef }: { hostRef: React.RefObject<HTMLElement 
   );
 }
 
-function useIsMobileSS() {
-  const [m, setM] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const on = () => setM(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  return m;
-}
-
-function MobileServices() {
-  return (
-    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-[#030509] text-[#fdfaf6]">
-      <div className="relative z-10 px-6 py-20">
-        <div className="mb-3 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.32em] text-[#e8390e]">
-          <span className="inline-block h-px w-8 bg-[#e8390e]" />
-          <span>What we do</span>
-        </div>
-        <h2 className="font-display text-[40px] font-bold leading-[0.95] text-[#fdfaf6]">
-          Our Primary <span className="italic text-[#fdfaf6]/70">Services</span>
-        </h2>
-        <p className="mt-5 max-w-[46ch] font-body text-[14px] leading-[1.65] text-[#fdfaf6]/62">
-          Six disciplines, one studio — built around motion, story and immersion.
-        </p>
-        <ul className="mt-10 divide-y divide-white/10 border-y border-white/10">
-          {services.map((s) => (
-            <li key={s.n} className="py-6">
-              <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.28em] text-[#e8390e]">
-                <span>{s.n}</span>
-                <span className="h-px flex-1 bg-white/10" />
-                <span className="text-white/40">{s.tag}</span>
-              </div>
-              <h3 className="mt-3 font-display text-[28px] font-bold leading-[1.05]">{s.name}</h3>
-              <p className="mt-2 font-body text-[14px] leading-[1.6] text-[#fdfaf6]/62">{s.desc}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
 export function ServicesScroller() {
   const sectionRef = useRef<HTMLElement>(null);
-  const isMobile = useIsMobileSS();
-  if (isMobile) return <MobileServices />;
   return (
     <section ref={sectionRef} data-nav-theme="dark" className="relative isolate overflow-hidden bg-[#030509] text-[#fdfaf6]">
       <div

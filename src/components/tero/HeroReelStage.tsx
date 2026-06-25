@@ -124,7 +124,12 @@ function useSectionProgress(ref: RefObject<HTMLElement | null>) {
     offset: ["start start", "end end"],
   });
 
-  return scrollYProgress;
+  return useSpring(scrollYProgress, {
+    stiffness: 70,
+    damping: 24,
+    mass: 0.6,
+    restDelta: 0.0005,
+  });
 }
 
 function useResolvedVideoUrl(url: string) {
@@ -150,9 +155,6 @@ function useResolvedVideoUrl(url: string) {
 
 export function HeroReelStage() {
   const seeds = useCardSeeds();
-  const isMobile = useIsMobileViewport();
-
-  if (isMobile) return <MobileHeroReel />;
 
   return (
     <div className="relative bg-black text-cream">
@@ -162,139 +164,6 @@ export function HeroReelStage() {
     </div>
   );
 }
-
-function useIsMobileViewport() {
-  const [m, setM] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const on = () => setM(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  return m;
-}
-
-function useViewportMetrics() {
-  const [metrics, setMetrics] = useState({ width: 1440, height: 900 });
-
-  useEffect(() => {
-    const update = () => setMetrics({ width: window.innerWidth, height: window.innerHeight });
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  return metrics;
-}
-
-function MobileHeroReel() {
-  const tiles = useMemo(() => {
-    return Array.from({ length: 8 }, (_, i) => {
-      const v = videos[i % videos.length];
-      return { url: v.url, fallback: WALL_FALLBACKS[i % WALL_FALLBACKS.length] };
-    });
-  }, []);
-
-  return (
-    <section data-hide-site-nav="true" className="relative bg-black text-cream overflow-hidden">
-      <Backdrop />
-      {/* Headline */}
-      <div className="relative z-10 px-6 pt-28 pb-10 text-center">
-        <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-cream/55">
-          Animation · VFX · CGI
-        </span>
-        <h1
-          className="mt-5 font-display tracking-[-0.04em] leading-[0.9] text-cream"
-          style={{ fontSize: "clamp(3.5rem, 18vw, 6rem)" }}
-        >
-          TERO
-        </h1>
-        <p className="mt-5 mx-auto max-w-[28ch] font-body text-[14px] leading-relaxed text-cream/70">
-          A motion & visual effects studio crafting films, campaigns and immersive brand worlds.
-        </p>
-        <Link
-          to="/portfolio"
-          className="mt-7 inline-flex items-center gap-2 rounded-full bg-cream text-ink px-6 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.22em]"
-        >
-          View the reel →
-        </Link>
-      </div>
-
-      {/* Vertical reel grid */}
-      <div className="relative z-10 grid grid-cols-2 gap-2 px-2 pb-10">
-        {tiles.map((t, i) => (
-          <MobileReelTile key={i} url={t.url} fallback={t.fallback} />
-        ))}
-      </div>
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 z-20"
-        style={{ background: "linear-gradient(0deg, #000 20%, transparent 100%)" }}
-      />
-    </section>
-  );
-}
-
-function MobileReelTile({ url, fallback }: { url: string; fallback: string }) {
-  const videoUrl = useResolvedVideoUrl(url);
-  const thumb = useVideoThumbnail(url);
-  const ref = useRef<HTMLAnchorElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [mount, setMount] = useState(false);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setMount(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "300px", threshold: 0.05 },
-    );
-    io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v || !mount) return;
-    const play = () => v.play().catch(() => {});
-    if (v.readyState >= 2) play();
-    else v.addEventListener("loadeddata", play, { once: true });
-  }, [mount, videoUrl]);
-
-  const poster = thumb || fallback;
-
-  return (
-    <Link
-      to="/portfolio"
-      ref={ref as never}
-      className="relative aspect-[9/14] overflow-hidden rounded-[10px] bg-black block"
-      aria-label="View portfolio"
-    >
-      <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
-      {mount && (
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          onCanPlay={() => setReady(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${ready ? "opacity-100" : "opacity-0"}`}
-        />
-      )}
-    </Link>
-  );
-}
-
 
 function Backdrop() {
   return (
@@ -342,17 +211,14 @@ function TopChrome() {
 
 function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const { width, height } = useViewportMetrics();
   const p = useSectionProgress(sectionRef);
-  const popScale = Math.min(1, Math.max(0.58, width / 1440));
-  const popYScale = Math.min(1, Math.max(0.62, height / 900));
-  const titleScale = useTransform(p, [0, 0.55, 1], [1, 1.05, 1.14]);
-  const titleOpacity = useTransform(p, [0, 0.08, 0.92, 1], [1, 0.68, 0.52, 0.25]);
-  const captionOpacity = useTransform(p, [0.2, 0.34, 0.9, 1], [0, 1, 1, 0]);
+  const titleScale = useTransform(p, [0, 0.35, 0.82, 1], [1, 1.04, 1.1, 1.2]);
+  const titleOpacity = useTransform(p, [0, 0.82, 1], [1, 1, 0]);
+  const captionOpacity = useTransform(p, [0.28, 0.45, 0.82, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} data-hero-section="pop" className="relative h-[360vh] bg-black text-cream">
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
+    <section ref={sectionRef} className="relative h-[260vh] bg-black text-cream">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
 
@@ -372,7 +238,7 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
           <div
             className="relative"
             style={{
-              perspective: "1400px",
+              perspective: "1200px",
               perspectiveOrigin: "50% 52%",
               width: 1,
               height: 1,
@@ -380,7 +246,7 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
             }}
           >
             {seeds.map((s) => (
-              <PopOutCard key={s.id} seed={s} progress={p} popScale={popScale} popYScale={popYScale} />
+              <PopOutCard key={s.id} seed={s} progress={p} />
             ))}
           </div>
         </div>
@@ -412,16 +278,14 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
 
 function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const { width } = useViewportMetrics();
   const p = useSectionProgress(sectionRef);
-  const snakeTravel = Math.min(820, Math.max(560, width * 0.62));
-  const headlineX = useTransform(p, [0, 1], ["8%", "-24%"]);
-  const headlineOpacity = useTransform(p, [0, 0.08, 0.92, 1], [0, 1, 1, 0]);
-  const microOpacity = useTransform(p, [0.12, 0.24, 0.84, 1], [0, 1, 1, 0]);
+  const headlineX = useTransform(p, [0, 1], ["10%", "-38%"]);
+  const headlineOpacity = useTransform(p, [0, 0.12, 0.88, 1], [0, 1, 1, 0]);
+  const microOpacity = useTransform(p, [0.15, 0.28, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} data-hero-section="snake" className="relative h-[500vh] lg:h-[480vh] xl:h-[460vh] bg-black text-cream">
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
+    <section ref={sectionRef} className="relative h-[240vh] bg-black text-cream">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
 
@@ -449,7 +313,7 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
             }}
           >
             {seeds.map((s) => (
-              <SnakeCard key={s.id} seed={s} progress={p} travel={snakeTravel} />
+              <SnakeCard key={s.id} seed={s} progress={p} />
             ))}
           </div>
         </div>
@@ -516,9 +380,9 @@ function CurvedWallSection() {
   );
 
   return (
-    <section ref={sectionRef} data-hero-section="wall" data-hide-site-nav="true" className="relative h-[220vh] bg-black text-cream">
+    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[160vh] bg-black text-cream">
       <div
-        className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-black"
+        className="sticky top-0 h-screen w-full overflow-hidden bg-black"
         style={{ perspective: "1200px" }}
       >
         <motion.div
@@ -691,42 +555,28 @@ function SectionFade() {
 function PopOutCard({
   seed,
   progress,
-  popScale,
-  popYScale,
 }: {
   seed: CardSeed;
   progress: MotionValue<number>;
-  popScale: number;
-  popYScale: number;
 }) {
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  const start = seed.delay;
-  const hit = 0.18 + seed.delay * 0.4;
-  const fly = 0.55 + seed.delay * 0.25;
-  const restX = seed.popX * popScale;
-  const restY = seed.popY * popYScale;
-  const flyX = restX * 2.6;
-  const flyY = restY * 2.4;
+  const start = 0.04 + seed.delay;
+  const hit = 0.35 + seed.delay * 0.35;
+  const hold = 0.8;
 
-  const x = useTransform(progress, [start, hit, fly], [0, restX, flyX]);
-  const y = useTransform(progress, [start, hit, fly], [0, restY, flyY]);
-  const z = useTransform(progress, [start, hit, fly], [-820, seed.popZ, seed.popZ + 720]);
-  const scale = useTransform(progress, [start, hit, fly], [0.1, 1, 1.45]);
-  const opacity = useTransform(
-    progress,
-    [start, start + 0.04, fly - 0.08, fly],
-    [0, 1, 1, 0],
-  );
-  const rotateX = useTransform(progress, [start, hit, fly], [0, seed.popRotX, seed.popRotX * 1.4]);
-  const rotateY = useTransform(progress, [start, hit, fly], [0, seed.popRotY, seed.popRotY * 1.4]);
-  const rotateZ = useTransform(progress, [start, hit, fly], [0, seed.popRotZ, seed.popRotZ * 1.4]);
-
+  const x = useTransform(progress, [start, hit, hold, 1], [0, seed.popX, seed.popX * 1.08, seed.popX * 1.22]);
+  const y = useTransform(progress, [start, hit, hold, 1], [0, seed.popY, seed.popY * 1.05, seed.popY * 1.16]);
+  const z = useTransform(progress, [start, hit, 1], [-980, seed.popZ, seed.popZ + 160]);
+  const scale = useTransform(progress, [start, hit, 1], [0.08, 1, 1.12]);
+  const opacity = useTransform(progress, [start, start + 0.05, 0.86, 1], [0, 1, 1, 0]);
+  const rotateX = useTransform(progress, [start, hit], [0, seed.popRotX]);
+  const rotateY = useTransform(progress, [start, hit], [0, seed.popRotY]);
+  const rotateZ = useTransform(progress, [start, hit], [0, seed.popRotZ]);
 
   return (
     <motion.div
-      data-hero-pop-card="true"
       className="absolute overflow-hidden rounded-[14px] ring-1 ring-cream/12 bg-black"
       style={{
         left: 0,
@@ -762,44 +612,39 @@ function PopOutCard({
 function SnakeCard({
   seed,
   progress,
-  travel,
 }: {
   seed: CardSeed;
   progress: MotionValue<number>;
-  travel: number;
 }) {
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  // Stagger through the middle of a longer sticky section so the snake remains readable.
-  const span = 0.5;
-  const startOffset = 0.12 + (seed.id / (CARD_COUNT - 1)) * 0.28;
-  const enterAt = startOffset;
-  const midAt = startOffset + span * 0.5;
-  const exitAt = startOffset + span;
+  const shift = (seed.id / CARD_COUNT) * 0.34;
+  const enterAt = 0.02 + shift;
+  const midAt = 0.36 + shift * 0.45;
+  const exitAt = 0.74 + shift * 0.25;
 
   const x = useTransform(
     progress,
     [enterAt, midAt, exitAt],
-    [-travel, seed.id % 2 === 0 ? 30 : -50, travel],
+    [-980, seed.id % 2 === 0 ? 40 : -60, 980],
   );
   const y = useTransform(
     progress,
     [enterAt, midAt, exitAt],
-    [seed.snakeY - 160, seed.snakeY, seed.snakeY + 110],
+    [seed.snakeY - 180, seed.snakeY, seed.snakeY + 120],
   );
-  const z = useTransform(progress, [enterAt, midAt, exitAt], [-220, 140, -180]);
+  const z = useTransform(progress, [enterAt, midAt, exitAt], [-240, 150, -180]);
   const opacity = useTransform(
     progress,
-    [enterAt - 0.02, enterAt + 0.04, exitAt - 0.06, exitAt],
+    [enterAt - 0.03, enterAt + 0.04, exitAt - 0.08, exitAt],
     [0, 1, 1, 0],
   );
-  const rotateZ = useTransform(progress, [enterAt, midAt, exitAt], [-16, seed.snakeRot, 14]);
-  const rotateY = useTransform(progress, [enterAt, midAt, exitAt], [-28, 0, 26]);
+  const rotateZ = useTransform(progress, [enterAt, midAt, exitAt], [-18, seed.snakeRot, 16]);
+  const rotateY = useTransform(progress, [enterAt, midAt, exitAt], [-30, 0, 28]);
 
   return (
     <motion.div
-      data-hero-snake-card="true"
       className="absolute overflow-hidden rounded-[14px] ring-1 ring-cream/12 bg-black"
       style={{
         left: 0,

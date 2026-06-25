@@ -98,22 +98,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Mobile: tighter container padding and tap-friendly defaults */
-  @media (max-width: 640px) {
-    html,
-    body {
-      overflow-x: hidden;
-    }
-
-    .container-tero {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-    button, a {
-      -webkit-tap-highlight-color: transparent;
-    }
-  }
-
   ::selection {
     background: var(--accent-vermillion);
     color: #ffffff;

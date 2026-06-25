@@ -4,8 +4,6 @@ export function SmoothScroll() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    // Disable smooth scroll on mobile only — desktop/tablet keep Lenis.
-    if (window.innerWidth < 768) return;
 
     let raf = 0;
     let destroy: (() => void) | undefined;
