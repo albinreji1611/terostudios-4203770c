@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageLayout } from "@/components/tero/PageLayout";
-import { HeroReelStage } from "@/components/tero/HeroReelStage";
-import { MobileHero } from "@/components/tero/MobileHero";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Hero } from "@/components/tero/Hero";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { ServicesScroller } from "@/components/tero/ServicesScroller";
 
