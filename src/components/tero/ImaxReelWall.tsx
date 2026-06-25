@@ -121,11 +121,11 @@ export function ImaxReelWall() {
         <div
           className="absolute inset-x-0 flex flex-col"
           style={{
-            top: "-9vh",
-            bottom: "-9vh",
+            top: 0,
+            bottom: 0,
             gap: `${GAP}px`,
             transformStyle: "preserve-3d",
-            transform: "rotateX(8deg) scale(1.18)",
+            transform: "rotateX(6deg) scale(1.08)",
             transformOrigin: "50% 50%",
           }}
         >
