@@ -145,7 +145,7 @@ function Card({ item }: { item: Testimonial; index: number }) {
             {item.role} · {item.company}
           </p>
         </div>
-      </article>
-    </Reveal>
+    </article>
+
   );
 }
