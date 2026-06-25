@@ -161,25 +161,22 @@ export function ImaxReelWall() {
           {rows.map((tiles, r) => {
             const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
             const isLast = r === ROWS - 1;
-            const curve = ROW_CURVE[r] ?? ROW_CURVE[2];
+            const opacity = ROW_OPACITY[r] ?? 1;
+            const duration = ROW_DURATION[r] ?? 70;
             return (
               <div
                 key={r}
                 className="absolute w-full overflow-visible"
                 style={{
-                  top: curve.top,
-                  height: "20%",
-
-                  opacity: curve.opacity,
-                  transform: `translate3d(0, 0, ${curve.z}px) rotateX(${curve.angle}deg) scale(${curve.scale}) scaleX(${curve.scaleX})`,
-                  transformStyle: "preserve-3d",
-                  transformOrigin: "50% 48%",
-                  zIndex: r === 2 ? 5 : r === 1 || r === 3 ? 4 : 3,
+                  top: `calc(${r} * ${ROW_STEP})`,
+                  height: ROW_HEIGHT,
+                  opacity,
+                  zIndex: 10 - r,
                   maskImage: isLast
-                    ? "linear-gradient(180deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.38) 42%, transparent 100%)"
+                    ? "linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 55%, transparent 100%)"
                     : undefined,
                   WebkitMaskImage: isLast
-                    ? "linear-gradient(180deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.38) 42%, transparent 100%)"
+                    ? "linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 55%, transparent 100%)"
                     : undefined,
                 }}
               >
@@ -187,32 +184,24 @@ export function ImaxReelWall() {
                   className="absolute inset-y-0 left-0 flex"
                   style={{
                     gap: TILE_GAP,
-                    animation: `${dir} ${curve.duration}s linear infinite`,
+                    animation: `${dir} ${duration}s linear infinite`,
                     willChange: "transform",
-                    transformStyle: "preserve-3d",
                   }}
                 >
-                  {tiles.map((t, c) => {
-                    const tileCurve = getTileCurve(c);
-                    return (
-                      <div
-                        key={`${r}-${c}`}
-                        className="h-full shrink-0"
-                        style={{
-                          aspectRatio: "16 / 9",
-                          transform: `translateZ(${tileCurve.translateZ}px) rotateY(${tileCurve.rotateY}deg) scale(${tileCurve.scale})`,
-                          transformStyle: "preserve-3d",
-                          transformOrigin: "50% 50%",
-                        }}
-                      >
-                        <Tile url={t.url} fallback={t.fb} />
-                      </div>
-                    );
-                  })}
+                  {tiles.map((t, c) => (
+                    <div
+                      key={`${r}-${c}`}
+                      className="h-full shrink-0"
+                      style={{ aspectRatio: "16 / 9" }}
+                    >
+                      <Tile url={t.url} fallback={t.fb} />
+                    </div>
+                  ))}
                 </div>
               </div>
             );
           })}
+
         </div>
 
         <div
