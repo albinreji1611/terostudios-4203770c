@@ -73,7 +73,7 @@ function MarqueeRow({
           <div key={i} className="flex items-center gap-16 md:gap-28 shrink-0">
             <div className="group flex flex-col items-center text-center">
               <h3 className="leading-[0.9] text-[clamp(64px,11vw,180px)]">
-                <OutlineName name={p.name} serif={i % 2 === 1} />
+                <OutlineName name={p.name} filled={i % 2 === 1} />
               </h3>
               <div className="mt-4 flex items-center gap-3 font-body text-[13px] md:text-[15px] text-ink/80">
                 <span>{p.role}</span>
