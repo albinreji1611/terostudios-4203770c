@@ -227,7 +227,7 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
           className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none"
         >
           <h1
-            className="font-display tracking-[-0.04em] leading-none text-cream/95 select-none"
+            className="tero-logo-cycle-text tracking-[-0.04em] leading-none text-cream/95 select-none"
             style={{ fontSize: "clamp(7rem, 18vw, 16rem)" }}
           >
             TERO
