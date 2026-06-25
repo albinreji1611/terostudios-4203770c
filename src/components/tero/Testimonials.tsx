@@ -18,149 +18,133 @@ type Testimonial = {
 const items: Testimonial[] = [
   {
     quote:
-      "For our Vara Mahalakshmi 2025 campaign, Tero Studios crafted an anamorphic video that perfectly merged tradition with innovation, making a strong impact on our audience.",
+      "For our Vara Mahalakshmi 2025 campaign, Tero Studios crafted an anamorphic video that perfectly merged tradition with innovation.",
     name: "Sibi Jacob",
     role: "Brand Manager",
     company: "Bhima Gold",
     logo: bhimaLogo.url,
-    project: "Vara Mahalakshmi · Anamorphic",
+    project: "Vara Mahalakshmi",
   },
   {
     quote:
-      "Their team brought fresh ideas, creative execution, and engaging visual experiences that truly connected with our audience. From concept to delivery, everything was handled with professionalism and precision.",
+      "Fresh ideas, creative execution, and engaging visual experiences that truly connected with our audience — handled with precision.",
     name: "Athira Nampiathiri",
-    role: "Senior Marketing Manager",
+    role: "Sr. Marketing Manager",
     company: "Forum Mall",
     logo: forumLogo.url,
-    project: "Mall Experience · Campaign",
+    project: "Mall Campaign",
   },
   {
     quote:
-      "Tero Studios delivered an exceptional AR broadcast for our Onam celebrations. Their creativity and flawless execution gave visitors a truly immersive festive experience.",
+      "An exceptional AR broadcast for our Onam celebrations. Creativity and flawless execution gave visitors a truly immersive experience.",
     name: "Hari Suhas",
     role: "General Manager",
     company: "Lulu Mall Kochi",
     logo: luluLogo.url,
-    project: "Onam · AR Broadcast",
+    project: "Onam · AR",
+    accent: true,
   },
   {
     quote:
-      "The anamorphic video content created by Tero Studios for IMTEX 2025 and ACMEE 2025 helped us stand out with powerful visuals and high-impact brand presence.",
+      "The anamorphic content for IMTEX 2025 and ACMEE 2025 helped us stand out with powerful visuals and high-impact brand presence.",
     name: "Ravivarman R",
     role: "Marketing Head",
     company: "S&T Engineers",
     logo: stEngLogo.url,
-    project: "IMTEX · ACMEE 2025",
+    project: "IMTEX · ACMEE",
   },
   {
     quote:
-      "Working with Tero Studios on the Campa Cola TVC and Mumbai launch video was seamless. Their frame-by-frame animation and creative approach elevated the campaign.",
+      "Working on the Campa Cola TVC and Mumbai launch was seamless. Their frame-by-frame animation elevated the campaign.",
     name: "Neha Gowda",
     role: "Producer",
     company: "Shot Ready",
     logo: shotLogo.url,
     project: "Campa Cola · TVC",
-    accent: true,
+  },
+  {
+    quote:
+      "End-to-end craft — concept, motion, finish. The kind of studio partner you keep on speed dial for every launch window.",
+    name: "Studio Partner",
+    role: "Creative Director",
+    company: "Tero Collaborator",
+    logo: bhimaLogo.url,
+    project: "Ongoing",
   },
 ];
 
 export function Testimonials() {
-  // Duplicate the track for a seamless -50% marquee loop.
-  const track = [...items, ...items];
-
   return (
     <section
       data-nav-theme="dark"
       className="relative overflow-hidden bg-[#101010] text-cream"
     >
-      <style>{`
-        @keyframes tero-marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .tero-marquee-track {
-          display: flex;
-          width: max-content;
-          animation: tero-marquee 60s linear infinite;
-        }
-        .tero-marquee-track:hover { animation-play-state: paused; }
-        @media (prefers-reduced-motion: reduce) {
-          .tero-marquee-track { animation: none; }
-        }
-      `}</style>
-
-      {/* Header */}
-      <div className="container-tero relative pt-16 md:pt-24 pb-8 md:pb-12">
+      <div className="container-tero relative pt-16 md:pt-24 pb-16 md:pb-24">
         <Reveal>
           <p className="overline text-vermillion">— Portfolio of consensus</p>
-          <h2 className="mt-4 hero-headline text-[clamp(28px,4.5vw,56px)] leading-[1.05] text-cream max-w-3xl">
+          <h2 className="mt-4 hero-headline text-[clamp(28px,4.2vw,52px)] leading-[1.05] text-cream max-w-3xl">
             What clients say after the
             <br />
             <em className="not-italic font-display italic">lights come up.</em>
           </h2>
         </Reveal>
-      </div>
 
-      {/* Marquee */}
-      <div className="relative w-full overflow-hidden pb-14 md:pb-20">
-        {/* Edge fade masks */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-40 bg-gradient-to-r from-[#101010] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-40 bg-gradient-to-l from-[#101010] to-transparent" />
-
-        <div className="tero-marquee-track gap-5">
-          {track.map((item, i) => (
-            <Card key={`${item.name}-${i}`} item={item} />
+        <div className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          {items.map((item, i) => (
+            <Card key={`${item.name}-${i}`} item={item} index={i} />
           ))}
         </div>
       </div>
-
     </section>
   );
 }
 
-function Card({ item }: { item: Testimonial }) {
+function Card({ item, index }: { item: Testimonial; index: number }) {
   const accent = item.accent;
   return (
-    <article
-      className={[
-        "flex w-[80vw] sm:w-[400px] md:w-[440px] shrink-0 flex-col justify-between",
-        "bg-[#1E1E1E] p-6 md:p-7 min-h-[300px]",
-        "border-l-2",
-        accent ? "border-[#FF4A1C]/70" : "border-white/5",
-      ].join(" ")}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <img
-          src={item.logo}
-          alt={`${item.company} logo`}
-          loading="lazy"
-          className="h-7 md:h-8 w-auto object-contain object-left"
-        />
-        <span
-          className={[
-            "shrink-0 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em]",
-            accent
-              ? "bg-[#FF4A1C]/10 text-[#FF4A1C]"
-              : "bg-white/5 text-cream/45",
-          ].join(" ")}
-        >
-          {item.project}
-        </span>
-      </div>
+    <Reveal delay={index * 60}>
+      <article
+        className={[
+          "group relative flex h-full flex-col justify-between",
+          "bg-[#1E1E1E] p-6 md:p-7 min-h-[260px]",
+          "border-l-2 transition-colors duration-300",
+          accent
+            ? "border-[#FF4A1C]/70"
+            : "border-white/5 hover:border-vermillion/50",
+        ].join(" ")}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <img
+            src={item.logo}
+            alt={`${item.company} logo`}
+            loading="lazy"
+            className="h-7 md:h-8 w-auto object-contain object-left opacity-90"
+          />
+          <span
+            className={[
+              "shrink-0 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em]",
+              accent
+                ? "bg-[#FF4A1C]/10 text-[#FF4A1C]"
+                : "bg-white/5 text-cream/45",
+            ].join(" ")}
+          >
+            {item.project}
+          </span>
+        </div>
 
-      <blockquote className="mt-6 font-display text-[clamp(15px,1.3vw,18px)] leading-[1.45] text-cream">
-        &ldquo;{item.quote}&rdquo;
-      </blockquote>
+        <blockquote className="mt-5 font-display text-[15px] md:text-[16px] leading-[1.5] text-cream/95">
+          &ldquo;{item.quote}&rdquo;
+        </blockquote>
 
-      <div className="mt-6 border-t border-white/10 pt-4">
-        <p className="font-sans-display text-[12px] font-bold uppercase tracking-wider text-cream">
-          {item.name}
-        </p>
-        <p className="mt-0.5 font-body text-[11px] text-cream/55">
-          {item.role} · {item.company}
-        </p>
-      </div>
-    </article>
-
+        <div className="mt-5 border-t border-white/10 pt-3">
+          <p className="font-sans-display text-[12px] font-bold uppercase tracking-wider text-cream">
+            {item.name}
+          </p>
+          <p className="mt-0.5 font-body text-[11px] text-cream/55">
+            {item.role} · {item.company}
+          </p>
+        </div>
+      </article>
+    </Reveal>
   );
 }
