@@ -201,8 +201,7 @@ const ease = (n: number) => {
 
 const ramp = (from: number, to: number, value: number) => ease((value - from) / (to - from));
 // Tighter window: scatter longer at edges, snap and hold the formed icon across the middle.
-// Wider formation plateau so fast scrolls still see the icon snap together.
-const motionWindow = (value: number) => ramp(0.08, 0.28, value) * (1 - ramp(0.72, 0.92, value));
+const motionWindow = (value: number) => ramp(0.22, 0.44, value) * (1 - ramp(0.6, 0.82, value));
 
 type Point = { x: number; y: number };
 
@@ -217,7 +216,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
     if (!ctx) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, reduceMotion ? 1 : 1);
+    const dpr = Math.min(window.devicePixelRatio || 1, reduceMotion ? 1 : 1.25);
     let raf = 0;
     let w = 0;
     let h = 0;
@@ -316,7 +315,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       pointSets = await Promise.all(ICONS.map((icon) => sampleIcon(icon, box)));
       if (run !== sampleRun) return;
       serviceNodes = Array.from(host.querySelectorAll<HTMLElement>("[data-service-index]"));
-      const total = reduceMotion ? 420 : w < 760 ? 700 : 1400;
+      const total = reduceMotion ? 640 : w < 760 ? 1600 : 3200;
       particles = new Array(total).fill(0).map((_, i) => {
         const a = Math.random() * Math.PI * 2;
         const r = Math.min(w, h) * (0.22 + Math.random() * 0.62);
@@ -430,10 +429,9 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       currentX += (targetX - currentX) * 0.18;
       currentY += (targetY - currentY) * 0.13;
       // Asymmetric easing: snap quickly into form, dissolve slowly back to scatter.
-      // Snap into formation fast (handles fast scroll); dissolve more gently.
-      const formedLerp = targetFormed > formed ? 0.42 : 0.12;
+      const formedLerp = targetFormed > formed ? 0.22 : 0.07;
       formed += (targetFormed - formed) * formedLerp;
-      fill += (targetFill - fill) * (targetFill > fill ? 0.1 : 0.22);
+      fill += (targetFill - fill) * (targetFill > fill ? 0.06 : 0.14);
       if (mx > -9000) {
         if (smx < -9000) {
           smx = mx;
@@ -490,9 +488,7 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
         const shapeY = currentY + ry * perspectiveScale;
 
         let screenX = cloudX * scatterMix + shapeX * formed;
-        // Cap scroll-velocity smear so fast scrolling doesn't tear the icon apart.
-        const velY = Math.max(-24, Math.min(24, scrollVelocity)) * (0.12 + fill * 0.18);
-        let screenY = cloudY * scatterMix + shapeY * formed + velY;
+        let screenY = cloudY * scatterMix + shapeY * formed + scrollVelocity * (0.34 + fill * 0.18);
         if (smx > -9000) {
           const dx = screenX - smx;
           const dy = screenY - smy;
@@ -572,7 +568,7 @@ function SpaceField({ hostRef }: { hostRef: React.RefObject<HTMLElement | null> 
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      stars = new Array(Math.floor((w * h) / 14000)).fill(0).map(() => ({
+      stars = new Array(Math.floor((w * h) / 6000)).fill(0).map(() => ({
         x: Math.random() * w,
         y: Math.random() * h,
         z: Math.random() * 1 + 0.2,
@@ -777,7 +773,7 @@ export function ServicesScroller() {
             <article
               key={service.n}
               data-service-index={i}
-              className="grid min-h-[78vh] items-center gap-10 py-[6vh] md:grid-cols-2 md:gap-16"
+              className="grid min-h-screen items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
             >
               <div className={textLeft ? "md:order-1" : "md:order-2 md:text-right"}>
                 <div
