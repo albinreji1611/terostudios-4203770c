@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { videos } from "@/data/videos";
 import { resolveAssetUrl } from "@/lib/asset-url";
-import { useVideoThumbnail } from "@/lib/use-video-thumbnail";
 import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
@@ -16,11 +15,11 @@ const TILES_PER_ROW = 9;
 const TILE_GAP = "clamp(8px, 1vw, 15px)";
 
 const ROW_CURVE = [
-  { top: "-1.5%", angle: -18, z: -260, scale: 0.98, scaleX: 1.28, opacity: 0.94, duration: 82 },
-  { top: "15%", angle: -9, z: -90, scale: 1.03, scaleX: 1.2, opacity: 1, duration: 66 },
-  { top: "31.5%", angle: 0, z: 170, scale: 1.08, scaleX: 1.12, opacity: 1, duration: 56 },
-  { top: "48%", angle: 10, z: -105, scale: 1.03, scaleX: 1.2, opacity: 0.92, duration: 74 },
-  { top: "64.5%", angle: 24, z: -360, scale: 0.99, scaleX: 1.32, opacity: 0.24, duration: 88 },
+  { top: "-9%", angle: -18, z: -250, scale: 0.99, scaleX: 1.28, opacity: 0.98, duration: 82 },
+  { top: "8%", angle: -9, z: -80, scale: 1.04, scaleX: 1.2, opacity: 1, duration: 66 },
+  { top: "25%", angle: 0, z: 165, scale: 1.09, scaleX: 1.12, opacity: 1, duration: 56 },
+  { top: "42%", angle: 10, z: -100, scale: 1.04, scaleX: 1.2, opacity: 0.94, duration: 74 },
+  { top: "58.5%", angle: 24, z: -360, scale: 1, scaleX: 1.32, opacity: 0.2, duration: 88 },
 ];
 
 function getTileCurve(index: number) {
@@ -52,7 +51,6 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mount, setMount] = useState(false);
   const [ready, setReady] = useState(false);
-  const thumb = useVideoThumbnail(url);
   const [src, setSrc] = useState(url);
 
   useEffect(() => setSrc(resolveForPlayback(url)), [url]);
@@ -87,23 +85,24 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
       style={{ aspectRatio: "16 / 9" }}
     >
       <img
-        src={thumb || fallback}
+        src={fallback}
         alt=""
-        loading="lazy"
+        loading="eager"
         decoding="async"
-        className="absolute inset-0 z-10 h-full w-full object-cover select-none pointer-events-none"
+        className="absolute inset-0 z-10 h-full w-full object-cover select-none pointer-events-none brightness-[0.9] contrast-[1.08]"
       />
       {mount && (
         <video
           ref={videoRef}
           src={src}
+          poster={fallback}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
           onCanPlay={() => setReady(true)}
-          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none transition-opacity duration-700 ${ready ? "opacity-95" : "opacity-0"}`}
         />
       )}
     </div>
@@ -154,7 +153,7 @@ export function ImaxReelWall() {
                 className="absolute w-full overflow-visible"
                 style={{
                   top: curve.top,
-                  height: "clamp(152px, 25.5vh, 292px)",
+                  height: "clamp(156px, 27vh, 330px)",
                   opacity: curve.opacity,
                   transform: `translate3d(0, 0, ${curve.z}px) rotateX(${curve.angle}deg) scale(${curve.scale}) scaleX(${curve.scaleX})`,
                   transformStyle: "preserve-3d",
@@ -223,7 +222,7 @@ export function ImaxReelWall() {
         {/* Bottom immersive fade */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] sm:h-[39%] md:h-[44%] z-30"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] sm:h-[35%] md:h-[40%] z-30"
           style={{
             background:
               "linear-gradient(0deg, #000 4%, rgba(0,0,0,0.82) 34%, rgba(0,0,0,0.36) 70%, transparent 100%)",
