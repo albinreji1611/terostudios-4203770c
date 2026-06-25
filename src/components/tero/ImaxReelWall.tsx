@@ -158,11 +158,51 @@ export function ImaxReelWall() {
           })}
         </div>
 
-        {/* Bottom immersive fade only */}
+        {/* Top soft glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[28%] z-30"
-          style={{ background: "linear-gradient(0deg, #000 5%, rgba(0,0,0,0.6) 55%, transparent 100%)" }}
+          className="pointer-events-none absolute inset-x-0 top-0 h-[16%] z-30"
+          style={{
+            background:
+              "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%)",
+          }}
+        />
+        {/* Bottom immersive fade */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[32%] z-30"
+          style={{
+            background:
+              "linear-gradient(0deg, #000 5%, rgba(0,0,0,0.65) 55%, transparent 100%)",
+          }}
+        />
+        {/* Center projector bloom */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-30 mix-blend-overlay opacity-40"
+          style={{
+            background:
+              "radial-gradient(60% 45% at 50% 50%, rgba(255,235,200,0.35) 0%, rgba(255,200,140,0.12) 40%, transparent 75%)",
+          }}
+        />
+        {/* Subtle scanlines */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-30 opacity-[0.08] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 3px)",
+          }}
+        />
+        {/* Film grain */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-30 opacity-[0.06] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
+            backgroundSize: "3px 3px",
+          }}
         />
       </div>
     </section>
