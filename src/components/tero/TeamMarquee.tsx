@@ -4,23 +4,18 @@ import { Reveal } from "./Reveal";
 
 type Person = { name: string; role: string; li?: string };
 
-function DualName({ name }: { name: string }) {
-  const parts = name.trim().split(/\s+/);
-  const first = parts[0];
-  const rest = parts.slice(1).join(" ");
+function OutlineName({ name }: { name: string }) {
+  const first = name.trim().split(/\s+/)[0];
   return (
-    <span className="inline-flex items-baseline gap-3 md:gap-5 whitespace-nowrap">
-      <span className="font-sans-display font-bold uppercase tracking-tight text-ink">
-        {first}
-      </span>
-      {rest && (
-        <span
-          className="italic lowercase text-ink/85"
-          style={{ fontFamily: '"Instrument Serif", "Times New Roman", serif', fontWeight: 400 }}
-        >
-          {rest}
-        </span>
-      )}
+    <span
+      className="font-sans-display font-bold whitespace-nowrap"
+      style={{
+        WebkitTextStroke: "1.5px rgba(255,255,255,0.95)",
+        color: "transparent",
+        letterSpacing: "-0.01em",
+      }}
+    >
+      {first}
     </span>
   );
 }
