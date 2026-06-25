@@ -465,9 +465,9 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
           const dx = screenX - smx;
           const dy = screenY - smy;
           const dist = Math.hypot(dx, dy);
-          const radius = 132;
+          const radius = 80;
           if (dist < radius && dist > 0.1) {
-            const push = Math.pow(1 - dist / radius, 2) * 76;
+            const push = Math.pow(1 - dist / radius, 2) * 28;
             screenX += (dx / dist) * push;
             screenY += (dy / dist) * push;
           }
