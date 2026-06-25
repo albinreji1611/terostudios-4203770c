@@ -124,7 +124,7 @@ export function ImaxReelWall() {
   );
 
   return (
-    <section className="relative w-full bg-black overflow-hidden py-[2vh]">
+    <section className="relative w-full bg-black overflow-hidden">
       {/* Deep perspective stage: rows recede above and below the center like an IMAX screen */}
       <div
         className="relative w-full h-[78vh] sm:h-[88vh] md:h-[96vh] lg:h-[104vh] bg-black overflow-hidden"
@@ -148,7 +148,7 @@ export function ImaxReelWall() {
         />
 
         <div
-          className="absolute inset-x-[-10vw] top-[8%] bottom-[-8%] flex flex-col"
+          className="absolute inset-x-[-10vw] top-0 bottom-[-8%] flex flex-col"
           style={{
             gap: `${GAP}px`,
             transformStyle: "preserve-3d",
