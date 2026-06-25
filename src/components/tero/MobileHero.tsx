@@ -54,7 +54,7 @@ export function MobileHero() {
 
         <h1
           className="mt-6 font-display tracking-[-0.04em] leading-none text-cream/95 select-none"
-          style={{ fontSize: "clamp(5rem, 32vw, 8rem)" }}
+          style={{ fontSize: "clamp(3.5rem, 22vw, 6rem)" }}
         >
           TERO
         </h1>
@@ -95,7 +95,7 @@ export function MobileHero() {
         {rows.map((row, r) => {
           const tiles = [...row, ...row];
           const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
-          const duration = 38 + r * 8;
+          const duration = 20 + r * 4;
           return (
             <div key={r} className="relative w-full overflow-hidden">
               <div
