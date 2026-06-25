@@ -4,17 +4,15 @@ import { Reveal } from "./Reveal";
 
 type Person = { name: string; role: string; li?: string };
 
-function OutlineName({ name, serif }: { name: string; serif?: boolean }) {
+function OutlineName({ name, filled }: { name: string; filled?: boolean }) {
   const first = name.trim().split(/\s+/)[0];
   return (
     <span
-      className={`whitespace-nowrap ${serif ? "italic" : "font-sans-display font-bold"}`}
+      className="font-sans-display font-bold whitespace-nowrap"
       style={{
-        WebkitTextStroke: "1.5px rgba(15,15,15,0.95)",
-        color: "transparent",
-        letterSpacing: serif ? "-0.005em" : "-0.01em",
-        fontFamily: serif ? '"Instrument Serif", "Times New Roman", serif' : undefined,
-        fontWeight: serif ? 400 : undefined,
+        WebkitTextStroke: filled ? "0" : "1.5px rgba(15,15,15,0.95)",
+        color: filled ? "rgba(15,15,15,0.95)" : "transparent",
+        letterSpacing: "-0.01em",
       }}
     >
       {first}
