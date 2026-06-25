@@ -294,9 +294,8 @@ function ProjectCard({
         <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-cream/10 backdrop-blur-md flex items-center justify-center text-cream opacity-0 group-hover:opacity-100 transition-all duration-500">
           ▶
         </div>
-        <div className="absolute bottom-3 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-cream/60">
-          2.39 : 1 · Anamorphic
-        </div>
+
+
       </div>
 
       {layout.size === "wide" ? (
