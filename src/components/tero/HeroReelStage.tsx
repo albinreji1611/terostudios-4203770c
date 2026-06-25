@@ -124,12 +124,7 @@ function useSectionProgress(ref: RefObject<HTMLElement | null>) {
     offset: ["start start", "end end"],
   });
 
-  return useSpring(scrollYProgress, {
-    stiffness: 70,
-    damping: 24,
-    mass: 0.6,
-    restDelta: 0.0005,
-  });
+  return scrollYProgress;
 }
 
 function useResolvedVideoUrl(url: string) {
