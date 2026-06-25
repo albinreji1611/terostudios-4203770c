@@ -380,16 +380,18 @@ function CurvedWallSection() {
     offset: ["start end", "end start"],
   });
   const p = useSpring(scrollYProgress, {
-    stiffness: 60,
-    damping: 26,
-    mass: 0.7,
-    restDelta: 0.0005,
+    stiffness: 55,
+    damping: 28,
+    mass: 0.6,
+    restDelta: 0.0002,
+    restSpeed: 0.0002,
   });
 
-  const wallOpacity = useTransform(p, [0.05, 0.22, 0.82, 0.97], [0, 1, 1, 0]);
-  const wallScale = useTransform(p, [0.05, 0.28, 0.78, 0.97], [1.22, 1.12, 1.12, 1.2]);
-  const wallRotateX = useTransform(p, [0.05, 0.28, 0.78, 0.97], [18, 12, 12, 16]);
-  const wallY = useTransform(p, [0.05, 0.28, 0.78, 0.97], ["6%", "0%", "0%", "-4%"]);
+  // Symmetric in/out keyframes so reversing scroll mirrors forward easing exactly
+  const wallOpacity = useTransform(p, [0.08, 0.26, 0.74, 0.92], [0, 1, 1, 0]);
+  const wallScale = useTransform(p, [0.08, 0.26, 0.74, 0.92], [1.22, 1.12, 1.12, 1.22]);
+  const wallRotateX = useTransform(p, [0.08, 0.26, 0.74, 0.92], [18, 12, 12, 18]);
+  const wallY = useTransform(p, [0.08, 0.26, 0.74, 0.92], ["6%", "0%", "0%", "-6%"]);
 
   const rows = useMemo(
     () =>
