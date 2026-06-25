@@ -119,17 +119,16 @@ export function ImaxReelWall() {
       >
         {/* Inner 3D bend — wall bows toward the viewer */}
         <div
-          className="absolute inset-0 flex flex-col justify-center"
+          className="absolute inset-x-0 flex flex-col"
           style={{
+            top: "-9vh",
+            bottom: "-9vh",
             gap: `${GAP}px`,
             transformStyle: "preserve-3d",
             transform: "rotateX(8deg) scale(1.18)",
             transformOrigin: "50% 50%",
           }}
         >
-
-
-
           {rows.map((tiles, r) => {
             // Alternate direction; vary speeds so rows feel parallax-like
             const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
@@ -137,15 +136,23 @@ export function ImaxReelWall() {
             const duration = durations[r] ?? 60 + r * 6;
 
             const isLast = r === ROWS - 1;
+            const isFirst = r === 0;
             return (
               <div
                 key={r}
                 className="relative w-full overflow-hidden"
                 style={{
                   height: `calc((100% - ${GAP * (ROWS - 1)}px) / ${ROWS})`,
-                  opacity: isLast ? 0.35 : 1,
+                  opacity: isLast ? 0.22 : isFirst ? 0.85 : 1,
+                  maskImage: isLast
+                    ? "linear-gradient(180deg, #000 0%, transparent 90%)"
+                    : undefined,
+                  WebkitMaskImage: isLast
+                    ? "linear-gradient(180deg, #000 0%, transparent 90%)"
+                    : undefined,
                 }}
               >
+
                 <div
                   className="absolute inset-y-0 left-0 flex"
                   style={{
