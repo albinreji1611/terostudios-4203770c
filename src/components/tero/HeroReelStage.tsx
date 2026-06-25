@@ -402,12 +402,12 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
 function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const p = useSectionProgress(sectionRef);
-  const headlineX = useTransform(p, [0, 1], ["10%", "-38%"]);
-  const headlineOpacity = useTransform(p, [0, 0.12, 0.88, 1], [0, 1, 1, 0]);
+  const headlineX = useTransform(p, [0, 1], ["8%", "-32%"]);
+  const headlineOpacity = useTransform(p, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
   const microOpacity = useTransform(p, [0.15, 0.28, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[240vh] bg-black text-cream">
+    <section ref={sectionRef} className="relative h-[200vh] bg-black text-cream">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
