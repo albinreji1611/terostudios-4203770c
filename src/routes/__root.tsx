@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { CinemaTransition } from "@/components/tero/CinemaTransition";
 
 function NotFoundComponent() {
   return (
