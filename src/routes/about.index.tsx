@@ -322,100 +322,22 @@ function AboutPage() {
       {/* 6 — Kinetic band (homepage reuse) */}
       <KineticBand />
 
-      {/* 7 — Founder & CEO */}
-      <section className="container-tero py-24 md:py-32">
-        <Reveal>
-          <p className="overline text-center">— Leadership</p>
-          <h2 className="mt-6 hero-headline text-center text-[clamp(40px,6vw,80px)] leading-[1]">
-            Meet the founder <br />
-            <span className="italic">& CEO.</span>
-          </h2>
-        </Reveal>
+      {/* 7 — Founder & CEO + Team — horizontal name marquee on starfield */}
+      <TeamMarquee
+        eyebrow="— Leadership"
+        title={<>Meet the founder <br /><span className="italic">& CEO.</span></>}
+        people={[
+          { name: "Arvind", role: "Founder & Creative Director" },
+          { name: "Sneha", role: "CEO & Executive Producer" },
+        ]}
+        featured
+      />
+      <TeamMarquee
+        eyebrow="— The team"
+        title={<>Our team of <br /><span className="italic">strategists.</span></>}
+        people={team.map((t) => ({ name: t.name.split(" ")[0], role: t.role }))}
+      />
 
-        <RevealGroup className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {[
-            {
-              name: "Arvind Subramanian",
-              role: "Founder & Creative Director",
-              bio: "Twenty years across film, motion and design. Started Tero after directing brand films for Apple, Nike and Tata.",
-            },
-            {
-              name: "Sneha Pillai",
-              role: "CEO & Executive Producer",
-              bio: "Built Tero's production engine and US presence. Previously led delivery at one of Mumbai's largest VFX houses.",
-            },
-          ].map((p) => (
-            <RevealItem
-              key={p.name}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-parchment bg-card transition-colors hover:border-vermillion/40"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-ink via-ink/90 to-vermillion/30">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.08),transparent_60%)]" />
-                <div className="absolute left-5 top-5 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60">
-                  Portrait · 2026
-                </div>
-              </div>
-              <div className="p-8">
-                <h3 className="font-sans-display text-[24px] font-bold text-ink">{p.name}</h3>
-                <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-vermillion">
-                  {p.role}
-                </p>
-                <p className="mt-5 font-body text-[15px] leading-relaxed text-slate">{p.bio}</p>
-                <a
-                  href="#"
-                  className="mt-6 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink/60 hover:text-vermillion"
-                >
-                  <Linkedin className="h-3.5 w-3.5" /> LinkedIn
-                </a>
-              </div>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </section>
-
-      {/* 8 — Team of Strategists */}
-      <section className="border-y border-parchment bg-card">
-        <div className="container-tero py-24 md:py-32">
-          <Reveal>
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="overline">— The team</p>
-                <h2 className="mt-6 hero-headline text-[clamp(40px,6vw,80px)] leading-[1]">
-                  Our team of <br />
-                  <span className="italic">strategists.</span>
-                </h2>
-              </div>
-              <Link
-                to="/about/team"
-                className="group inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink hover:text-vermillion"
-              >
-                Full team
-                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </Link>
-            </div>
-          </Reveal>
-
-          <RevealGroup className="mt-14 grid grid-cols-2 gap-5 md:grid-cols-4">
-            {team.map((p, i) => (
-              <RevealItem
-                key={p.name}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-parchment bg-cream transition-colors hover:border-vermillion/40"
-              >
-                <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-ink/90 to-vermillion/20">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_30%,rgba(255,255,255,0.1),transparent_60%)]" />
-                  <div className="absolute left-3 top-3 font-mono text-[9px] uppercase tracking-[0.25em] text-cream/60">
-                    0{i + 1}
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-sans-display text-[15px] font-bold text-ink">{p.name}</h3>
-                  <p className="mt-1 font-body text-[12px] text-slate">{p.role}</p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
 
       {/* 9 — Testimonials (homepage reuse) */}
       <Testimonials />
