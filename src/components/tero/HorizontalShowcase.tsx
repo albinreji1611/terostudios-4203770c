@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import pScript from "@/assets/process-script.jpg";
 import pStoryboard from "@/assets/process-storyboard.jpg";
