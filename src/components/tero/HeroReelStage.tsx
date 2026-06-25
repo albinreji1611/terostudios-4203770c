@@ -406,28 +406,28 @@ function CurvedWallSection() {
             }}
           >
             <div
-              className="relative mx-auto overflow-visible"
+              className="relative mx-auto"
               style={{
-                height: cfg.rows * cfg.tileH + (cfg.rows - 1) * cfg.rowGap,
-                transform: `rotateX(${cfg.wallTilt}deg)`,
+                height: cfg.rows * cfg.tileH,
+                transform: `rotateX(${cfg.wallTilt}deg) scale(1.08)`,
+                transformOrigin: "50% 50%",
                 transformStyle: "preserve-3d",
               }}
             >
               {rows.map((rowTiles, r) => {
                 const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
                 const duration = 34 + r * 5;
-                const top = r * (cfg.tileH + cfg.rowGap);
+                const top = r * cfg.tileH;
 
                 return (
                   <div
                     key={r}
-                    className="absolute left-1/2 overflow-visible"
+                    className="absolute left-1/2 overflow-hidden"
                     style={{
                       top,
                       height: cfg.tileH,
                       width: "100%",
                       transform: "translateX(-50%)",
-                      transformStyle: "preserve-3d",
                     }}
                   >
                     <div
