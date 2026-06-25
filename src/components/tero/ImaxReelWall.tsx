@@ -162,10 +162,10 @@ export function ImaxReelWall() {
         }}
       >
         <div
-          className="absolute inset-x-[-9vw] inset-y-0"
+          className="absolute inset-x-[-4vw] inset-y-0"
           style={{
             transformStyle: "preserve-3d",
-            transform: "rotateX(2deg) scale(1.03)",
+            transform: "rotateX(0deg) scale(1.01)",
             transformOrigin: "50% 50%",
           }}
         >
@@ -179,7 +179,8 @@ export function ImaxReelWall() {
                 className="absolute w-full overflow-visible"
                 style={{
                   top: curve.top,
-                  height: "clamp(118px, 19.5vh, 225px)",
+                  height: "20%",
+
                   opacity: curve.opacity,
                   transform: `translate3d(0, 0, ${curve.z}px) rotateX(${curve.angle}deg) scale(${curve.scale}) scaleX(${curve.scaleX})`,
                   transformStyle: "preserve-3d",
