@@ -24,7 +24,7 @@ export function CyclingWord({ onDark }: { onDark: boolean }) {
               onDark ? "text-white" : "text-ink",
             ].join(" ")}
           >
-            <span className="tero-logo-cycle-text text-[15px] md:text-[18px]">{cyclingWords[i]}</span>
+            <span className="tero-logo-cycle-text text-[20px] md:text-[26px]">{cyclingWords[i]}</span>
           </motion.span>
         </AnimatePresence>
       </span>
