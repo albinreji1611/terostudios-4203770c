@@ -24,6 +24,7 @@ const ALL_URLS = [...WELL_KNOWN, ...REST]
   .filter((u): u is string => Boolean(u));
 
 const COLS = 6;
+const MOBILE_COLS = 3;
 // Deterministic per-tile depth offset (px) — gives subtle relief on the floor plane.
 const depthAt = (i: number) => {
   const seq = [10, 36, 4, 58, 22, 44, 14, 30, 8, 64, 26, 50, 18, 40, 6, 54];
@@ -133,8 +134,7 @@ function FloorRows({ rows, ariaHidden = false }: { rows: string[][]; ariaHidden?
       {rows.map((row, ri) => (
         <div
           key={`${ariaHidden ? "c" : "o"}-${ri}`}
-          className="grid"
-          style={{ gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))`, gap: "1.25rem" }}
+          className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-5"
         >
           {row.map((src, ci) => {
             const i = ri * COLS + ci;
@@ -149,7 +149,7 @@ function FloorRows({ rows, ariaHidden = false }: { rows: string[][]; ariaHidden?
 function FloorTile({ src, z, highlight }: { src: string; z: number; highlight: boolean }) {
   return (
     <div
-      className="group relative flex h-[90px] items-center justify-center rounded-sm border border-ink/5 bg-cream/60 p-4 shadow-[0_2px_6px_rgba(26,26,31,0.04)] transition-all duration-700 hover:bg-cream hover:shadow-[0_10px_30px_rgba(26,26,31,0.12)] md:h-[108px]"
+      className="group relative flex h-[110px] items-center justify-center rounded-sm border border-ink/5 bg-cream/60 p-4 shadow-[0_2px_6px_rgba(26,26,31,0.04)] transition-all duration-700 hover:bg-cream hover:shadow-[0_10px_30px_rgba(26,26,31,0.12)] md:h-[108px]"
       style={{
         transform: `translateZ(${z}px)`,
         backdropFilter: "blur(1px)",
@@ -160,7 +160,7 @@ function FloorTile({ src, z, highlight }: { src: string; z: number; highlight: b
         alt="Client logo"
         loading="lazy"
         decoding="async"
-        className="max-h-[64%] max-w-[78%] object-contain opacity-55 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0"
+        className="max-h-[70%] max-w-[82%] object-contain opacity-70 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0 md:max-h-[64%] md:max-w-[78%] md:opacity-55"
       />
       {highlight && (
         <span
