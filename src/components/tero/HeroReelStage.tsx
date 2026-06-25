@@ -702,26 +702,27 @@ function PopOutCard({
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  const start = 0.01 + seed.delay * 0.4;
-  const hit = 0.2 + seed.delay * 0.28;
-  // Hold cards visible across the bulk of the section, only drift slightly
+  const start = seed.delay;
+  const hit = 0.18 + seed.delay * 0.4;
+  const fly = 0.55 + seed.delay * 0.25;
   const restX = seed.popX * popScale;
   const restY = seed.popY * popYScale;
-  const driftX = restX * 1.03;
-  const driftY = restY * 1.02;
+  const flyX = restX * 2.6;
+  const flyY = restY * 2.4;
 
-  const x = useTransform(progress, [start, hit, 0.98, 1], [0, restX, driftX, driftX * 1.04]);
-  const y = useTransform(progress, [start, hit, 0.98, 1], [0, restY, driftY, driftY * 1.03]);
-  const z = useTransform(progress, [start, hit, 0.98, 1], [-820, seed.popZ, seed.popZ + 30, seed.popZ + 70]);
-  const scale = useTransform(progress, [start, hit, 0.98, 1], [0.1, 1, 1.02, 1.06]);
+  const x = useTransform(progress, [start, hit, fly], [0, restX, flyX]);
+  const y = useTransform(progress, [start, hit, fly], [0, restY, flyY]);
+  const z = useTransform(progress, [start, hit, fly], [-820, seed.popZ, seed.popZ + 720]);
+  const scale = useTransform(progress, [start, hit, fly], [0.1, 1, 1.45]);
   const opacity = useTransform(
     progress,
-    [start, start + 0.04, 0.985, 1],
+    [start, start + 0.04, fly - 0.08, fly],
     [0, 1, 1, 0],
   );
-  const rotateX = useTransform(progress, [start, hit, 1], [0, seed.popRotX, seed.popRotX * 1.1]);
-  const rotateY = useTransform(progress, [start, hit, 1], [0, seed.popRotY, seed.popRotY * 1.1]);
-  const rotateZ = useTransform(progress, [start, hit, 1], [0, seed.popRotZ, seed.popRotZ * 1.1]);
+  const rotateX = useTransform(progress, [start, hit, fly], [0, seed.popRotX, seed.popRotX * 1.4]);
+  const rotateY = useTransform(progress, [start, hit, fly], [0, seed.popRotY, seed.popRotY * 1.4]);
+  const rotateZ = useTransform(progress, [start, hit, fly], [0, seed.popRotZ, seed.popRotZ * 1.4]);
+
 
   return (
     <motion.div
