@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageLayout } from "@/components/tero/PageLayout";
 import { Hero } from "@/components/tero/Hero";
+import { ImaxReelWall } from "@/components/tero/ImaxReelWall";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { ServicesScroller } from "@/components/tero/ServicesScroller";
 
@@ -33,6 +34,7 @@ function Index() {
   return (
     <PageLayout>
       <Hero />
+      <ImaxReelWall />
       <LogoStrip />
       <ServicesScroller />
       <KineticBand />
