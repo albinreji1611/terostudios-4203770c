@@ -4,15 +4,17 @@ import { Reveal } from "./Reveal";
 
 type Person = { name: string; role: string; li?: string };
 
-function OutlineName({ name }: { name: string }) {
+function OutlineName({ name, serif }: { name: string; serif?: boolean }) {
   const first = name.trim().split(/\s+/)[0];
   return (
     <span
-      className="font-sans-display font-bold whitespace-nowrap"
+      className={`whitespace-nowrap ${serif ? "italic" : "font-sans-display font-bold"}`}
       style={{
         WebkitTextStroke: "1.5px rgba(15,15,15,0.95)",
         color: "transparent",
-        letterSpacing: "-0.01em",
+        letterSpacing: serif ? "-0.005em" : "-0.01em",
+        fontFamily: serif ? '"Instrument Serif", "Times New Roman", serif' : undefined,
+        fontWeight: serif ? 400 : undefined,
       }}
     >
       {first}
@@ -73,7 +75,7 @@ function MarqueeRow({
           <div key={i} className="flex items-center gap-16 md:gap-28 shrink-0">
             <div className="group flex flex-col items-center text-center">
               <h3 className="leading-[0.9] text-[clamp(64px,11vw,180px)]">
-                <OutlineName name={p.name} />
+                <OutlineName name={p.name} serif={i % 2 === 1} />
               </h3>
               <div className="mt-4 flex items-center gap-3 font-body text-[13px] md:text-[15px] text-ink/80">
                 <span>{p.role}</span>
