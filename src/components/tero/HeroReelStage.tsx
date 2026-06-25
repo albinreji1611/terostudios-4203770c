@@ -520,7 +520,9 @@ function PopOutCard({
   seed: CardSeed;
   progress: MotionValue<number>;
 }) {
-  const poster = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
+  const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
+  const thumb = useVideoThumbnail(seed.url);
+  const poster = thumb || fallback;
   const start = 0.04 + seed.delay;
   const hit = 0.35 + seed.delay * 0.35;
   const hold = 0.8;
