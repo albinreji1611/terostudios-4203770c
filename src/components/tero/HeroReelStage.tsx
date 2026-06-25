@@ -750,29 +750,31 @@ function SnakeCard({
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  const shift = (seed.id / CARD_COUNT) * 0.34;
-  const enterAt = 0.02 + shift;
-  const midAt = 0.36 + shift * 0.45;
-  const exitAt = 0.74 + shift * 0.25;
+  // Stagger across the full scroll: each card travels left→right over a ~0.55 window
+  const span = 0.55;
+  const startOffset = (seed.id / (CARD_COUNT - 1)) * (1 - span); // 0 → 0.45
+  const enterAt = startOffset;
+  const midAt = startOffset + span * 0.5;
+  const exitAt = startOffset + span;
 
   const x = useTransform(
     progress,
     [enterAt, midAt, exitAt],
-    [-980, seed.id % 2 === 0 ? 40 : -60, 980],
+    [-820, seed.id % 2 === 0 ? 30 : -50, 820],
   );
   const y = useTransform(
     progress,
     [enterAt, midAt, exitAt],
-    [seed.snakeY - 180, seed.snakeY, seed.snakeY + 120],
+    [seed.snakeY - 160, seed.snakeY, seed.snakeY + 110],
   );
-  const z = useTransform(progress, [enterAt, midAt, exitAt], [-240, 150, -180]);
+  const z = useTransform(progress, [enterAt, midAt, exitAt], [-220, 140, -180]);
   const opacity = useTransform(
     progress,
-    [enterAt - 0.03, enterAt + 0.04, exitAt - 0.08, exitAt],
+    [enterAt - 0.02, enterAt + 0.04, exitAt - 0.06, exitAt],
     [0, 1, 1, 0],
   );
-  const rotateZ = useTransform(progress, [enterAt, midAt, exitAt], [-18, seed.snakeRot, 16]);
-  const rotateY = useTransform(progress, [enterAt, midAt, exitAt], [-30, 0, 28]);
+  const rotateZ = useTransform(progress, [enterAt, midAt, exitAt], [-16, seed.snakeRot, 14]);
+  const rotateY = useTransform(progress, [enterAt, midAt, exitAt], [-28, 0, 26]);
 
   return (
     <motion.div
