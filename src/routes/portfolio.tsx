@@ -51,17 +51,17 @@ function PortfolioPage() {
       <div className="-mt-[68px] pt-[68px] w-full min-h-screen bg-ink text-cream selection:bg-cream/20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-20 md:py-28">
           {/* ───────── Header & Filter Navigation ───────── */}
-          <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-20 md:mb-28 border-b border-cream/10 pb-12 md:pb-16">
-            <div>
+          <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 md:gap-12 mb-16 md:mb-28 border-b border-cream/10 pb-10 md:pb-16">
+            <div className="min-w-0 w-full">
               <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/40 mb-6">
                 Portfolio / Index 2024
               </p>
-              <h1 className="font-display text-[clamp(4rem,11vw,11rem)] leading-[0.82] font-extrabold uppercase tracking-tighter">
+              <h1 className="font-display text-[clamp(3rem,15vw,11rem)] leading-[0.82] font-extrabold uppercase tracking-tighter break-words">
                 Selected<br />Works<span className="text-cream/20">.</span>
               </h1>
             </div>
 
-            <nav className="grid grid-cols-2 gap-x-10 md:gap-x-14 gap-y-6 font-mono text-[11px] uppercase tracking-[0.18em]">
+            <nav className="grid grid-cols-2 gap-x-6 sm:gap-x-10 md:gap-x-14 gap-y-6 font-mono text-[11px] uppercase tracking-[0.18em] w-full md:w-auto">
               <FilterColumn
                 label="By Service"
                 options={services}

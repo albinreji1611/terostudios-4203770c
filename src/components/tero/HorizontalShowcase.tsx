@@ -40,14 +40,44 @@ export function HorizontalShowcase() {
   });
 
   return (
-    <section
-      ref={ref}
-      className="relative mt-24 md:mt-40"
-      style={{
-        height: `${cards.length * 65}vh`,
-        background: "linear-gradient(180deg, #cfdce6 0%, #d9e4ec 50%, #c9d8e3 100%)",
-      }}
-    >
+    <>
+      {/* Mobile: simple vertical stack — no sticky scroll-jack */}
+      <section
+        className="md:hidden relative px-6 py-20"
+        style={{ background: "linear-gradient(180deg, #cfdce6 0%, #d9e4ec 50%, #c9d8e3 100%)" }}
+      >
+        <div className="flex flex-col items-center gap-2 mb-10">
+          <span className="font-mono text-[11px] uppercase tracking-[0.32em] text-ink/55">
+            From brief to launch
+          </span>
+          <h2 className="font-display text-[24px] leading-none text-ink">Our Process</h2>
+        </div>
+        <div className="grid grid-cols-1 gap-8">
+          {cards.map((c, i) => (
+            <div key={i} className="relative w-full aspect-[3/4] overflow-hidden rounded-[2px] shadow-[0_20px_50px_-20px_rgba(20,30,50,0.45)] bg-ink">
+              <img src={c.img} alt={c.title} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+              <div className="absolute inset-x-0 top-0 p-5 text-center">
+                <h3 className="font-display text-white text-[32px] leading-[0.95] drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+                  {c.title}
+                </h3>
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/90">
+                  {c.subtitle}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Desktop/tablet: sticky horizontal scroll */}
+      <section
+        ref={ref}
+        className="hidden md:block relative mt-24 md:mt-40"
+        style={{
+          height: `${cards.length * 65}vh`,
+          background: "linear-gradient(180deg, #cfdce6 0%, #d9e4ec 50%, #c9d8e3 100%)",
+        }}
+      >
       <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
         {/* Top bar — section label, offset below the fixed nav */}
         <div className="absolute inset-x-0 top-[88px] md:top-[96px] z-20 flex flex-col items-center gap-2 px-8 md:px-12">
@@ -124,5 +154,6 @@ export function HorizontalShowcase() {
         </div>
       </div>
     </section>
+    </>
   );
 }
