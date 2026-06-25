@@ -232,6 +232,14 @@
   from { transform: translateX(-50%); }
   to { transform: translateX(0); }
 }
+@keyframes tero-row-drift-left {
+  from { transform: translateX(1.8vw); }
+  to { transform: translateX(-1.8vw); }
+}
+@keyframes tero-row-drift-right {
+  from { transform: translateX(-1.8vw); }
+  to { transform: translateX(1.8vw); }
+}
 
 /* Slow vertical drift for logo grid */
 @keyframes tero-drift-up {
