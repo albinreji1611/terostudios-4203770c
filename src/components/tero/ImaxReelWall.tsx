@@ -140,7 +140,7 @@ export function ImaxReelWall() {
         {/* Concave screen silhouette and depth shadow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-[-8%] top-[-7%] z-20 h-[12%] rounded-[0_0_50%_50%] bg-black/80"
+          className="pointer-events-none absolute inset-x-[-8%] top-[-8%] z-20 h-[9%] rounded-[0_0_50%_50%] bg-black/70"
         />
         <div
           aria-hidden
@@ -148,7 +148,7 @@ export function ImaxReelWall() {
         />
 
         <div
-          className="absolute inset-x-[-10vw] top-[4%] bottom-[-4%] flex flex-col"
+          className="absolute inset-x-[-10vw] top-[8%] bottom-[-8%] flex flex-col"
           style={{
             gap: `${GAP}px`,
             transformStyle: "preserve-3d",
