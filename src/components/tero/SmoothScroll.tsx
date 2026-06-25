@@ -4,9 +4,8 @@ export function SmoothScroll() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    // Disable smooth scroll on touch / small viewports — native momentum is better and lighter.
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    if (window.innerWidth < 1024) return;
+    // Disable smooth scroll on mobile only — desktop/tablet keep Lenis.
+    if (window.innerWidth < 768) return;
 
     let raf = 0;
     let destroy: (() => void) | undefined;
