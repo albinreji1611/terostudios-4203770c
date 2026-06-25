@@ -13,14 +13,14 @@ const FALLBACKS = [portfolio1, portfolio2, portfolio3, portfolio4, portfolio5, p
 
 const ROWS = 5;
 const TILES_PER_ROW = 8;
-const GAP = 12;
+const GAP = -28;
 
 const ROW_CURVE = [
   { angle: -16, z: -115, scale: 0.95, y: 18, opacity: 0.95 },
   { angle: -7, z: -34, scale: 1.01, y: 6, opacity: 1 },
   { angle: 0, z: 105, scale: 1.09, y: 0, opacity: 1 },
   { angle: 8, z: -38, scale: 1.01, y: -6, opacity: 0.96 },
-  { angle: 18, z: -170, scale: 0.95, y: -16, opacity: 0.34 },
+  { angle: 18, z: -170, scale: 0.95, y: -16, opacity: 0.18 },
 ];
 
 function getTileCurve(index: number) {
@@ -124,7 +124,7 @@ export function ImaxReelWall() {
   );
 
   return (
-    <section className="relative w-full bg-black overflow-hidden py-[2vh]">
+    <section className="relative w-full bg-black overflow-hidden">
       {/* Deep perspective stage: rows recede above and below the center like an IMAX screen */}
       <div
         className="relative w-full h-[78vh] sm:h-[88vh] md:h-[96vh] lg:h-[104vh] bg-black overflow-hidden"
@@ -148,7 +148,7 @@ export function ImaxReelWall() {
         />
 
         <div
-          className="absolute inset-x-[-10vw] top-[8%] bottom-[-8%] flex flex-col"
+          className="absolute inset-x-[-10vw] top-0 bottom-[-8%] flex flex-col"
           style={{
             gap: `${GAP}px`,
             transformStyle: "preserve-3d",
