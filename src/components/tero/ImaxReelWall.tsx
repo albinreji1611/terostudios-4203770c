@@ -13,14 +13,14 @@ const FALLBACKS = [portfolio1, portfolio2, portfolio3, portfolio4, portfolio5, p
 
 const ROWS = 5;
 const TILES_PER_ROW = 8;
-const GAP = -28;
+const GAP = -42;
 
 const ROW_CURVE = [
-  { angle: -16, z: -115, scale: 0.95, y: 18, opacity: 0.95 },
-  { angle: -7, z: -34, scale: 1.01, y: 6, opacity: 1 },
-  { angle: 0, z: 105, scale: 1.09, y: 0, opacity: 1 },
-  { angle: 8, z: -38, scale: 1.01, y: -6, opacity: 0.96 },
-  { angle: 18, z: -170, scale: 0.95, y: -16, opacity: 0.18 },
+  { angle: -14, z: -90, scale: 0.97, y: 10, opacity: 0.98 },
+  { angle: -6, z: -22, scale: 1.02, y: 4, opacity: 1 },
+  { angle: 0, z: 120, scale: 1.1, y: 0, opacity: 1 },
+  { angle: 7, z: -28, scale: 1.02, y: -4, opacity: 0.92 },
+  { angle: 16, z: -160, scale: 0.96, y: -10, opacity: 0.16 },
 ];
 
 function getTileCurve(index: number) {
