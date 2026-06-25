@@ -351,13 +351,13 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
   const p = useSectionProgress(sectionRef);
   const popScale = Math.min(1, Math.max(0.58, width / 1440));
   const popYScale = Math.min(1, Math.max(0.62, height / 900));
-  const titleScale = useTransform(p, [0, 0.5, 1], [1, 1.06, 1.18]);
-  const titleOpacity = useTransform(p, [0, 0.08, 0.88, 1], [1, 0.55, 0.45, 0.25]);
-  const captionOpacity = useTransform(p, [0.25, 0.4, 0.85, 1], [0, 1, 1, 0]);
+  const titleScale = useTransform(p, [0, 0.55, 1], [1, 1.05, 1.14]);
+  const titleOpacity = useTransform(p, [0, 0.08, 0.92, 1], [1, 0.68, 0.52, 0.25]);
+  const captionOpacity = useTransform(p, [0.2, 0.34, 0.9, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[360vh] bg-black text-cream">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+    <section ref={sectionRef} data-hero-section="pop" className="relative h-[560vh] lg:h-[540vh] xl:h-[520vh] bg-black text-cream">
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
 
@@ -420,13 +420,13 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
   const { width } = useViewportMetrics();
   const p = useSectionProgress(sectionRef);
   const snakeTravel = Math.min(820, Math.max(560, width * 0.62));
-  const headlineX = useTransform(p, [0, 1], ["8%", "-32%"]);
-  const headlineOpacity = useTransform(p, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
-  const microOpacity = useTransform(p, [0.15, 0.28, 0.8, 1], [0, 1, 1, 0]);
+  const headlineX = useTransform(p, [0, 1], ["8%", "-24%"]);
+  const headlineOpacity = useTransform(p, [0, 0.08, 0.92, 1], [0, 1, 1, 0]);
+  const microOpacity = useTransform(p, [0.12, 0.24, 0.84, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative h-[300vh] bg-black text-cream">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+    <section ref={sectionRef} data-hero-section="snake" className="relative h-[500vh] lg:h-[480vh] xl:h-[460vh] bg-black text-cream">
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
         <Backdrop />
         <TopChrome />
 
@@ -521,9 +521,9 @@ function CurvedWallSection() {
   );
 
   return (
-    <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[220vh] bg-black text-cream">
+    <section ref={sectionRef} data-hero-section="wall" data-hide-site-nav="true" className="relative h-[220vh] bg-black text-cream">
       <div
-        className="sticky top-0 h-screen w-full overflow-hidden bg-black"
+        className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-black"
         style={{ perspective: "1200px" }}
       >
         <motion.div
