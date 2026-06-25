@@ -6,7 +6,7 @@ const pending = new Map<string, Promise<string | null>>();
 
 // Try multiple timestamps (as fraction of duration). If a frame is mostly black
 // (i.e. video hasn't faded in yet, or it's a black title card) we skip ahead.
-const SEEK_FRACTIONS = [0.18, 0.35, 0.55, 0.72, 0.05];
+const SEEK_FRACTIONS = [0.25, 0.4, 0.55, 0.7, 0.85, 0.15, 0.5, 0.33];
 
 function isFrameUsable(ctx: CanvasRenderingContext2D, w: number, h: number): boolean {
   try {
@@ -14,6 +14,7 @@ function isFrameUsable(ctx: CanvasRenderingContext2D, w: number, h: number): boo
     let bright = 0;
     let varSum = 0;
     let prev = 0;
+    let darkPixels = 0;
     const step = 4 * 8; // sample every 8th pixel
     let count = 0;
     for (let i = 0; i < data.length; i += step) {
@@ -21,17 +22,20 @@ function isFrameUsable(ctx: CanvasRenderingContext2D, w: number, h: number): boo
       bright += lum;
       varSum += Math.abs(lum - prev);
       prev = lum;
+      if (lum < 18) darkPixels++;
       count++;
     }
     const avg = bright / count;
     const variance = varSum / count;
-    // Reject very dark or very flat frames (likely black/fade frame)
-    return avg > 22 && variance > 6;
+    const darkRatio = darkPixels / count;
+    // Reject dark, flat, or mostly-black frames
+    return avg > 45 && variance > 12 && darkRatio < 0.55;
   } catch {
     // CORS-tainted canvas: assume usable, we can't inspect
     return true;
   }
 }
+
 
 function capture(url: string): Promise<string | null> {
   if (cache.has(url)) return Promise.resolve(cache.get(url)!);
