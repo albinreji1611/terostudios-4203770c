@@ -344,7 +344,7 @@ function SnakeSection({ seeds }: { seeds: CardSeed[] }) {
 function CurvedWallSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const ROWS = 4;
-  const TILES_PER_ROW = 10;
+  const TILES_PER_ROW = 6;
   const CARD_W = 320;
   const GAP = 8;
 
