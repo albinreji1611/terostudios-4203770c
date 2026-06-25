@@ -200,8 +200,8 @@ const ease = (n: number) => {
 };
 
 const ramp = (from: number, to: number, value: number) => ease((value - from) / (to - from));
-// Tighter window: scatter longer at edges, snap and hold the formed icon across the middle.
-const motionWindow = (value: number) => ramp(0.22, 0.44, value) * (1 - ramp(0.6, 0.82, value));
+// Longer readable window: form earlier and hold the completed icon much longer.
+const motionWindow = (value: number) => ramp(0.12, 0.34, value) * (1 - ramp(0.7, 0.94, value));
 
 type Point = { x: number; y: number };
 
@@ -773,7 +773,7 @@ export function ServicesScroller() {
             <article
               key={service.n}
               data-service-index={i}
-              className="grid min-h-[170vh] items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
+              className="grid min-h-[240vh] items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
             >
               <div className={textLeft ? "md:order-1" : "md:order-2 md:text-right"}>
                 <div
