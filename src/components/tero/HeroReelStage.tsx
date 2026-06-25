@@ -151,9 +151,10 @@ function useSectionProgress(ref: RefObject<HTMLElement | null>) {
   });
 
   return useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 26,
-    mass: 0.42,
+    stiffness: 70,
+    damping: 24,
+    mass: 0.6,
+    restDelta: 0.0005,
   });
 }
 
