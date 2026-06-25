@@ -233,20 +233,22 @@ function FeaturedHero({
   );
 }
 
-/* ───────── Asymmetric layout presets ───────── */
+/* ───────── Uniform anamorphic layout ───────── */
 type Layout = {
   col: string;
   offset: string;
-  aspect: string;
   size: "lg" | "md" | "wide";
 };
 
+// All cards share a 2.39:1 cinema aspect; we only vary column width + offset.
+const ANAMORPHIC = "aspect-[2.39/1]";
+
 const LAYOUTS: Layout[] = [
-  { col: "md:col-span-7", offset: "", aspect: "aspect-[4/5]", size: "lg" },
-  { col: "md:col-span-5", offset: "md:mt-40", aspect: "aspect-[3/4]", size: "md" },
-  { col: "md:col-span-12", offset: "", aspect: "aspect-[21/8]", size: "wide" },
-  { col: "md:col-span-5", offset: "", aspect: "aspect-[3/4]", size: "md" },
-  { col: "md:col-span-7", offset: "md:mt-40", aspect: "aspect-[4/5]", size: "lg" },
+  { col: "md:col-span-7", offset: "", size: "lg" },
+  { col: "md:col-span-5", offset: "md:mt-32", size: "md" },
+  { col: "md:col-span-12", offset: "", size: "wide" },
+  { col: "md:col-span-5", offset: "", size: "md" },
+  { col: "md:col-span-7", offset: "md:mt-32", size: "lg" },
 ];
 
 function ProjectCard({
@@ -264,8 +266,8 @@ function ProjectCard({
     layout.size === "wide"
       ? "text-[clamp(40px,7vw,112px)]"
       : layout.size === "lg"
-      ? "text-[clamp(34px,4.4vw,64px)]"
-      : "text-[clamp(28px,3.4vw,48px)]";
+      ? "text-[clamp(32px,4vw,60px)]"
+      : "text-[clamp(26px,3vw,44px)]";
 
   return (
     <motion.article
@@ -277,15 +279,23 @@ function ProjectCard({
       onClick={onOpen}
     >
       <div
-        className={`relative ${layout.aspect} bg-black overflow-hidden rounded-sm ring-1 ring-cream/5 group-hover:ring-cream/25 transition-all duration-700`}
+        className={`relative ${ANAMORPHIC} bg-black overflow-hidden rounded-sm ring-1 ring-cream/5 group-hover:ring-cream/25 transition-all duration-700`}
       >
         <MediaLayer
           url={project.url}
-          className="opacity-70 group-hover:opacity-100 group-hover:scale-[1.04] transition-all duration-1000 ease-out"
+          className="opacity-85 group-hover:opacity-100 scale-x-[1.06] group-hover:scale-x-[1.12] transition-all duration-1000 ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* cinematic letterbox vignette */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[8%] bg-gradient-to-b from-black/80 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[10%] bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-[5%] bg-gradient-to-r from-black/40 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-[5%] bg-gradient-to-l from-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-cream/10 backdrop-blur-md flex items-center justify-center text-cream opacity-0 group-hover:opacity-100 transition-all duration-500">
           ▶
+        </div>
+        <div className="absolute bottom-3 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-cream/60">
+          2.39 : 1 · Anamorphic
         </div>
       </div>
 
@@ -295,9 +305,7 @@ function ProjectCard({
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/40 block mb-3">
               {String(index).padStart(3, "0")} · {project.service} · {project.industry}
             </span>
-            <h3
-              className={`font-display ${titleSize} uppercase font-extrabold leading-[0.9] tracking-tighter`}
-            >
+            <h3 className={`font-display ${titleSize} uppercase font-extrabold leading-[0.9] tracking-tighter`}>
               {project.title}
             </h3>
           </div>
@@ -308,9 +316,7 @@ function ProjectCard({
       ) : (
         <div className="mt-6 md:mt-8">
           <div className="flex justify-between items-baseline mb-2 gap-4">
-            <h3
-              className={`font-display ${titleSize} uppercase font-bold leading-[0.95] tracking-tight`}
-            >
+            <h3 className={`font-display ${titleSize} uppercase font-bold leading-[0.95] tracking-tight`}>
               {project.title}
             </h3>
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/40 shrink-0">
