@@ -707,8 +707,8 @@ function PopOutCard({
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  const start = 0.02 + seed.delay * 0.6;
-  const hit = 0.32 + seed.delay * 0.4;
+  const start = 0.01 + seed.delay * 0.4;
+  const hit = 0.2 + seed.delay * 0.28;
   // Hold cards visible across the bulk of the section, only drift slightly
   const restX = seed.popX * popScale;
   const restY = seed.popY * popYScale;
@@ -775,9 +775,9 @@ function SnakeCard({
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  // Stagger across the full scroll: each card travels left→right over a ~0.55 window
-  const span = 0.55;
-  const startOffset = (seed.id / (CARD_COUNT - 1)) * (1 - span); // 0 → 0.45
+  // Stagger through the middle of a longer sticky section so the snake remains readable.
+  const span = 0.5;
+  const startOffset = 0.12 + (seed.id / (CARD_COUNT - 1)) * 0.28;
   const enterAt = startOffset;
   const midAt = startOffset + span * 0.5;
   const exitAt = startOffset + span;
