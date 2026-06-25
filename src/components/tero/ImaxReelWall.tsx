@@ -11,8 +11,11 @@ import imax3 from "@/assets/imax-reference-style-3.jpg";
 import imax4 from "@/assets/imax-reference-style-4.jpg";
 import imax5 from "@/assets/imax-reference-style-5.jpg";
 import imax6 from "@/assets/imax-reference-style-6.jpg";
+import imax7 from "@/assets/imax-reference-style-7.jpg";
+import imax8 from "@/assets/imax-reference-style-8.jpg";
 
-const FALLBACKS = [imax1, imax2, imax3, imax4, imax5, imax6, reelF, reelB, portfolio3, portfolio6];
+const FALLBACKS = [imax1, imax2, imax3, imax4, imax5, imax6, imax7, imax8, reelF, reelB, portfolio3, portfolio6];
+const GENERATED_FALLBACKS = [imax1, imax2, imax3, imax4, imax5, imax6, imax7, imax8];
 
 const ROWS = 5;
 const TILES_PER_ROW = 7;
@@ -146,7 +149,7 @@ export function ImaxReelWall() {
         return Array.from({ length: TILES_PER_ROW }, (_, c) => {
           const v = videos[(r * 4 + c * 2) % videos.length];
           const fb = FALLBACKS[(r * 2 + c) % FALLBACKS.length];
-          return { url: v.url, fb, generated: [imax1, imax2, imax3, imax4, imax5, imax6].includes(fb) };
+          return { url: v.url, fb, generated: GENERATED_FALLBACKS.includes(fb) };
         });
       }),
     [],
