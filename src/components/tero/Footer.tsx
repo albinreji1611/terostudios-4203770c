@@ -67,7 +67,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="col-span-2 md:col-span-3">
+        <div className="col-span-2 md:col-span-4">
           <p className="overline mb-5 text-cream/50">Services</p>
           <ul className="space-y-2.5">
             {services.slice(0, 8).map((s) => (
@@ -89,7 +89,8 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="col-span-2 md:col-span-3">
+
+        <div className="col-span-2 md:col-span-5">
           <p className="overline mb-5 text-cream/50">Studio</p>
           <ul className="space-y-2.5">
             {[
@@ -102,7 +103,9 @@ export function Footer() {
               { to: "/showreel", label: "Showreel" },
               { to: "/blog", label: "Blog" },
               { to: "/careers", label: "Careers" },
+              { to: "/contact", label: "Contact" },
               { to: "/sitemap", label: "Sitemap" },
+              { to: "/privacy-policy", label: "Privacy" },
             ].map((l) => (
               <li key={l.to}>
                 <Link
@@ -115,59 +118,12 @@ export function Footer() {
             ))}
           </ul>
         </div>
-
-        <div className="col-span-2 md:col-span-3">
-          <p className="overline mb-5 text-cream/50">Get in touch</p>
-          <ul className="space-y-4">
-            <li>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">Email</p>
-              <a href="mailto:info@terostudios.com" className="mt-1 inline-block font-body text-[13px] text-cream/80 hover:text-vermillion transition-colors">
-                info@terostudios.com
-              </a>
-            </li>
-            <li>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">Phone</p>
-              <a href="tel:+919900013988" className="mt-1 inline-block font-body text-[13px] text-cream/80 hover:text-vermillion transition-colors">
-                +91 99000 13988
-              </a>
-            </li>
-            <li>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">WhatsApp</p>
-              <a
-                href="https://wa.me/919900013988"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1 inline-flex items-center gap-1.5 font-body text-[13px] text-cream/80 hover:text-vermillion transition-colors"
-              >
-                Chat with us →
-              </a>
-            </li>
-            <li>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">Studio</p>
-              <p className="mt-1 font-body text-[13px] leading-relaxed text-cream/80">
-                Anna Salai,<br />Chennai, TN 600002
-              </p>
-            </li>
-            <li>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">Hours</p>
-              <p className="mt-1 font-body text-[13px] text-cream/80">Mon – Fri · 10:00–19:00 IST</p>
-            </li>
-          </ul>
-        </div>
       </div>
 
       <div className="border-t border-white/10">
         <div className="container-tero flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
           <p className="font-body text-[14px] text-cream/50">
-            All rights Reserved © Copyright 2026 Tero Studios | Powered by{" "}
-            <a
-              href="https://bigstoneagency.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-cream/70 hover:text-vermillion transition-colors"
-            >
-              BigStone Agency
-            </a>
+            © Copyright 2015-2026 Tero Studios. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-6">
             <Link to="/terms" className="font-body text-[14px] text-cream/50 hover:text-cream transition-colors">

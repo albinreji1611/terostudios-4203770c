@@ -1,3 +1,5 @@
+import { Reveal, RevealGroup, RevealItem } from "./Reveal";
+// White brand logos for dark background
 import bhimaLogo from "@/assets/client-logos-white/bhima.png.asset.json";
 import forumLogo from "@/assets/client-logos-white/forum.png.asset.json";
 import luluLogo from "@/assets/client-logos-white/lulu.png.asset.json";
@@ -11,144 +13,226 @@ type Testimonial = {
   company: string;
   logo: string;
   project: string;
-  accent?: boolean;
 };
 
 const items: Testimonial[] = [
   {
     quote:
-      "For our Vara Mahalakshmi 2025 campaign, Tero Studios crafted an anamorphic video that perfectly merged tradition with innovation.",
+      "For our Vara Mahalakshmi 2025 campaign, Tero Studios crafted an anamorphic video that perfectly merged tradition with innovation, making a strong impact on our audience.",
     name: "Sibi Jacob",
     role: "Brand Manager",
     company: "Bhima Gold",
     logo: bhimaLogo.url,
-    project: "Vara Mahalakshmi",
+    project: "Vara Mahalakshmi · Anamorphic",
   },
   {
     quote:
-      "Fresh ideas, creative execution, and engaging visual experiences that truly connected with our audience — handled with precision.",
+      "Their team brought fresh ideas, creative execution, and engaging visual experiences that truly connected with our audience. From concept to delivery, everything was handled with professionalism and precision.",
     name: "Athira Nampiathiri",
-    role: "Sr. Marketing Manager",
+    role: "Senior Marketing Manager",
     company: "Forum Mall",
     logo: forumLogo.url,
-    project: "Mall Campaign",
+    project: "Mall Experience · Campaign",
   },
   {
     quote:
-      "An exceptional AR broadcast for our Onam celebrations. Creativity and flawless execution gave visitors a truly immersive experience.",
+      "Tero Studios delivered an exceptional AR broadcast for our Onam celebrations. Their creativity and flawless execution gave visitors a truly immersive festive experience.",
     name: "Hari Suhas",
     role: "General Manager",
     company: "Lulu Mall Kochi",
     logo: luluLogo.url,
-    project: "Onam · AR",
-    accent: true,
+    project: "Onam · AR Broadcast",
   },
   {
     quote:
-      "The anamorphic content for IMTEX 2025 and ACMEE 2025 helped us stand out with powerful visuals and high-impact brand presence.",
+      "The anamorphic video content created by Tero Studios for IMTEX 2025 and ACMEE 2025 helped us stand out with powerful visuals and high-impact brand presence.",
     name: "Ravivarman R",
     role: "Marketing Head",
     company: "S&T Engineers",
     logo: stEngLogo.url,
-    project: "IMTEX · ACMEE",
+    project: "IMTEX · ACMEE 2025",
   },
   {
     quote:
-      "Working on the Campa Cola TVC and Mumbai launch was seamless. Their frame-by-frame animation elevated the campaign.",
+      "Working with Tero Studios on the Campa Cola TVC and Mumbai launch video was seamless. Their frame-by-frame animation and creative approach elevated the campaign.",
     name: "Neha Gowda",
     role: "Producer",
     company: "Shot Ready",
     logo: shotLogo.url,
     project: "Campa Cola · TVC",
   },
-  {
-    quote:
-      "End-to-end craft — concept, motion, finish. The kind of studio partner you keep on speed dial for every launch window.",
-    name: "Studio Partner",
-    role: "Creative Director",
-    company: "Tero Collaborator",
-    logo: bhimaLogo.url,
-    project: "Ongoing",
-  },
 ];
 
 export function Testimonials() {
+  const [featured, ...rest] = items;
+
   return (
-    <section
-      data-nav-theme="dark"
-      className="relative overflow-hidden bg-[#101010] text-cream"
-    >
-      <div className="container-tero relative py-10 md:py-14">
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="overline text-vermillion">— Client response</p>
-            <h2 className="mt-3 hero-headline text-[clamp(24px,3.4vw,42px)] leading-[1.02] text-cream">
-              Trusted by brands that move culture.
-            </h2>
+    <section data-nav-theme="dark" className="relative bg-ink text-cream overflow-hidden">
+      {/* Ambient backdrop */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-vermillion/[0.07] blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-[420px] w-[420px] rounded-full bg-cream/[0.04] blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+            backgroundSize: "80px 80px",
+          }}
+        />
+      </div>
+
+      <div className="container-tero relative py-24 md:py-40">
+        {/* Header */}
+        <Reveal>
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="overline text-vermillion">— Portfolio of consensus</p>
+              <h2 className="mt-6 hero-headline text-[clamp(40px,7vw,96px)] text-cream">
+                What clients say <br /> after the lights come up.
+              </h2>
+            </div>
+            <p className="max-w-xs font-body text-[14px] leading-relaxed text-cream/60 md:text-right">
+              Words from the brand, marketing and production leads who shipped the
+              work alongside our studio.
+            </p>
           </div>
-          <p className="max-w-sm font-body text-sm leading-relaxed text-cream/50">
-            Campaign craft, launch visuals and immersive motion systems built with studio precision.
-          </p>
+        </Reveal>
+
+        {/* Featured + grid */}
+        <div className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-12">
+          {/* Featured large card */}
+          <RevealItem className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-8 md:p-12 lg:col-span-7">
+            <div
+              aria-hidden
+              className="absolute -top-10 -right-6 select-none font-display text-[260px] leading-none text-vermillion/15"
+            >
+              &ldquo;
+            </div>
+
+            <div className="relative flex h-full flex-col">
+              <div className="flex items-center justify-between gap-6">
+                <BrandMark logo={featured.logo} company={featured.company} large />
+                <span className="hidden font-sans-display text-[11px] uppercase tracking-[0.2em] text-cream/40 md:inline">
+                  {featured.project}
+                </span>
+              </div>
+
+              <blockquote className="mt-12 font-display text-[clamp(22px,2.4vw,34px)] leading-[1.25] text-cream">
+                &ldquo;{featured.quote}&rdquo;
+              </blockquote>
+
+              <div className="mt-12 flex items-center gap-4 border-t border-white/10 pt-6">
+                <Avatar alt={featured.name} />
+                <div>
+                  <p className="font-sans-display text-[14px] font-bold uppercase tracking-wider text-cream">
+                    {featured.name}
+                  </p>
+                  <p className="mt-0.5 font-body text-[12px] text-cream/60">
+                    {featured.role} · {featured.company}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </RevealItem>
+
+          {/* Stacked small cards */}
+          <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
+            {rest.slice(0, 2).map((q) => (
+              <SmallCard key={q.name} item={q} />
+            ))}
+          </RevealGroup>
         </div>
 
-        <div className="mt-7 grid grid-cols-1 min-[560px]:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          {items.map((item, i) => (
-            <Card key={`${item.name}-${i}`} item={item} index={i} />
+        {/* Remaining row */}
+        <RevealGroup className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+          {rest.slice(2).map((q) => (
+            <SmallCard key={q.name} item={q} />
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   );
 }
 
-
-function Card({ item }: { item: Testimonial; index: number }) {
-  const accent = item.accent;
+function SmallCard({ item }: { item: Testimonial }) {
   return (
-    <article
-      className={[
-        "group relative flex h-full flex-col justify-between",
-        "bg-[#1E1E1E] p-4 md:p-5 min-h-[178px]",
-        "border-l-2 transition-colors duration-300",
-        accent
-          ? "border-[#FF4A1C]/70"
-          : "border-white/5 hover:border-vermillion/50",
-      ].join(" ")}
-    >
+    <RevealItem className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-8 transition-colors duration-500 hover:bg-white/[0.05]">
       <div className="flex items-start justify-between gap-4">
-        <img
-          src={item.logo}
-          alt={`${item.company} logo`}
-          loading="eager"
-          decoding="sync"
-          className="h-6 md:h-7 max-w-[104px] w-auto object-contain object-left opacity-90"
-        />
-        <span
-          className={[
-            "shrink-0 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.14em]",
-            accent
-              ? "bg-[#FF4A1C]/10 text-[#FF4A1C]"
-              : "bg-white/5 text-cream/45",
-          ].join(" ")}
-        >
+        <BrandMark logo={item.logo} company={item.company} />
+        <span className="font-sans-display text-[10px] uppercase tracking-[0.2em] text-cream/40">
           {item.project}
         </span>
       </div>
 
+      <blockquote className="mt-8 font-display text-[clamp(16px,1.4vw,19px)] leading-snug text-cream/90">
+        &ldquo;{item.quote}&rdquo;
+      </blockquote>
 
-        <blockquote className="mt-4 font-display text-[13px] md:text-[14px] leading-[1.45] text-cream/95">
-          &ldquo;{item.quote}&rdquo;
-        </blockquote>
-
-        <div className="mt-4 border-t border-white/10 pt-3">
+      <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-5">
+        <Avatar alt={item.name} small />
+        <div>
           <p className="font-sans-display text-[12px] font-bold uppercase tracking-wider text-cream">
             {item.name}
           </p>
-          <p className="mt-0.5 font-body text-[11px] text-cream/55">
+          <p className="mt-0.5 font-body text-[11px] text-cream/60">
             {item.role} · {item.company}
           </p>
         </div>
-    </article>
+      </div>
 
+      <div className="pointer-events-none absolute inset-x-8 bottom-0 h-px scale-x-0 bg-gradient-to-r from-transparent via-vermillion to-transparent transition-transform duration-500 group-hover:scale-x-100" />
+    </RevealItem>
+  );
+}
+
+function BrandMark({
+  logo,
+  company,
+  large = false,
+}: {
+  logo: string;
+  company: string;
+  large?: boolean;
+}) {
+  return (
+    <div className="flex items-center">
+      <img
+        src={logo}
+        alt={`${company} logo`}
+        loading="lazy"
+        className={`w-auto object-contain ${
+          large ? "h-14 md:h-20" : "h-12 md:h-14"
+        }`}
+      />
+    </div>
+  );
+}
+
+function Avatar({
+  alt,
+  small = false,
+}: {
+  src?: string;
+  alt: string;
+  small?: boolean;
+}) {
+  const initials = alt
+    .split(" ")
+    .map((s) => s[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  return (
+    <div
+      aria-label={`${alt} avatar placeholder`}
+      className={`flex items-center justify-center overflow-hidden rounded-full border border-cream/20 bg-cream/[0.06] font-sans-display uppercase tracking-wider text-cream/70 ${
+        small ? "h-10 w-10 text-[11px]" : "h-14 w-14 text-[14px]"
+      }`}
+    >
+      {initials}
+    </div>
   );
 }

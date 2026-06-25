@@ -14,10 +14,10 @@ const ICONS: string[] = [
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="9" rx="0.6"/><path d="M2.5 13h19l-1 2h-17z"/><path d="M11.4 15v6M12.6 15v6"/><path d="M8 21h8"/><path d="M5 2.5l1.5 1.5M9 2.5l1 1.5M13 2.5l1 1.5M17 2.5l1 1.5"/></svg>`,
   // 2 — Immersive XR Training: VR headset
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4v2h-4z"/><path d="M3 9c0-1 .8-2 2-2h14c1.2 0 2 1 2 2v5c0 1.2-1 2-2 2h-3.5l-1.6-2a2 2 0 0 0-3.8 0L8.5 16H5c-1.2 0-2-.8-2-2z"/><circle cx="8.5" cy="12" r="1.8"/><circle cx="15.5" cy="12" r="1.8"/><path d="M2 18l1 1M22 18l-1 1M3.5 5.5l.8.8M20.5 5.5l-.8.8"/></svg>`,
-  // 3 — PropViz: a clear house with roof, door, window
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/><path d="M9 11h2v2H9zM13 11h2v2h-2z"/></svg>`,
-  // 4 — Event & Immersive Hardware: microphone + speaker
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="2.5" width="4.5" height="9" rx="2.25"/><path d="M3 10.5c0 2.5 1.8 4.5 3.75 4.5s3.75-2 3.75-4.5"/><path d="M6.75 15v3M5 18h3.5"/><rect x="13.5" y="3.5" width="7.5" height="17" rx="1.2"/><circle cx="17.25" cy="8.5" r="1.6"/><circle cx="17.25" cy="15" r="3"/><circle cx="17.25" cy="15" r="1"/></svg>`,
+  // 3 — PropViz: city buildings
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21V10l-5 3v8z"/><path d="M20 21V5l-7-3v19z"/><path d="M13 2v19"/><rect x="15" y="11" width="6" height="10"/><path d="M16.5 13h1M19 13h1M16.5 15.5h1M19 15.5h1M16.5 18h1M19 18h1"/></svg>`,
+  // 4 — Event & Immersive Hardware: holographic cube projector
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l5 2.5v5L12 14 7 11.5v-5z"/><path d="M7 6.5l5 2.5 5-2.5M12 9v5"/><path d="M4 21h16M5 19h14a1 1 0 0 0 0-2H5a1 1 0 0 0 0 2z"/><path d="M3 21l3-4M21 21l-3-4M8 17l1-3M16 17l-1-3M12 17v-3" stroke-dasharray="1.6 1.6"/></svg>`,
   // 5 — AI Content Creation: AI chip
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/><text x="12" y="14.3" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="5.2" fill="black" stroke="none">AI</text><path d="M9 2v3M12 2v3M15 2v3M9 19v3M12 19v3M15 19v3M2 9h3M2 12h3M2 15h3M19 9h3M19 12h3M19 15h3"/><circle cx="12" cy="3" r="0.9" fill="black" stroke="none"/><circle cx="12" cy="21" r="0.9" fill="black" stroke="none"/><circle cx="3" cy="12" r="0.9" fill="black" stroke="none"/><circle cx="21" cy="12" r="0.9" fill="black" stroke="none"/></svg>`,
 ];
@@ -174,14 +174,14 @@ export function GrainMorph({ active }: { active: number }) {
       const t = (now - start) / 1000;
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
-        const bob = Math.sin(t * 0.45 + p.phase) * 1.1;
-        const sway = Math.cos(t * 0.35 + p.phase * 0.7) * 1.0;
+        const bob = Math.sin(t * 0.9 + p.phase) * 2.2;
+        const sway = Math.cos(t * 0.7 + p.phase * 0.7) * 2;
         const tx = p.hx + sway;
         const ty = p.hy + bob;
         const dx = tx - p.x;
         const dy = ty - p.y;
-        p.vx = (p.vx + dx * 0.035) * 0.84;
-        p.vy = (p.vy + dy * 0.035) * 0.84;
+        p.vx = (p.vx + dx * 0.06) * 0.78;
+        p.vy = (p.vy + dy * 0.06) * 0.78;
         p.x += p.vx;
         p.y += p.vy;
         ctx!.beginPath();

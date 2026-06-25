@@ -2,22 +2,6 @@
 @import "tw-animate-css";
 @source "../src";
 
-@font-face {
-  font-family: "Coolvetica Rg Cond";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("./assets/fonts/CoolveticaRgCond.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Tiroski";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("./assets/fonts/Tiroski.woff2") format("woff2");
-}
-
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================
@@ -160,10 +144,10 @@
   }
 
   .tero-logo-cycle-text {
-    font-family: "Coolvetica Rg Cond", "Clash Display", "Anton", "Plus Jakarta Sans", system-ui, sans-serif;
+    font-family: "Clash Display", "Anton", "Plus Jakarta Sans", system-ui, sans-serif;
     font-weight: 700;
     line-height: 1;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.005em;
     text-transform: uppercase;
     display: inline-block;
     -webkit-font-smoothing: antialiased;
@@ -224,14 +208,6 @@
 .animate-marquee-reverse {
   animation: tero-marquee-reverse 14s linear infinite;
 }
-@keyframes tero-row-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-@keyframes tero-row-right {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
-}
 
 /* Slow vertical drift for logo grid */
 @keyframes tero-drift-up {
@@ -248,17 +224,6 @@
 .animate-drift-down {
   animation: tero-drift-down linear infinite;
 }
-
-/* Anamorphic tunnel floor — slow forward drift along the tilted plane */
-@keyframes tero-tunnel-drift {
-  from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
-}
-.animate-tunnel-drift {
-  animation: tero-tunnel-drift 70s linear infinite;
-  will-change: transform;
-}
-
 
 
 /* Vermillion underline link */

@@ -73,109 +73,81 @@ const services = [
 // 4 Event & Immersive Hardware — holographic projector cube with dashed beams
 // 5 AI Content Creation — AI chip with pins
 const ICONS: string[] = [
-  // 0 — Brand Storytelling: monitor bezel (hollow screen) with a play button inside
+  // 0 — Brand Storytelling: TV/monitor + megaphone (kept)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <!-- bezel frame: outer rect minus screen rect -->
-    <path fill-rule="evenodd" d="M8 14 H72 V56 H8 Z M12 18 H68 V52 H12 Z"/>
-    <!-- play triangle centered in screen -->
-    <path d="M34 26 L52 35 L34 44 Z"/>
-    <!-- stand -->
-    <rect x="36" y="56" width="8" height="6"/>
-    <rect x="24" y="62" width="32" height="4" rx="1"/>
+    <path d="M10 20 H54 a2 2 0 0 1 2 2 V46 a2 2 0 0 1 -2 2 H10 a2 2 0 0 1 -2 -2 V22 a2 2 0 0 1 2 -2 Z M12 24 V44 H52 V24 Z" fill-rule="evenodd"/>
+    <rect x="24" y="52" width="16" height="3" rx="1"/>
+    <rect x="28" y="48" width="8" height="6"/>
+    <path d="M22 34 L36 26 L36 42 Z"/>
+    <path d="M52 26 L72 18 L72 50 L52 42 Z"/>
+    <path d="M54 28 V40 L50 38 V30 Z" fill="white"/>
+  </svg>`,
+  // 1 — Anamorphic & DOOH: billboard panel on TWO posts with a ground base
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
+    <rect x="6" y="10" width="68" height="34" rx="2"/>
+    <rect x="10" y="14" width="60" height="26" fill="white"/>
+    <rect x="14" y="18" width="20" height="18" fill="black"/>
+    <rect x="38" y="18" width="28" height="5" fill="black"/>
+    <rect x="38" y="26" width="22" height="4" fill="black"/>
+    <rect x="38" y="32" width="18" height="4" fill="black"/>
+    <rect x="18" y="44" width="4" height="24"/>
+    <rect x="58" y="44" width="4" height="24"/>
+    <rect x="10" y="68" width="60" height="5" rx="1"/>
+    <path d="M6 44 L18 50 L18 46 Z"/>
+    <path d="M74 44 L62 50 L62 46 Z"/>
+  </svg>`,
+  // 2 — Immersive XR Training: front-view VR goggles / headset
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
+    <path d="M14 26 C10 26 7 29 7 33 L7 52 C7 56 10 59 14 59 L24 59 C27 59 29 57 31 55 L34 51 C36 48 44 48 46 51 L49 55 C51 57 53 59 56 59 L66 59 C70 59 73 56 73 52 L73 33 C73 29 70 26 66 26 Z"/>
+    <ellipse cx="23" cy="42" rx="9" ry="7" fill="white"/>
+    <ellipse cx="57" cy="42" rx="9" ry="7" fill="white"/>
+    <circle cx="23" cy="42" r="3" fill="black"/>
+    <circle cx="57" cy="42" r="3" fill="black"/>
+    <rect x="2" y="36" width="6" height="4" rx="1"/>
+    <rect x="72" y="36" width="6" height="4" rx="1"/>
+    <path d="M7 30 C4 28 2 24 4 20" stroke="black" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M73 30 C76 28 78 24 76 20" stroke="black" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`,
 
-  // 1 — Anamorphic / DOOH billboard (unchanged)
+  // 3 — PropViz: house with roof and windows (property visualization)
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <rect x="6" y="10" width="68" height="44" rx="2"/>
-    <rect x="10" y="14" width="60" height="36" fill="white"/>
-    <rect x="14" y="18" width="22" height="14" fill="black"/>
-    <rect x="40" y="18" width="26" height="6" fill="black"/>
-    <rect x="40" y="26" width="20" height="3" fill="black"/>
-    <rect x="14" y="36" width="52" height="3" fill="black"/>
-    <rect x="14" y="42" width="36" height="3" fill="black"/>
-    <rect x="20" y="54" width="6" height="14"/>
-    <rect x="54" y="54" width="6" height="14"/>
-    <rect x="14" y="68" width="52" height="4" rx="1"/>
-  </svg>`,
-
-  // 2 — Immersive XR: VR goggles with side strap tabs (strap reads as going behind the head)
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <!-- visor body with two eye-lens holes punched out -->
-    <path fill-rule="evenodd" d="M14 30 C10 30 7 33 7 37 L7 54 C7 58 10 61 14 61 L24 61 C27 61 29 59 31 57 L34 53 C36 50 44 50 46 53 L49 57 C51 59 53 61 56 61 L66 61 C70 61 73 58 73 54 L73 37 C73 33 70 30 66 30 Z M23 44 m-7 0 a7 5.5 0 1 0 14 0 a7 5.5 0 1 0 -14 0 Z M57 44 m-7 0 a7 5.5 0 1 0 14 0 a7 5.5 0 1 0 -14 0 Z"/>
-    <!-- pupils -->
-    <circle cx="23" cy="44" r="2.6"/>
-    <circle cx="57" cy="44" r="2.6"/>
-    <!-- left strap tab — emerges from temple, angles back/up (toward behind head) -->
-    <path d="M7 38 L2 30 L2 36 L7 44 Z"/>
-    <!-- right strap tab -->
-    <path d="M73 38 L78 30 L78 36 L73 44 Z"/>
-  </svg>`,
-
-
-  // 3 — PropViz: detailed house with roof, chimney, windowpanes, door
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <!-- chimney -->
-    <rect x="56" y="14" width="6" height="14"/>
-    <rect x="55" y="13" width="8" height="3"/>
-    <!-- main silhouette: roof + body -->
     <path d="M40 8 L72 32 L72 36 L66 36 L66 70 L14 70 L14 36 L8 36 L8 32 Z"/>
-    <!-- roof shingle lines -->
-    <path d="M14 32 L66 32" stroke="white" stroke-width="1" fill="none"/>
-    <path d="M20 28 L60 28" stroke="white" stroke-width="1" fill="none"/>
-    <path d="M26 24 L54 24" stroke="white" stroke-width="1" fill="none"/>
-    <!-- windows with cross panes -->
     <g fill="white">
-      <rect x="20" y="40" width="12" height="12"/>
-      <rect x="48" y="40" width="12" height="12"/>
+      <rect x="22" y="42" width="10" height="10"/>
+      <rect x="48" y="42" width="10" height="10"/>
+      <path d="M34 56 H46 V70 H34 Z"/>
     </g>
-    <path d="M26 40 V52 M20 46 H32 M54 40 V52 M48 46 H60" stroke="black" stroke-width="1.2" fill="none"/>
-    <!-- door + step + knob -->
-    <path d="M34 54 H46 V70 H34 Z" fill="white"/>
-    <rect x="34" y="54" width="12" height="2" fill="black"/>
-    <circle cx="43" cy="63" r="1" fill="black"/>
-    <rect x="32" y="68" width="16" height="2" fill="black"/>
+    <rect x="56" y="14" width="6" height="12"/>
   </svg>`,
-  // 4 — Event & Immersive Hardware: microphone on stand + speaker with real driver holes
+  // 4 — Event & Immersive Hardware: stage truss with hanging spotlights, beams, stage
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <!-- microphone capsule -->
-    <rect x="16" y="8" width="14" height="26" rx="7"/>
-    <!-- mic shock mount arc -->
-    <path d="M10 30 a13 13 0 0 0 26 0 h-3 a10 10 0 0 1 -20 0 z"/>
-    <!-- mic stem -->
-    <rect x="21.5" y="42" width="3" height="14"/>
-    <!-- mic base -->
-    <rect x="13" y="56" width="20" height="4" rx="1"/>
-    <rect x="10" y="60" width="26" height="3" rx="1.5"/>
-    <!-- speaker cabinet with tweeter, woofer and bass-port punched out (evenodd) -->
-    <path fill-rule="evenodd" d="
-      M44 10 H74 V68 H44 Z
-      M59 22 m-5 0 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0 Z
-      M59 44 m-10 0 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 Z
-      M52 59 H66 V63 H52 Z
-    "/>
-    <!-- woofer dust cap (solid dot inside the punched hole) -->
-    <circle cx="59" cy="44" r="2.4"/>
-    <!-- tweeter dome (solid dot inside the punched hole) -->
-    <circle cx="59" cy="22" r="1.4"/>
+    <rect x="4" y="8" width="72" height="6"/>
+    <rect x="6" y="14" width="3" height="22"/>
+    <rect x="71" y="14" width="3" height="22"/>
+    <rect x="14" y="14" width="4" height="6"/>
+    <rect x="32" y="14" width="4" height="6"/>
+    <rect x="44" y="14" width="4" height="6"/>
+    <rect x="62" y="14" width="4" height="6"/>
+    <path d="M16 20 L10 44 L22 44 Z" fill-opacity="0.35"/>
+    <path d="M34 20 L28 50 L40 50 Z" fill-opacity="0.35"/>
+    <path d="M46 20 L40 50 L52 50 Z" fill-opacity="0.35"/>
+    <path d="M64 20 L58 44 L70 44 Z" fill-opacity="0.35"/>
+    <circle cx="16" cy="22" r="2.5"/>
+    <circle cx="34" cy="22" r="2.5"/>
+    <circle cx="46" cy="22" r="2.5"/>
+    <circle cx="64" cy="22" r="2.5"/>
+    <rect x="8" y="54" width="64" height="6"/>
+    <rect x="12" y="60" width="4" height="10"/>
+    <rect x="64" y="60" width="4" height="10"/>
+    <rect x="36" y="46" width="8" height="8"/>
   </svg>`,
-  // 5 — AI Content Creation: chip with pins on all four sides and an "AI" cutout
+  // 5 — AI Content Creation: chip with pins on all four sides, "AI" label, fits inside frame
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <!-- chip body with letter holes punched via evenodd.
-         Outer rect = chip. A-outline + I-outline = holes.
-         Inner A-triangle = solid (double-nested, evenodd flips back to fill). -->
-    <path fill-rule="evenodd" d="
-      M22 22 H58 V58 H22 Z
-      M27 47 L31 29 L35 29 L39 47 L35.4 47 L34.6 43 L31.4 43 L30.6 47 Z
-      M31.8 40 H34.2 L33 34 Z
-      M42 29 H48 V32 H46.5 V44 H48 V47 H42 V44 H43.5 V32 H42 Z
-    "/>
-    <!-- pins top -->
+    <rect x="22" y="22" width="36" height="36" rx="4"/>
+    <text x="40" y="49" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="20" fill="white">AI</text>
     <rect x="27" y="14" width="4" height="8"/><rect x="38" y="14" width="4" height="8"/><rect x="49" y="14" width="4" height="8"/>
-    <!-- pins bottom -->
     <rect x="27" y="58" width="4" height="8"/><rect x="38" y="58" width="4" height="8"/><rect x="49" y="58" width="4" height="8"/>
-    <!-- pins left -->
     <rect x="14" y="27" width="8" height="4"/><rect x="14" y="38" width="8" height="4"/><rect x="14" y="49" width="8" height="4"/>
-    <!-- pins right -->
     <rect x="58" y="27" width="8" height="4"/><rect x="58" y="38" width="8" height="4"/><rect x="58" y="49" width="8" height="4"/>
   </svg>`,
 ];
@@ -454,8 +426,8 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       const objectOnRight = active % 2 === 0;
       const easedOsc = (phase: number) => ease((Math.sin(phase) + 1) / 2) * 2 - 1;
       const tumblePhase = t * 0.74 + sectionProgress * 3.65 + active * 0.42;
-      const yaw = easedOsc(tumblePhase) * 0.32 + easedOsc(t * 0.22 + active) * 0.06;
-      const pitch = easedOsc(tumblePhase * 0.78 + active * 0.9) * 0.18;
+      const yaw = easedOsc(tumblePhase) * 0.92 + easedOsc(t * 0.22 + active) * 0.14 + (objectOnRight ? 0.18 : -0.18);
+      const pitch = easedOsc(tumblePhase * 0.78 + active * 0.9) * 0.58;
       const cosY = Math.cos(yaw);
       const sinY = Math.sin(yaw);
       const cosP = Math.cos(pitch);
@@ -493,9 +465,9 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
           const dx = screenX - smx;
           const dy = screenY - smy;
           const dist = Math.hypot(dx, dy);
-          const radius = 80;
+          const radius = 132;
           if (dist < radius && dist > 0.1) {
-            const push = Math.pow(1 - dist / radius, 2) * 28;
+            const push = Math.pow(1 - dist / radius, 2) * 76;
             screenX += (dx / dist) * push;
             screenY += (dy / dist) * push;
           }
@@ -773,7 +745,7 @@ export function ServicesScroller() {
             <article
               key={service.n}
               data-service-index={i}
-              className="grid min-h-[180vh] items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
+              className="grid min-h-screen items-center gap-10 py-[8vh] md:grid-cols-2 md:gap-16"
             >
               <div className={textLeft ? "md:order-1" : "md:order-2 md:text-right"}>
                 <div

@@ -17,8 +17,8 @@ const faqs = [
     a: "Yes — about 30% of our work is white-label production for agencies in the US, UK and India. We&apos;ll deliver under NDA and integrate into your existing creative workflow.",
   },
   {
-    q: "How do you scope and quote a project?",
-    a: "Every project starts with a 30-minute scoping call to understand goals, scope and timeline. We then share a fixed quote and a phased production plan tailored to your brief.",
+    q: "What does pricing look like?",
+    a: "Projects start at around $6,000 for a short motion film and scale up based on scope, duration and animation style. We share a fixed quote after a 30-minute scoping call.",
   },
   {
     q: "Where is the studio based?",
