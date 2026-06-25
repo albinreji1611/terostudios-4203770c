@@ -104,26 +104,31 @@ export function ImaxReelWall() {
 
   return (
     <section className="relative w-full bg-black overflow-hidden">
-      {/* Curved cinema-screen container — barrel curve via border-radius */}
+      {/* Outer mask creates the real concave cinema-screen curve (top + bottom arcs) */}
       <div
-        className="relative w-full h-[78vh] sm:h-[88vh] md:h-[96vh] lg:h-[100vh] overflow-hidden bg-black"
+        className="relative w-full h-[78vh] sm:h-[88vh] md:h-[96vh] lg:h-[104vh] bg-black overflow-hidden"
         style={{
-          borderBottomLeftRadius: "60% 14%",
-          borderBottomRightRadius: "60% 14%",
-          borderTopLeftRadius: "60% 12%",
-          borderTopRightRadius: "60% 12%",
-          perspective: "2000px",
-          perspectiveOrigin: "50% 55%",
+          // Concave top + bottom arcs via SVG ellipse mask — a true curved-screen silhouette
+          WebkitMaskImage:
+            "radial-gradient(140% 100% at 50% 50%, #000 62%, transparent 78%)",
+          maskImage:
+            "radial-gradient(140% 100% at 50% 50%, #000 62%, transparent 78%)",
+          perspective: "1400px",
+          perspectiveOrigin: "50% 50%",
         }}
       >
+        {/* Inner 3D bend — wall bows toward the viewer */}
         <div
           className="absolute inset-0 flex flex-col justify-center"
           style={{
             gap: `${GAP}px`,
             transformStyle: "preserve-3d",
-            transform: "rotateX(5deg) scale(1.08)",
+            transform: "rotateX(8deg) scale(1.18)",
+            transformOrigin: "50% 50%",
           }}
         >
+
+
 
           {rows.map((tiles, r) => {
             // Alternate direction; vary speeds so rows feel parallax-like
