@@ -96,6 +96,18 @@
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Mobile: tighter container padding and tap-friendly defaults */
+  @media (max-width: 640px) {
+    .container-tero {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
   }
 
   ::selection {
