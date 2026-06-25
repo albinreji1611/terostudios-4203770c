@@ -232,19 +232,43 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
           >
             TERO
           </h1>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 pointer-events-auto">
-            <Link
-              to="/portfolio"
-              className="rounded-full bg-cream text-ink px-6 py-3 font-mono text-[11px] uppercase tracking-[0.22em] hover:bg-vermillion hover:text-cream transition-colors"
+        </motion.div>
+
+        <motion.div
+          style={{ opacity: titleOpacity }}
+          className="absolute inset-x-0 z-40 flex flex-col items-center gap-6 pointer-events-none"
+          // Anchor below the TERO wordmark
+          // 58% sits just under the headline on a 100vh sticky stage
+          // and stays clear of the peeking thumbnails.
+          // eslint-disable-next-line react/forbid-dom-props
+        >
+          <div className="w-full flex flex-col items-center gap-6" style={{ marginTop: "calc(50vh + clamp(5rem, 9vw, 9rem))" }}>
+            <div className="flex flex-wrap items-center justify-center gap-3 pointer-events-auto">
+              <Link
+                to="/portfolio"
+                className="rounded-full bg-cream text-ink px-6 py-3 font-mono text-[11px] uppercase tracking-[0.22em] hover:bg-vermillion hover:text-cream transition-colors"
+              >
+                View Showreel
+              </Link>
+              <Link
+                to="/contact"
+                className="rounded-full ring-1 ring-cream/30 text-cream px-6 py-3 font-mono text-[11px] uppercase tracking-[0.22em] hover:bg-cream/10 transition-colors"
+              >
+                Start a Project
+              </Link>
+            </div>
+            <motion.div
+              aria-hidden
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              className="text-cream/60"
             >
-              View Showreel
-            </Link>
-            <Link
-              to="/contact"
-              className="rounded-full ring-1 ring-cream/30 text-cream px-6 py-3 font-mono text-[11px] uppercase tracking-[0.22em] hover:bg-cream/10 transition-colors"
-            >
-              Start a Project
-            </Link>
+              <svg width="22" height="34" viewBox="0 0 22 34" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="1" y="1" width="20" height="32" rx="10" />
+                <path d="M11 8v6" />
+                <path d="M6 22l5 5 5-5" />
+              </svg>
+            </motion.div>
           </div>
         </motion.div>
 
