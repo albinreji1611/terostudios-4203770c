@@ -685,18 +685,26 @@ function PopOutCard({
   const fallback = WALL_FALLBACKS[seed.id % WALL_FALLBACKS.length];
   const thumb = useVideoThumbnail(seed.url);
   const poster = thumb || fallback;
-  const start = 0.04 + seed.delay;
-  const hit = 0.35 + seed.delay * 0.35;
-  const hold = 0.8;
+  const start = 0.02 + seed.delay * 0.6;
+  const hit = 0.32 + seed.delay * 0.4;
+  // Hold cards visible across the bulk of the section, only drift slightly
+  const restX = seed.popX;
+  const restY = seed.popY;
+  const driftX = seed.popX * 1.05;
+  const driftY = seed.popY * 1.04;
 
-  const x = useTransform(progress, [start, hit, hold, 1], [0, seed.popX, seed.popX * 1.08, seed.popX * 1.22]);
-  const y = useTransform(progress, [start, hit, hold, 1], [0, seed.popY, seed.popY * 1.05, seed.popY * 1.16]);
-  const z = useTransform(progress, [start, hit, 1], [-980, seed.popZ, seed.popZ + 160]);
-  const scale = useTransform(progress, [start, hit, 1], [0.08, 1, 1.12]);
-  const opacity = useTransform(progress, [start, start + 0.05, 0.86, 1], [0, 1, 1, 0]);
-  const rotateX = useTransform(progress, [start, hit], [0, seed.popRotX]);
-  const rotateY = useTransform(progress, [start, hit], [0, seed.popRotY]);
-  const rotateZ = useTransform(progress, [start, hit], [0, seed.popRotZ]);
+  const x = useTransform(progress, [start, hit, 0.95, 1], [0, restX, driftX, driftX * 1.25]);
+  const y = useTransform(progress, [start, hit, 0.95, 1], [0, restY, driftY, driftY * 1.18]);
+  const z = useTransform(progress, [start, hit, 0.95, 1], [-820, seed.popZ, seed.popZ + 40, seed.popZ + 180]);
+  const scale = useTransform(progress, [start, hit, 0.95, 1], [0.1, 1, 1.02, 1.15]);
+  const opacity = useTransform(
+    progress,
+    [start, start + 0.04, 0.92, 1],
+    [0, 1, 1, 0],
+  );
+  const rotateX = useTransform(progress, [start, hit, 1], [0, seed.popRotX, seed.popRotX * 1.1]);
+  const rotateY = useTransform(progress, [start, hit, 1], [0, seed.popRotY, seed.popRotY * 1.1]);
+  const rotateZ = useTransform(progress, [start, hit, 1], [0, seed.popRotZ, seed.popRotZ * 1.1]);
 
   return (
     <motion.div
