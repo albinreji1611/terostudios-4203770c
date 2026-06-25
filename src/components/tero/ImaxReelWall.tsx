@@ -12,8 +12,16 @@ import portfolio6 from "@/assets/portfolio-6.jpg";
 const FALLBACKS = [portfolio1, portfolio2, portfolio3, portfolio4, portfolio5, portfolio6];
 
 const ROWS = 5;
-const TILES_PER_ROW = 7;
-const GAP = 10;
+const TILES_PER_ROW = 8;
+const GAP = 12;
+
+const ROW_CURVE = [
+  { angle: -18, z: -155, scale: 0.94, y: 10, opacity: 0.92 },
+  { angle: -8, z: -48, scale: 1.01, y: 2, opacity: 1 },
+  { angle: 0, z: 82, scale: 1.08, y: 0, opacity: 1 },
+  { angle: 9, z: -42, scale: 1.01, y: -2, opacity: 0.96 },
+  { angle: 19, z: -185, scale: 0.95, y: -12, opacity: 0.34 },
+];
 
 function resolveForPlayback(url: string) {
   if (typeof window === "undefined") return resolveAssetUrl(url);
@@ -103,29 +111,35 @@ export function ImaxReelWall() {
   );
 
   return (
-    <section className="relative w-full bg-black overflow-hidden">
-      {/* Outer mask creates the real concave cinema-screen curve (top + bottom arcs) */}
+    <section className="relative w-full bg-black overflow-hidden py-[2vh]">
+      {/* Deep perspective stage: rows recede above and below the center like an IMAX screen */}
       <div
         className="relative w-full h-[78vh] sm:h-[88vh] md:h-[96vh] lg:h-[104vh] bg-black overflow-hidden"
         style={{
-          // Concave top + bottom arcs via SVG ellipse mask — a true curved-screen silhouette
           WebkitMaskImage:
-            "radial-gradient(140% 100% at 50% 50%, #000 62%, transparent 78%)",
+            "linear-gradient(180deg, transparent 0%, #000 5%, #000 68%, rgba(0,0,0,0.72) 82%, transparent 100%)",
           maskImage:
-            "radial-gradient(140% 100% at 50% 50%, #000 62%, transparent 78%)",
-          perspective: "1400px",
+            "linear-gradient(180deg, transparent 0%, #000 5%, #000 68%, rgba(0,0,0,0.72) 82%, transparent 100%)",
+          perspective: "760px",
           perspectiveOrigin: "50% 50%",
         }}
       >
-        {/* Inner 3D bend — wall bows toward the viewer */}
+        {/* Concave screen silhouette and depth shadow */}
         <div
-          className="absolute inset-x-0 flex flex-col"
+          aria-hidden
+          className="pointer-events-none absolute inset-x-[-8%] top-[-12%] z-20 h-[34%] rounded-[0_0_50%_50%] bg-black"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-[-10%] bottom-[-22%] z-20 h-[44%] rounded-[50%_50%_0_0] bg-black/95"
+        />
+
+        <div
+          className="absolute inset-x-[-10vw] top-[4%] bottom-[-4%] flex flex-col"
           style={{
-            top: 0,
-            bottom: 0,
             gap: `${GAP}px`,
             transformStyle: "preserve-3d",
-            transform: "rotateX(6deg) scale(1.08)",
+            transform: "rotateX(0deg) scaleX(1.1)",
             transformOrigin: "50% 50%",
           }}
         >
@@ -136,19 +150,22 @@ export function ImaxReelWall() {
             const duration = durations[r] ?? 60 + r * 6;
 
             const isLast = r === ROWS - 1;
-            const isFirst = r === 0;
+            const curve = ROW_CURVE[r] ?? ROW_CURVE[2];
             return (
               <div
                 key={r}
-                className="relative w-full overflow-hidden"
+                className="relative w-full overflow-visible"
                 style={{
                   height: `calc((100% - ${GAP * (ROWS - 1)}px) / ${ROWS})`,
-                  opacity: isLast ? 0.22 : isFirst ? 0.85 : 1,
+                  opacity: curve.opacity,
+                  transform: `translateY(${curve.y}px) translateZ(${curve.z}px) rotateX(${curve.angle}deg) scale(${curve.scale})`,
+                  transformStyle: "preserve-3d",
+                  transformOrigin: "50% 50%",
                   maskImage: isLast
-                    ? "linear-gradient(180deg, #000 0%, transparent 90%)"
+                    ? "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.6) 52%, transparent 100%)"
                     : undefined,
                   WebkitMaskImage: isLast
-                    ? "linear-gradient(180deg, #000 0%, transparent 90%)"
+                    ? "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.6) 52%, transparent 100%)"
                     : undefined,
                 }}
               >
@@ -159,6 +176,7 @@ export function ImaxReelWall() {
                     gap: `${GAP}px`,
                     animation: `${dir} ${duration}s linear infinite`,
                     willChange: "transform",
+                    transformStyle: "preserve-3d",
                   }}
                 >
                   {tiles.map((t, c) => (
