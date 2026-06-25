@@ -17,29 +17,18 @@ import reelF from "@/assets/reel-placeholder-f.jpg";
 const FALLBACKS = [reelF, reelE, reelB, reelA, reelD, reelC, portfolio1, portfolio2, portfolio3, portfolio4, portfolio5, portfolio6];
 
 const ROWS = 5;
-const TILES_PER_ROW = 9;
-const TILE_GAP = "clamp(8px, 0.7vw, 12px)";
+const TILES_PER_ROW = 14;
+const TILE_GAP = "clamp(6px, 0.6vw, 10px)";
+const ROW_HEIGHT = "clamp(86px, 13.5vh, 165px)";
+const ROW_STEP = "clamp(92px, 14.2vh, 175px)";
 
-const ROW_CURVE = [
-  { top: "0%",    angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 1,    duration: 82 },
-  { top: "20%",   angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 1,    duration: 67 },
-  { top: "40%",   angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 1,    duration: 56 },
-  { top: "60%",   angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 0.95, duration: 74 },
-  { top: "80%",   angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 0.35, duration: 88 },
-];
+const ROW_OPACITY = [1, 1, 1, 0.92, 0.35];
+const ROW_DURATION = [82, 67, 56, 74, 88];
 
-function getTileCurve(index: number) {
-  const position = index % TILES_PER_ROW;
-  const center = (TILES_PER_ROW - 1) / 2;
-  const normalized = (position - center) / center;
-  const edge = Math.abs(normalized);
-
-  return {
-    rotateY: normalized * -10,
-    translateZ: -Math.pow(edge, 1.6) * 70,
-    scale: 1 - edge * 0.02,
-  };
+function getTileCurve(_index: number) {
+  return { rotateY: 0, translateZ: 0, scale: 1 };
 }
+
 
 
 function resolveForPlayback(url: string) {
