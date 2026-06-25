@@ -16,7 +16,6 @@ import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
 import portfolio5 from "@/assets/portfolio-5.jpg";
 import portfolio6 from "@/assets/portfolio-6.jpg";
-import teroWordmark from "@/assets/tero-wordmark.png";
 
 /**
  * Three separate scroll sections:
@@ -227,13 +226,12 @@ function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
           style={{ opacity: titleOpacity, scale: titleScale }}
           className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none"
         >
-          <img
-            src={teroWordmark}
-            alt="Tero"
-            className="select-none w-auto object-contain [filter:brightness(0)_invert(1)]"
-            style={{ height: "clamp(7rem, 18vw, 16rem)" }}
-            draggable={false}
-          />
+          <h1
+            className="tero-logo-cycle-text tracking-[-0.04em] leading-none text-cream/95 select-none"
+            style={{ fontSize: "clamp(7rem, 18vw, 16rem)" }}
+          >
+            TERO
+          </h1>
         </motion.div>
 
         <motion.div
