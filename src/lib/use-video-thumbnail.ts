@@ -6,7 +6,7 @@ const pending = new Map<string, Promise<string | null>>();
 
 // Try multiple timestamps (as fraction of duration). If a frame is mostly black
 // (i.e. video hasn't faded in yet, or it's a black title card) we skip ahead.
-const SEEK_FRACTIONS = [0.25, 0.4, 0.55, 0.7, 0.85, 0.15, 0.5, 0.33];
+const SEEK_FRACTIONS = [0.5, 0.62, 0.45, 0.72, 0.38, 0.82, 0.3, 0.9];
 
 function isFrameUsable(ctx: CanvasRenderingContext2D, w: number, h: number): boolean {
   try {
