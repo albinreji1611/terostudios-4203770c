@@ -15,10 +15,20 @@ export function CyclingWord({ onDark }: { onDark: boolean }) {
         <AnimatePresence mode="wait">
           <motion.span
             key={cyclingWords[i]}
-            initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
-            animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+            initial={{ y: "100%", opacity: 0, filter: "blur(6px)", scale: cyclingWords[i] === "Studio" ? 0.5 : 1 }}
+            animate={{
+              y: "0%",
+              opacity: 1,
+              filter: "blur(0px)",
+              scale: cyclingWords[i] === "Studio" ? [0.5, 1.2, 1] : 1,
+            }}
             exit={{ y: "-100%", opacity: 0, filter: "blur(4px)" }}
-            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            transition={{
+              duration: cyclingWords[i] === "Studio" ? 0.95 : 0.55,
+              ease: [0.16, 1, 0.3, 1],
+              scale: { duration: 1.1, ease: [0.16, 1, 0.3, 1], times: [0, 0.6, 1] },
+            }}
+            style={{ transformOrigin: "left center" }}
             className={[
               "absolute inset-0 flex items-center whitespace-nowrap transition-colors",
               onDark ? "text-white" : "text-ink",
