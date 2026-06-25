@@ -18,14 +18,14 @@ const FALLBACKS = [reelF, reelE, reelB, reelA, reelD, reelC, portfolio1, portfol
 
 const ROWS = 5;
 const TILES_PER_ROW = 9;
-const TILE_GAP = "clamp(10px, 0.85vw, 15px)";
+const TILE_GAP = "clamp(8px, 0.7vw, 12px)";
 
 const ROW_CURVE = [
-  { top: "0%", angle: -10, z: -115, scale: 0.98, scaleX: 1.1, opacity: 0.98, duration: 82 },
-  { top: "16.5%", angle: -4.5, z: -25, scale: 1, scaleX: 1.06, opacity: 1, duration: 67 },
-  { top: "33%", angle: 0, z: 90, scale: 1.02, scaleX: 1.03, opacity: 1, duration: 56 },
-  { top: "49.5%", angle: 5.5, z: -20, scale: 1, scaleX: 1.06, opacity: 0.95, duration: 74 },
-  { top: "66%", angle: 12, z: -150, scale: 0.98, scaleX: 1.12, opacity: 0.22, duration: 88 },
+  { top: "0%",    angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 1,    duration: 82 },
+  { top: "20%",   angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 1,    duration: 67 },
+  { top: "40%",   angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 1,    duration: 56 },
+  { top: "60%",   angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 0.95, duration: 74 },
+  { top: "80%",   angle: 0, z: 0, scale: 1, scaleX: 1, opacity: 0.35, duration: 88 },
 ];
 
 function getTileCurve(index: number) {
@@ -35,11 +35,12 @@ function getTileCurve(index: number) {
   const edge = Math.abs(normalized);
 
   return {
-    rotateY: normalized * -18,
-    translateZ: -Math.pow(edge, 1.35) * 135,
-    scale: 1 - edge * 0.04,
+    rotateY: normalized * -10,
+    translateZ: -Math.pow(edge, 1.6) * 70,
+    scale: 1 - edge * 0.02,
   };
 }
+
 
 function resolveForPlayback(url: string) {
   if (typeof window === "undefined") return resolveAssetUrl(url);
