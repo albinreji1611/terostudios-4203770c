@@ -104,17 +104,24 @@ export function ImaxReelWall() {
 
   return (
     <section className="relative w-full bg-black overflow-hidden">
+      {/* Curved cinema-screen container — barrel curve via border-radius */}
       <div
-        className="relative w-full h-[100vh]"
-        style={{ perspective: "1400px", perspectiveOrigin: "50% 50%" }}
+        className="relative w-full h-[100vh] overflow-hidden bg-black"
+        style={{
+          borderBottomLeftRadius: "50% 14%",
+          borderBottomRightRadius: "50% 14%",
+          borderTopLeftRadius: "50% 8%",
+          borderTopRightRadius: "50% 8%",
+          perspective: "1600px",
+          perspectiveOrigin: "50% 50%",
+        }}
       >
-        {/* Curved wall — rotateY at edges via cylindrical wrap using transform on inner */}
         <div
           className="absolute inset-0 flex flex-col justify-center"
           style={{
             gap: `${GAP}px`,
             transformStyle: "preserve-3d",
-            transform: "rotateX(2deg)",
+            transform: "rotateX(3deg) scale(1.04)",
           }}
         >
           {rows.map((tiles, r) => {
@@ -128,10 +135,6 @@ export function ImaxReelWall() {
                 style={{
                   height: `calc((100% - ${GAP * (ROWS - 1)}px) / ${ROWS})`,
                   opacity: isLast ? 0.35 : 1,
-                  maskImage:
-                    "linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%)",
-                  WebkitMaskImage:
-                    "linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%)",
                 }}
               >
                 <div
@@ -151,33 +154,11 @@ export function ImaxReelWall() {
           })}
         </div>
 
-        {/* Side curve vignettes — simulate IMAX cylindrical curve */}
+        {/* Bottom immersive fade only */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-0 w-[18%] z-30"
-          style={{
-            background:
-              "linear-gradient(90deg, #000 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0.4) 70%, transparent 100%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 w-[18%] z-30"
-          style={{
-            background:
-              "linear-gradient(-90deg, #000 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0.4) 70%, transparent 100%)",
-          }}
-        />
-        {/* Top & bottom fades for cinema feel */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-[12%] z-30"
-          style={{ background: "linear-gradient(180deg, #000 10%, transparent 100%)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[20%] z-30"
-          style={{ background: "linear-gradient(0deg, #000 10%, transparent 100%)" }}
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[28%] z-30"
+          style={{ background: "linear-gradient(0deg, #000 5%, rgba(0,0,0,0.6) 55%, transparent 100%)" }}
         />
       </div>
     </section>
