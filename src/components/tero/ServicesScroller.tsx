@@ -119,27 +119,30 @@ const ICONS: string[] = [
     </g>
     <rect x="56" y="14" width="6" height="12"/>
   </svg>`,
-  // 4 — Event & Immersive Hardware: stage truss with hanging spotlights, beams, stage
+  // 4 — Event & Immersive Hardware: microphone on stand + speaker cabinet
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <rect x="4" y="8" width="72" height="6"/>
-    <rect x="6" y="14" width="3" height="22"/>
-    <rect x="71" y="14" width="3" height="22"/>
-    <rect x="14" y="14" width="4" height="6"/>
-    <rect x="32" y="14" width="4" height="6"/>
-    <rect x="44" y="14" width="4" height="6"/>
-    <rect x="62" y="14" width="4" height="6"/>
-    <path d="M16 20 L10 44 L22 44 Z" fill-opacity="0.35"/>
-    <path d="M34 20 L28 50 L40 50 Z" fill-opacity="0.35"/>
-    <path d="M46 20 L40 50 L52 50 Z" fill-opacity="0.35"/>
-    <path d="M64 20 L58 44 L70 44 Z" fill-opacity="0.35"/>
-    <circle cx="16" cy="22" r="2.5"/>
-    <circle cx="34" cy="22" r="2.5"/>
-    <circle cx="46" cy="22" r="2.5"/>
-    <circle cx="64" cy="22" r="2.5"/>
-    <rect x="8" y="54" width="64" height="6"/>
-    <rect x="12" y="60" width="4" height="10"/>
-    <rect x="64" y="60" width="4" height="10"/>
-    <rect x="36" y="46" width="8" height="8"/>
+    <!-- microphone capsule -->
+    <rect x="16" y="8" width="14" height="26" rx="7"/>
+    <!-- mic shock mount arc -->
+    <path d="M10 30 a13 13 0 0 0 26 0 h-3 a10 10 0 0 1 -20 0 z"/>
+    <!-- mic stem -->
+    <rect x="21.5" y="42" width="3" height="14"/>
+    <!-- mic base -->
+    <rect x="13" y="56" width="20" height="4" rx="1"/>
+    <rect x="10" y="60" width="26" height="3" rx="1.5"/>
+    <!-- speaker cabinet -->
+    <rect x="44" y="10" width="30" height="58" rx="2"/>
+    <!-- speaker inner panel cutout -->
+    <rect x="47" y="13" width="24" height="52" rx="1" fill="white"/>
+    <!-- tweeter -->
+    <circle cx="59" cy="22" r="4" fill="black"/>
+    <circle cx="59" cy="22" r="1.5" fill="white"/>
+    <!-- woofer -->
+    <circle cx="59" cy="46" r="11" fill="black"/>
+    <circle cx="59" cy="46" r="7" fill="white"/>
+    <circle cx="59" cy="46" r="3" fill="black"/>
+    <!-- port -->
+    <rect x="54" y="60" width="10" height="2.5" rx="1" fill="black"/>
   </svg>`,
   // 5 — AI Content Creation: chip with pins on all four sides, "AI" label, fits inside frame
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
