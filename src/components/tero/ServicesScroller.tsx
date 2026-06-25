@@ -181,14 +181,32 @@ const ICONS: string[] = [
     <circle cx="59" cy="61.5" r="0.7" fill="white"/>
     <circle cx="62" cy="61.5" r="0.7" fill="white"/>
   </svg>`,
-  // 5 — AI Content Creation: chip with pins on all four sides, "AI" label, fits inside frame
+  // 5 — AI Content Creation: detailed chip with pins, inner die, traces, corner mark
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="black" stroke="none">
-    <rect x="22" y="22" width="36" height="36" rx="4"/>
-    <text x="40" y="49" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="20" fill="white">AI</text>
-    <rect x="27" y="14" width="4" height="8"/><rect x="38" y="14" width="4" height="8"/><rect x="49" y="14" width="4" height="8"/>
-    <rect x="27" y="58" width="4" height="8"/><rect x="38" y="58" width="4" height="8"/><rect x="49" y="58" width="4" height="8"/>
-    <rect x="14" y="27" width="8" height="4"/><rect x="14" y="38" width="8" height="4"/><rect x="14" y="49" width="8" height="4"/>
-    <rect x="58" y="27" width="8" height="4"/><rect x="58" y="38" width="8" height="4"/><rect x="58" y="49" width="8" height="4"/>
+    <!-- chip body -->
+    <rect x="20" y="20" width="40" height="40" rx="4"/>
+    <!-- inner die / substrate -->
+    <rect x="24" y="24" width="32" height="32" rx="2" fill="white"/>
+    <rect x="27" y="27" width="26" height="26" fill="black"/>
+    <!-- AI label -->
+    <text x="40" y="46" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="14" fill="white">AI</text>
+    <!-- corner orientation dot -->
+    <circle cx="30" cy="30" r="1.4" fill="white"/>
+    <!-- pins top -->
+    <rect x="25" y="12" width="3" height="8"/><rect x="32" y="12" width="3" height="8"/><rect x="39" y="12" width="3" height="8"/><rect x="46" y="12" width="3" height="8"/><rect x="53" y="12" width="3" height="8"/>
+    <!-- pins bottom -->
+    <rect x="25" y="60" width="3" height="8"/><rect x="32" y="60" width="3" height="8"/><rect x="39" y="60" width="3" height="8"/><rect x="46" y="60" width="3" height="8"/><rect x="53" y="60" width="3" height="8"/>
+    <!-- pins left -->
+    <rect x="12" y="25" width="8" height="3"/><rect x="12" y="32" width="8" height="3"/><rect x="12" y="39" width="8" height="3"/><rect x="12" y="46" width="8" height="3"/><rect x="12" y="53" width="8" height="3"/>
+    <!-- pins right -->
+    <rect x="60" y="25" width="8" height="3"/><rect x="60" y="32" width="8" height="3"/><rect x="60" y="39" width="8" height="3"/><rect x="60" y="46" width="8" height="3"/><rect x="60" y="53" width="8" height="3"/>
+    <!-- circuit traces extending from chip edges -->
+    <rect x="6" y="26.5" width="6" height="1" fill="black"/>
+    <rect x="6" y="40" width="6" height="1" fill="black"/>
+    <rect x="6" y="53.5" width="6" height="1" fill="black"/>
+    <rect x="68" y="26.5" width="6" height="1" fill="black"/>
+    <rect x="68" y="40" width="6" height="1" fill="black"/>
+    <rect x="68" y="53.5" width="6" height="1" fill="black"/>
   </svg>`,
 ];
 
