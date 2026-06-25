@@ -122,21 +122,21 @@ export function TeamMarquee({
   const speeds = [0.55, 0.45, 0.65, 0.5];
 
   return (
-    <section className="relative overflow-hidden bg-cream text-ink py-24 md:py-36">
+    <section className="relative overflow-hidden bg-black text-white py-24 md:py-36">
       <div className="container-tero relative z-10">
         <Reveal>
-          <p className="overline">{eyebrow}</p>
-          <h2 className="mt-6 hero-headline text-[clamp(40px,6vw,80px)] leading-[1] text-ink">
+          <p className="overline text-white/60">{eyebrow}</p>
+          <h2 className="mt-6 hero-headline text-[clamp(40px,6vw,80px)] leading-[1] text-white">
             {title}
           </h2>
         </Reveal>
       </div>
 
       <div className="relative z-10 mt-16 md:mt-24">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-32 md:w-64 bg-gradient-to-r from-cream to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-32 md:w-64 bg-gradient-to-l from-cream to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-32 md:w-64 bg-gradient-to-r from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-32 md:w-64 bg-gradient-to-l from-black to-transparent" />
 
-        <div className="flex flex-col gap-2 md:gap-4">
+        <div className="flex flex-col gap-4 md:gap-8">
           {grouped.map((row, i) => (
             <MarqueeRow
               key={i}
@@ -148,5 +148,6 @@ export function TeamMarquee({
         </div>
       </div>
     </section>
+
   );
 }
