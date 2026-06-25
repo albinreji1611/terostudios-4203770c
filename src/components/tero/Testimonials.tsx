@@ -99,24 +99,6 @@ export function Testimonials() {
   );
 }
 
-function Card({ item, index: _index }: { item: Testimonial; index: number }) {
-  const accent = item.accent;
-  return (
-    <article
-      className={[
-        "group relative flex h-full flex-col justify-between",
-        "bg-[#1E1E1E] p-6 md:p-7 min-h-[260px]",
-        "border-l-2 transition-colors duration-300",
-        accent
-          ? "border-[#FF4A1C]/70"
-          : "border-white/5 hover:border-vermillion/50",
-      ].join(" ")}
-    >
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function Card({ item, index }: { item: Testimonial; index: number }) {
   const accent = item.accent;
