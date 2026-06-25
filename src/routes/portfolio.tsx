@@ -31,7 +31,8 @@ const protectedVideoProps = {
 function PortfolioPage() {
   const [svc, setSvc] = useState("All");
   const [ind, setInd] = useState("All");
-  const [active, setActive] = useState<VideoItem | null>(null);
+  const [index, setIndex] = useState(0);
+  const [lightbox, setLightbox] = useState<VideoItem | null>(null);
 
   const filtered = useMemo(
     () =>
@@ -43,111 +44,194 @@ function PortfolioPage() {
     [svc, ind],
   );
 
-  const featured = filtered[0];
-  const rest = filtered.slice(1);
+  useEffect(() => {
+    setIndex(0);
+  }, [svc, ind]);
+
+  const total = filtered.length;
+  const current = filtered[index];
+
+  const go = (dir: 1 | -1) => {
+    if (!total) return;
+    setIndex((i) => (i + dir + total) % total);
+  };
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (lightbox) return;
+      if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft") go(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [total, lightbox]);
 
   return (
     <PageLayout>
-      <div className="-mt-[68px] pt-[68px] w-full min-h-screen bg-ink text-cream selection:bg-cream/20">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-20 md:py-28">
-          {/* ───────── Header & Filter Navigation ───────── */}
-          <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-20 md:mb-28 border-b border-cream/10 pb-12 md:pb-16">
+      <div className="-mt-[68px] pt-[68px] w-full min-h-screen bg-ink text-cream">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-24">
+          {/* Header */}
+          <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 pb-10 md:pb-14 border-b border-cream/10">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/40 mb-6">
-                Portfolio / Index 2024
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/40 mb-5">
+                Client Stories
               </p>
-              <h1 className="font-display text-[clamp(4rem,11vw,11rem)] leading-[0.82] font-extrabold uppercase tracking-tighter">
-                Selected<br />Works<span className="text-cream/20">.</span>
+              <h1 className="font-display text-[clamp(2.6rem,6vw,5.5rem)] leading-[0.95] font-extrabold tracking-tight">
+                Portfolio of <span className="italic font-light text-cream/80">Consensus</span>
               </h1>
             </div>
-
-            <nav className="grid grid-cols-2 gap-x-10 md:gap-x-14 gap-y-6 font-mono text-[11px] uppercase tracking-[0.18em]">
-              <FilterColumn
-                label="By Service"
-                options={services}
-                value={svc}
-                onChange={setSvc}
-              />
-              <FilterColumn
-                label="By Industry"
-                options={industries}
-                value={ind}
-                onChange={setInd}
-              />
-            </nav>
-          </header>
-
-          {/* ───────── Filter summary ───────── */}
-          <div className="mb-14 md:mb-20 flex flex-wrap items-baseline justify-between gap-6">
-            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-cream/40">
-              {filtered.length.toString().padStart(2, "0")} {filtered.length === 1 ? "Project" : "Projects"} · {svc} / {ind}
-            </p>
-            {(svc !== "All" || ind !== "All") && (
-              <button
-                onClick={() => {
-                  setSvc("All");
-                  setInd("All");
-                }}
-                className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/50 hover:text-cream transition border-b border-cream/20 hover:border-cream pb-0.5"
-              >
-                Reset filters
-              </button>
-            )}
-          </div>
-
-          {filtered.length === 0 ? (
-            <div className="py-32 text-center">
-              <p className="font-display text-[clamp(40px,5vw,72px)] text-cream/40">
-                No works under that combination.
+            <div className="text-right">
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/40 mb-2">
+                Series
+              </p>
+              <p className="font-display text-3xl md:text-4xl tabular-nums">
+                <span className="text-cream">{String(index + 1).padStart(3, "0")}</span>
+                <span className="text-cream/30">, {String(total).padStart(3, "0")}</span>
               </p>
             </div>
-          ) : (
-            <>
-              {/* ───────── Featured Hero Project ───────── */}
-              {featured && (
-                <FeaturedHero project={featured} onOpen={() => setActive(featured)} />
-              )}
+          </header>
 
-              {/* ───────── Editorial Asymmetric Grid ───────── */}
-              <div className="mt-20 md:mt-28 grid grid-cols-1 md:grid-cols-12 gap-y-24 md:gap-y-32 md:gap-x-12">
-                {rest.map((p, i) => {
-                  const layout = LAYOUTS[i % LAYOUTS.length];
-                  return (
-                    <ProjectCard
-                      key={p.title + i}
-                      project={p}
-                      index={i + 2}
-                      layout={layout}
-                      onOpen={() => setActive(p)}
-                    />
-                  );
-                })}
+          {/* Filters */}
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 font-mono text-[10px] uppercase tracking-[0.22em]">
+            <FilterRow label="Service" options={services} value={svc} onChange={setSvc} />
+            <span className="text-cream/15">/</span>
+            <FilterRow label="Industry" options={industries} value={ind} onChange={setInd} />
+          </div>
+
+          {/* Slide stage */}
+          {!current ? (
+            <div className="py-40 text-center text-cream/40 font-display text-3xl">
+              No works under this combination.
+            </div>
+          ) : (
+            <section className="relative mt-12 md:mt-16">
+              <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-10 md:gap-16 items-center min-h-[60vh]">
+                {/* Left: video stage */}
+                <div className="relative">
+                  <AnimatePresence mode="wait">
+                    <motion.button
+                      key={current.url}
+                      onClick={() => setLightbox(current)}
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                      className="group relative block w-full aspect-video overflow-hidden rounded-sm ring-1 ring-cream/10 bg-black"
+                    >
+                      <MediaLayer url={current.url} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute bottom-4 right-4 h-12 w-12 rounded-full bg-cream/10 backdrop-blur-md flex items-center justify-center text-cream opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <span className="ml-0.5">▶</span>
+                      </div>
+                    </motion.button>
+                  </AnimatePresence>
+                </div>
+
+                {/* Right: copy */}
+                <div className="relative">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={current.url + "-copy"}
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
+                    >
+                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-vermillion mb-5">
+                        {current.service} · {current.industry}
+                      </p>
+                      <h2 className="font-display text-[clamp(2rem,4.4vw,4rem)] leading-[1.02] font-extrabold tracking-tight">
+                        {current.title}
+                      </h2>
+                      <div className="mt-6 h-px w-16 bg-cream/30" />
+                      <p className="mt-6 font-body text-base md:text-lg text-cream/70 max-w-lg leading-relaxed">
+                        A {current.service.toLowerCase()} project crafted for {current.client},
+                        designed to elevate the {current.industry.toLowerCase()} brand narrative
+                        through cinematic motion and considered visual systems.
+                      </p>
+                      <p className="mt-8 font-sans-display text-lg font-bold tracking-wide">
+                        {current.client}
+                      </p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/45 mt-1">
+                        File {String(index + 1).padStart(2, "0")} of {String(total).padStart(2, "0")}
+                      </p>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               </div>
-            </>
+
+              {/* Controls */}
+              <div className="mt-10 md:mt-14 flex items-center justify-between gap-6">
+                <button
+                  onClick={() => go(-1)}
+                  aria-label="Previous"
+                  className="h-12 w-12 md:h-14 md:w-14 rounded-full border border-cream/25 flex items-center justify-center text-cream hover:bg-cream hover:text-ink transition-colors"
+                >
+                  ←
+                </button>
+
+                <div className="flex items-center gap-3 flex-1 justify-center flex-wrap">
+                  {filtered.slice(0, 12).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setIndex(i)}
+                      aria-label={`Go to slide ${i + 1}`}
+                      className={`h-1.5 transition-all duration-500 rounded-full ${
+                        i === index ? "w-10 bg-vermillion" : "w-2 bg-cream/20 hover:bg-cream/40"
+                      }`}
+                    />
+                  ))}
+                  {total > 12 && (
+                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/40 ml-2">
+                      +{total - 12}
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => go(1)}
+                  aria-label="Next"
+                  className="h-12 w-12 md:h-14 md:w-14 rounded-full border border-cream/25 flex items-center justify-center text-cream hover:bg-cream hover:text-ink transition-colors"
+                >
+                  →
+                </button>
+              </div>
+            </section>
           )}
 
-          {/* ───────── Footer Marquee ───────── */}
-          <footer className="mt-40 md:mt-56 border-t border-cream/10 pt-20 md:pt-28 text-center">
-            <span className="font-mono text-[10px] uppercase tracking-[0.5em] text-cream/30 mb-8 block">
-              End of Selection
+          {/* Also trusted by */}
+          <footer className="mt-28 md:mt-36 border-t border-cream/10 pt-10 flex flex-wrap items-baseline gap-x-10 gap-y-4">
+            <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-cream/40">
+              Also trusted by
             </span>
+            <div className="flex flex-wrap gap-x-8 gap-y-3 font-sans-display text-sm uppercase tracking-[0.25em] text-cream/55">
+              {Array.from(new Set(videos.map((v) => v.client)))
+                .filter((c) => c !== current?.client)
+                .slice(0, 8)
+                .map((c) => (
+                  <span key={c}>{c}</span>
+                ))}
+            </div>
+          </footer>
+
+          {/* CTA */}
+          <div className="mt-24 md:mt-32 border-t border-cream/10 pt-16 text-center">
             <a
               href="/contact"
-              className="inline-block font-display text-[clamp(48px,9vw,144px)] leading-[0.85] font-extrabold uppercase tracking-tighter text-cream hover:text-vermillion transition-colors duration-500"
+              className="inline-block font-display text-[clamp(40px,7vw,108px)] leading-[0.9] font-extrabold tracking-tight hover:text-vermillion transition-colors duration-500"
             >
               Start a Project →
             </a>
-          </footer>
+          </div>
         </div>
       </div>
 
-      <Lightbox project={active} onClose={() => setActive(null)} />
+      <Lightbox project={lightbox} onClose={() => setLightbox(null)} />
     </PageLayout>
   );
 }
 
-/* ───────── Filter column ───────── */
-function FilterColumn({
+function FilterRow({
   label,
   options,
   value,
@@ -159,186 +243,27 @@ function FilterColumn({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="space-y-3">
-      <span className="block text-cream/30">{label}</span>
-      <ul className="flex flex-col gap-1.5">
-        {options.map((o) => {
-          const active = o === value;
-          return (
-            <li key={o}>
-              <button
-                onClick={() => onChange(o)}
-                className={`text-left transition-all ${
-                  active
-                    ? "text-cream"
-                    : "text-cream/40 hover:text-cream/90"
-                }`}
-              >
-                <span className="inline-flex items-center gap-2">
-                  <span
-                    className={`h-px transition-all ${
-                      active ? "w-5 bg-vermillion" : "w-0 bg-cream/0"
-                    }`}
-                  />
-                  {o}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+    <div className="flex items-center gap-3 flex-wrap">
+      <span className="text-cream/30">{label}:</span>
+      {options.map((o) => {
+        const active = o === value;
+        return (
+          <button
+            key={o}
+            onClick={() => onChange(o)}
+            className={`transition-colors ${
+              active ? "text-vermillion" : "text-cream/45 hover:text-cream"
+            }`}
+          >
+            {o}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-/* ───────── Featured hero ───────── */
-function FeaturedHero({
-  project,
-  onOpen,
-}: {
-  project: VideoItem;
-  onOpen: () => void;
-}) {
-  return (
-    <motion.section
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative w-full cursor-pointer"
-      onClick={onOpen}
-    >
-      <div className="relative aspect-[21/9] w-full overflow-hidden rounded-sm ring-1 ring-cream/10 bg-black">
-        <MediaLayer url={project.url} className="opacity-80 group-hover:scale-[1.04] transition-transform duration-[1400ms] ease-out" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent opacity-90" />
-        <div className="absolute inset-x-0 bottom-0 p-6 md:p-14">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="px-2.5 py-1 border border-cream/25 text-[9px] uppercase tracking-[0.25em] bg-black/40 backdrop-blur-sm font-mono">
-              Featured
-            </span>
-            <span className="h-px w-8 bg-cream/30" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/70">
-              {project.client} / {project.service}
-            </span>
-          </div>
-          <h2 className="font-display text-[clamp(48px,9vw,144px)] font-extrabold uppercase leading-[0.85] tracking-tighter">
-            {project.title}
-          </h2>
-        </div>
-        <div className="absolute top-6 right-6 md:top-10 md:right-10 h-14 w-14 md:h-16 md:w-16 rounded-full border border-cream/30 backdrop-blur-md flex items-center justify-center text-cream group-hover:bg-cream group-hover:text-ink transition-all duration-500">
-          <span className="ml-0.5">▶</span>
-        </div>
-      </div>
-    </motion.section>
-  );
-}
-
-/* ───────── Uniform anamorphic layout ───────── */
-type Layout = {
-  col: string;
-  offset: string;
-  size: "lg" | "md" | "wide";
-};
-
-// All cards share a 2.39:1 cinema aspect; we only vary column width + offset.
-const ANAMORPHIC = "aspect-[2.39/1]";
-
-const LAYOUTS: Layout[] = [
-  { col: "md:col-span-7", offset: "", size: "lg" },
-  { col: "md:col-span-5", offset: "md:mt-32", size: "md" },
-  { col: "md:col-span-12", offset: "", size: "wide" },
-  { col: "md:col-span-5", offset: "", size: "md" },
-  { col: "md:col-span-7", offset: "md:mt-32", size: "lg" },
-];
-
-function ProjectCard({
-  project,
-  index,
-  layout,
-  onOpen,
-}: {
-  project: VideoItem;
-  index: number;
-  layout: Layout;
-  onOpen: () => void;
-}) {
-  const titleSize =
-    layout.size === "wide"
-      ? "text-[clamp(40px,7vw,112px)]"
-      : layout.size === "lg"
-      ? "text-[clamp(32px,4vw,60px)]"
-      : "text-[clamp(26px,3vw,44px)]";
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`${layout.col} ${layout.offset} group cursor-pointer`}
-      onClick={onOpen}
-    >
-      <div
-        className={`relative ${ANAMORPHIC} bg-black overflow-hidden rounded-sm ring-1 ring-cream/5 group-hover:ring-cream/25 transition-all duration-700`}
-      >
-        <MediaLayer
-          url={project.url}
-          className="opacity-85 group-hover:opacity-100 scale-x-[1.06] group-hover:scale-x-[1.12] transition-all duration-1000 ease-out"
-        />
-        {/* cinematic letterbox vignette */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-[8%] bg-gradient-to-b from-black/80 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[10%] bg-gradient-to-t from-black/80 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-[5%] bg-gradient-to-r from-black/40 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-[5%] bg-gradient-to-l from-black/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-cream/10 backdrop-blur-md flex items-center justify-center text-cream opacity-0 group-hover:opacity-100 transition-all duration-500">
-          ▶
-        </div>
-
-
-      </div>
-
-      {layout.size === "wide" ? (
-        <div className="mt-8 md:mt-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-          <div className="max-w-3xl">
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/40 block mb-3">
-              {String(index).padStart(3, "0")} · {project.service} · {project.industry}
-            </span>
-            <h3 className={`font-display ${titleSize} uppercase font-extrabold leading-[0.9] tracking-tighter`}>
-              {project.title}
-            </h3>
-          </div>
-          <span className="px-7 py-3 rounded-full border border-cream/20 font-mono text-[10px] uppercase tracking-[0.25em] group-hover:bg-cream group-hover:text-ink transition-all duration-500">
-            Explore Project
-          </span>
-        </div>
-      ) : (
-        <div className="mt-6 md:mt-8">
-          <div className="flex justify-between items-baseline mb-2 gap-4">
-            <h3 className={`font-display ${titleSize} uppercase font-bold leading-[0.95] tracking-tight`}>
-              {project.title}
-            </h3>
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/40 shrink-0">
-              {String(index).padStart(3, "0")} / {project.service.split(" ")[0]}
-            </span>
-          </div>
-          <p className="font-body text-sm text-cream/55 max-w-md leading-relaxed">
-            {project.client} · {project.industry}
-          </p>
-        </div>
-      )}
-    </motion.article>
-  );
-}
-
-/* ───────── Media: thumbnail poster + lazy video ───────── */
-function MediaLayer({
-  url,
-  className = "",
-}: {
-  url: string;
-  className?: string;
-}) {
+function MediaLayer({ url }: { url: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mount, setMount] = useState(false);
@@ -369,7 +294,7 @@ function MediaLayer({
   }, [mount]);
 
   return (
-    <div ref={ref} className={`absolute inset-0 ${className}`}>
+    <div ref={ref} className="absolute inset-0">
       {thumb && (
         <img
           src={thumb}
@@ -398,7 +323,6 @@ function MediaLayer({
   );
 }
 
-/* ───────── Lightbox modal ───────── */
 function Lightbox({
   project,
   onClose,
@@ -406,8 +330,6 @@ function Lightbox({
   project: VideoItem | null;
   onClose: () => void;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   useEffect(() => {
     if (!project) return;
     const onKey = (e: KeyboardEvent) => {
@@ -440,19 +362,6 @@ function Lightbox({
           >
             ✕
           </button>
-
-          <div className="absolute top-6 left-6 text-cream">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-vermillion">
-              {project.service} · {project.industry}
-            </p>
-            <p className="mt-1 font-display text-[18px] md:text-[22px]">
-              {project.title}{" "}
-              <span className="text-cream/50 font-body text-[13px]">
-                — {project.client}
-              </span>
-            </p>
-          </div>
-
           <motion.div
             initial={{ scale: 0.96, y: 12 }}
             animate={{ scale: 1, y: 0 }}
@@ -463,13 +372,11 @@ function Lightbox({
             style={{ aspectRatio: Math.max(0.6, Math.min(2.4, project.aspect)) }}
           >
             <video
-              ref={videoRef}
               src={project.url}
               autoPlay
               controls
               playsInline
               {...protectedVideoProps}
-              onContextMenu={(e) => e.preventDefault()}
               className="absolute inset-0 h-full w-full object-contain select-none"
             />
           </motion.div>
