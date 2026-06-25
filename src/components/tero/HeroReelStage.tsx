@@ -388,20 +388,19 @@ function CurvedWallSection() {
 
   return (
     <section ref={sectionRef} data-hide-site-nav="true" className="relative h-[260vh] bg-black text-cream">
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+      <div
+        className="sticky top-0 h-screen w-full overflow-hidden bg-black"
+        style={{ perspective: "1200px" }}
+      >
         <div
-          className="absolute inset-0"
-          style={{ perspective: "1200px", overflow: "hidden" }}
+          className="absolute inset-0 flex flex-col"
+          style={{
+            gap: `${GAP}px`,
+            transform: "rotateX(12deg) scale(1.12)",
+            transformOrigin: "center center",
+            transformStyle: "preserve-3d",
+          }}
         >
-          <div
-            className="absolute inset-0 flex flex-col"
-            style={{
-              gap: `${GAP}px`,
-              transform: "rotateX(15deg) scale(1.15)",
-              transformOrigin: "50% 50%",
-              transformStyle: "preserve-3d",
-            }}
-          >
             {rows.map((rowTiles, r) => {
               const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
               const duration = 38 + r * 6;
@@ -433,7 +432,8 @@ function CurvedWallSection() {
               );
             })}
           </div>
-        </div>
+
+
 
         <div
           aria-hidden
