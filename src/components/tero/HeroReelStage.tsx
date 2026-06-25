@@ -237,8 +237,8 @@ function TopChrome() {
 function PopOutSection({ seeds }: { seeds: CardSeed[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const p = useSectionProgress(sectionRef);
-  const titleScale = useTransform(p, [0, 0.35, 0.82, 1], [0.82, 1, 1.08, 1.18]);
-  const titleOpacity = useTransform(p, [0, 0.22, 0.82, 1], [0, 1, 1, 0]);
+  const titleScale = useTransform(p, [0, 0.35, 0.82, 1], [1, 1.04, 1.1, 1.2]);
+  const titleOpacity = useTransform(p, [0, 0.82, 1], [1, 1, 0]);
   const captionOpacity = useTransform(p, [0.28, 0.45, 0.82, 1], [0, 1, 1, 0]);
 
   return (
