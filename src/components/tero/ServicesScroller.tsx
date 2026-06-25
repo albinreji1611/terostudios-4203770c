@@ -426,8 +426,8 @@ function ParticleJourney({ hostRef }: { hostRef: React.RefObject<HTMLElement | n
       const objectOnRight = active % 2 === 0;
       const easedOsc = (phase: number) => ease((Math.sin(phase) + 1) / 2) * 2 - 1;
       const tumblePhase = t * 0.74 + sectionProgress * 3.65 + active * 0.42;
-      const yaw = easedOsc(tumblePhase) * 0.92 + easedOsc(t * 0.22 + active) * 0.14 + (objectOnRight ? 0.18 : -0.18);
-      const pitch = easedOsc(tumblePhase * 0.78 + active * 0.9) * 0.58;
+      const yaw = easedOsc(tumblePhase) * 0.32 + easedOsc(t * 0.22 + active) * 0.06;
+      const pitch = easedOsc(tumblePhase * 0.78 + active * 0.9) * 0.18;
       const cosY = Math.cos(yaw);
       const sinY = Math.sin(yaw);
       const cosP = Math.cos(pitch);
