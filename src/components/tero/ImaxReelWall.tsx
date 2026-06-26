@@ -95,18 +95,16 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
       className="relative shrink-0 h-full overflow-hidden rounded-[14px] bg-black ring-1 ring-white/5"
       style={{ aspectRatio: "16 / 9" }}
     >
-      <img
-        src={fallback}
-        alt=""
-        loading="eager"
-        decoding="async"
-        className="absolute inset-0 z-10 h-full w-full object-cover select-none pointer-events-none brightness-[0.9] contrast-[1.08]"
-      />
       {mount && (
         <video
           ref={videoRef}
           src={src}
-          poster={fallback}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onLoadedMetadata={primeVideoFrame}
           autoPlay
           muted
           loop
