@@ -25,7 +25,7 @@ const TILES_PER_ROW = 7;
 const ROW_DURATION = [30, 26, 23, 28, 34];
 
 const ROW_LAYOUT = [
-  { top: "-4%", height: "22%", opacity: 0.88, z: -330, rotateX: -12, scale: 0.9 },
+  { top: "-3.8%", height: "22%", opacity: 0.88, z: -330, rotateX: -12, scale: 0.9 },
   { top: "15.2%", height: "22%", opacity: 1, z: -125, rotateX: -5.8, scale: 0.97 },
   { top: "34.4%", height: "22%", opacity: 1, z: 84, rotateX: 0, scale: 1.045 },
   { top: "53.4%", height: "22%", opacity: 0.86, z: -130, rotateX: 6.6, scale: 0.97 },
