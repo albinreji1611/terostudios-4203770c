@@ -25,7 +25,7 @@ const TILES_PER_ROW = 7;
 const ROW_DURATION = [30, 26, 23, 28, 34];
 
 const ROW_LAYOUT = [
-  { top: "-3.6%", height: "22%", opacity: 0.88, z: -330, rotateX: -12, scale: 0.9 },
+  { top: "-4%", height: "22%", opacity: 0.88, z: -330, rotateX: -12, scale: 0.9 },
   { top: "15.2%", height: "22%", opacity: 1, z: -125, rotateX: -5.8, scale: 0.97 },
   { top: "34.4%", height: "22%", opacity: 1, z: 84, rotateX: 0, scale: 1.045 },
   { top: "53.4%", height: "22%", opacity: 0.86, z: -130, rotateX: 6.6, scale: 0.97 },
@@ -39,11 +39,11 @@ function getTileCurve(index: number) {
   const normalized = (index - center) / center;
   const distance = Math.abs(normalized);
   return {
-    rotateY: normalized * -38,
-    translateZ: -Math.pow(distance, 1.22) * 360,
-    translateY: Math.pow(distance, 1.35) * 18,
-    scale: 1 - distance * 0.18,
-    brightness: 1 - distance * 0.34,
+    rotateY: normalized * -68,
+    translateZ: -Math.pow(distance, 1.22) * 980,
+    translateY: Math.pow(distance, 1.35) * 34,
+    scale: 1 - distance * 0.34,
+    brightness: 1 - distance * 0.58,
   };
 }
 
@@ -253,13 +253,17 @@ export function ImaxReelWall() {
               "radial-gradient(70% 36% at 50% 0%, rgba(255,235,198,0.13) 0%, rgba(255,235,198,0.035) 54%, transparent 100%)",
           }}
         />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-[-16%] bottom-[-31%] z-20 h-[48%] rounded-[55%_55%_0_0] bg-black/92"
+        />
         {/* Bottom immersive fade */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[24%] sm:h-[28%] md:h-[32%] z-30"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[36%] sm:h-[40%] md:h-[44%] z-30"
           style={{
             background:
-              "linear-gradient(0deg, #000 0%, rgba(0,0,0,0.72) 30%, rgba(0,0,0,0.28) 68%, transparent 100%)",
+              "linear-gradient(0deg, #000 0%, rgba(0,0,0,0.86) 28%, rgba(0,0,0,0.46) 66%, transparent 100%)",
           }}
         />
         <div
