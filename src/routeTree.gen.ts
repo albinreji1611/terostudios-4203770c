@@ -27,7 +27,6 @@ import { Route as AboutIndexRouteImport } from './routes/about.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as AboutTeamRouteImport } from './routes/about.team'
 import { Route as AboutStudioRouteImport } from './routes/about.studio'
-import { Route as ApiPublicContactLeadRouteImport } from './routes/api/public/contact-lead'
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
@@ -119,11 +118,6 @@ const AboutStudioRoute = AboutStudioRouteImport.update({
   path: '/studio',
   getParentRoute: () => AboutRoute,
 } as any)
-const ApiPublicContactLeadRoute = ApiPublicContactLeadRouteImport.update({
-  id: '/api/public/contact-lead',
-  path: '/api/public/contact-lead',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -144,7 +138,6 @@ export interface FileRoutesByFullPath {
   '/services/$slug': typeof ServicesSlugRoute
   '/about/': typeof AboutIndexRoute
   '/services/': typeof ServicesIndexRoute
-  '/api/public/contact-lead': typeof ApiPublicContactLeadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -163,7 +156,6 @@ export interface FileRoutesByTo {
   '/services/$slug': typeof ServicesSlugRoute
   '/about': typeof AboutIndexRoute
   '/services': typeof ServicesIndexRoute
-  '/api/public/contact-lead': typeof ApiPublicContactLeadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -185,7 +177,6 @@ export interface FileRoutesById {
   '/services/$slug': typeof ServicesSlugRoute
   '/about/': typeof AboutIndexRoute
   '/services/': typeof ServicesIndexRoute
-  '/api/public/contact-lead': typeof ApiPublicContactLeadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -208,7 +199,6 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/about/'
     | '/services/'
-    | '/api/public/contact-lead'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,7 +217,6 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/about'
     | '/services'
-    | '/api/public/contact-lead'
   id:
     | '__root__'
     | '/'
@@ -248,7 +237,6 @@ export interface FileRouteTypes {
     | '/services/$slug'
     | '/about/'
     | '/services/'
-    | '/api/public/contact-lead'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -265,7 +253,6 @@ export interface RootRouteChildren {
   ShowreelRoute: typeof ShowreelRoute
   SitemapRoute: typeof SitemapRoute
   TeamRoute: typeof TeamRoute
-  ApiPublicContactLeadRoute: typeof ApiPublicContactLeadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -396,13 +383,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutStudioRouteImport
       parentRoute: typeof AboutRoute
     }
-    '/api/public/contact-lead': {
-      id: '/api/public/contact-lead'
-      path: '/api/public/contact-lead'
-      fullPath: '/api/public/contact-lead'
-      preLoaderRoute: typeof ApiPublicContactLeadRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -448,7 +428,6 @@ const rootRouteChildren: RootRouteChildren = {
   ShowreelRoute: ShowreelRoute,
   SitemapRoute: SitemapRoute,
   TeamRoute: TeamRoute,
-  ApiPublicContactLeadRoute: ApiPublicContactLeadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
