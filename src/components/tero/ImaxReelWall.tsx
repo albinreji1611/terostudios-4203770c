@@ -104,8 +104,8 @@ export function ImaxReelWall() {
 
   return (
     <section className="relative w-full bg-black overflow-hidden">
-      <div className="container-tero py-20 md:py-28">
-        <header className="mb-14 md:mb-20 text-center">
+      <div className="container-tero pt-16 md:pt-20 pb-6 md:pb-8">
+        <header className="text-center">
           <div className="mb-4 flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-vermillion/60" />
             <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-vermillion">
