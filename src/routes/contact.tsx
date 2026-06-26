@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PageLayout } from "@/components/tero/PageLayout";
@@ -6,6 +7,7 @@ import { Reveal } from "@/components/tero/Reveal";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { Testimonials } from "@/components/tero/Testimonials";
 import { KineticBand } from "@/components/tero/KineticBand";
+import { submitContactLead } from "@/lib/contact.functions";
 import { ArrowRight, ArrowLeft, Check, Calendar, Mail, MapPin, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
@@ -35,6 +37,7 @@ function ContactPage() {
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const sendLead = useServerFn(submitContactLead);
 
   const canNext = () =>
     (step === 0 && data.service && data.budget) ||
@@ -49,20 +52,13 @@ function ContactPage() {
     setSubmitError("");
 
     try {
-      const response = await fetch("/api/public/contact-lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await sendLead({
+        data: {
           ...data,
           message: data.brief,
           source: "terostudios.com /contact",
-        }),
+        },
       });
-
-      const result = await response.json().catch(() => null);
-      if (!response.ok || result?.ok === false) {
-        throw new Error(result?.error || "Contact form submission failed");
-      }
 
       setDone(true);
     } catch (err) {
