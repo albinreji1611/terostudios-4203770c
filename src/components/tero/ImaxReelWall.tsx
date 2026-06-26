@@ -42,12 +42,11 @@ function resolveForPlayback(url: string) {
     : resolved;
 }
 
-function Tile({ url, fallback }: { url: string; fallback: string }) {
+function Tile({ url }: { url: string; fallback?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const didPrime = useRef(false);
   const [mount, setMount] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const [src, setSrc] = useState(url);
 
   useEffect(() => setSrc(resolveForPlayback(url)), [url]);
@@ -61,33 +60,11 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
           io.disconnect();
         }
       },
-      { rootMargin: "400px", threshold: 0.01 },
+      { rootMargin: "600px", threshold: 0.01 },
     );
     io.observe(ref.current);
     return () => io.disconnect();
   }, []);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v || !mount || !ready) return;
-    v.play().catch(() => {});
-  }, [mount, ready, src]);
-
-  const primeVideoFrame = () => {
-    const v = videoRef.current;
-    if (!v || didPrime.current) return;
-    didPrime.current = true;
-
-    const target = Number.isFinite(v.duration) && v.duration > 0
-      ? Math.min(Math.max(v.duration * 0.22, 0.9), 2.8)
-      : 1.2;
-
-    try {
-      v.currentTime = target;
-    } catch {
-      setReady(true);
-    }
-  };
 
   return (
     <div
@@ -104,12 +81,8 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
           loop
           playsInline
           preload="auto"
-          onLoadedMetadata={primeVideoFrame}
-          onSeeked={() => setReady(true)}
-          onCanPlay={() => {
-            if (didPrime.current) setReady(true);
-          }}
-          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none brightness-[1.08] contrast-[1.08] transition-opacity duration-700 ${ready ? "opacity-90" : "opacity-0"}`}
+          onPlaying={() => setPlaying(true)}
+          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none brightness-[1.08] contrast-[1.08] transition-opacity duration-500 ${playing ? "opacity-95" : "opacity-0"}`}
         />
       )}
     </div>
