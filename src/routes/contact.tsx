@@ -39,8 +39,21 @@ function ContactPage() {
     (step === 1 && data.brief.length > 10) ||
     (step === 2 && data.name && /\S+@\S+\.\S+/.test(data.email));
 
-  const submit = (e: React.FormEvent) => {
+  const APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxupNGy5U7McTPAvl-_0C_-CyHW3HxpL4Zv7vOH0w0-P4JNhdExzqVUD4kmTSA1G3P8/exec";
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ ...data, source: "terostudios.com /contact" }),
+      });
+    } catch (err) {
+      console.error("Contact form submission failed", err);
+    }
     setDone(true);
   };
 
