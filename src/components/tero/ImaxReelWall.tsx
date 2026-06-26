@@ -105,12 +105,6 @@ function Tile({ url, fallback }: { url: string; fallback: string }) {
           playsInline
           preload="auto"
           onLoadedMetadata={primeVideoFrame}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          onLoadedMetadata={primeVideoFrame}
           onSeeked={() => setReady(true)}
           onCanPlay={() => {
             if (didPrime.current) setReady(true);
