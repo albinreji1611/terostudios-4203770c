@@ -113,7 +113,7 @@ export function ImaxReelWall() {
             </span>
             <span className="h-px w-8 bg-vermillion/60" />
           </div>
-          <h2 className="font-display text-[clamp(34px,5vw,72px)] leading-[0.95] tracking-tight text-[#fdfaf6]">
+          <h2 className="font-display text-[clamp(34px,5vw,72px)] leading-[1.1] tracking-tight text-[#fdfaf6] pb-2">
             Crafted for the <span className="italic text-vermillion">big screen.</span>
           </h2>
         </header>
