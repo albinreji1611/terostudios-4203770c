@@ -253,17 +253,13 @@ export function ImaxReelWall() {
               "radial-gradient(70% 36% at 50% 0%, rgba(255,235,198,0.13) 0%, rgba(255,235,198,0.035) 54%, transparent 100%)",
           }}
         />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-[-16%] bottom-[-48%] z-20 h-[36%] rounded-[55%_55%_0_0] bg-black/80"
-        />
         {/* Bottom immersive fade */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[36%] sm:h-[40%] md:h-[44%] z-30"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[24%] sm:h-[28%] md:h-[32%] z-30"
           style={{
             background:
-              "linear-gradient(0deg, #000 0%, rgba(0,0,0,0.86) 28%, rgba(0,0,0,0.46) 66%, transparent 100%)",
+              "linear-gradient(0deg, #000 0%, rgba(0,0,0,0.72) 30%, rgba(0,0,0,0.28) 68%, transparent 100%)",
           }}
         />
         <div
