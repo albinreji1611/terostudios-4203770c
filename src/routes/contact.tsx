@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PageLayout } from "@/components/tero/PageLayout";
@@ -6,6 +7,7 @@ import { Reveal } from "@/components/tero/Reveal";
 import { LogoStrip } from "@/components/tero/LogoStrip";
 import { Testimonials } from "@/components/tero/Testimonials";
 import { KineticBand } from "@/components/tero/KineticBand";
+import { submitContactLead } from "@/lib/contact.functions";
 import { ArrowRight, ArrowLeft, Check, Calendar, Mail, MapPin, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
@@ -33,28 +35,38 @@ function ContactPage() {
     brief: "",
   });
   const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const sendLead = useServerFn(submitContactLead);
 
   const canNext = () =>
     (step === 0 && data.service && data.budget) ||
     step === 1 ||
     (step === 2 && data.name && /\S+@\S+\.\S+/.test(data.email));
 
-  const APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbwB9tlgx2OGaRzhTKkt6oHoi3nIYCMPwpnGFpCy4x1yEOdI3T2ASSJUAXVW11J5GwXW/exec";
-
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
+
+    setSubmitting(true);
+    setSubmitError("");
+
     try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ ...data, source: "terostudios.com /contact" }),
+      await sendLead({
+        data: {
+          ...data,
+          message: data.brief,
+          source: "terostudios.com /contact",
+        },
       });
+
+      setDone(true);
     } catch (err) {
       console.error("Contact form submission failed", err);
+      setSubmitError("We couldn't record your brief. Please try again or message us on WhatsApp.");
+    } finally {
+      setSubmitting(false);
     }
-    setDone(true);
   };
 
   return (
@@ -313,13 +325,20 @@ function ContactPage() {
                             Continue <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
                           </button>
                         ) : (
+                        <div>
+                          {submitError && (
+                            <p className="mb-3 max-w-sm font-body text-[13px] leading-relaxed text-vermillion" role="alert">
+                              {submitError}
+                            </p>
+                          )}
                           <button
                             type="submit"
-                            disabled={!canNext()}
+                            disabled={!canNext() || submitting}
                             className="inline-flex items-center gap-2 rounded-[4px] bg-gradient-to-br from-[#E8390E] to-[#C42D06] px-6 py-3 text-[14px] font-medium text-white shadow-[0_6px_20px_rgba(232,57,14,0.25)] transition-transform hover:scale-[1.03] disabled:opacity-40 disabled:hover:scale-100"
                           >
-                            Send brief <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
+                            {submitting ? "Sending..." : "Send brief"} <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
                           </button>
+                        </div>
                         )}
                       </div>
                     </motion.form>
