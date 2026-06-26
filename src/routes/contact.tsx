@@ -36,7 +36,7 @@ function ContactPage() {
 
   const canNext = () =>
     (step === 0 && data.service && data.budget) ||
-    (step === 1 && data.brief.length > 10) ||
+    step === 1 ||
     (step === 2 && data.name && /\S+@\S+\.\S+/.test(data.email));
 
   const APPS_SCRIPT_URL =
