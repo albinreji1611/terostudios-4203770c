@@ -11,6 +11,7 @@ import {
 import appCss from "../styles.css?url";
 import { CinemaTransition } from "@/components/tero/CinemaTransition";
 import { WhatsAppButton } from "@/components/tero/WhatsAppButton";
+import { ScrollToTop } from "@/components/tero/ScrollToTop";
 
 function NotFoundComponent() {
   return (
@@ -157,6 +158,7 @@ function RootComponent() {
       <CinemaTransition />
       <Outlet />
       <WhatsAppButton />
+      <ScrollToTop />
     </QueryClientProvider>
   );
 }
