@@ -13,7 +13,7 @@ import { Testimonials } from "@/components/tero/Testimonials";
 
 import { FAQ } from "@/components/tero/FAQ";
 import { KineticBand } from "@/components/tero/KineticBand";
-import { ScrollToTop } from "@/components/tero/ScrollToTop";
+
 import { ReelWallCompareOverlay } from "@/components/tero/ReelWallCompareOverlay";
 
 
