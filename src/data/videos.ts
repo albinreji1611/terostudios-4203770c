@@ -30,6 +30,8 @@ export type VideoItem = {
 };
 
 export const videos: VideoItem[] = [
+  { url: r(sotefin.url), client: "Sotefin", title: "Sotefin", service: "3D Animation", industry: "Industrial", aspect: 2560 / 1440 },
+
   
   { url: r(campa3d.url), client: "Campa", title: "Campa 3D", service: "3D Animation", industry: "Beverages", aspect: 1920 / 1080 },
   { url: r(campa2d.url), client: "Campa", title: "Campa 2D", service: "Motion Graphics", industry: "Beverages", aspect: 854 / 480 },
