@@ -15,6 +15,7 @@ import phoenix from "@/assets/videos/phoenix-mall-cgi.mp4.asset.json";
 import shopontime from "@/assets/videos/shopontime-anamorphic.mp4.asset.json";
 import siemens from "@/assets/videos/siemens-gamesa-3d.mp4.asset.json";
 import sirc from "@/assets/videos/sirc-hologram.mp4.asset.json";
+import sotefin from "@/assets/videos/sotefin.mp4.asset.json";
 import { resolveAssetUrl } from "@/lib/asset-url";
 
 const r = resolveAssetUrl;
@@ -29,6 +30,8 @@ export type VideoItem = {
 };
 
 export const videos: VideoItem[] = [
+  { url: r(sotefin.url), client: "Sotefin", title: "Sotefin", service: "3D Animation", industry: "Industrial", aspect: 2560 / 1440 },
+
   
   { url: r(campa3d.url), client: "Campa", title: "Campa 3D", service: "3D Animation", industry: "Beverages", aspect: 1920 / 1080 },
   { url: r(campa2d.url), client: "Campa", title: "Campa 2D", service: "Motion Graphics", industry: "Beverages", aspect: 854 / 480 },
