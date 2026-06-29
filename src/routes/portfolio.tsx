@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { PageLayout } from "@/components/tero/PageLayout";
 import { videos, type VideoItem } from "@/data/videos";
 import { useVideoThumbnail } from "@/lib/use-video-thumbnail";
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/portfolio")({
       {
         name: "description",
         content:
-          "Selected animation, motion design, CGI and immersive projects from Tero Studios.",
+          "Selected animation, motion design, CGI and immersive projects from Tero Studios — shown in their native resolution and aspect ratio.",
       },
     ],
   }),
@@ -32,6 +32,7 @@ function PortfolioPage() {
   const [svc, setSvc] = useState("All");
   const [ind, setInd] = useState("All");
   const [active, setActive] = useState<VideoItem | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const filtered = useMemo(
     () =>
@@ -43,75 +44,97 @@ function PortfolioPage() {
     [svc, ind],
   );
 
-  const featured = filtered[0];
-  const rest = filtered.slice(1);
-
   return (
     <PageLayout>
-      <div className="-mt-[68px] pt-[68px] w-full min-h-screen bg-ink text-cream selection:bg-cream/20">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-20 md:py-28">
-          <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-20 md:mb-28 border-b border-cream/10 pb-12 md:pb-16">
+      <div className="-mt-[68px] pt-[68px] w-full bg-ink text-cream selection:bg-vermillion/40">
+        {/* HEADER */}
+        <header className="container-tero pt-16 md:pt-24 pb-10 md:pb-14">
+          <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-cream/40 mb-6">
-                Portfolio / Index 2024
-              </p>
-              <h1 className="font-display text-[clamp(4rem,11vw,11rem)] leading-[0.82] font-extrabold uppercase tracking-tighter">
-                Selected<br />Works<span className="text-cream/20">.</span>
+              <div className="mb-5 flex items-center gap-3">
+                <span className="h-px w-8 bg-vermillion/70" />
+                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-vermillion">
+                  (Index) Selected Works
+                </span>
+              </div>
+              <h1 className="font-display text-[clamp(3rem,8vw,8.5rem)] leading-[0.86] tracking-tight">
+                Stories at <span className="italic text-vermillion">native scale.</span>
               </h1>
+              <p className="mt-6 max-w-xl font-body text-[15px] leading-relaxed text-cream/55">
+                Every reel below plays in its original aspect ratio and resolution — exactly as it was mastered, no crop, no fill, no compromise.
+              </p>
             </div>
 
-            <nav className="grid grid-cols-2 gap-x-10 md:gap-x-14 gap-y-6 font-mono text-[11px] uppercase tracking-[0.18em]">
+            <nav className="grid grid-cols-2 gap-x-10 gap-y-6 font-mono text-[11px] uppercase tracking-[0.18em] md:gap-x-14">
               <FilterColumn label="By Service" options={services} value={svc} onChange={setSvc} />
               <FilterColumn label="By Industry" options={industries} value={ind} onChange={setInd} />
             </nav>
-          </header>
+          </div>
 
-          <div className="mb-14 md:mb-20 flex flex-wrap items-baseline justify-between gap-6">
+          <div className="mt-12 flex flex-wrap items-baseline justify-between gap-6 border-t border-cream/10 pt-6">
             <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-cream/40">
-              {filtered.length.toString().padStart(2, "0")} {filtered.length === 1 ? "Project" : "Projects"} · {svc} / {ind}
+              {filtered.length.toString().padStart(2, "0")} {filtered.length === 1 ? "Reel" : "Reels"} · {svc} / {ind}
             </p>
             {(svc !== "All" || ind !== "All") && (
               <button
                 onClick={() => { setSvc("All"); setInd("All"); }}
-                className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/50 hover:text-cream transition border-b border-cream/20 hover:border-cream pb-0.5"
+                className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/50 transition hover:text-cream"
               >
-                Reset filters
+                ✕ Reset filters
               </button>
             )}
           </div>
+        </header>
 
-          {filtered.length === 0 ? (
-            <div className="py-32 text-center">
-              <p className="font-display text-[clamp(40px,5vw,72px)] text-cream/40">
-                No works under that combination.
-              </p>
-            </div>
-          ) : (
-            <>
-              {featured && <FeaturedHero project={featured} onOpen={() => setActive(featured)} />}
-              <div className="mt-20 md:mt-28 grid grid-cols-1 md:grid-cols-12 gap-y-24 md:gap-y-32 md:gap-x-12">
-                {rest.map((p, i) => {
-                  const layout = LAYOUTS[i % LAYOUTS.length];
-                  return (
-                    <ProjectCard key={p.title + i} project={p} index={i + 2} layout={layout} onOpen={() => setActive(p)} />
-                  );
-                })}
+        {/* CINEMATIC STACK */}
+        {filtered.length === 0 ? (
+          <div className="container-tero py-40 text-center">
+            <p className="font-display text-[clamp(40px,5vw,72px)] text-cream/30">
+              No works under that combination.
+            </p>
+          </div>
+        ) : (
+          <div className="relative">
+            {/* Sticky progress index */}
+            <div className="pointer-events-none sticky top-1/2 z-20 hidden h-0 -translate-y-1/2 md:block">
+              <div className="container-tero">
+                <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/40">
+                  <span className="text-vermillion">
+                    {String(Math.min(currentIndex + 1, filtered.length)).padStart(2, "0")}
+                  </span>
+                  <span className="h-px w-10 bg-cream/20" />
+                  <span>{String(filtered.length).padStart(2, "0")}</span>
+                </div>
               </div>
-            </>
-          )}
+            </div>
 
-          <footer className="mt-40 md:mt-56 border-t border-cream/10 pt-20 md:pt-28 text-center">
-            <span className="font-mono text-[10px] uppercase tracking-[0.5em] text-cream/30 mb-8 block">
-              End of Selection
-            </span>
-            <a
-              href="/contact"
-              className="inline-block font-display text-[clamp(48px,9vw,144px)] leading-[0.85] font-extrabold uppercase tracking-tighter text-cream hover:text-vermillion transition-colors duration-500"
-            >
-              Start a Project →
-            </a>
-          </footer>
-        </div>
+            <div>
+              {filtered.map((p, i) => (
+                <CinematicReel
+                  key={`${p.title}-${i}`}
+                  project={p}
+                  index={i + 1}
+                  total={filtered.length}
+                  onOpen={() => setActive(p)}
+                  onEnter={() => setCurrentIndex(i)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* FOOTER CTA */}
+        <footer className="container-tero mt-32 border-t border-cream/10 pt-20 pb-28 text-center md:mt-48 md:pt-28">
+          <span className="mb-8 block font-mono text-[10px] uppercase tracking-[0.5em] text-cream/30">
+            End of Selection
+          </span>
+          <a
+            href="/contact"
+            className="inline-block font-display text-[clamp(48px,9vw,144px)] leading-[0.85] tracking-tight transition-colors duration-500 hover:text-vermillion"
+          >
+            Start a project <span className="italic text-vermillion">→</span>
+          </a>
+        </footer>
       </div>
 
       <Lightbox project={active} onClose={() => setActive(null)} />
@@ -125,15 +148,15 @@ function FilterColumn({ label, options, value, onChange }: { label: string; opti
       <span className="block text-cream/30">{label}</span>
       <ul className="flex flex-col gap-1.5">
         {options.map((o) => {
-          const active = o === value;
+          const isActive = o === value;
           return (
             <li key={o}>
               <button
                 onClick={() => onChange(o)}
-                className={`text-left transition-all ${active ? "text-cream" : "text-cream/40 hover:text-cream/90"}`}
+                className={`text-left transition-all ${isActive ? "text-cream" : "text-cream/40 hover:text-cream/90"}`}
               >
                 <span className="inline-flex items-center gap-2">
-                  <span className={`h-px transition-all ${active ? "w-5 bg-vermillion" : "w-0 bg-cream/0"}`} />
+                  <span className={`h-px transition-all ${isActive ? "w-5 bg-vermillion" : "w-0 bg-cream/0"}`} />
                   {o}
                 </span>
               </button>
@@ -145,106 +168,194 @@ function FilterColumn({ label, options, value, onChange }: { label: string; opti
   );
 }
 
-function FeaturedHero({ project, onOpen }: { project: VideoItem; onOpen: () => void; }) {
+/**
+ * CinematicReel — one full viewport stage per project.
+ * The video sits in a centered frame sized to its NATIVE aspect ratio
+ * (object-contain on pure black), guaranteeing the original composition
+ * is preserved. A scroll-bound parallax slides meta info beside it.
+ */
+function CinematicReel({
+  project,
+  index,
+  total,
+  onOpen,
+  onEnter,
+}: {
+  project: VideoItem;
+  index: number;
+  total: number;
+  onOpen: () => void;
+  onEnter: () => void;
+}) {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const frameY = useTransform(scrollYProgress, [0, 1], ["6%", "-6%"]);
+  const frameScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.96, 1, 0.96]);
+  const metaY = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+  const indexY = useTransform(scrollYProgress, [0, 1], ["40%", "-40%"]);
+
+  // Clamp displayed aspect so very tall or very wide originals still fit.
+  const aspect = Math.max(0.45, Math.min(3.0, project.aspect));
+  const isPortrait = aspect < 1;
+  const isUltrawide = aspect > 2.2;
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && e.intersectionRatio > 0.5) onEnter();
+      },
+      { threshold: [0.5, 0.75] },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [onEnter]);
+
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative w-full cursor-pointer"
-      onClick={onOpen}
+    <section
+      ref={ref}
+      className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden border-t border-cream/5 py-20 md:py-28"
     >
-      <div className="relative aspect-[21/9] w-full overflow-hidden rounded-sm ring-1 ring-cream/10 bg-black">
-        <MediaLayer url={project.url} className="opacity-80 group-hover:scale-[1.04] transition-transform duration-[1400ms] ease-out" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent opacity-90" />
-        <div className="absolute inset-x-0 bottom-0 p-6 md:p-14">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="px-2.5 py-1 border border-cream/25 text-[9px] uppercase tracking-[0.25em] bg-black/40 backdrop-blur-sm font-mono">
-              Featured
-            </span>
-            <span className="h-px w-8 bg-cream/30" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/70">
-              {project.client} / {project.service}
-            </span>
+      {/* Ambient glow — derived from theme, never harsh */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 50% 50%, rgba(229,84,46,0.06) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Huge background index numeral */}
+      <motion.div
+        aria-hidden
+        style={{ y: indexY }}
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+      >
+        <span className="select-none font-display text-[clamp(20rem,55vw,55rem)] leading-none tracking-tighter text-cream/[0.025]">
+          {String(index).padStart(2, "0")}
+        </span>
+      </motion.div>
+
+      <div className="container-tero relative z-10 grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
+        {/* LEFT — Meta */}
+        <motion.div
+          style={{ y: metaY }}
+          className={`order-2 lg:order-1 ${isPortrait ? "lg:col-span-5" : isUltrawide ? "lg:col-span-12 lg:order-2" : "lg:col-span-4"}`}
+        >
+          <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.35em] text-vermillion">
+            <span>{String(index).padStart(2, "0")}</span>
+            <span className="h-px w-6 bg-vermillion/60" />
+            <span className="text-cream/50">{String(total).padStart(2, "0")}</span>
           </div>
-          <h2 className="font-display text-[clamp(48px,9vw,144px)] font-extrabold uppercase leading-[0.85] tracking-tighter">
+
+          <h2 className="mt-5 font-display text-[clamp(2.4rem,4.6vw,4.4rem)] leading-[0.92] tracking-tight">
             {project.title}
           </h2>
-        </div>
-        <div className="absolute top-6 right-6 md:top-10 md:right-10 h-14 w-14 md:h-16 md:w-16 rounded-full border border-cream/30 backdrop-blur-md flex items-center justify-center text-cream group-hover:bg-cream group-hover:text-ink transition-all duration-500">
-          <span className="ml-0.5">▶</span>
-        </div>
-      </div>
-    </motion.section>
-  );
-}
 
-type Layout = { col: string; offset: string; size: "lg" | "md" | "wide" };
-const ANAMORPHIC = "aspect-[2.39/1]";
-const LAYOUTS: Layout[] = [
-  { col: "md:col-span-7", offset: "", size: "lg" },
-  { col: "md:col-span-5", offset: "md:mt-32", size: "md" },
-  { col: "md:col-span-12", offset: "", size: "wide" },
-  { col: "md:col-span-5", offset: "", size: "md" },
-  { col: "md:col-span-7", offset: "md:mt-32", size: "lg" },
-];
-
-function ProjectCard({ project, index, layout, onOpen }: { project: VideoItem; index: number; layout: Layout; onOpen: () => void; }) {
-  const titleSize =
-    layout.size === "wide" ? "text-[clamp(40px,7vw,112px)]"
-    : layout.size === "lg" ? "text-[clamp(32px,4vw,60px)]"
-    : "text-[clamp(26px,3vw,44px)]";
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`${layout.col} ${layout.offset} group cursor-pointer`}
-      onClick={onOpen}
-    >
-      <div className={`relative ${ANAMORPHIC} bg-black overflow-hidden rounded-sm ring-1 ring-cream/5 group-hover:ring-cream/25 transition-all duration-700`}>
-        <MediaLayer url={project.url} className="opacity-85 group-hover:opacity-100 scale-x-[1.06] group-hover:scale-x-[1.12] transition-all duration-1000 ease-out" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-[8%] bg-gradient-to-b from-black/80 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[10%] bg-gradient-to-t from-black/80 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-[5%] bg-gradient-to-r from-black/40 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-[5%] bg-gradient-to-l from-black/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-cream/10 backdrop-blur-md flex items-center justify-center text-cream opacity-0 group-hover:opacity-100 transition-all duration-500">▶</div>
-      </div>
-
-      {layout.size === "wide" ? (
-        <div className="mt-8 md:mt-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-          <div className="max-w-3xl">
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/40 block mb-3">
-              {String(index).padStart(3, "0")} · {project.service} · {project.industry}
-            </span>
-            <h3 className={`font-display ${titleSize} uppercase font-extrabold leading-[0.9] tracking-tighter`}>{project.title}</h3>
-          </div>
-          <span className="px-7 py-3 rounded-full border border-cream/20 font-mono text-[10px] uppercase tracking-[0.25em] group-hover:bg-cream group-hover:text-ink transition-all duration-500">
-            Explore Project
-          </span>
-        </div>
-      ) : (
-        <div className="mt-6 md:mt-8">
-          <div className="flex justify-between items-baseline mb-2 gap-4">
-            <h3 className={`font-display ${titleSize} uppercase font-bold leading-[0.95] tracking-tight`}>{project.title}</h3>
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-cream/40 shrink-0">
-              {String(index).padStart(3, "0")} / {project.service.split(" ")[0]}
-            </span>
-          </div>
-          <p className="font-body text-sm text-cream/55 max-w-md leading-relaxed">
-            {project.client} · {project.industry}
+          <p className="mt-4 font-body text-[15px] leading-relaxed text-cream/55">
+            For <span className="text-cream/90">{project.client}</span> — a {project.service.toLowerCase()} piece crafted for the {project.industry.toLowerCase()} world.
           </p>
-        </div>
-      )}
-    </motion.article>
+
+          <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-cream/10 pt-6 font-mono text-[10px] uppercase tracking-[0.22em]">
+            <div>
+              <dt className="text-cream/35">Client</dt>
+              <dd className="mt-1 text-cream/90">{project.client}</dd>
+            </div>
+            <div>
+              <dt className="text-cream/35">Service</dt>
+              <dd className="mt-1 text-cream/90">{project.service}</dd>
+            </div>
+            <div>
+              <dt className="text-cream/35">Industry</dt>
+              <dd className="mt-1 text-cream/90">{project.industry}</dd>
+            </div>
+            <div>
+              <dt className="text-cream/35">Format</dt>
+              <dd className="mt-1 text-cream/90">
+                {isPortrait ? "Vertical" : isUltrawide ? "Anamorphic" : "Widescreen"} · {project.aspect.toFixed(2)}:1
+              </dd>
+            </div>
+          </dl>
+
+          <button
+            onClick={onOpen}
+            className="group/cta mt-10 inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/80 transition hover:text-vermillion"
+          >
+            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-cream/30 transition group-hover/cta:border-vermillion group-hover/cta:bg-vermillion/10">
+              <span className="ml-0.5 text-[11px]">▶</span>
+            </span>
+            Play in full
+          </button>
+        </motion.div>
+
+        {/* RIGHT — Native frame */}
+        <motion.div
+          style={{ y: frameY, scale: frameScale }}
+          className={`order-1 lg:order-2 ${isPortrait ? "lg:col-span-7" : isUltrawide ? "lg:col-span-12 lg:order-1" : "lg:col-span-8"}`}
+        >
+          <button
+            type="button"
+            onClick={onOpen}
+            className="group/frame relative block w-full"
+            aria-label={`Play ${project.title}`}
+          >
+            <div
+              className="relative mx-auto w-full overflow-hidden rounded-[6px] bg-black shadow-[0_60px_120px_-40px_rgba(0,0,0,0.9)] ring-1 ring-cream/10 transition-all duration-700 group-hover/frame:ring-cream/30"
+              style={{
+                aspectRatio: aspect,
+                maxHeight: isPortrait ? "78svh" : "82svh",
+                maxWidth: isPortrait ? `calc(78svh * ${aspect})` : "100%",
+              }}
+            >
+              <NativeMedia url={project.url} />
+
+              {/* Corner ticks — cinema framing marks */}
+              <CornerTicks />
+
+              {/* Play affordance */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover/frame:opacity-100">
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cream/10 text-cream backdrop-blur-md">
+                  <span className="ml-1">▶</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Filmstrip footer */}
+            <div className="mt-3 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.3em] text-cream/35">
+              <span>Native {project.aspect.toFixed(2)}:1</span>
+              <span className="h-px flex-1 mx-4 bg-cream/10" />
+              <span>R-{String(index).padStart(3, "0")} · {project.service.split(" ")[0]}</span>
+            </div>
+          </button>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
-function MediaLayer({ url, className = "" }: { url: string; className?: string }) {
+function CornerTicks() {
+  const cls = "absolute h-3 w-3 border-cream/40";
+  return (
+    <>
+      <span className={`${cls} top-2 left-2 border-t border-l`} />
+      <span className={`${cls} top-2 right-2 border-t border-r`} />
+      <span className={`${cls} bottom-2 left-2 border-b border-l`} />
+      <span className={`${cls} bottom-2 right-2 border-b border-r`} />
+    </>
+  );
+}
+
+/**
+ * NativeMedia — fills its parent (which is already sized to the video's
+ * native aspect ratio) using object-contain so no cropping ever occurs.
+ */
+function NativeMedia({ url }: { url: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mount, setMount] = useState(false);
@@ -257,7 +368,7 @@ function MediaLayer({ url, className = "" }: { url: string; className?: string }
       ([entry]) => {
         if (entry.isIntersecting) { setMount(true); io.disconnect(); }
       },
-      { rootMargin: "400px", threshold: 0.01 },
+      { rootMargin: "500px", threshold: 0.01 },
     );
     io.observe(ref.current);
     return () => io.disconnect();
@@ -272,9 +383,14 @@ function MediaLayer({ url, className = "" }: { url: string; className?: string }
   }, [mount]);
 
   return (
-    <div ref={ref} className={`absolute inset-0 ${className}`}>
+    <div ref={ref} className="absolute inset-0">
       {thumb && (
-        <img src={thumb} alt="" decoding="async" className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none" />
+        <img
+          src={thumb}
+          alt=""
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover opacity-60 select-none pointer-events-none"
+        />
       )}
       {mount && (
         <video
@@ -287,7 +403,7 @@ function MediaLayer({ url, className = "" }: { url: string; className?: string }
           preload="auto"
           onCanPlay={() => setReady(true)}
           {...protectedVideoProps}
-          className={`absolute inset-0 h-full w-full object-cover pointer-events-none select-none transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 h-full w-full object-contain select-none pointer-events-none transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
         />
       )}
     </div>
@@ -304,6 +420,8 @@ function Lightbox({ project, onClose }: { project: VideoItem | null; onClose: ()
     document.body.style.overflow = "hidden";
     return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
   }, [project, onClose]);
+
+  const aspect = project ? Math.max(0.45, Math.min(3.0, project.aspect)) : 16 / 9;
 
   return (
     <AnimatePresence>
@@ -325,7 +443,7 @@ function Lightbox({ project, onClose }: { project: VideoItem | null; onClose: ()
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-6xl rounded-2xl overflow-hidden bg-black shadow-2xl"
-            style={{ aspectRatio: Math.max(0.6, Math.min(2.4, project.aspect)) }}
+            style={{ aspectRatio: aspect }}
           >
             <video
               ref={videoRef} src={project.url} autoPlay controls playsInline
