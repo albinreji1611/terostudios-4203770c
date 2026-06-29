@@ -90,17 +90,19 @@ function Tile({ url }: { url: string; fallback?: string }) {
 }
 
 export function ImaxReelWall() {
-  const rows = useMemo(
-    () =>
-      Array.from({ length: ROWS }, (_, r) => {
-        const base = Array.from({ length: TILES_PER_ROW }, (_, c) => {
-          const v = videos[(r * 3 + c * 2) % videos.length];
-          return { url: v.url, fb: FALLBACKS[(r + c) % FALLBACKS.length] };
-        });
-        return [...base, ...base];
-      }),
-    [],
-  );
+  const rows = useMemo(() => {
+    // Only include videos that match the tile aspect (16:9 ~ 1.78).
+    const wide = videos.filter((v) => v.aspect >= 1.6 && v.aspect <= 2.0);
+    const pool = wide.length > 0 ? wide : videos;
+    return Array.from({ length: ROWS }, (_, r) => {
+      const base = Array.from({ length: TILES_PER_ROW }, (_, c) => {
+        const v = pool[(r * 3 + c * 2) % pool.length];
+        return { url: v.url, fb: FALLBACKS[(r + c) % FALLBACKS.length] };
+      });
+      return [...base, ...base];
+    });
+  }, []);
+
 
   return (
     <section className="relative w-full bg-black overflow-hidden">
