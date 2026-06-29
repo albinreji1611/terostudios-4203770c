@@ -29,12 +29,12 @@ function getTileCurve(index: number) {
   const pos = index % TILES_PER_ROW;
   const center = (TILES_PER_ROW - 1) / 2;
   const norm = (pos - center) / center;
-  const maxAngle = 22;
+  // Stronger curve, but no translateZ/scale so layout spacing stays intact.
+  // Hinge each tile at its inner edge (toward center) so adjacent edges meet.
+  const maxAngle = 30;
   const angle = norm * maxAngle;
-  const angleRad = (angle * Math.PI) / 180;
-  const radius = 2200;
-  const z = radius * (1 - Math.cos(angleRad));
-  return { rotateY: -angle, translateZ: z, scale: 1.04 };
+  const origin = norm < 0 ? "100% 50%" : norm > 0 ? "0% 50%" : "50% 50%";
+  return { rotateY: -angle, origin };
 }
 
 
@@ -184,8 +184,10 @@ export function ImaxReelWall() {
                         className="h-full shrink-0"
                         style={{
                           aspectRatio: "16 / 9",
-                          transform: `rotateY(${curve.rotateY}deg) translateZ(${curve.translateZ}px) scale(${curve.scale})`,
+                          transform: `rotateY(${curve.rotateY}deg)`,
+                          transformOrigin: curve.origin,
                           transformStyle: "preserve-3d",
+                          backfaceVisibility: "hidden",
                         }}
                       >
                         <Tile url={t.url} fallback={t.fb} />
