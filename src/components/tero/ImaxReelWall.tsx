@@ -25,16 +25,8 @@ const ROW_STEP = "clamp(92px, 14.2vh, 175px)";
 const ROW_OPACITY = [1, 1, 1, 0.92, 0.35];
 const ROW_DURATION = [82, 67, 56, 74, 88];
 
-function getTileCurve(index: number) {
-  const pos = index % TILES_PER_ROW;
-  const center = (TILES_PER_ROW - 1) / 2;
-  const norm = (pos - center) / center;
-  // Stronger curve, but no translateZ/scale so layout spacing stays intact.
-  // Hinge each tile at its inner edge (toward center) so adjacent edges meet.
-  const maxAngle = 30;
-  const angle = norm * maxAngle;
-  const origin = norm < 0 ? "100% 50%" : norm > 0 ? "0% 50%" : "50% 50%";
-  return { rotateY: -angle, origin };
+function getTileCurve(_index: number) {
+  return { rotateY: 0, translateZ: 0, scale: 1 };
 }
 
 
@@ -173,27 +165,17 @@ export function ImaxReelWall() {
                     gap: TILE_GAP,
                     animation: `${dir} ${duration}s linear infinite`,
                     willChange: "transform",
-                    transformStyle: "preserve-3d",
                   }}
                 >
-                  {tiles.map((t, c) => {
-                    const curve = getTileCurve(c);
-                    return (
-                      <div
-                        key={`${r}-${c}`}
-                        className="h-full shrink-0"
-                        style={{
-                          aspectRatio: "16 / 9",
-                          transform: `rotateY(${curve.rotateY}deg)`,
-                          transformOrigin: curve.origin,
-                          transformStyle: "preserve-3d",
-                          backfaceVisibility: "hidden",
-                        }}
-                      >
-                        <Tile url={t.url} fallback={t.fb} />
-                      </div>
-                    );
-                  })}
+                  {tiles.map((t, c) => (
+                    <div
+                      key={`${r}-${c}`}
+                      className="h-full shrink-0"
+                      style={{ aspectRatio: "16 / 9" }}
+                    >
+                      <Tile url={t.url} fallback={t.fb} />
+                    </div>
+                  ))}
                 </div>
               </div>
             );
