@@ -173,17 +173,25 @@ export function ImaxReelWall() {
                     gap: TILE_GAP,
                     animation: `${dir} ${duration}s linear infinite`,
                     willChange: "transform",
+                    transformStyle: "preserve-3d",
                   }}
                 >
-                  {tiles.map((t, c) => (
-                    <div
-                      key={`${r}-${c}`}
-                      className="h-full shrink-0"
-                      style={{ aspectRatio: "16 / 9" }}
-                    >
-                      <Tile url={t.url} fallback={t.fb} />
-                    </div>
-                  ))}
+                  {tiles.map((t, c) => {
+                    const curve = getTileCurve(c);
+                    return (
+                      <div
+                        key={`${r}-${c}`}
+                        className="h-full shrink-0"
+                        style={{
+                          aspectRatio: "16 / 9",
+                          transform: `rotateY(${curve.rotateY}deg) translateZ(${curve.translateZ}px) scale(${curve.scale})`,
+                          transformStyle: "preserve-3d",
+                        }}
+                      >
+                        <Tile url={t.url} fallback={t.fb} />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             );
