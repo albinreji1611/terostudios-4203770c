@@ -138,11 +138,10 @@ export function ImaxReelWall() {
           }}
         >
           <div
-            className="absolute inset-x-[-8vw] inset-y-[-2vh] overflow-hidden bg-black"
+            className="absolute inset-x-[-14vw] inset-y-[-4vh] overflow-hidden bg-black"
             style={{
-              // Barrel curve: large horizontal radius, small vertical radius
-              // bends the left & right edges inward like a curved TV / IMAX screen
-              borderRadius: "50% / 14%",
+              // Stronger barrel: large horizontal radius + deeper vertical curve
+              borderRadius: "50% / 26%",
               WebkitMaskImage:
                 "linear-gradient(180deg, #000 0%, #000 70%, rgba(0,0,0,0.6) 88%, transparent 100%)",
               maskImage:
@@ -150,7 +149,8 @@ export function ImaxReelWall() {
             }}
           >
             {/* Inner padding so rows don't touch the curved edge */}
-            <div className="absolute inset-x-0 inset-y-[4vh]">
+            <div className="absolute inset-x-[6vw] inset-y-[6vh]">
+
               {rows.map((tiles, r) => {
                 const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
                 const isLast = r === ROWS - 1;
