@@ -184,8 +184,10 @@ export function ImaxReelWall() {
                         className="h-full shrink-0"
                         style={{
                           aspectRatio: "16 / 9",
-                          transform: `rotateY(${curve.rotateY}deg) translateZ(${curve.translateZ}px) scale(${curve.scale})`,
+                          transform: `rotateY(${curve.rotateY}deg)`,
+                          transformOrigin: curve.origin,
                           transformStyle: "preserve-3d",
+                          backfaceVisibility: "hidden",
                         }}
                       >
                         <Tile url={t.url} fallback={t.fb} />
