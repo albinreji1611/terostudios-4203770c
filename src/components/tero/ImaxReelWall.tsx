@@ -1,35 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { videos } from "@/data/videos";
 import { resolveAssetUrl } from "@/lib/asset-url";
-import portfolio1 from "@/assets/portfolio-1.jpg";
-import portfolio2 from "@/assets/portfolio-2.jpg";
-import portfolio3 from "@/assets/portfolio-3.jpg";
-import portfolio4 from "@/assets/portfolio-4.jpg";
-import portfolio5 from "@/assets/portfolio-5.jpg";
-import portfolio6 from "@/assets/portfolio-6.jpg";
-import reelA from "@/assets/reel-placeholder-a.jpg";
-import reelB from "@/assets/reel-placeholder-b.jpg";
-import reelC from "@/assets/reel-placeholder-c.jpg";
-import reelD from "@/assets/reel-placeholder-d.jpg";
-import reelE from "@/assets/reel-placeholder-e.jpg";
-import reelF from "@/assets/reel-placeholder-f.jpg";
 
-const FALLBACKS = [reelF, reelE, reelB, reelA, reelD, reelC, portfolio1, portfolio2, portfolio3, portfolio4, portfolio5, portfolio6];
-
-const ROWS = 5;
-const TILES_PER_ROW = 14;
-const TILE_GAP = "clamp(6px, 0.6vw, 10px)";
-const ROW_HEIGHT = "clamp(86px, 13.5vh, 165px)";
-const ROW_STEP = "clamp(92px, 14.2vh, 175px)";
-
-const ROW_OPACITY = [1, 1, 1, 0.92, 0.35];
-const ROW_DURATION = [82, 67, 56, 74, 88];
-
-function getTileCurve(_index: number) {
-  return { rotateY: 0, translateZ: 0, scale: 1 };
-}
-
-
+/**
+ * Dome Reel Wall — a hemispherical wall of reels arranged on a sphere.
+ * The dome only rotates while the user scrolls through the pinned section
+ * (no autoplay marquee). Tiles are positioned via spherical coordinates so
+ * they wrap a true 3D dome that the viewer looks up into.
+ */
 
 function resolveForPlayback(url: string) {
   if (typeof window === "undefined") return resolveAssetUrl(url);
@@ -42,9 +21,49 @@ function resolveForPlayback(url: string) {
     : resolved;
 }
 
-function Tile({ url }: { url: string; fallback?: string }) {
+// Dome geometry — tiles distributed across latitude rings.
+// Rings go from near the horizon (top of dome) toward the zenith.
+const RINGS = [
+  { lat: 78, count: 14 }, // outer ring — horizon, most tiles
+  { lat: 60, count: 12 },
+  { lat: 42, count: 10 },
+  { lat: 24, count: 7 },
+  { lat: 8,  count: 1 },  // zenith cap
+];
+const RADIUS = 640; // px — sphere radius
+const TILE_W = 200;
+const TILE_H = 112; // 16:9
+
+type DomeTile = {
+  url: string;
+  x: number; y: number; z: number;
+  rotY: number; rotX: number;
+};
+
+function buildDome(pool: { url: string }[]): DomeTile[] {
+  const tiles: DomeTile[] = [];
+  let i = 0;
+  RINGS.forEach(({ lat, count }) => {
+    const phi = (lat * Math.PI) / 180; // from zenith
+    for (let k = 0; k < count; k++) {
+      const theta = (k / count) * Math.PI * 2;
+      const x = RADIUS * Math.sin(phi) * Math.cos(theta);
+      const z = RADIUS * Math.sin(phi) * Math.sin(theta);
+      const y = -RADIUS * Math.cos(phi); // negative = up (dome above viewer)
+      const rotY = (theta * 180) / Math.PI + 90; // face center
+      const rotX = -(90 - lat); // tilt down toward viewer
+      tiles.push({
+        url: pool[i % pool.length].url,
+        x, y, z, rotY, rotX,
+      });
+      i++;
+    }
+  });
+  return tiles;
+}
+
+function Tile({ url, active }: { url: string; active: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [mount, setMount] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [src, setSrc] = useState(url);
@@ -60,7 +79,7 @@ function Tile({ url }: { url: string; fallback?: string }) {
           io.disconnect();
         }
       },
-      { rootMargin: "600px", threshold: 0.01 },
+      { rootMargin: "400px", threshold: 0.01 },
     );
     io.observe(ref.current);
     return () => io.disconnect();
@@ -69,12 +88,15 @@ function Tile({ url }: { url: string; fallback?: string }) {
   return (
     <div
       ref={ref}
-      className="relative shrink-0 h-full overflow-hidden rounded-[14px] bg-black ring-1 ring-white/5"
-      style={{ aspectRatio: "16 / 9" }}
+      className="absolute inset-0 overflow-hidden rounded-[12px] bg-black ring-1 ring-white/10"
+      style={{
+        boxShadow: active
+          ? "0 30px 80px -30px rgba(255,90,40,0.35), inset 0 0 30px rgba(0,0,0,0.5)"
+          : "0 20px 60px -30px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,0.55)",
+      }}
     >
       {mount && (
         <video
-          ref={videoRef}
           src={src}
           autoPlay
           muted
@@ -82,109 +104,143 @@ function Tile({ url }: { url: string; fallback?: string }) {
           playsInline
           preload="auto"
           onPlaying={() => setPlaying(true)}
-          className={`absolute inset-0 z-20 h-full w-full object-cover select-none pointer-events-none brightness-[1.08] contrast-[1.08] transition-opacity duration-500 ${playing ? "opacity-95" : "opacity-0"}`}
+          className={`absolute inset-0 h-full w-full object-cover pointer-events-none select-none brightness-[1.08] contrast-[1.08] transition-opacity duration-500 ${playing ? "opacity-95" : "opacity-0"}`}
         />
       )}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%)",
+        }}
+      />
     </div>
   );
 }
 
 export function ImaxReelWall() {
-  const rows = useMemo(() => {
-    // Only include videos that match the tile aspect (16:9 ~ 1.78).
-    const wide = videos.filter((v) => v.aspect >= 1.6 && v.aspect <= 2.0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+  const p = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.5 });
+
+  // Scroll drives the dome's rotation. We sweep ~360° on Y and tilt X slightly.
+  const rotY = useTransform(p, [0, 1], [-30, 330]);
+  const rotX = useTransform(p, [0, 0.5, 1], [-8, 4, -2]);
+  const scale = useTransform(p, [0, 0.15, 1], [0.92, 1, 1]);
+
+  const tiles = useMemo(() => {
+    const wide = videos.filter((v) => v.aspect >= 1.6 && v.aspect <= 2.1);
     const pool = wide.length > 0 ? wide : videos;
-    return Array.from({ length: ROWS }, (_, r) => {
-      const base = Array.from({ length: TILES_PER_ROW }, (_, c) => {
-        const v = pool[(r * 3 + c * 2) % pool.length];
-        return { url: v.url, fb: FALLBACKS[(r + c) % FALLBACKS.length] };
-      });
-      return [...base, ...base];
-    });
+    return buildDome(pool);
   }, []);
 
-
   return (
-    <section className="relative w-full bg-black overflow-hidden">
-      <div className="container-tero pt-16 md:pt-20 pb-6 md:pb-8">
-        <header className="text-center">
-          <div className="mb-4 flex items-center justify-center gap-3">
-            <span className="h-px w-8 bg-vermillion/60" />
-            <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-vermillion">
-              (01) The Reel Wall
-            </span>
-            <span className="h-px w-8 bg-vermillion/60" />
-          </div>
-          <h2 className="font-display text-[clamp(34px,5vw,72px)] leading-[1.1] tracking-tight text-[#fdfaf6] pb-2">
-            Crafted for the <span className="italic text-vermillion">big screen.</span>
-          </h2>
-        </header>
-      </div>
-      <div
-        className="relative isolate w-full h-[78vh] sm:h-[88vh] md:h-[92svh] bg-black overflow-hidden"
-        style={{
-          WebkitMaskImage:
-            "linear-gradient(180deg, #000 0%, #000 71%, rgba(0,0,0,0.66) 86%, transparent 100%)",
-          maskImage:
-            "linear-gradient(180deg, #000 0%, #000 71%, rgba(0,0,0,0.66) 86%, transparent 100%)",
-          perspective: "clamp(720px, 82vw, 1120px)",
-          perspectiveOrigin: "50% 48%",
-        }}
-      >
+    <section
+      ref={sectionRef}
+      className="relative w-full bg-black"
+      style={{ height: "320vh" }}
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* Cosmic backdrop */}
         <div
-          className="absolute inset-x-[-4vw] inset-y-0"
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
           style={{
-            transformStyle: "preserve-3d",
-            transform: "rotateX(0deg) scale(1.01)",
-            transformOrigin: "50% 50%",
+            background:
+              "radial-gradient(70% 55% at 50% 25%, #11131c 0%, #06070d 60%, #000 100%)",
           }}
-        >
-          {rows.map((tiles, r) => {
-            const dir = r % 2 === 0 ? "tero-row-left" : "tero-row-right";
-            const isLast = r === ROWS - 1;
-            const opacity = ROW_OPACITY[r] ?? 1;
-            const duration = ROW_DURATION[r] ?? 70;
-            return (
-              <div
-                key={r}
-                className="absolute w-full overflow-visible"
-                style={{
-                  top: `calc(${r} * ${ROW_STEP})`,
-                  height: ROW_HEIGHT,
-                  opacity,
-                  zIndex: 10 - r,
-                  maskImage: isLast
-                    ? "linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 55%, transparent 100%)"
-                    : undefined,
-                  WebkitMaskImage: isLast
-                    ? "linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 55%, transparent 100%)"
-                    : undefined,
-                }}
-              >
-                <div
-                  className="absolute inset-y-0 left-0 flex"
-                  style={{
-                    gap: TILE_GAP,
-                    animation: `${dir} ${duration}s linear infinite`,
-                    willChange: "transform",
-                  }}
-                >
-                  {tiles.map((t, c) => (
-                    <div
-                      key={`${r}-${c}`}
-                      className="h-full shrink-0"
-                      style={{ aspectRatio: "16 / 9" }}
-                    >
-                      <Tile url={t.url} fallback={t.fb} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none opacity-50"
+          style={{
+            backgroundImage: `
+              radial-gradient(1px 1px at 14% 22%, rgba(255,255,255,0.85), transparent 60%),
+              radial-gradient(1px 1px at 32% 68%, rgba(255,255,255,0.6), transparent 60%),
+              radial-gradient(1.3px 1.3px at 49% 30%, rgba(255,255,255,0.8), transparent 60%),
+              radial-gradient(1px 1px at 63% 78%, rgba(255,255,255,0.55), transparent 60%),
+              radial-gradient(1px 1px at 81% 18%, rgba(255,255,255,0.85), transparent 60%),
+              radial-gradient(1.2px 1.2px at 92% 60%, rgba(255,255,255,0.65), transparent 60%)
+            `,
+          }}
+        />
 
+        {/* Heading */}
+        <div className="absolute inset-x-0 top-0 z-40 container-tero pt-10 md:pt-14">
+          <header className="text-center">
+            <div className="mb-3 flex items-center justify-center gap-3">
+              <span className="h-px w-8 bg-vermillion/60" />
+              <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-vermillion">
+                (01) The Dome Reel
+              </span>
+              <span className="h-px w-8 bg-vermillion/60" />
+            </div>
+            <h2 className="font-display text-[clamp(30px,4.6vw,64px)] leading-[1.1] tracking-tight text-[#fdfaf6] pb-1">
+              Step inside the <span className="italic text-vermillion">dome.</span>
+            </h2>
+            <p className="mt-2 text-[11px] tracking-[0.28em] uppercase text-cream/45">
+              Scroll to rotate the wall
+            </p>
+          </header>
         </div>
 
+        {/* Stage */}
+        <div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ perspective: "1500px", perspectiveOrigin: "50% 58%" }}
+        >
+          <motion.div
+            className="relative"
+            style={{
+              width: 1,
+              height: 1,
+              transformStyle: "preserve-3d",
+              rotateY: rotY,
+              rotateX: rotX,
+              scale,
+              translateY: 120,
+            }}
+          >
+            {tiles.map((t, i) => (
+              <div
+                key={i}
+                className="absolute"
+                style={{
+                  width: TILE_W,
+                  height: TILE_H,
+                  left: -TILE_W / 2,
+                  top: -TILE_H / 2,
+                  transform: `translate3d(${t.x}px, ${t.y}px, ${t.z}px) rotateY(${t.rotY}deg) rotateX(${t.rotX}deg)`,
+                  transformStyle: "preserve-3d",
+                  backfaceVisibility: "hidden",
+                }}
+              >
+                <Tile url={t.url} active={false} />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Vignettes */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[26%] z-30"
+          style={{ background: "linear-gradient(0deg, #000 10%, transparent 100%)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-[18%] z-20"
+          style={{ background: "linear-gradient(180deg, #000 20%, transparent 100%)" }}
+        />
+
+        {/* Scroll hint */}
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-40 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/40">
+          scroll ↓
+        </div>
       </div>
     </section>
   );
