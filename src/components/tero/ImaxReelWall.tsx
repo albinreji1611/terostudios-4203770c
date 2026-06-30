@@ -270,7 +270,7 @@ export function ImaxReelWall() {
                   backfaceVisibility: "hidden",
                 }}
               >
-                <Tile url={t.url} active={false} />
+                <Tile url={t.url} eager={i < 24} />
               </div>
             ))}
           </motion.div>
