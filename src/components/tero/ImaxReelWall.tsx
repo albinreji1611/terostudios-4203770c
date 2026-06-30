@@ -221,17 +221,18 @@ export function ImaxReelWall() {
 
         `}</style>
 
-        {/* Heading — offset below fixed nav */}
-        <div className="absolute inset-x-0 z-40 container-tero" style={{ top: "84px" }}>
-          <header className="text-center">
-            <div className="mb-2 flex items-center justify-center gap-3">
-              <span className="h-px w-8 bg-vermillion/60" />
+        {/* Heading — tucked below fixed nav with a subtle backing fade */}
+        <div className="absolute inset-x-0 z-40 flex flex-col items-center" style={{ top: "120px" }}>
+          <div className="pointer-events-none absolute inset-x-0 top-[-36px] h-[150px] z-[-1] bg-gradient-to-b from-black via-black/85 to-transparent" />
+          <header className="text-center container-tero">
+            <div className="mb-1 flex items-center justify-center gap-2">
+              <span className="h-px w-5 bg-vermillion/60" />
               <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-vermillion">
                 (01) The Dome Reel
               </span>
-              <span className="h-px w-8 bg-vermillion/60" />
+              <span className="h-px w-5 bg-vermillion/60" />
             </div>
-            <h2 className="font-display text-[clamp(24px,3.4vw,46px)] leading-[1.1] tracking-tight text-[#fdfaf6] pb-1">
+            <h2 className="font-display text-[clamp(18px,2.2vw,30px)] leading-[1.2] tracking-tight text-[#fdfaf6] pb-1">
               Step inside the <span className="italic text-vermillion">dome.</span>
             </h2>
           </header>
