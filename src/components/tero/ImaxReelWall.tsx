@@ -121,7 +121,7 @@ export function ImaxReelWall() {
     target: sectionRef,
     offset: ["start start", "end end"],
   });
-  const p = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.5 });
+  const p = useSpring(scrollYProgress, { stiffness: 140, damping: 32, mass: 0.35, restDelta: 0.0005 });
 
   // Scroll drives the dome's rotation. We sweep ~360° on Y and tilt X slightly.
   const rotY = useTransform(p, [0, 1], [-30, 330]);
