@@ -64,37 +64,27 @@ function buildDome(pool: { url: string }[]): DomeTile[] {
   return tiles;
 }
 
-function Tile({ url, active }: { url: string; active: boolean }) {
+function Tile({ url, eager }: { url: string; eager: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [mount, setMount] = useState(false);
+  const [mount, setMount] = useState(eager);
   const [playing, setPlaying] = useState(false);
   const [src, setSrc] = useState(url);
 
   useEffect(() => setSrc(resolveForPlayback(url)), [url]);
 
   useEffect(() => {
-    if (!ref.current) return;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setMount(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "400px", threshold: 0.01 },
-    );
-    io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
+    if (eager) return;
+    // Defer non-eager tiles slightly so they don't all hit the network at once.
+    const t = window.setTimeout(() => setMount(true), 250);
+    return () => window.clearTimeout(t);
+  }, [eager]);
 
   return (
     <div
       ref={ref}
       className="absolute inset-0 overflow-hidden rounded-[12px] bg-black ring-1 ring-white/10"
       style={{
-        boxShadow: active
-          ? "0 30px 80px -30px rgba(255,90,40,0.35), inset 0 0 30px rgba(0,0,0,0.5)"
-          : "0 20px 60px -30px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,0.55)",
+        boxShadow: "0 20px 60px -30px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,0.55)",
       }}
     >
       {mount && (
@@ -105,8 +95,12 @@ function Tile({ url, active }: { url: string; active: boolean }) {
           loop
           playsInline
           preload="auto"
+          onLoadedData={(e) => {
+            const v = e.currentTarget;
+            if (v.paused) v.play().catch(() => {});
+          }}
           onPlaying={() => setPlaying(true)}
-          className={`absolute inset-0 h-full w-full object-cover pointer-events-none select-none brightness-[1.08] contrast-[1.08] transition-opacity duration-500 ${playing ? "opacity-95" : "opacity-0"}`}
+          className={`absolute inset-0 h-full w-full object-cover pointer-events-none select-none brightness-[1.08] contrast-[1.08] transition-opacity duration-200 ${playing ? "opacity-95" : "opacity-0"}`}
         />
       )}
       <div
@@ -127,7 +121,7 @@ export function ImaxReelWall() {
     target: sectionRef,
     offset: ["start start", "end end"],
   });
-  const p = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.5 });
+  const p = useSpring(scrollYProgress, { stiffness: 140, damping: 32, mass: 0.35, restDelta: 0.0005 });
 
   // Scroll drives the dome's rotation. We sweep ~360° on Y and tilt X slightly.
   const rotY = useTransform(p, [0, 1], [-30, 330]);
@@ -276,7 +270,7 @@ export function ImaxReelWall() {
                   backfaceVisibility: "hidden",
                 }}
               >
-                <Tile url={t.url} active={false} />
+                <Tile url={t.url} eager={i < 24} />
               </div>
             ))}
           </motion.div>
