@@ -156,44 +156,104 @@ export function ImaxReelWall() {
               "radial-gradient(70% 55% at 50% 25%, #11131c 0%, #06070d 60%, #000 100%)",
           }}
         />
+
+        {/* Drifting nebula orbs (matches site ambient glow) */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden" style={{ mixBlendMode: "screen" }}>
+          <div className="dome-orb dome-orb-1" />
+          <div className="dome-orb dome-orb-2" />
+          <div className="dome-orb dome-orb-3" />
+        </div>
+
+        {/* Dense starfield — two parallax layers */}
         <div
           aria-hidden
-          className="absolute inset-0 pointer-events-none opacity-50"
+          className="absolute inset-0 pointer-events-none dome-stars dome-stars-far"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none dome-stars dome-stars-near"
+        />
+
+        {/* Film grain */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none opacity-[0.07] mix-blend-overlay"
           style={{
-            backgroundImage: `
-              radial-gradient(1px 1px at 14% 22%, rgba(255,255,255,0.85), transparent 60%),
-              radial-gradient(1px 1px at 32% 68%, rgba(255,255,255,0.6), transparent 60%),
-              radial-gradient(1.3px 1.3px at 49% 30%, rgba(255,255,255,0.8), transparent 60%),
-              radial-gradient(1px 1px at 63% 78%, rgba(255,255,255,0.55), transparent 60%),
-              radial-gradient(1px 1px at 81% 18%, rgba(255,255,255,0.85), transparent 60%),
-              radial-gradient(1.2px 1.2px at 92% 60%, rgba(255,255,255,0.65), transparent 60%)
-            `,
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>\")",
+            backgroundSize: "160px 160px",
           }}
         />
 
+        <style>{`
+          .dome-orb { position: absolute; border-radius: 9999px; filter: blur(80px); will-change: transform; }
+          .dome-orb-1 { width: 560px; height: 560px; left: -8vw; top: 8vh; background: radial-gradient(circle, rgba(232,57,14,0.22) 0%, transparent 65%); animation: dome-drift-1 42s ease-in-out infinite alternate; }
+          .dome-orb-2 { width: 640px; height: 640px; right: -10vw; top: 40vh; background: radial-gradient(circle, rgba(45,27,110,0.30) 0%, transparent 65%); animation: dome-drift-2 50s ease-in-out infinite alternate; }
+          .dome-orb-3 { width: 480px; height: 480px; left: 35vw; top: 55vh; background: radial-gradient(circle, rgba(30,60,140,0.20) 0%, transparent 65%); animation: dome-drift-3 60s ease-in-out infinite alternate; }
+          @keyframes dome-drift-1 { to { transform: translate3d(30vw, 20vh, 0); } }
+          @keyframes dome-drift-2 { to { transform: translate3d(-25vw, -15vh, 0); } }
+          @keyframes dome-drift-3 { to { transform: translate3d(-15vw, -25vh, 0); } }
+
+          .dome-stars { background-repeat: repeat; opacity: 0.85; }
+          .dome-stars-far {
+            background-image:
+              radial-gradient(1px 1px at 7% 12%, rgba(255,255,255,0.55), transparent 60%),
+              radial-gradient(1px 1px at 19% 47%, rgba(255,255,255,0.4), transparent 60%),
+              radial-gradient(1px 1px at 31% 78%, rgba(255,255,255,0.5), transparent 60%),
+              radial-gradient(1px 1px at 44% 22%, rgba(255,255,255,0.45), transparent 60%),
+              radial-gradient(1px 1px at 56% 64%, rgba(255,255,255,0.5), transparent 60%),
+              radial-gradient(1px 1px at 68% 9%, rgba(255,255,255,0.4), transparent 60%),
+              radial-gradient(1px 1px at 79% 53%, rgba(255,255,255,0.55), transparent 60%),
+              radial-gradient(1px 1px at 88% 86%, rgba(255,255,255,0.45), transparent 60%),
+              radial-gradient(1px 1px at 95% 30%, rgba(255,255,255,0.5), transparent 60%);
+            background-size: 320px 320px;
+            animation: dome-twinkle 6s ease-in-out infinite alternate;
+          }
+          .dome-stars-near {
+            background-image:
+              radial-gradient(1.6px 1.6px at 13% 32%, rgba(255,255,255,0.95), transparent 60%),
+              radial-gradient(1.4px 1.4px at 27% 71%, rgba(220,230,255,0.85), transparent 60%),
+              radial-gradient(1.8px 1.8px at 41% 18%, rgba(255,240,220,0.9), transparent 60%),
+              radial-gradient(1.3px 1.3px at 58% 82%, rgba(255,255,255,0.7), transparent 60%),
+              radial-gradient(1.6px 1.6px at 72% 38%, rgba(220,230,255,0.95), transparent 60%),
+              radial-gradient(1.4px 1.4px at 84% 11%, rgba(255,255,255,0.85), transparent 60%),
+              radial-gradient(1.8px 1.8px at 92% 67%, rgba(255,240,220,0.85), transparent 60%);
+            background-size: 540px 540px;
+            animation: dome-twinkle 4.5s ease-in-out infinite alternate-reverse;
+          }
+          @keyframes dome-twinkle { 0% { opacity: 0.55; } 100% { opacity: 1; } }
+          @media (prefers-reduced-motion: reduce) {
+            .dome-orb, .dome-stars { animation: none !important; }
+          }
+        `}</style>
+
         {/* Heading */}
-        <div className="absolute inset-x-0 top-0 z-40 container-tero pt-10 md:pt-14">
+        <div className="absolute inset-x-0 top-0 z-40 container-tero pt-8 md:pt-10">
           <header className="text-center">
-            <div className="mb-3 flex items-center justify-center gap-3">
+            <div className="mb-2 flex items-center justify-center gap-3">
               <span className="h-px w-8 bg-vermillion/60" />
               <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-vermillion">
                 (01) The Dome Reel
               </span>
               <span className="h-px w-8 bg-vermillion/60" />
             </div>
-            <h2 className="font-display text-[clamp(30px,4.6vw,64px)] leading-[1.1] tracking-tight text-[#fdfaf6] pb-1">
+            <h2 className="font-display text-[clamp(26px,3.8vw,52px)] leading-[1.1] tracking-tight text-[#fdfaf6] pb-1">
               Step inside the <span className="italic text-vermillion">dome.</span>
             </h2>
-            <p className="mt-2 text-[11px] tracking-[0.28em] uppercase text-cream/45">
+            <p className="mt-1 text-[10px] tracking-[0.28em] uppercase text-cream/45">
               Scroll to rotate the wall
             </p>
           </header>
         </div>
 
-        {/* Stage */}
+        {/* Stage — pushed below heading via top padding */}
         <div
-          className="absolute inset-0 flex items-center justify-center overflow-hidden"
-          style={{ perspective: "1200px", perspectiveOrigin: "50% 62%" }}
+          className="absolute inset-x-0 bottom-0 flex items-end justify-center overflow-hidden"
+          style={{
+            top: "26vh",
+            perspective: "1200px",
+            perspectiveOrigin: "50% 65%",
+          }}
         >
           <motion.div
             className="relative"
@@ -204,9 +264,10 @@ export function ImaxReelWall() {
               rotateY: rotY,
               rotateX: rotX,
               scale,
-              translateY: "18vh",
+              translateY: "-8vh",
             }}
           >
+
 
             {tiles.map((t, i) => (
               <div
