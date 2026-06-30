@@ -24,10 +24,10 @@ function resolveForPlayback(url: string) {
 // Dome geometry — viewer sits inside the dome looking outward.
 // Tiles tile the inside surface of a hemisphere (upper half) packed tightly
 // in latitude rings sized by circumference so they read as one continuous shell.
-const RADIUS = 520;             // sphere radius (px)
-const TILE_W = 168;             // 16:9
-const TILE_H = 94;
-const GAP_FACTOR = 1.08;        // tile spacing vs tile width
+const RADIUS = 360;             // sphere radius (px) — sized to fit viewport
+const TILE_W = 132;             // 16:9
+const TILE_H = 74;
+const GAP_FACTOR = 1.06;        // tile spacing vs tile width
 
 type DomeTile = {
   url: string;
@@ -192,8 +192,8 @@ export function ImaxReelWall() {
 
         {/* Stage */}
         <div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{ perspective: "1500px", perspectiveOrigin: "50% 58%" }}
+          className="absolute inset-0 flex items-center justify-center overflow-hidden"
+          style={{ perspective: "1200px", perspectiveOrigin: "50% 62%" }}
         >
           <motion.div
             className="relative"
@@ -204,9 +204,10 @@ export function ImaxReelWall() {
               rotateY: rotY,
               rotateX: rotX,
               scale,
-              translateY: 120,
+              translateY: "18vh",
             }}
           >
+
             {tiles.map((t, i) => (
               <div
                 key={i}
