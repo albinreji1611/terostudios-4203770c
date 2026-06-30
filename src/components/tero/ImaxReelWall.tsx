@@ -24,10 +24,10 @@ function resolveForPlayback(url: string) {
 // Dome geometry — viewer sits inside the dome looking outward.
 // Tiles tile the inside surface of a hemisphere (upper half) packed tightly
 // in latitude rings sized by circumference so they read as one continuous shell.
-const RADIUS = 520;             // sphere radius (px)
-const TILE_W = 168;             // 16:9
-const TILE_H = 94;
-const GAP_FACTOR = 1.08;        // tile spacing vs tile width
+const RADIUS = 360;             // sphere radius (px) — sized to fit viewport
+const TILE_W = 132;             // 16:9
+const TILE_H = 74;
+const GAP_FACTOR = 1.06;        // tile spacing vs tile width
 
 type DomeTile = {
   url: string;
