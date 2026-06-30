@@ -227,8 +227,8 @@ export function ImaxReelWall() {
           }
         `}</style>
 
-        {/* Heading */}
-        <div className="absolute inset-x-0 top-0 z-40 container-tero pt-8 md:pt-10">
+        {/* Heading — offset below fixed nav */}
+        <div className="absolute inset-x-0 z-40 container-tero" style={{ top: "84px" }}>
           <header className="text-center">
             <div className="mb-2 flex items-center justify-center gap-3">
               <span className="h-px w-8 bg-vermillion/60" />
@@ -237,14 +237,12 @@ export function ImaxReelWall() {
               </span>
               <span className="h-px w-8 bg-vermillion/60" />
             </div>
-            <h2 className="font-display text-[clamp(26px,3.8vw,52px)] leading-[1.1] tracking-tight text-[#fdfaf6] pb-1">
+            <h2 className="font-display text-[clamp(24px,3.4vw,46px)] leading-[1.1] tracking-tight text-[#fdfaf6] pb-1">
               Step inside the <span className="italic text-vermillion">dome.</span>
             </h2>
-            <p className="mt-1 text-[10px] tracking-[0.28em] uppercase text-cream/45">
-              Scroll to rotate the wall
-            </p>
           </header>
         </div>
+
 
         {/* Stage — pushed below heading via top padding */}
         <div
