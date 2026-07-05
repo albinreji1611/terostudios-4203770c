@@ -1,14 +1,15 @@
 import { useMemo } from "react";
 import { resolveAssetUrl } from "@/lib/asset-url";
 
-const logoModules = import.meta.glob<{ default: { url: string } }>(
-  "@/assets/client-logos/*.png.asset.json",
-  { eager: true },
+const logoModules = import.meta.glob<{ url: string }>(
+  "../../assets/client-logos/*.png.asset.json",
+  { eager: true, import: "default" },
 );
 
 const logoByName = (n: number) => {
-  const key = `/src/assets/client-logos/logo-${String(n).padStart(2, "0")}.png.asset.json`;
-  const url = logoModules[key]?.default.url;
+  const suffix = `/client-logos/logo-${String(n).padStart(2, "0")}.png.asset.json`;
+  const entry = Object.entries(logoModules).find(([k]) => k.endsWith(suffix));
+  const url = entry?.[1]?.url;
   return url ? resolveAssetUrl(url) : undefined;
 };
 
