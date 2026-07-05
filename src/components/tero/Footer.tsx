@@ -126,12 +126,6 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">Phone</p>
-              <a href="tel:+919900013988" className="mt-1 inline-block font-body text-[13px] text-cream/80 hover:text-vermillion transition-colors">
-                +91 99000 13988
-              </a>
-            </li>
-            <li>
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">WhatsApp</p>
               <a
                 href="https://wa.me/919900013988"
@@ -159,15 +153,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container-tero flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
           <p className="font-body text-[14px] text-cream/50">
-            All rights Reserved © Copyright 2026 Tero Studios | Powered by{" "}
-            <a
-              href="https://bigstoneagency.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-cream/70 hover:text-vermillion transition-colors"
-            >
-              BigStone Agency
-            </a>
+            All rights Reserved © Copyright 2026 Tero Studios | Powered by BSA
           </p>
           <div className="flex flex-wrap items-center gap-6">
             <Link to="/terms" className="font-body text-[14px] text-cream/50 hover:text-cream transition-colors">
