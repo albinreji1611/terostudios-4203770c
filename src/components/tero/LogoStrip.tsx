@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { resolveAssetUrl } from "@/lib/asset-url";
 
 const logoModules = import.meta.glob<{ url: string }>(
