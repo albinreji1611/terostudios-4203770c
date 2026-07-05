@@ -55,8 +55,8 @@ function Row({ paths, direction, duration }: { paths: string[]; direction: "left
 }
 
 export function LogoStrip() {
-  const primary = useMemo(() => PRIMARY_URLS, []);
-  const all = useMemo(() => ALL_URLS, []);
+  const primary = useMemo(() => PRIMARY_PATHS, []);
+  const all = useMemo(() => ALL_PATHS, []);
 
   return (
     <section className="relative border-y border-parchment bg-cream overflow-hidden">
@@ -75,8 +75,8 @@ export function LogoStrip() {
         </header>
 
         <div className="relative space-y-10 md:space-y-14">
-          <Row urls={primary} direction="left" duration={120} />
-          <Row urls={all} direction="right" duration={180} />
+          <Row paths={primary} direction="left" duration={120} />
+          <Row paths={all} direction="right" duration={180} />
 
           {/* Edge fades */}
           <div
@@ -93,7 +93,7 @@ export function LogoStrip() {
 
         <div className="mt-12 flex items-center justify-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/45">
           <span className="h-px w-10 bg-ink/30" />
-          <span>{ALL_URLS.length} brands · Selected archive</span>
+          <span>{ALL_PATHS.length} brands · Selected archive</span>
           <span className="h-px w-10 bg-ink/30" />
         </div>
       </div>
