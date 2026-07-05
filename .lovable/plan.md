@@ -1,61 +1,36 @@
+## Goal
 
-# Tero Studios Website — Build Plan
+Make the site fully self-contained so it runs on your VPS with no dependency on Lovable's `/__l5e/` CDN. All videos, logos, and images will be served from your own server.
 
-A multi-page React + Vite + Tailwind site implementing the "Kinetic Editorial" concept from the spec doc: light-mode, editorial typography, Vermillion accent, motion-rich, animation-studio caliber.
+## Approach
 
-## Design System (locked from spec)
+Download every asset currently referenced via `.asset.json` pointers into `public/media/` (kept out of the JS bundle so large videos stream directly). Rewrite the resolver so it uses local `/media/...` paths in production instead of pointing back to `terostudios.lovable.app`.
 
-**Colors**
-- Background: Studio Cream `#FDFAF6`, Warm White `#FFFFFF`
-- Contrast: Graphite Ink `#111318`
-- Text: Near Black `#0E0E10`, Warm Slate `#4A4E5A`
-- Accent: Tero Vermillion `#E8390E` (with `#C42D06` gradient)
-- Support: Deep Violet `#2D1B6E`, Studio Amber `#C49A3C`, Parchment Line `#E4DDD6`
+## What gets migrated
 
-**Typography (Google Fonts + Fontshare)**
-- Display/H1: Cormorant Garamond Bold Italic (700)
-- H2/H3: Syne 700
-- Body/UI: Satoshi 400/500
-- Labels/overlines: Space Mono 400 (uppercase, 0.2em tracking)
+- 17 videos in `src/assets/videos/*.mp4.asset.json` (~80 MB total, sotefin.mp4 alone is ~57 MB)
+- 67 client logos in `src/assets/client-logos/*.png.asset.json`
+- 5 white-variant client logos in `src/assets/client-logos-white/`
+- 6 service icons in `src/assets/service-icons/`
+- 5 brand images in `src/assets/*.png.asset.json` (Bhima, Forum, Lulu, etc.)
 
-**Motion tokens**: `--ease-out-expo`, durations 120/250/350/600/1200ms. Built with Framer Motion.
+## Steps
 
-## Pages & Key Sections
+1. **Download script** — Node script reads every `*.asset.json` under `src/assets/`, fetches the file from the CDN `url`, saves it to `public/media/<same-relative-path>` (e.g. `public/media/videos/sotefin.mp4`).
+2. **Rewrite resolver** — `src/lib/asset-url.ts` maps `/__l5e/assets-v1/<id>/<filename>` → `/media/<category>/<filename>` using a lookup table built at module load from the same `import.meta.glob` of `.asset.json` files. Keeps a `VITE_LOVABLE_ASSET_BASE` override for anyone who wants to keep CDN hosting.
+3. **Update LogoStrip and other direct consumers** — they already go through `resolveAssetUrl` after the previous fix; no further code changes needed.
+4. **`.gitignore` guidance** — `public/media/` will be ~100 MB. Options:
+   - Commit it to the repo (simplest, but bloats git history).
+   - Add to `.gitignore` and re-run the download script on the VPS during deploy (recommended).
+5. **Verify** — run `bun run build`, spot-check a couple of resolved URLs in the built HTML.
 
-1. **Homepage** — Hero with parallax + clip-path headline reveal, client logo strip, scrollable services with live visual switching, horizontal-scroll portfolio showcase, numbered process steps, animated stats count-up, testimonials ("Portfolio of Consensus"), awards/press strip, FAQ accordion, final CTA strip.
-2. **Services Hub** — Hero, three-pillar value strip, full service list (3D, 2D, Motion Graphics, Explainer, VFX, etc.), each linking to outcomes + CTA.
-3. **Portfolio** — Hero, filter chips by service & industry, masonry/grid of project cards with hover video preview.
-4. **About Us** — Studio statement hero, philosophy, timeline/milestones, values.
-5. **Our Team** — Team hero, team-by-department grid with hover reveal.
-6. **Blog** — Featured post hero + article grid.
-7. **Contact** — Hero + three-step project-brief form with success state and "book a call" option.
+## Technical notes
 
-## Global Elements
-- Branded loading screen (logomark SVG draw-on, first visit per session)
-- Custom cursor (dot + lerp ring, desktop only)
-- Sticky nav (transparent → cream blur after 60px scroll, Vermillion active underline)
-- Top scroll-progress bar (1px Vermillion)
-- Route transition (Vermillion sweep + fade) via Framer Motion AnimatePresence
-- Footer: 4-column with all services listed for SEO
-- 404 page with looping motion graphic
+- Vite serves anything in `public/` at the site root without processing, so `public/media/videos/sotefin.mp4` becomes `/media/videos/sotefin.mp4`. No bundling overhead, range requests work for video streaming.
+- The `.asset.json` files stay in the repo — they're the source of truth mapping filenames to categories.
+- On Lovable-hosted origins the resolver can keep using `/__l5e/` paths (unchanged) so your Lovable preview and terostudios.com continue to work; only non-Lovable hosts get the local `/media/` rewrite.
+- The download script is idempotent — safe to re-run; skips files that already exist.
 
-## Technical Approach
-- React + Vite + TypeScript (existing stack), React Router for pages
-- Tailwind: extend theme with the color, font, easing & duration tokens above; semantic CSS variables in `index.css`
-- Framer Motion for scroll reveals, headline clip-path, horizontal pinned scroll, count-up, page transitions
-- Lucide icons (outline, 1.5px)
-- Logo: fetched from terostudios.com; placed in `src/assets/`
-- Content: written fresh using aadhyanimatics.com as reference for tone/structure (services list, process steps, testimonial framing) — no copy-paste
-- Imagery: generated placeholders (animation-still aesthetic) in `src/assets/`
-- SEO: per-page title/meta/H1, semantic HTML, JSON-LD for Organization
-- Responsive: 12-col desktop / 4-col mobile, max width 1340px
+## Open question
 
-## Build Order
-1. Design tokens + global styles + fonts + layout shell (nav, footer, cursor, progress bar, route transition)
-2. Homepage with all sections + animations
-3. Services Hub, Portfolio (with filtering), Contact (3-step form)
-4. About, Team, Blog
-5. 404 + loading screen polish + SEO meta
-
-## Scope Notes
-This is a sizable build. I'll ship it as one coherent v1 covering all 7 pages with the spec'd animations. Some advanced details (e.g., bespoke service SVG illustrations, real client logos, actual case-study videos) will use tasteful generated/placeholder content you can swap later.
+Do you want `public/media/` committed to git, or gitignored with a `bun run download-media` step in your VPS deploy pipeline? I'd recommend the second — keeps the repo small and lets you pull fresh assets any time. Let me know and I'll implement.
