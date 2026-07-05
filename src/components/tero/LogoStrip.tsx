@@ -26,6 +26,12 @@ const ALL = Array.from({ length: 67 }, (_, i) => i + 1).filter(
 const PRIMARY_PATHS = PRIMARY.map(logoPathByName).filter((u): u is string => Boolean(u));
 const ALL_PATHS = ALL.map(logoPathByName).filter((u): u is string => Boolean(u));
 
+function LogoImage({ path, className, ...rest }: { path: string } & Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src">) {
+  const [src, setSrc] = useState(path);
+  useEffect(() => setSrc(resolveAssetUrl(path)), [path]);
+  return <img src={src} className={className} {...rest} />;
+}
+
 function Row({ paths, direction, duration }: { paths: string[]; direction: "left" | "right"; duration: number }) {
   const animationName = direction === "left" ? "tero-row-left" : "tero-row-right";
   const loop = [...paths, ...paths];
@@ -40,8 +46,8 @@ function Row({ paths, direction, duration }: { paths: string[]; direction: "left
             key={i}
             className="flex h-[72px] md:h-[96px] w-[140px] md:w-[180px] shrink-0 items-center justify-center"
           >
-            <img
-              src={resolveAssetUrl(path)}
+            <LogoImage
+              path={path}
               alt="Client logo"
               loading="lazy"
               decoding="async"
