@@ -6,11 +6,10 @@ const logoModules = import.meta.glob<{ url: string }>(
   { eager: true, import: "default" },
 );
 
-const logoByName = (n: number) => {
+const logoPathByName = (n: number) => {
   const suffix = `/client-logos/logo-${String(n).padStart(2, "0")}.png.asset.json`;
   const entry = Object.entries(logoModules).find(([k]) => k.endsWith(suffix));
-  const url = entry?.[1]?.url;
-  return url ? resolveAssetUrl(url) : undefined;
+  return entry?.[1]?.url;
 };
 
 // Primary / famous brands (curated indices)
@@ -24,8 +23,8 @@ const ALL = Array.from({ length: 67 }, (_, i) => i + 1).filter(
   (n) => !EXCLUDED.includes(n),
 );
 
-const PRIMARY_URLS = PRIMARY.map(logoByName).filter((u): u is string => Boolean(u));
-const ALL_URLS = ALL.map(logoByName).filter((u): u is string => Boolean(u));
+const PRIMARY_PATHS = PRIMARY.map(logoPathByName).filter((u): u is string => Boolean(u));
+const ALL_PATHS = ALL.map(logoPathByName).filter((u): u is string => Boolean(u));
 
 function Row({ urls, direction, duration }: { urls: string[]; direction: "left" | "right"; duration: number }) {
   const animationName = direction === "left" ? "tero-row-left" : "tero-row-right";
