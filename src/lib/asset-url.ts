@@ -73,10 +73,16 @@ function rewriteCdnPath(pathname: string, search: string, hash: string): string 
     return `${pathname}${search}${hash}`;
   }
 
-  // 3. Non-Lovable host: prefer the locally downloaded copy.
-  const id = assetIdFromPath(pathname);
-  const local = id ? LOCAL_BY_ASSET_ID.get(id) : null;
-  if (local) return `${local}${search}${hash}`;
+  // 3. Non-Lovable host: use locally downloaded copy ONLY when explicitly opted in
+  //    (VPS deploys where `bun run download-media` populated public/media/).
+  //    Otherwise fetch from the Lovable CDN — public/media/ is gitignored, so
+  //    Vercel/Netlify builds would 404 on /media/... paths.
+  const useLocal = import.meta.env.VITE_USE_LOCAL_MEDIA === "true";
+  if (useLocal) {
+    const id = assetIdFromPath(pathname);
+    const local = id ? LOCAL_BY_ASSET_ID.get(id) : null;
+    if (local) return `${local}${search}${hash}`;
+  }
 
   // 4. Fallback: still fetch from the Lovable CDN so nothing breaks.
   return `https://terostudios.lovable.app${pathname}${search}${hash}`;
