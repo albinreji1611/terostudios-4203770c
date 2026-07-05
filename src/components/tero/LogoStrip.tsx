@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { resolveAssetUrl } from "@/lib/asset-url";
 
 const logoModules = import.meta.glob<{ default: { url: string } }>(
   "@/assets/client-logos/*.png.asset.json",
@@ -7,7 +8,8 @@ const logoModules = import.meta.glob<{ default: { url: string } }>(
 
 const logoByName = (n: number) => {
   const key = `/src/assets/client-logos/logo-${String(n).padStart(2, "0")}.png.asset.json`;
-  return logoModules[key]?.default.url;
+  const url = logoModules[key]?.default.url;
+  return url ? resolveAssetUrl(url) : undefined;
 };
 
 // Primary / famous brands (curated indices)

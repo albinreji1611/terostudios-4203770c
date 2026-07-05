@@ -35,12 +35,9 @@ function pickBase(): string | null {
     return null;
   }
 
-  // Local/unknown host: fall back to the published origin.
-  if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "0.0.0.0") {
-    return "https://terostudios.lovable.app";
-  }
-
-  return origin;
+  // Any other host (localhost, Vercel, Netlify, etc.) doesn't serve the
+  // Lovable /__l5e/ proxy — fall back to the published Lovable origin.
+  return "https://terostudios.lovable.app";
 }
 
 export function resolveAssetUrl(url: string): string {
