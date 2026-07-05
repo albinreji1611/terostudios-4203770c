@@ -137,12 +137,6 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">Studio</p>
-              <p className="mt-1 font-body text-[13px] leading-relaxed text-cream/80">
-                Anna Salai,<br />Chennai, TN 600002
-              </p>
-            </li>
-            <li>
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/40">Hours</p>
               <p className="mt-1 font-body text-[13px] text-cream/80">Mon – Fri · 10:00–19:00 IST</p>
             </li>
